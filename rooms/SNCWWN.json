@@ -1,0 +1,65 @@
+{
+  "code": "SNCWWN",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "Oyuncu",
+  "p2": "",
+  "cat": "genel",
+  "thm": "cosmic",
+  "qIds": [
+    31,
+    58,
+    7,
+    28,
+    55
+  ],
+  "usedQuestionIds": [
+    31,
+    58,
+    7,
+    28,
+    55
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    0,
+    2,
+    3,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-23T21:17:06.541Z"
+}
