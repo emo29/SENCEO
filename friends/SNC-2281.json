@@ -1,5 +1,31 @@
 {
   "friendCode": "SNC-2281",
   "username": "testemirhan",
-  "updatedAt": "2026-10-23T22:46:59.922Z"
+  "level": 1,
+  "xp": 0,
+  "latestRoomCode": "",
+  "activeRooms": [],
+  "incomingRequests": [
+    {
+      "fromCode": "SNC-9644",
+      "fromName": "emirhan",
+      "status": "pending",
+      "createdAt": "2026-10-23T23:25:18.165Z"
+    }
+  ],
+  "acceptedFriends": [],
+  "notifications": [
+    {
+      "id": "FREQ_SNC-9644_TO_SNC-2281",
+      "type": "friend_request",
+      "title": "🤝 Yeni Arkadaşlık Bağı İsteği!",
+      "message": "emirhan (SNC-9644) seni arkadaş bağlarına eklemek istiyor!",
+      "fromCode": "SNC-9644",
+      "fromName": "emirhan",
+      "roomCode": "",
+      "read": false,
+      "createdAt": "2026-10-23T23:25:18.165Z"
+    }
+  ],
+  "updatedAt": "2026-10-23T23:25:18.165Z"
 }
