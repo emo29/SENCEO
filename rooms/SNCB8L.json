@@ -1,0 +1,78 @@
+{
+  "code": "SNCB8L",
+  "p1FriendCode": "SNC-9644",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "emirhan",
+  "p2": "Arkadaşın",
+  "cat": "genel",
+  "thm": "brutal26",
+  "qIds": [
+    11,
+    55,
+    32,
+    26,
+    9
+  ],
+  "usedQuestionIds": [
+    7,
+    31,
+    2,
+    27,
+    3,
+    30,
+    62,
+    28,
+    74,
+    1,
+    11,
+    55,
+    32,
+    26,
+    9
+  ],
+  "customOptionsMap": {
+    "1": "a"
+  },
+  "p1Answers": [
+    -1,
+    3,
+    3,
+    3,
+    2
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": "a"
+    },
+    {
+      "emoji": "😂",
+      "text": "w"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "🤔",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-23T23:00:54.158Z"
+}
