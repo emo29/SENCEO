@@ -1,0 +1,75 @@
+{
+  "code": "SNCWBM",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "emirhan",
+  "p2": "SNC-4732",
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [
+    74,
+    58,
+    53,
+    66,
+    55
+  ],
+  "usedQuestionIds": [
+    25,
+    70,
+    27,
+    32,
+    3,
+    1,
+    11,
+    30,
+    26,
+    31,
+    74,
+    58,
+    53,
+    66,
+    55
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    1,
+    1,
+    1,
+    2,
+    2
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-23T21:50:37.917Z"
+}
