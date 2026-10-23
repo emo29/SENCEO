@@ -1,0 +1,14 @@
+{
+  "code": "SNCXB4",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "Oyuncu",
+  "p2": "",
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [],
+  "createdAt": "2026-10-23T21:45:37.327Z",
+  "updatedAt": "2026-10-23T21:45:36.839Z"
+}
