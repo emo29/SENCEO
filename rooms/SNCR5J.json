@@ -1,0 +1,48 @@
+{
+  "code": "SNCR5J",
+  "status": "waiting_p2",
+  "p1": "senceomaster",
+  "p2": "",
+  "cat": "genel",
+  "thm": "cosmic",
+  "qIds": [
+    11,
+    27,
+    7,
+    28,
+    30
+  ],
+  "p1Answers": [
+    3,
+    0,
+    3,
+    0,
+    0
+  ],
+  "p1Comments": [
+    {
+      "emoji": "😂",
+      "text": "imparatorluk"
+    },
+    {
+      "emoji": "🤔",
+      "text": "para mı var"
+    },
+    {
+      "emoji": "😱",
+      "text": "fırın dumanı kafa yapmıştır"
+    },
+    {
+      "emoji": "😱",
+      "text": "mecbur ya sonsuza kadar kalırsak bülent ersoy"
+    },
+    {
+      "emoji": "😂",
+      "text": "mecbur"
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "createdAt": "2026-10-23T19:27:18.782Z",
+  "updatedAt": "2026-10-23T19:27:18.855Z"
+}
