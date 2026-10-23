@@ -1,6 +1,6 @@
-// Vercel Serverless Function (/api/rooms) — v0.03
+// Vercel Serverless Function (/api/rooms) — v0.05
 // Varsayılan Supabase: https://kypzuqnksnlinkfuxvnl.supabase.co
-// Hem Supabase tabloları (senceo_rooms, profiles, match_history) hem de GitHub Cloud DB ile tam senkronize çalışır.
+// Oda (SNCXXX) ve Arkadaş Kodu (SNC-XXXX) üzerinden aktif düello bulma, kaydetme ve silme desteği.
 
 const DEFAULT_SUPABASE_URL = "https://kypzuqnksnlinkfuxvnl.supabase.co";
 const GH_TOKEN = process.env.GH_TOKEN || "";
@@ -46,10 +46,9 @@ async function ensureRoomsBranch() {
   return true;
 }
 
-async function getRoomFromCloud(roomCode) {
+async function getJsonFromCloudPath(relPath) {
   if (!GH_TOKEN) return null;
-  const cleanCode = String(roomCode).toUpperCase().replace(/[^A-Z0-9_-]/g, "");
-  const fileUrl = `https://api.github.com/repos/${GH_REPO}/contents/rooms/${cleanCode}.json?ref=${GH_BRANCH}`;
+  const fileUrl = `https://api.github.com/repos/${GH_REPO}/contents/${relPath}?ref=${GH_BRANCH}`;
   const res = await fetch(fileUrl, {
     headers: {
       Authorization: `token ${GH_TOKEN}`,
@@ -60,19 +59,18 @@ async function getRoomFromCloud(roomCode) {
   if (!res.ok) return null;
   const data = await res.json();
   const content = Buffer.from(data.content, "base64").toString("utf-8");
-  return { room: JSON.parse(content), sha: data.sha };
+  return { data: JSON.parse(content), sha: data.sha };
 }
 
-async function saveRoomToCloud(roomCode, roomObj) {
-  if (!GH_TOKEN) return roomObj;
+async function putJsonToCloudPath(relPath, payloadObj, commitMessage) {
+  if (!GH_TOKEN) return payloadObj;
   await ensureRoomsBranch();
-  const cleanCode = String(roomCode).toUpperCase().replace(/[^A-Z0-9_-]/g, "");
-  const existing = await getRoomFromCloud(cleanCode);
-  const fileUrl = `https://api.github.com/repos/${GH_REPO}/contents/rooms/${cleanCode}.json`;
+  const existing = await getJsonFromCloudPath(relPath);
+  const fileUrl = `https://api.github.com/repos/${GH_REPO}/contents/${relPath}`;
 
   const body = {
-    message: `Sync room ${cleanCode} (${roomObj.status || "active"})`,
-    content: Buffer.from(JSON.stringify(roomObj, null, 2), "utf-8").toString("base64"),
+    message: commitMessage || `Sync ${relPath}`,
+    content: Buffer.from(JSON.stringify(payloadObj, null, 2), "utf-8").toString("base64"),
     branch: GH_BRANCH
   };
   if (existing && existing.sha) {
@@ -94,12 +92,47 @@ async function saveRoomToCloud(roomCode, roomObj) {
     const errText = await res.text();
     throw new Error(`Cloud DB write error: ${errText}`);
   }
+  return payloadObj;
+}
+
+async function getRoomFromCloud(roomCode) {
+  const cleanCode = String(roomCode).toUpperCase().replace(/[^A-Z0-9_-]/g, "");
+  const found = await getJsonFromCloudPath(`rooms/${cleanCode}.json`);
+  return found ? { room: found.data, sha: found.sha } : null;
+}
+
+async function saveRoomToCloud(roomCode, roomObj) {
+  const cleanCode = String(roomCode).toUpperCase().replace(/[^A-Z0-9_-]/g, "");
+  await putJsonToCloudPath(
+    `rooms/${cleanCode}.json`,
+    roomObj,
+    `Sync room ${cleanCode} (${roomObj.status || "active"})`
+  );
+
+  // Eğer odada p1FriendCode (Örn: SNC-4732) varsa, arkadaş koduyla arayan kişinin aktif düelloyu anında bulabilmesi için indeksle!
+  if (roomObj.p1FriendCode && /^SNC-\d{4}$/i.test(roomObj.p1FriendCode)) {
+    const cleanFCode = roomObj.p1FriendCode.toUpperCase();
+    try {
+      await putJsonToCloudPath(
+        `friends/${cleanFCode}.json`,
+        {
+          friendCode: cleanFCode,
+          username: roomObj.p1 || "Oyuncu 1",
+          latestRoomCode: cleanCode,
+          status: roomObj.status || "waiting_p2",
+          updatedAt: new Date().toISOString()
+        },
+        `Index active room ${cleanCode} for friend ${cleanFCode}`
+      );
+    } catch (e) {}
+  }
+
   return roomObj;
 }
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Supabase-Url, X-Supabase-Key");
 
   if (req.method === "OPTIONS") {
@@ -111,13 +144,27 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === "GET") {
+      const friendCode = req.query.friendCode;
+      if (friendCode) {
+        const cleanFCode = String(friendCode).trim().toUpperCase().replace(/[^A-Z0-9_-]/g, "");
+        const fIndex = await getJsonFromCloudPath(`friends/${cleanFCode}.json`);
+        if (fIndex && fIndex.data && fIndex.data.latestRoomCode) {
+          const linkedRoom = await getRoomFromCloud(fIndex.data.latestRoomCode);
+          return res.status(200).json({
+            source: "friend-index",
+            friend: fIndex.data,
+            room: linkedRoom ? linkedRoom.room : null
+          });
+        }
+        return res.status(404).json({ error: "Bu arkadaş koduna ait aktif bir düello bulunamadı." });
+      }
+
       const code = req.query.code;
       if (!code) {
         return res.status(400).json({ error: "Oda kodu (code) gerekli." });
       }
       const cleanCode = String(code).trim().toUpperCase();
 
-      // 1. Supabase Key varsa önce doğrudan Supabase'den (senceo_rooms) oku
       if (sbUrl && sbKey) {
         try {
           const sbRes = await fetch(`${sbUrl}/rest/v1/senceo_rooms?code=eq.${encodeURIComponent(cleanCode)}&select=*`, {
@@ -139,7 +186,6 @@ export default async function handler(req, res) {
         }
       }
 
-      // 2. Cloud DB'den oku
       const found = await getRoomFromCloud(cleanCode);
       if (!found) {
         return res.status(404).json({ error: "Oda bulunamadı. Kodun doğru olduğundan emin olun." });
@@ -150,9 +196,22 @@ export default async function handler(req, res) {
     if (req.method === "POST" || req.method === "PUT") {
       const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
-      // A) Profil Kaydı / Güncelleme İsteği (type === 'profile')
+      // A) Profil ve Arkadaş Kodu Kaydı (type === 'profile')
       if (body.type === "profile" && body.profile) {
         const p = body.profile;
+        if (p.friendCode && /^SNC-\d{4}$/i.test(p.friendCode)) {
+          const cleanFCode = p.friendCode.toUpperCase();
+          try {
+            const existingF = await getJsonFromCloudPath(`friends/${cleanFCode}.json`);
+            const merged = Object.assign({}, existingF ? existingF.data : {}, {
+              friendCode: cleanFCode,
+              username: p.username || "Oyuncu",
+              updatedAt: new Date().toISOString()
+            });
+            await putJsonToCloudPath(`friends/${cleanFCode}.json`, merged, `Update friend profile ${cleanFCode}`);
+          } catch (e) {}
+        }
+
         if (sbUrl && sbKey) {
           try {
             await fetch(`${sbUrl}/rest/v1/profiles`, {
@@ -183,7 +242,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, profile: p });
       }
 
-      // B) Oda / Oyun Oturumu Kaydı (senceo_rooms & match_history)
+      // B) Oda / Oyun Oturumu Kaydı
       const room = body.room;
       if (!room || !room.code) {
         return res.status(400).json({ error: "Geçersiz oda verisi." });
@@ -210,7 +269,7 @@ export default async function handler(req, res) {
               current_round: room.currentRound || 1,
               whose_turn: room.whoseTurn || "p2",
               category: room.cat || "genel",
-              theme: room.thm || "cosmic",
+              theme: room.thm || "luminous",
               p1_name: room.p1 || "",
               p2_name: room.p2 || "",
               question_ids: room.qIds || [],
@@ -223,28 +282,6 @@ export default async function handler(req, res) {
               updated_at: room.updatedAt
             })
           });
-
-          // Eğer raund tamamlandıysa match_history tablosuna da kayıt düş
-          if (room.status === "completed" && typeof room.lastMatchPercentage === "number") {
-            await fetch(`${sbUrl}/rest/v1/match_history`, {
-              method: "POST",
-              headers: {
-                apikey: sbKey,
-                Authorization: `Bearer ${sbKey}`,
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                room_code: room.code,
-                round_number: room.currentRound || 1,
-                p1_name: room.p1 || "Oyuncu 1",
-                p2_name: room.p2 || "Oyuncu 2",
-                match_percentage: room.lastMatchPercentage,
-                correct_count: room.lastCorrectCount || 0,
-                total_questions: room.lastTotalQuestions || 10,
-                summary: { mode: room.roomType, format: room.arenaFormat }
-              })
-            });
-          }
         } catch (sbErr) {
           console.warn("Supabase room write fallback:", sbErr);
         }
