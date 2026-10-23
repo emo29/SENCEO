@@ -1,0 +1,59 @@
+{
+  "code": "SNCV03",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "completed",
+  "currentRound": 1,
+  "p1": "Emirhan",
+  "p2": "Salihcan",
+  "cat": "genel",
+  "thm": "cosmic",
+  "qIds": [
+    1,
+    2,
+    3,
+    55,
+    58
+  ],
+  "customOptionsMap": {
+    "0": "Direkt annemi ararım"
+  },
+  "p1Answers": [
+    3,
+    0,
+    1,
+    2,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "😂",
+      "text": "Bunu bilmen lazımdı!"
+    },
+    {},
+    {},
+    {},
+    {}
+  ],
+  "p2Guesses": [
+    3,
+    0,
+    1,
+    0,
+    1
+  ],
+  "p2Comments": [
+    {
+      "emoji": "🔥",
+      "text": "Bildim tabii!"
+    },
+    {},
+    {},
+    {},
+    {}
+  ],
+  "lastMatchPercentage": 80,
+  "lastCorrectCount": 4,
+  "lastTotalQuestions": 5,
+  "updatedAt": "2026-10-23T20:38:22.932Z"
+}
