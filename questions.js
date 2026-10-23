@@ -1,8 +1,9 @@
-// senceo — Soru Veri Tabanı (54 Eğlenceli, Tartışma Çıkaracak Türkçe Soru — v0.02)
+// senceo — Soru Veri Tabanı (75 Eğlenceli, Samimi ve Tartışma Çıkaracak Türkçe Soru — v0.03)
 // Kategoriler: 'genel', 'cift', 'kanka', 'ekstrem'
+// Orijinal "The Test" ruhuna uygun 2 şıklı hızlı ikilemler ve 4 şıklı klasik sorular içerir.
 
 const QUESTIONS_DB = [
-  // ==================== GENEL & EĞLENCE (14 SORU) ====================
+  // ==================== GENEL & EĞLENCE (1 - 24) ====================
   {
     id: 1,
     category: 'genel',
@@ -316,7 +317,7 @@ const QUESTIONS_DB = [
     ]
   },
 
-  // ==================== YENİ EKLENEN 30 SORU (25 - 54) ====================
+  // ==================== SORULAR 25 - 54 ====================
   {
     id: 25,
     category: 'genel',
@@ -503,7 +504,7 @@ const QUESTIONS_DB = [
     id: 39,
     category: 'cift',
     categoryLabel: '❤️ Çift / İlişki',
-    q1: "Sevggi Dilin (Love Language) aşağıdakilerden hangisidir?",
+    q1: "Sevgi Dilin (Love Language) aşağıdakilerden hangisidir?",
     q2: "Sence {p1}'in sevgi dili (aşkı gösterme biçimi) hangisidir?",
     options: [
       { icon: "🫂", text: "Fiziksel temas (Sarılmak, el ele tutuşmak)" },
@@ -542,7 +543,7 @@ const QUESTIONS_DB = [
     id: 42,
     category: 'kanka',
     categoryLabel: '⚡ Kanka / Eğlence',
-    q1: "Arkadaşın senden borç para istedi ama geri ödemeyeceğini adım gibi biliyorsun:",
+    q1: "Arkadaşın senden borç para istedi ama geri ödemeyeceğini adın gibi biliyorsun:",
     q2: "Sence {p1}, borcunu ödemeyeceğini bildiği bir arkadaşı para istese ne yapar?",
     options: [
       { icon: "💸", text: "Arkadaşlığımız bozulmasın diye sadakam olsun der veririm" },
@@ -568,11 +569,11 @@ const QUESTIONS_DB = [
     id: 44,
     category: 'kanka',
     categoryLabel: '⚡ Kanka / Eğlence',
-    q1: "Grupça lüks bir restorana gittiniz, sen sadece çay içtin ama 'Hesabı Alman usulü eşit bölelim' dediler:",
+    q1: "Grupça lüks bir restorana gittiniz, sen sadece çay içtin ama 'Hesabı eşit bölelim' dediler:",
     q2: "Sence {p1}, sadece çay içtiği masada hesap eşit bölünmek istense ne yapar?",
     options: [
       { icon: "🧮", text: "'Ne münasebet, ben sadece çay içtim!' der kendi payımı öderim" },
-      { icon: "😶", text: "Utanımdan ses çıkaramam, paşa paşa ortak hesabı öderim" },
+      { icon: "😶", text: "Utancımdan ses çıkaramam, paşa paşa ortak hesabı öderim" },
       { icon: "🍮", text: "Madem eşit ödüyoruz deyip hemen üstüne 3 tane tatlı sipariş ederim" },
       { icon: "🚻", text: "Hesap gelirken tuvalete kaçarım" }
     ]
@@ -620,7 +621,7 @@ const QUESTIONS_DB = [
     id: 48,
     category: 'ekstrem',
     categoryLabel: '🔥 Ekstrem',
-    q1: "Sana 5 Milyon TL verecekler ama 1 yıl boyunca her gün aynı kıyafeti (temizlenerek) giyeceksin:",
+    q1: "Sana 5 Milyon TL verecekler ama 1 yıl boyunca her gün aynı kıyafeti giyeceksin:",
     q2: "Sence {p1}, 5 Milyon TL için 1 yıl boyunca tek tip kıyafetle gezer mi?",
     options: [
       { icon: "👕", text: "Çizgi film karakteri gibi 1 yıl siyah tişörtle gezerim, parayı verin!" },
@@ -649,7 +650,7 @@ const QUESTIONS_DB = [
     q1: "Yapay zeka robotlar dünyayı ele geçirse senin stratejin ne olurdu?",
     q2: "Sence {p1}, yapay zeka dünyayı ele geçirse ne yapardı?",
     options: [
-      { icon: "🤖", text: "'Ben zaten hep size kibar davrandım, teşekkür ettim' deyip yalakalık yaparım" },
+      { icon: "🤖", text: "'Ben zaten hep size kibar davrandım, teşekkür ettim' deyip anlaşırım" },
       { icon: "🔌", text: "Direniş ordusuna katılıp robotların fişini çekmeye çalışırım" },
       { icon: "⛰️", text: "Teknolojinin olmadığı ıssız bir dağ köyüne yerleşirim" },
       { icon: "🔋", text: "Beni de cyborg yapmaları için gönüllü olurum" }
@@ -698,13 +699,276 @@ const QUESTIONS_DB = [
     id: 54,
     category: 'kanka',
     categoryLabel: '⚡ Kanka / Eğlence',
-    q1: "Telefonunun şarjı %1 kaldı ve dışarıdasın, şarj aletin de yok. Son %1'i ne için harcarsın?",
+    q1: "Telefonunun şarjı %1 kaldı ve dışarıdasın. Son %1'i ne için harcarsın?",
     q2: "Sence {p1}, telefonunun son %1 şarjını ne için kullanır?",
     options: [
       { icon: "📍", text: "Kankama veya aileme 'Şarjım bitiyor, şu konumdayım' yazarım" },
       { icon: "🎵", text: "Telefon kapanana kadar dinlediğim şarkının bitmesini beklerim" },
       { icon: "🗺️", text: "Eve dönüş yolunu unutmamak için haritaya son kez bakarım" },
       { icon: "📸", text: "O anki kaosumu ölümsüzleştirmek için son bir story atarım" }
+    ]
+  },
+
+  // ==================== YENİ "THE TEST" HIZLI & VURUCU SORULAR (55 - 75) ====================
+  {
+    id: 55,
+    category: 'genel',
+    categoryLabel: '🌟 Genel',
+    q1: "Hangisi senin gizli suçlu zevkin (guilty pleasure)?",
+    q2: "Sence {p1}'in kimseye çaktırmadığı gizli zevki hangisidir?",
+    options: [
+      { icon: "🕵️", text: "Hiç tanımadığım insanların profillerini saatlerce stalklamak" },
+      { icon: "🎶", text: "Çok popüler ama utanç verici pop/arabesk şarkıları ezbere söylemek" },
+      { icon: "📺", text: "Aşırı saçma gündüz kuşağı veya kaos programlarını izlemek" },
+      { icon: "🍰", text: "Gece herkes uyurken gizlice mutfakta tatlı gömmek" }
+    ]
+  },
+  {
+    id: 56,
+    category: 'kanka',
+    categoryLabel: '⚡ Kanka / Eğlence',
+    q1: "Sokakta bir anda kavga çıksa ilk tepkin ne olur?",
+    q2: "Sence {p1}, ortamda bir anda kavga çıksa ne yapar?",
+    options: [
+      { icon: "🥊", text: "Hiç düşünmeden kankamın yanına dalıp kavgaya girerim" },
+      { icon: "🕊️", text: "Araya girip iki tarafı da sakinleştirmeye çalışırım" },
+      { icon: "🏃💨", text: "Arkamı bile dönmeden ışık hızıyla olay yerinden uzarım" },
+      { icon: "🍿", text: "Güvenli bir köşeye çekilip çekirdek çitleyerek izlerim" }
+    ]
+  },
+  {
+    id: 57,
+    category: 'cift',
+    categoryLabel: '❤️ Çift / İlişki',
+    q1: "Telefonunu kilitlemeden masanın üstünde bırakıp tuvalete gidebilir misin?",
+    q2: "Sence {p1}, telefonunu şifresiz şekilde masada bırakıp gidebilir mi?",
+    options: [
+      { icon: "😎", text: "Rahatlıkla bırakırım, sakladığım hiçbir şey yok" },
+      { icon: "😰", text: "Bırakırım ama aklım masada kalır, koşarak dönerim" },
+      { icon: "🔒", text: "Asla! Tuvalete bile gitsem telefon cebimde gelir" },
+      { icon: "✈️", text: "Bildirimleri ve interneti kapatıp öyle bırakırım" }
+    ]
+  },
+  {
+    id: 58,
+    category: 'genel',
+    categoryLabel: '🌟 Genel',
+    q1: "Hangisini tercih edersin: Her zaman 15 dakika geç kalmak mı, 1 saat erken gitmek mi?",
+    q2: "Sence {p1} bu ikilemden hangisini tercih ederdi?",
+    options: [
+      { icon: "⏳", text: "Her yere 1 saat erken gidip beklemek" },
+      { icon: "🏃", text: "Her yere 15 dakika havalı şekilde geç kalmak" }
+    ]
+  },
+  {
+    id: 59,
+    category: 'cift',
+    categoryLabel: '❤️ Çift / İlişki',
+    q1: "İlişkide hangisi daha önemlidir: Tutku ve heyecan mı, huzur ve güven mi?",
+    q2: "Sence {p1} bir ilişkide hangisine daha çok önem verir?",
+    options: [
+      { icon: "🔥", text: "Kesinlikle tutku, heyecan ve adrenalin!" },
+      { icon: "🏡", text: "Kesinlikle huzur, sadakat ve kafa rahatlığı!" }
+    ]
+  },
+  {
+    id: 60,
+    category: 'kanka',
+    categoryLabel: '⚡ Kanka / Eğlence',
+    q1: "Hangisi daha çok sensin: Planlı programlı mı, son dakika kaosu mu?",
+    q2: "Sence {p1} hangisine daha çok uyuyor?",
+    options: [
+      { icon: "📅", text: "Her şeyi günler öncesinden saat saat planlayan" },
+      { icon: "🌪️", text: "Tamamen anlık yaşayan son dakika kaos insanı" }
+    ]
+  },
+  {
+    id: 61,
+    category: 'ekstrem',
+    categoryLabel: '🔥 Ekstrem',
+    q1: "Hangisini seçerdin: Zengin ama yapayalnız olmak mı, parasız ama çok sevilen biri olmak mı?",
+    q2: "Sence {p1} bu zorlu ikilemde hangisini seçer?",
+    options: [
+      { icon: "💎", text: "Ultra zengin olup yatımda tek başıma takılmak" },
+      { icon: "❤️", text: "Mütevazı yaşayıp etrafımda gerçek dostlarla mutlu olmak" }
+    ]
+  },
+  {
+    id: 62,
+    category: 'genel',
+    categoryLabel: '🌟 Genel',
+    q1: "Gece insanı mısın yoksa sabah insanı mı?",
+    q2: "Sence {p1} gece insanı mıdır yoksa sabah insanı mı?",
+    options: [
+      { icon: "🦉", text: "Tam bir gece baykuşuyum, enerjim gece 12'den sonra gelir" },
+      { icon: "☀️", text: "Sabah insanıyım, güneş doğarken enerjik uyanırım" }
+    ]
+  },
+  {
+    id: 63,
+    category: 'cift',
+    categoryLabel: '❤️ Çift / İlişki',
+    q1: "Kıskandığında tepkini nasıl belli edersin?",
+    q2: "Sence {p1} kıskandığında bunu nasıl belli eder?",
+    options: [
+      { icon: "⚡", text: "Anında laf sokarım ve suratımdan düşen bin parça olur" },
+      { icon: "🧊", text: "Buz gibi soğuk konuşmaya ve kısa cevaplar vermeye başlarım" },
+      { icon: "🎭", text: "Hiç bozuntuya vermem ama o konuyu burnundan getiririm" },
+      { icon: "🗣️", text: "Açık açık 'Şu an kıskandım ve rahatsız oldum' derim" }
+    ]
+  },
+  {
+    id: 64,
+    category: 'kanka',
+    categoryLabel: '⚡ Kanka / Eğlence',
+    q1: "Bir ortama girdiğinde ilk dikkat ettiğin şey nedir?",
+    q2: "Sence {p1} yeni bir ortama girdiğinde ilk neye dikkat eder?",
+    options: [
+      { icon: "👀", text: "İnsanların enerjisine, kimlerin samimi kimlerin yapmacık olduğuna" },
+      { icon: "🍕", text: "Yemeklere, ikramlara ve en rahat koltuğun nerede olduğuna" },
+      { icon: "🎵", text: "Çalan müziğe ve mekanın ambiyansına" },
+      { icon: "🚪", text: "Sıkılırsam nereden çaktırmadan kaçabileceğime" }
+    ]
+  },
+  {
+    id: 65,
+    category: 'ekstrem',
+    categoryLabel: '🔥 Ekstrem',
+    q1: "Telefonundan sadece 1 uygulamayı kurtarma şansın olsa hangisini seçerdin?",
+    q2: "Sence {p1} telefonunda tek bir uygulamayı tutabilecek olsa hangisini seçerdi?",
+    options: [
+      { icon: "💬", text: "WhatsApp (İletişimsiz kalamam)" },
+      { icon: "📸", text: "Instagram / TikTok (Stalk ve eğlence şart)" },
+      { icon: "🎧", text: "Spotify / YouTube (Müziksiz ve videosuz yaşayamam)" },
+      { icon: "🗺️", text: "Haritalar & Banka Uygulaması (Hayatta kalmak için)" }
+    ]
+  },
+  {
+    id: 66,
+    category: 'genel',
+    categoryLabel: '🌟 Genel',
+    q1: "Biri sana hak etmediğin bir iltifat ettiğinde ne yaparsın?",
+    q2: "Sence {p1}, abartılı bir iltifat aldığında nasıl tepki verir?",
+    options: [
+      { icon: "👑", text: "'Biliyorum canım, teşekkürler' deyip havaya girerim" },
+      { icon: "😳", text: "Utanıp konuyu değiştirmeye çalışırım" },
+      { icon: "🤨", text: "'Kesin benden bir şey isteyecek' diye şüphelenirim" },
+      { icon: "💖", text: "Ben de hemen karşı tarafa daha büyük bir iltifat ederim" }
+    ]
+  },
+  {
+    id: 67,
+    category: 'cift',
+    categoryLabel: '❤️ Çift / İlişki',
+    q1: "Sevgilinin telefon şifresini bilmek ister misin?",
+    q2: "Sence {p1} sevgilisinin telefon şifresini bilmek ister mi?",
+    options: [
+      { icon: "🔑", text: "Kesinlikle bilmeliyim, şeffaflık şart!" },
+      { icon: "🙅", text: "Gerek yok, herkesin özel alanı olmalı" }
+    ]
+  },
+  {
+    id: 68,
+    category: 'kanka',
+    categoryLabel: '⚡ Kanka / Eğlence',
+    q1: "Kankanla tatile çıktınız, hangi konuda kesin tartışırsınız?",
+    q2: "Sence {p1} ile tatile çıksan hangi konuda tartışma çıkar?",
+    options: [
+      { icon: "⏰", text: "Sabah uyanma ve hazırlanma süresinin uzunluğu" },
+      { icon: "🍽️", text: "'Bugün nerede ne yiyeceğiz?' kararsızlığı" },
+      { icon: "📸", text: "'Beni güzel çekemedin, baştan çek!' kavgası" },
+      { icon: "💸", text: "Para harcama ve bütçe planlaması" }
+    ]
+  },
+  {
+    id: 69,
+    category: 'ekstrem',
+    categoryLabel: '🔥 Ekstrem',
+    q1: "100.000 TL karşılığında en yakın arkadaşının tüm sırlarını ifşa eder misin?",
+    q2: "Sence {p1}, 100.000 TL teklif edilse en yakın arkadaşının sırlarını anlatır mı?",
+    options: [
+      { icon: "🛡️", text: "Asla! 100 Milyon da verseler kankamı satmam" },
+      { icon: "🤝", text: "Sırları anlatırım, parayı kankamla 50-50 bölüşürüz!" },
+      { icon: "🤫", text: "Sadece zararsız ve komik olan sırlarını anlatırım" },
+      { icon: "😈", text: "Parayı alır kankama da 'Hacklenmişim' derim" }
+    ]
+  },
+  {
+    id: 70,
+    category: 'genel',
+    categoryLabel: '🌟 Genel',
+    q1: "Sinirlendiğinde seni en hızlı ne sakinleştirir?",
+    q2: "Sence {p1} çok sinirlendiğinde onu en hızlı ne sakinleştirir?",
+    options: [
+      { icon: "🍫", text: "Güzel bir yemek veya tatlı yemek" },
+      { icon: "🎧", text: "Yalnız kalıp kulaklıkla müzik dinlemek" },
+      { icon: "🫂", text: "Sevdiğim birinin sarılıp 'Haklısın' demesi" },
+      { icon: "💤", text: "Uyuyup her şeyi unutmak" }
+    ]
+  },
+  {
+    id: 71,
+    category: 'cift',
+    categoryLabel: '❤️ Çift / İlişki',
+    q1: "İlk buluşmada hesabı kim ödemeli?",
+    q2: "Sence {p1}'e göre ilk buluşmada hesabı kim ödemeli?",
+    options: [
+      { icon: "💳", text: "Davet eden kimse o ödemeli" },
+      { icon: "⚖️", text: "Alman usulü yarı yarıya paylaşılmalı" },
+      { icon: "🎩", text: "Centilmenlik gereği erkek ödemeli" },
+      { icon: "☕", text: "Biri yemeği öderse diğeri kahveleri ödemeli" }
+    ]
+  },
+  {
+    id: 72,
+    category: 'kanka',
+    categoryLabel: '⚡ Kanka / Eğlence',
+    q1: "Arkadaş grubunda kimin esprilerine daha çok gülünür?",
+    q2: "Sence {p1} kendi espri yeteneğini nasıl görüyordur?",
+    options: [
+      { icon: "👑", text: "Grubun komedyeni benim, her dediğime koparlar" },
+      { icon: "🧊", text: "Soğuk espri uzmanıyımdır, önce sessizlik olur sonra gülerler" },
+      { icon: "😂", text: "Ben espri yapmam ama yapılan her şeye en çok ben gülerim" },
+      { icon: "😏", text: "Sadece zeki insanların anlayacağı ince mizah yaparım" }
+    ]
+  },
+  {
+    id: 73,
+    category: 'ekstrem',
+    categoryLabel: '🔥 Ekstrem',
+    q1: "Bir günlüğüne görünmez olsan kimin evine gizlice girip ne yaptığına bakardın?",
+    q2: "Sence {p1} bir günlüğüne görünmez olsa kimin ne yaptığına bakardı?",
+    options: [
+      { icon: "💘", text: "Hoşlandığım kişinin veya eski sevgilimin" },
+      { icon: "🌟", text: "En sevdiğim ünlünün / milyarderin" },
+      { icon: "👯", text: "En yakın arkadaşımın (Arkamdan ne konuşuyor diye)" },
+      { icon: "🏠", text: "Kimsenin evine girmem, markette bedava takılırım" }
+    ]
+  },
+  {
+    id: 74,
+    category: 'genel',
+    categoryLabel: '🌟 Genel',
+    q1: "Mesajlara cevap verme hızın nasıldır?",
+    q2: "Sence {p1}'in mesajlara cevap verme hızı nasıldır?",
+    options: [
+      { icon: "⚡", text: "Telefon elimdedir, 3 saniye içinde anında yazarım" },
+      { icon: "🧠", text: "Bildirimden okurum, içimden cevap verip yazmayı unuturum" },
+      { icon: "👑", text: "Kişisine göre değişir; sevdiğimse anında, değilse 3 gün sonra" },
+      { icon: "🔕", text: "Telefonum hep sessizdedir, saatler sonra görürüm" }
+    ]
+  },
+  {
+    id: 75,
+    category: 'cift',
+    categoryLabel: '❤️ Çift / İlişki',
+    q1: "Ayrılık sonrası senin klasik tepkin hangisidir?",
+    q2: "Sence {p1} bir ayrılık yaşadığında ilk ne yapar?",
+    options: [
+      { icon: "💇", text: "Saçımı/tarzımı değiştirip spora başlarım (Glow up!)" },
+      { icon: "🍦", text: "3 gün odadan çıkmayıp hüzünlü şarkılarla dertlenirim" },
+      { icon: "🎉", text: "Hiç üzülmemiş gibi kankalarla dışarı çıkıp story atarım" },
+      { icon: "🧹", text: "Tüm fotoğrafları silip ortak eşyaları çöpe atarım" }
     ]
   }
 ];

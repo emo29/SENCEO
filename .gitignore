@@ -1,0 +1,7 @@
+# Gizli Şifre ve Ortam Değişkenleri (Kesinlikle GitHub'a Yüklenmez!)
+SIFRELERIM_GIZLI.txt
+.env
+.env.*
+*.local
+__pycache__/
+.DS_Store
