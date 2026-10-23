@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="tr" data-theme="crimson">
+<html lang="tr" data-theme="cosmic">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>senceo — Beni Ne Kadar Tanıyorsun?</title>
+  <title>senceo — İki Kişilik Sosyal Uyum & Tahmin Oyunu</title>
   <meta name="description" content="senceo: İki kişilik sosyal uyum ve tahmin oyunu. Arkadaşını veya sevgilini ne kadar tanıdığını test et!" />
   
   <!-- Google Fonts for all 3 distinct themes:
-       Theme 1 (Crimson Noir): Cinzel + Rajdhani + Space Mono
-       Theme 2 (10 Ekim 2026 Neo-Brutal Acid): Syne + Space Grotesk + JetBrains Mono
-       Theme 3 (Cosmic Neon): Fredoka + Poppins
+       Theme 1 (Cosmic Neon - DEFAULT): Fredoka + Poppins
+       Theme 2 (Crimson Noir): Cinzel + Rajdhani
+       Theme 3 (10 Ekim 2026 Neo-Brutal Acid): Syne + Space Grotesk + JetBrains Mono
   -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,59 +24,92 @@
   <style>
     /* ==========================================================================
        COMPLETE MULTI-THEME ENGINE (3 FULL OVERHAUL THEMES)
-       1. crimson   (DEFAULT): Simsiyah & Kırmızı (Abyssal Crimson Noir)
-       2. brutal26  (10 Ekim 2026 Trendi): Neo-Brutalist Kinetic Acid Pop
-       3. cosmic    (Klasik): Orijinal Uzay / Gece Mavisi & Neon
+       1. cosmic    (DEFAULT): Cosmic Neon (Uzay / Gece Mavisi & Neon)
+       2. crimson   (Gotik/Siber): Simsiyah & Kırmızı (Abyssal Crimson Noir)
+       3. brutal26  (10 Ekim 2026 Trendi): Neo-Brutalist Kinetic Acid Pop
        ========================================================================== */
 
     :root,
-    html[data-theme="crimson"] {
-      --bg-body: radial-gradient(circle at 50% 0%, #1f0004 0%, #050001 55%, #000000 100%);
-      --bg-panel: rgba(8, 0, 2, 0.92);
-      --bg-panel-alt: rgba(18, 0, 4, 0.95);
-      --bg-input: #030000;
+    html[data-theme="cosmic"] {
+      --bg-body: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      --bg-panel: rgba(255, 255, 255, 0.08);
+      --bg-panel-alt: rgba(15, 12, 41, 0.65);
+      --bg-input: rgba(15, 12, 41, 0.85);
       --text-main: #ffffff;
-      --text-muted: #a37c82;
+      --text-muted: rgba(255, 255, 255, 0.72);
+      --accent-1: #00f2fe;
+      --accent-2: #ff007f;
+      --accent-3: #ff7b00;
+      --border-color: rgba(255, 255, 255, 0.18);
+      --border-strong: #00f2fe;
+      --radius-card: 20px;
+      --radius-btn: 16px;
+      --radius-pill: 9999px;
+      --font-body: 'Poppins', sans-serif;
+      --font-display: 'Fredoka', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --shadow-card: 0 14px 36px 0 rgba(0, 0, 0, 0.42);
+      --shadow-btn-primary: 0 0 28px rgba(255, 0, 127, 0.55);
+      --btn-primary-bg: linear-gradient(90deg, #ff007f 0%, #ff7b00 50%, #00f2fe 100%);
+      --btn-primary-text: #ffffff;
+      --btn-primary-border: 1.5px solid rgba(255, 255, 255, 0.28);
+      --orb-1: #ff007f;
+      --orb-2: #00f2fe;
+      --orb-3: #ff7b00;
+      --orb-opacity: 0.35;
+      --card-border-width: 1.5px;
+      --btn-transform-hover: translateY(-3px) scale(1.015);
+      --letter-spacing-body: 0em;
+    }
+
+    /* THEME 2: ABYSSAL CRIMSON (Simsiyah & Kırmızı) */
+    html[data-theme="crimson"] {
+      --bg-body: radial-gradient(circle at 50% 0%, #240005 0%, #060001 55%, #000000 100%);
+      --bg-panel: rgba(10, 0, 3, 0.92);
+      --bg-panel-alt: rgba(22, 0, 5, 0.95);
+      --bg-input: #050001;
+      --text-main: #ffffff;
+      --text-muted: #d4a3aa;
       --accent-1: #ff002b;
       --accent-2: #990014;
-      --accent-3: #ff3b5c;
-      --border-color: rgba(255, 0, 43, 0.42);
+      --accent-3: #ff4d6a;
+      --border-color: rgba(255, 0, 43, 0.48);
       --border-strong: #ff002b;
-      --radius-card: 4px;
-      --radius-btn: 2px;
-      --radius-pill: 2px;
+      --radius-card: 6px;
+      --radius-btn: 4px;
+      --radius-pill: 4px;
       --font-body: 'Rajdhani', sans-serif;
       --font-display: 'Cinzel', serif;
       --font-mono: 'JetBrains Mono', monospace;
-      --shadow-card: 0 10px 35px rgba(0, 0, 0, 0.95), 0 0 18px rgba(255, 0, 43, 0.16), inset 0 0 12px rgba(255, 0, 43, 0.08);
-      --shadow-btn-primary: 0 0 25px rgba(255, 0, 43, 0.55), inset 0 0 10px rgba(255, 255, 255, 0.15);
+      --shadow-card: 0 12px 38px rgba(0, 0, 0, 0.95), 0 0 22px rgba(255, 0, 43, 0.2), inset 0 0 14px rgba(255, 0, 43, 0.08);
+      --shadow-btn-primary: 0 0 28px rgba(255, 0, 43, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.18);
       --btn-primary-bg: linear-gradient(135deg, #b80018 0%, #ff002b 50%, #590009 100%);
       --btn-primary-text: #ffffff;
-      --btn-primary-border: 1px solid #ff4d6a;
+      --btn-primary-border: 1.5px solid #ff4d6a;
       --orb-1: #ff002b;
       --orb-2: #66000b;
       --orb-3: #b3001b;
-      --orb-opacity: 0.22;
-      --card-border-width: 1px;
-      --btn-transform-hover: translateY(-2px);
-      --letter-spacing-body: 0.03em;
+      --orb-opacity: 0.24;
+      --card-border-width: 1.5px;
+      --btn-transform-hover: translateY(-3px);
+      --letter-spacing-body: 0.025em;
     }
 
-    /* THEME 2: 10 EKİM 2026 TRENDİ — NEO-BRUTALIST KINETIC ACID POP */
+    /* THEME 3: 10 EKİM 2026 TRENDİ — NEO-BRUTALIST KINETIC ACID POP */
     html[data-theme="brutal26"] {
       --bg-body: radial-gradient(circle at 15% 15%, #2a2415 0%, #121316 55%, #0c0d0f 100%);
       --bg-panel: #18191e;
       --bg-panel-alt: #21232b;
       --bg-input: #0e0f13;
       --text-main: #f7f4eb;
-      --text-muted: #b5b0a1;
-      --accent-1: #ccff00; /* Acid Lime 2026 */
-      --accent-2: #ff4d00; /* Hyper Tangerine */
-      --accent-3: #b892ff; /* Digital Lavender */
+      --text-muted: #cfc9b8;
+      --accent-1: #ccff00;
+      --accent-2: #ff4d00;
+      --accent-3: #b892ff;
       --border-color: #ccff00;
       --border-strong: #ccff00;
-      --radius-card: 14px;
-      --radius-btn: 10px;
+      --radius-card: 16px;
+      --radius-btn: 12px;
       --radius-pill: 9999px;
       --font-body: 'Space Grotesk', sans-serif;
       --font-display: 'Syne', sans-serif;
@@ -89,42 +122,9 @@
       --orb-1: #ccff00;
       --orb-2: #ff4d00;
       --orb-3: #b892ff;
-      --orb-opacity: 0.12;
+      --orb-opacity: 0.14;
       --card-border-width: 2.5px;
       --btn-transform-hover: translate(-3px, -3px);
-      --letter-spacing-body: 0em;
-    }
-
-    /* THEME 3: COSMIC NEON (Orijinal Uzay / Gece Mavisi & Neon) */
-    html[data-theme="cosmic"] {
-      --bg-body: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-      --bg-panel: rgba(255, 255, 255, 0.07);
-      --bg-panel-alt: rgba(15, 12, 41, 0.58);
-      --bg-input: rgba(15, 12, 41, 0.75);
-      --text-main: #ffffff;
-      --text-muted: rgba(255, 255, 255, 0.65);
-      --accent-1: #00f2fe;
-      --accent-2: #ff007f;
-      --accent-3: #ff7b00;
-      --border-color: rgba(255, 255, 255, 0.15);
-      --border-strong: #00f2fe;
-      --radius-card: 18px;
-      --radius-btn: 16px;
-      --radius-pill: 9999px;
-      --font-body: 'Poppins', sans-serif;
-      --font-display: 'Fredoka', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --shadow-card: 0 12px 32px 0 rgba(0, 0, 0, 0.37);
-      --shadow-btn-primary: 0 0 25px rgba(255, 0, 127, 0.5);
-      --btn-primary-bg: linear-gradient(90deg, #ff007f 0%, #ff7b00 50%, #00f2fe 100%);
-      --btn-primary-text: #ffffff;
-      --btn-primary-border: 1px solid rgba(255, 255, 255, 0.2);
-      --orb-1: #ff007f;
-      --orb-2: #00f2fe;
-      --orb-3: #ff7b00;
-      --orb-opacity: 0.35;
-      --card-border-width: 1px;
-      --btn-transform-hover: translateY(-2px) scale(1.01);
       --letter-spacing-body: 0em;
     }
 
@@ -149,7 +149,7 @@
         to bottom,
         transparent 0px,
         transparent 3px,
-        rgba(255, 0, 43, 0.03) 4px
+        rgba(255, 0, 43, 0.035) 4px
       );
       pointer-events: none;
       z-index: 1;
@@ -161,7 +161,7 @@
       position: fixed;
       inset: 0;
       background-image: radial-gradient(rgba(204, 255, 0, 0.16) 1px, transparent 1px);
-      background-size: 20px 20px;
+      background-size: 22px 22px;
       pointer-events: none;
       z-index: 1;
     }
@@ -178,7 +178,7 @@
     .ambient-orb {
       position: fixed;
       border-radius: 9999px;
-      filter: blur(85px);
+      filter: blur(90px);
       z-index: 0;
       pointer-events: none;
       opacity: var(--orb-opacity);
@@ -191,24 +191,23 @@
     /* Theme-Adaptive Card */
     .glass-card {
       background: var(--bg-panel);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       border: var(--card-border-width) solid var(--border-color);
       border-radius: var(--radius-card);
       box-shadow: var(--shadow-card);
       transition: all 0.25s ease;
     }
 
-    /* Crimson Corner Cut Effect on Cards */
     html[data-theme="crimson"] .glass-card {
-      border-left: 3px solid #ff002b;
+      border-left: 4px solid #ff002b;
     }
 
     .glass-pill {
       background: var(--bg-panel-alt);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border-color);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid var(--border-color);
       border-radius: var(--radius-pill);
     }
 
@@ -223,7 +222,7 @@
     }
     .theme-input:focus {
       border-color: var(--accent-1);
-      box-shadow: 0 0 14px rgba(255, 0, 43, 0.25);
+      box-shadow: 0 0 18px rgba(0, 242, 254, 0.3);
       outline: none;
     }
     html[data-theme="brutal26"] .theme-input:focus {
@@ -240,22 +239,25 @@
       font-family: var(--font-display);
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .theme-btn-primary:hover {
+    .theme-btn-primary:hover:not(:disabled) {
       transform: var(--btn-transform-hover);
       filter: brightness(1.08);
+    }
+    .theme-btn-primary:active:not(:disabled) {
+      transform: scale(0.97);
     }
     html[data-theme="brutal26"] .theme-btn-primary {
       box-shadow: 5px 5px 0px #ff4d00;
       border: 2.5px solid #000000;
       font-weight: 800;
     }
-    html[data-theme="brutal26"] .theme-btn-primary:hover {
+    html[data-theme="brutal26"] .theme-btn-primary:hover:not(:disabled) {
       box-shadow: 8px 8px 0px #ff4d00;
     }
     html[data-theme="crimson"] .theme-btn-primary {
-      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+      clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
     }
 
     /* Theme-Adaptive Secondary Button */
@@ -267,7 +269,7 @@
       font-family: var(--font-display);
       transition: all 0.2s ease;
     }
-    .theme-btn-secondary:hover {
+    .theme-btn-secondary:hover:not(:disabled) {
       border-color: var(--accent-1);
       transform: var(--btn-transform-hover);
     }
@@ -280,69 +282,95 @@
       background: var(--bg-panel-alt);
       border: var(--card-border-width) solid var(--border-color);
       border-radius: var(--radius-btn);
-      transition: all 0.2s ease;
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .selectable-card:hover {
+      border-color: var(--accent-1);
+      transform: translateY(-2px);
     }
     .selectable-card.is-active {
       border-color: var(--accent-1) !important;
-      background: rgba(255, 0, 43, 0.16);
-      box-shadow: 0 0 18px rgba(255, 0, 43, 0.28);
+      background: rgba(0, 242, 254, 0.22) !important;
+      box-shadow: 0 0 22px rgba(0, 242, 254, 0.35) !important;
+    }
+    html[data-theme="crimson"] .selectable-card.is-active {
+      background: rgba(255, 0, 43, 0.22) !important;
+      border-color: #ff002b !important;
+      box-shadow: 0 0 22px rgba(255, 0, 43, 0.38) !important;
     }
     html[data-theme="brutal26"] .selectable-card.is-active {
       background: #ccff00 !important;
       color: #090a0c !important;
       border-color: #000000 !important;
-      box-shadow: 4px 4px 0px #ff4d00 !important;
+      box-shadow: 5px 5px 0px #ff4d00 !important;
     }
     html[data-theme="brutal26"] .selectable-card.is-active * {
       color: #090a0c !important;
     }
-    html[data-theme="cosmic"] .selectable-card.is-active {
-      background: rgba(0, 242, 254, 0.2) !important;
-      border-color: #00f2fe !important;
-      box-shadow: 0 0 18px rgba(0, 242, 254, 0.3) !important;
-    }
 
     /* Neon Logo & Center Question Card */
     .neon-logo {
-      box-shadow: 0 0 18px var(--accent-1);
+      box-shadow: 0 0 20px var(--accent-1);
       border-radius: var(--radius-pill);
     }
 
     .neon-border-card {
       background: var(--bg-panel);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(22px);
       border: 2px solid var(--accent-1);
       border-radius: var(--radius-card);
-      box-shadow: var(--shadow-card);
+      box-shadow: var(--shadow-card), 0 0 28px rgba(0, 242, 254, 0.16);
     }
 
-    /* Option Button States */
+    /* Option Button States & Staggered Entrance Animations */
+    @keyframes optionPopIn {
+      0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
     .option-btn {
       background: var(--bg-panel);
       border: var(--card-border-width) solid var(--border-color);
       border-radius: var(--radius-btn);
-      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: optionPopIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) backwards;
     }
+    .option-btn:nth-child(1) { animation-delay: 0.04s; }
+    .option-btn:nth-child(2) { animation-delay: 0.10s; }
+    .option-btn:nth-child(3) { animation-delay: 0.16s; }
+    .option-btn:nth-child(4) { animation-delay: 0.22s; }
+
     .option-btn:hover:not(:disabled) {
       transform: var(--btn-transform-hover);
       border-color: var(--accent-1);
+      background: rgba(255, 255, 255, 0.14);
+      box-shadow: 0 8px 25px rgba(0, 242, 254, 0.22);
     }
     html[data-theme="brutal26"] .option-btn {
-      box-shadow: 4px 4px 0px rgba(204, 255, 0, 0.5);
+      box-shadow: 4px 4px 0px rgba(204, 255, 0, 0.55);
     }
     html[data-theme="brutal26"] .option-btn:hover:not(:disabled) {
-      box-shadow: 6px 6px 0px #ccff00;
+      box-shadow: 7px 7px 0px #ccff00;
       background: #232630;
     }
     html[data-theme="crimson"] .option-btn {
-      border-left: 3px solid #ff002b;
+      border-left: 4px solid #ff002b;
     }
 
     .option-selected-p1 {
       border-color: var(--accent-1) !important;
-      background: rgba(255, 0, 43, 0.28) !important;
-      box-shadow: 0 0 22px var(--accent-1) !important;
+      background: linear-gradient(90deg, rgba(0, 242, 254, 0.3), rgba(255, 0, 127, 0.25)) !important;
+      box-shadow: 0 0 28px var(--accent-1) !important;
       transform: scale(1.02);
+    }
+    html[data-theme="crimson"] .option-selected-p1 {
+      background: rgba(255, 0, 43, 0.32) !important;
     }
     html[data-theme="brutal26"] .option-selected-p1 {
       background: #ccff00 !important;
@@ -355,29 +383,29 @@
 
     .option-correct {
       border-color: #10b981 !important;
-      background: linear-gradient(90deg, rgba(16, 185, 129, 0.35), rgba(5, 150, 105, 0.2)) !important;
-      box-shadow: 0 0 28px rgba(16, 185, 129, 0.65) !important;
-      transform: scale(1.02);
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.42), rgba(5, 150, 105, 0.25)) !important;
+      box-shadow: 0 0 32px rgba(16, 185, 129, 0.75) !important;
+      transform: scale(1.025);
     }
 
     .option-wrong {
       border-color: #ef4444 !important;
-      background: linear-gradient(90deg, rgba(239, 68, 68, 0.4), rgba(185, 28, 28, 0.25)) !important;
-      box-shadow: 0 0 28px rgba(239, 68, 68, 0.65) !important;
-      animation: shake 0.42s cubic-bezier(.36,.07,.19,.97) both;
+      background: linear-gradient(90deg, rgba(239, 68, 68, 0.45), rgba(185, 28, 28, 0.28)) !important;
+      box-shadow: 0 0 32px rgba(239, 68, 68, 0.75) !important;
+      animation: shake 0.45s cubic-bezier(.36,.07,.19,.97) both;
     }
 
     @keyframes shake {
-      10%, 90% { transform: translate3d(-2px, 0, 0); }
-      20%, 80% { transform: translate3d(4px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
-      40%, 60% { transform: translate3d(6px, 0, 0); }
+      10%, 90% { transform: translate3d(-3px, 0, 0); }
+      20%, 80% { transform: translate3d(5px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-7px, 0, 0); }
+      40%, 60% { transform: translate3d(7px, 0, 0); }
     }
 
     @keyframes fadeSlideUp {
       from {
         opacity: 0;
-        transform: translateY(16px) scale(0.98);
+        transform: translateY(18px) scale(0.98);
       }
       to {
         opacity: 1;
@@ -386,12 +414,36 @@
     }
 
     .animate-view {
-      animation: fadeSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: fadeSlideUp 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Floating Emoji Burst Animation ("The Test" Signature Effect) */
+    @keyframes floatEmojiUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.6) rotate(0deg);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-90px) scale(1.35) rotate(12deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-190px) scale(0.9) rotate(-12deg);
+      }
+    }
+
+    .floating-emoji-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 2.25rem;
+      animation: floatEmojiUp 1.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     @keyframes pulseBolt {
       0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px var(--accent-1)); }
-      50% { transform: scale(1.22); filter: drop-shadow(0 0 14px var(--accent-2)); }
+      50% { transform: scale(1.25); filter: drop-shadow(0 0 16px var(--accent-2)); }
     }
 
     .bolt-anim {
@@ -413,9 +465,10 @@
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
+      height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #050001;
+      background: rgba(0, 0, 0, 0.35);
     }
     ::-webkit-scrollbar-thumb {
       background: var(--accent-1);
@@ -423,719 +476,1021 @@
     }
   </style>
 </head>
-<body class="antialiased">
+<body class="antialiased min-h-screen flex flex-col justify-between">
 
   <!-- Background Ambient Glows -->
-  <div class="ambient-orb orb-one w-72 h-72 -top-16 -left-16"></div>
-  <div class="ambient-orb orb-two w-80 h-80 bottom-10 -right-20"></div>
-  <div class="ambient-orb orb-three w-60 h-60 top-1/2 left-1/3"></div>
+  <div class="ambient-orb orb-one w-80 h-80 -top-16 -left-16"></div>
+  <div class="ambient-orb orb-two w-96 h-96 bottom-10 -right-20"></div>
+  <div class="ambient-orb orb-three w-72 h-72 top-1/3 left-1/3"></div>
 
-  <!-- Main Mobile-First Container -->
-  <div class="relative z-10 max-w-md mx-auto min-h-screen flex flex-col justify-between px-4 py-4 sm:py-6">
+  <!-- ================= TOP RIGHT FIXED CONTROLS & NOTIFICATION BELL (BLUE BOX AREA) ================= -->
+  <div class="fixed top-3 right-3 sm:top-4 sm:right-6 z-40 flex items-center gap-2.5">
+    <!-- Live Notification Pill when Partner Completes the Test -->
+    <button
+      type="button"
+      id="top-notification-banner"
+      onclick="openCompletedRoomFromNotification()"
+      class="hidden items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-black font-extrabold text-xs sm:text-sm shadow-[0_0_30px_rgba(16,185,129,0.8)] animate-bounce border-2 border-white"
+    >
+      <span class="text-lg">🔔</span>
+      <span id="top-notification-text">"Oyuncu 2" testi cevaplandırdı! Şimdi kontrol et →</span>
+    </button>
 
-    <!-- ================= TOP BAR (HEADER) ================= -->
-    <header id="app-header" class="w-full mb-4">
-      <div class="glass-card p-3 flex flex-col gap-2.5">
-        <!-- Top Row: Brand Logo + Active Question Counter + Settings Button -->
-        <div class="flex items-center justify-between gap-2">
-          <button onclick="resetToHome()" class="flex items-center gap-2.5 group text-left focus:outline-none" title="Ana Ekrana Dön">
-            <div class="w-10 h-10 bg-accent-1 p-[2px] neon-logo transition-transform group-hover:scale-105 flex items-center justify-center">
+    <!-- Cloud Room Join Shortcut Button -->
+    <button
+      type="button"
+      onclick="toggleCloudJoinModal(true)"
+      class="glass-pill px-3.5 py-2 sm:px-4 sm:py-2.5 flex items-center gap-2 text-xs sm:text-sm font-bold text-white hover:border-white transition shadow-lg"
+      title="Oda Kodu ile Katıl veya Sonuç Kontrol Et"
+    >
+      <span>☁️</span>
+      <span class="hidden sm:inline">Oda Kodu</span>
+    </button>
+
+    <!-- Settings Button ("Ayarlar" only, as requested in #2) -->
+    <button
+      type="button"
+      id="btn-open-settings"
+      onclick="toggleSettingsModal(true)"
+      class="glass-pill px-3.5 py-2 sm:px-4 sm:py-2.5 flex items-center gap-2 text-xs sm:text-sm font-bold text-white hover:border-white transition shadow-lg"
+      title="Ayarlar"
+    >
+      <span>⚙️</span>
+      <span>Ayarlar</span>
+    </button>
+  </div>
+
+  <!-- ================= TOP LEFT BRAND BADGE ON PC (RED BOX AREA) ================= -->
+  <div class="hidden xl:flex fixed top-4 left-6 z-30 items-center gap-3 glass-card px-4 py-2.5">
+    <button onclick="resetToHome()" class="flex items-center gap-3 text-left focus:outline-none group">
+      <div class="w-11 h-11 bg-accent-1 p-[2px] neon-logo transition-transform group-hover:scale-105 flex items-center justify-center">
+        <div class="w-full h-full bg-black/90 flex items-center justify-center" style="border-radius: inherit;">
+          <span class="font-display-theme font-extrabold text-xl text-accent-1">S</span>
+        </div>
+      </div>
+      <div>
+        <span class="font-display-theme font-extrabold text-2xl tracking-wider text-white block leading-none">
+          senceo
+        </span>
+        <!-- Only version shown, NO theme name here (#3) -->
+        <span id="pc-corner-version" class="text-xs text-accent-1 tracking-widest uppercase font-bold font-mono-theme">
+          v0.02 • CANLI BULUT DB
+        </span>
+      </div>
+    </button>
+  </div>
+
+  <!-- ================= MAIN RESPONSIVE WRAPPER (MOBILE: SINGLE COL | PC: 3-COL NO-SCROLL DASHBOARD) ================= -->
+  <div class="relative z-10 w-full max-w-md xl:max-w-[1400px] mx-auto px-4 pt-16 pb-4 xl:py-4 flex-1 flex flex-col justify-between xl:justify-center">
+
+    <!-- MOBILE/TABLET HEADER (Hidden on XL PC where Left & Right sidebars handle it) -->
+    <header id="app-header" class="w-full mb-4 xl:mb-3">
+      <div class="glass-card p-3.5 xl:px-6 xl:py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <!-- Brand Logo + Version (No Theme Name #3) -->
+        <div class="flex items-center justify-between w-full sm:w-auto">
+          <button onclick="resetToHome()" class="flex items-center gap-3 group text-left focus:outline-none" title="Ana Ekrana Dön">
+            <div class="w-11 h-11 bg-accent-1 p-[2px] neon-logo transition-transform group-hover:scale-105 flex items-center justify-center">
               <div class="w-full h-full bg-black/90 flex items-center justify-center" style="border-radius: inherit;">
-                <span class="font-display-theme font-extrabold text-lg text-accent-1">S</span>
+                <span class="font-display-theme font-extrabold text-xl text-accent-1">S</span>
               </div>
             </div>
             <div>
-              <span class="font-display-theme font-extrabold text-xl tracking-wider text-white block leading-none">
+              <span class="font-display-theme font-extrabold text-2xl tracking-wider text-white block leading-none">
                 senceo
               </span>
-              <span id="header-theme-tag" class="text-[10px] text-accent-1 tracking-widest uppercase font-bold">
-                Crimson Noir • v0.01
+              <span id="header-version-tag" class="text-xs text-accent-1 tracking-widest uppercase font-bold font-mono-theme">
+                v0.02
               </span>
             </div>
           </button>
 
-          <div class="flex items-center gap-2">
-            <!-- Active Question Counter Badge -->
-            <div id="header-counter-badge" class="hidden items-center gap-1.5 px-3 py-1 glass-pill">
-              <span class="w-2 h-2 rounded-full bg-accent-1 animate-ping"></span>
-              <span id="header-question-counter" class="text-xs font-extrabold tracking-wider text-white font-mono-theme">SORU 1 / 5</span>
-            </div>
-
-            <!-- Home / Status Pill when on Home screen -->
-            <div id="header-home-badge" class="hidden sm:flex items-center gap-1 px-2.5 py-1 glass-pill text-[10px] font-bold text-accent-1">
-              <span>⚡ Uyum Testi</span>
-            </div>
-
-            <!-- Settings & Theme Switcher Trigger Button -->
-            <button
-              type="button"
-              id="btn-open-settings"
-              onclick="toggleSettingsModal(true)"
-              class="glass-pill px-3 py-1.5 flex items-center gap-1.5 text-xs font-bold text-white hover:border-white transition"
-              title="Ayarlar ve Tema Seçimi"
-            >
-              <span>🎨</span>
-              <span>Tema / Ayarlar</span>
-            </button>
+          <!-- Active Question Counter Badge (Mobile) -->
+          <div id="header-counter-badge" class="hidden sm:hidden items-center gap-1.5 px-3.5 py-1.5 glass-pill">
+            <span class="w-2.5 h-2.5 rounded-full bg-accent-1 animate-ping"></span>
+            <span id="header-question-counter-mob" class="text-xs font-extrabold tracking-wider text-white font-mono-theme">SORU 1 / 5</span>
           </div>
         </div>
 
-        <!-- Bottom Row: Player 1 ⚡ Player 2 VS Bar -->
-        <div id="header-vs-bar" class="glass-pill px-3 py-2 flex items-center justify-between text-xs">
+        <!-- Center: Player 1 ⚡ Player 2 VS Bar -->
+        <div id="header-vs-bar" class="glass-pill px-4 py-2 flex items-center justify-between gap-4 text-sm w-full sm:w-auto sm:min-w-[340px]">
           <!-- Player 1 -->
-          <div class="flex items-center gap-2 min-w-0 flex-1">
-            <div id="vs-p1-avatar" class="w-7 h-7 rounded-full bg-accent-1 text-black flex items-center justify-center font-bold text-xs shadow-md shrink-0">
+          <div class="flex items-center gap-2.5 min-w-0 flex-1">
+            <div id="vs-p1-avatar" class="w-8 h-8 rounded-full bg-accent-1 text-black flex items-center justify-center font-bold text-sm shadow-md shrink-0">
               😎
             </div>
             <div class="truncate">
-              <div class="text-[10px] opacity-60 leading-tight">1. Oyuncu</div>
-              <div id="vs-p1-name" class="font-bold text-white truncate">Oyuncu 1</div>
+              <div class="text-[11px] opacity-70 leading-tight">1. Oyuncu</div>
+              <div id="vs-p1-name" class="font-bold text-sm sm:text-base text-white truncate">Oyuncu 1</div>
             </div>
           </div>
 
           <!-- VS Bolt Center -->
           <div class="px-2 flex flex-col items-center shrink-0">
-            <span class="bolt-anim text-base leading-none">⚡</span>
-            <span class="text-[9px] font-extrabold tracking-widest text-accent-1 uppercase font-mono-theme">VS</span>
+            <span class="bolt-anim text-lg leading-none">⚡</span>
+            <span class="text-[10px] font-extrabold tracking-widest text-accent-1 uppercase font-mono-theme">VS</span>
           </div>
 
           <!-- Player 2 -->
-          <div class="flex items-center justify-end gap-2 min-w-0 flex-1 text-right">
+          <div class="flex items-center justify-end gap-2.5 min-w-0 flex-1 text-right">
             <div class="truncate">
-              <div class="text-[10px] opacity-60 leading-tight">2. Oyuncu</div>
-              <div id="vs-p2-name" class="font-bold text-white truncate">Oyuncu 2</div>
+              <div class="text-[11px] opacity-70 leading-tight">2. Oyuncu</div>
+              <div id="vs-p2-name" class="font-bold text-sm sm:text-base text-white truncate">Oyuncu 2</div>
             </div>
-            <div id="vs-p2-avatar" class="w-7 h-7 rounded-full bg-white/15 border border-white/20 flex items-center justify-center font-bold text-xs shadow-md shrink-0">
+            <div id="vs-p2-avatar" class="w-8 h-8 rounded-full bg-white/15 border border-white/25 flex items-center justify-center font-bold text-sm shadow-md shrink-0">
               🕵️
             </div>
+          </div>
+        </div>
+
+        <!-- Right side badge on header -->
+        <div class="hidden sm:flex items-center gap-2">
+          <div id="header-counter-badge-pc" class="hidden items-center gap-2 px-4 py-1.5 glass-pill">
+            <span class="w-2.5 h-2.5 rounded-full bg-accent-1 animate-ping"></span>
+            <span id="header-question-counter" class="text-sm font-extrabold tracking-wider text-white font-mono-theme">SORU 1 / 5</span>
+          </div>
+          <div id="header-home-badge" class="flex items-center gap-1.5 px-3.5 py-1.5 glass-pill text-xs font-bold text-accent-1">
+            <span>🔮 54 Soru Havuzu</span>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- ================= MAIN VIEW CONTAINER ================= -->
-    <main class="flex-1 flex flex-col justify-center">
+    <!-- ================= 3-COLUMN PC ARENA GRID (LEFT PANEL | CENTER STAGE | RIGHT PANEL) ================= -->
+    <div class="w-full grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
 
-      <!-- 1. VIEW: HOME (BAŞLANGIÇ EKRANI) -->
-      <section id="view-home" class="animate-view space-y-4">
-        <!-- Hero Banner -->
-        <div class="glass-card p-5 text-center relative overflow-hidden">
-          <div class="inline-flex items-center justify-center w-16 h-16 bg-accent-1 p-[2px] neon-logo mb-2">
-            <div class="w-full h-full bg-black/90 flex items-center justify-center text-2xl" style="border-radius: inherit;">
-              🔮
-            </div>
-          </div>
-          <h1 class="font-display-theme text-3xl font-extrabold tracking-wider text-white">
-            senceo
-          </h1>
-          <p class="text-sm text-accent-1 font-bold mt-1">
-            "Beni ne kadar tanıyorsun?" 🔥
-          </p>
-          <p class="text-xs opacity-75 mt-1">
-            5 soruyu cevapla, arkadaşın senin ne seçtiğini tahmin etsin!
-          </p>
-
-          <!-- Quick Theme Switcher Bar on Home -->
-          <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-1.5">
-            <span class="text-[10px] font-bold uppercase tracking-wider opacity-75">Aktif Tema:</span>
-            <div class="flex items-center gap-1.5">
-              <button type="button" onclick="applyTheme('crimson')" data-theme-pill="crimson" class="theme-quick-pill px-2.5 py-1 text-[10px] font-bold rounded border transition">
-                🩸 Simsiyah & Kırmızı
-              </button>
-              <button type="button" onclick="applyTheme('brutal26')" data-theme-pill="brutal26" class="theme-quick-pill px-2.5 py-1 text-[10px] font-bold rounded border transition">
-                ⚡ Ekim 2026 Acid
-              </button>
-              <button type="button" onclick="applyTheme('cosmic')" data-theme-pill="cosmic" class="theme-quick-pill px-2.5 py-1 text-[10px] font-bold rounded border transition">
-                🌌 Cosmic Neon
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mode Selection -->
-        <div class="glass-card p-4 space-y-2.5">
-          <label class="text-xs font-bold uppercase tracking-wider text-accent-1 flex items-center gap-1.5 font-display-theme">
-            <span>🎮</span> 1. Oynanış Modunu Seç
-          </label>
-          <div class="grid grid-cols-2 gap-2.5">
-            <button
-              type="button"
-              id="mode-btn-pass"
-              onclick="selectGameMode('pass')"
-              class="selectable-card is-active p-3 text-left"
-            >
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xl">📱🤝</span>
-                <span id="mode-check-pass" class="w-4 h-4 rounded-full bg-accent-1 text-black text-[10px] flex items-center justify-center font-extrabold">✓</span>
-              </div>
-              <div class="font-bold text-xs">Yan Yana (Pass & Play)</div>
-              <div class="text-[10px] opacity-70 leading-snug mt-0.5">Aynı telefondan sırayla oynayın.</div>
-            </button>
-
-            <button
-              type="button"
-              id="mode-btn-link"
-              onclick="selectGameMode('link')"
-              class="selectable-card p-3 text-left"
-            >
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xl">🔗🚀</span>
-                <span id="mode-check-link" class="w-4 h-4 rounded-full bg-white/10 text-[10px] flex items-center justify-center font-extrabold opacity-0">✓</span>
-              </div>
-              <div class="font-bold text-xs">Link ile Meydan Oku</div>
-              <div class="text-[10px] opacity-70 leading-snug mt-0.5">Cevapla, özel linki arkadaşına gönder!</div>
-            </button>
-          </div>
-        </div>
-
-        <!-- Player Name Inputs -->
-        <div class="glass-card p-4 space-y-3">
-          <label class="text-xs font-bold uppercase tracking-wider text-accent-1 flex items-center gap-1.5 font-display-theme">
-            <span>👤</span> 2. Oyuncu Bilgileri
-          </label>
-          
-          <div>
-            <label for="input-p1-name" class="block text-xs opacity-80 mb-1 font-semibold">Senin Adın (1. Oyuncu)</label>
-            <div class="relative">
-              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-base">😎</span>
-              <input
-                id="input-p1-name"
-                type="text"
-                maxlength="18"
-                placeholder="Örn: Emirhan"
-                oninput="syncHeaderNames()"
-                class="theme-input w-full pl-10 pr-4 py-2.5 text-sm font-semibold placeholder-white/35"
-              />
-            </div>
-          </div>
-
-          <div id="p2-name-home-wrapper">
-            <label for="input-p2-name" class="block text-xs opacity-80 mb-1 font-semibold">
-              Arkadaşının Adı (2. Oyuncu) <span class="opacity-50 text-[10px]">(İsteğe bağlı, sırası gelince de yazabilir)</span>
-            </label>
-            <div class="relative">
-              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-base">🕵️</span>
-              <input
-                id="input-p2-name"
-                type="text"
-                maxlength="18"
-                placeholder="Örn: Zeynep"
-                oninput="syncHeaderNames()"
-                class="theme-input w-full pl-10 pr-4 py-2.5 text-sm font-semibold placeholder-white/35"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Category Selection -->
-        <div class="glass-card p-4 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <label class="text-xs font-bold uppercase tracking-wider text-accent-1 flex items-center gap-1.5 font-display-theme">
-              <span>🔥</span> 3. Kategori Seç
-            </label>
-            <span class="text-[10px] opacity-60 font-mono-theme">5 SORU</span>
-          </div>
-
-          <div class="grid grid-cols-2 gap-2" id="category-grid">
-            <button type="button" onclick="selectCategory('genel')" data-cat="genel" class="cat-btn selectable-card is-active p-2.5 text-left flex items-center gap-2.5">
-              <span class="text-xl">🌟</span>
-              <div>
-                <div class="text-xs font-bold">Genel</div>
-                <div class="text-[10px] opacity-70">Klasik & Karışık</div>
-              </div>
-            </button>
-
-            <button type="button" onclick="selectCategory('cift')" data-cat="cift" class="cat-btn selectable-card p-2.5 text-left flex items-center gap-2.5">
-              <span class="text-xl">❤️</span>
-              <div>
-                <div class="text-xs font-bold">Çift / İlişki</div>
-                <div class="text-[10px] opacity-70">Romantik & Kıskanç</div>
-              </div>
-            </button>
-
-            <button type="button" onclick="selectCategory('kanka')" data-cat="kanka" class="cat-btn selectable-card p-2.5 text-left flex items-center gap-2.5">
-              <span class="text-xl">⚡</span>
-              <div>
-                <div class="text-xs font-bold">Kanka / Eğlence</div>
-                <div class="text-[10px] opacity-70">Dostluk & Mizah</div>
-              </div>
-            </button>
-
-            <button type="button" onclick="selectCategory('ekstrem')" data-cat="ekstrem" class="cat-btn selectable-card p-2.5 text-left flex items-center gap-2.5">
-              <span class="text-xl">🔥</span>
-              <div>
-                <div class="text-xs font-bold">Ekstrem</div>
-                <div class="text-[10px] opacity-70">Zorlu İkilemler</div>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <!-- Validation Error Alert -->
-        <div id="home-error" class="hidden rounded-lg bg-red-600/30 border border-red-400 px-3.5 py-2.5 text-xs font-bold text-red-100 flex items-center gap-2">
-          <span>⚠️</span>
-          <span id="home-error-text">Lütfen adını gir!</span>
-        </div>
-
-        <!-- Start Button -->
-        <button
-          type="button"
-          id="btn-start-game"
-          onclick="startPlayerOneTurn()"
-          class="theme-btn-primary w-full py-4 font-bold text-base flex items-center justify-center gap-2"
-        >
-          <span>TESTİ BAŞLAT</span>
-          <span class="text-lg">🚀</span>
-        </button>
-      </section>
-
-      <!-- 2. VIEW: INCOMING URL CHALLENGE WELCOME SCREEN -->
-      <section id="view-challenge-welcome" class="hidden animate-view space-y-4">
-        <div class="glass-card p-6 text-center space-y-4 relative overflow-hidden">
-          <div class="inline-flex items-center justify-center w-20 h-20 bg-accent-1 p-[3px] neon-logo">
-            <div class="w-full h-full bg-black/90 flex items-center justify-center text-4xl" style="border-radius: inherit;">
-              ⚡
-            </div>
-          </div>
-
-          <div class="inline-block px-3 py-1 glass-pill text-accent-1 text-xs font-bold uppercase tracking-wider">
-            Meydan Okuma Geldi!
-          </div>
-
-          <h2 id="challenge-welcome-title" class="font-display-theme text-2xl font-bold text-white leading-snug">
-            <span class="text-accent-1">Oyuncu 1</span> sana meydan okudu! Bakalım onu ne kadar tanıyorsun?
-          </h2>
-
-          <p class="text-xs opacity-80 leading-relaxed">
-            Arkadaşın kendisiyle ilgili 5 soruyu cevapladı. Şimdi sıra sende! Onun hangi şıkları seçtiğini doğru tahmin etmeye çalış.
-          </p>
-
-          <div class="text-left space-y-1.5 pt-2">
-            <label for="input-challenger-p2-name" class="block text-xs font-bold text-accent-1 uppercase tracking-wider">
-              Senin Adın Nedir?
-            </label>
-            <div class="relative">
-              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-base">🕵️</span>
-              <input
-                id="input-challenger-p2-name"
-                type="text"
-                maxlength="18"
-                placeholder="Adını yaz..."
-                class="theme-input w-full pl-10 pr-4 py-3 text-sm font-semibold placeholder-white/40"
-              />
-            </div>
-            <p id="challenge-name-error" class="hidden text-xs text-red-300 font-semibold pt-1">⚠️ Lütfen tahminlere başlamadan önce adını yaz!</p>
-          </div>
-
-          <button
-            type="button"
-            onclick="acceptUrlChallenge()"
-            class="theme-btn-primary w-full py-4 font-bold text-base flex items-center justify-center gap-2"
-          >
-            <span>TAHMİNLERE BAŞLA</span>
-            <span>🔥</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- 3. VIEW: QUESTION SCREEN (SORU EKRANI) -->
-      <section id="view-question" class="hidden animate-view space-y-4">
-        <!-- Turn Banner & Progress Bar -->
-        <div class="glass-card p-3.5 space-y-2.5">
-          <div class="flex items-center justify-between text-xs">
-            <div id="question-turn-badge" class="inline-flex items-center gap-1.5 font-bold text-accent-1">
-              <span>😎</span>
-              <span id="question-turn-text">1. Oyuncu Sırası</span>
-            </div>
-            <span id="question-category-pill" class="px-2.5 py-0.5 glass-pill text-[11px] font-semibold">
-              🌟 Genel
+      <!-- LEFT SIDE PANEL (YELLOW BOX AREA ON PC): Live Compatibility Thermometer, Pass Joker & Active Room Status -->
+      <aside class="hidden xl:flex xl:col-span-3 flex-col gap-4">
+        <div class="glass-card p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-white/15 pb-3">
+            <h3 class="font-display-theme text-base font-bold text-accent-1 flex items-center gap-2">
+              <span>🌡️</span>
+              <span>Uyum Termometresi</span>
+            </h3>
+            <span id="side-live-score-badge" class="px-2.5 py-0.5 rounded-full bg-white/10 text-xs font-mono-theme font-bold">
+              CANLI
             </span>
           </div>
 
-          <!-- Progress Bar -->
-          <div class="w-full h-2.5 bg-black/70 rounded-full overflow-hidden p-[2px] border border-white/15">
-            <div
-              id="question-progress-bar"
-              class="h-full rounded-full bg-accent-1 transition-all duration-300"
-              style="width: 20%"
-            ></div>
+          <!-- Vertical / Horizontal Match Meter -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs font-bold">
+              <span class="opacity-75">Anlık Uyum Oranı</span>
+              <span id="side-thermometer-text" class="text-accent-1 font-mono-theme text-sm">%100</span>
+            </div>
+            <div class="w-full h-3.5 bg-black/70 rounded-full overflow-hidden p-[2px] border border-white/15">
+              <div
+                id="side-thermometer-bar"
+                class="h-full rounded-full bg-gradient-to-r from-[#ff007f] via-[#ff7b00] to-[#00f2fe] transition-all duration-500"
+                style="width: 100%"
+              ></div>
+            </div>
+            <p id="side-thermometer-status" class="text-xs opacity-75 leading-relaxed">
+              Soruları cevapladıkça ve tahmin ettikçe uyum termometresi anlık güncellenir!
+            </p>
+          </div>
+
+          <!-- 1x Pass Joker Status Card -->
+          <div class="glass-pill p-3.5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-accent-3 flex items-center gap-1.5">
+                <span>⏭️</span> Pas Jokeri Hakkı
+              </span>
+              <span id="side-pass-status" class="px-2 py-0.5 rounded bg-emerald-500/25 text-emerald-300 text-xs font-extrabold font-mono-theme">
+                1 / 1 HAZIR
+              </span>
+            </div>
+            <p class="text-xs opacity-75 leading-snug">
+              Her oyuncunun oyun boyunca <strong>1 kez Pas Geçme</strong> hakkı vardır. Pas geçsen bile emoji ve yorum bırakabilirsin!
+            </p>
+          </div>
+
+          <!-- Active Cloud Room Card -->
+          <div class="glass-pill p-3.5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-accent-1 flex items-center gap-1.5">
+                <span>☁️</span> Bulut Oda Durumu
+              </span>
+              <span id="side-room-code-badge" class="font-mono-theme text-xs font-extrabold text-white bg-white/10 px-2 py-0.5 rounded">
+                YOK
+              </span>
+            </div>
+            <p id="side-room-status-desc" class="text-xs opacity-75 leading-snug">
+              Bulut Oda modunda cevapların anında veritabanına kaydedilir. Arkadaşın bitirdiğinde sağ üstte bildirim alırsın!
+            </p>
           </div>
         </div>
+      </aside>
 
-        <!-- Center Glowing Question Card -->
-        <div id="question-card-box" class="neon-border-card p-5 text-center min-h-[135px] flex flex-col items-center justify-center relative overflow-hidden">
-          <div id="question-step-label" class="text-[11px] font-extrabold uppercase tracking-widest text-accent-1 mb-1.5 font-mono-theme">
-            KENDİ ADINA CEVAPLA
-          </div>
-          <h2 id="question-text" class="font-display-theme text-lg sm:text-xl font-bold text-white leading-snug">
-            Soru yükleniyor...
-          </h2>
-        </div>
+      <!-- CENTER MAIN STAGE (8 COLS ON XL IF HOME/RESULT, 6 COLS ON QUESTION) -->
+      <main class="xl:col-span-6 w-full flex flex-col justify-center">
 
-        <!-- Feedback Toast during P2 Guess -->
-        <div id="guess-feedback-banner" class="hidden rounded-xl px-4 py-2.5 text-center font-bold text-xs tracking-wide transition-all">
-        </div>
-
-        <!-- 4 Option Buttons -->
-        <div id="options-container" class="space-y-2.5">
-          <!-- Dynamically populated by JS -->
-        </div>
-      </section>
-
-      <!-- 4. VIEW: INTERSTITIAL (TELEFONU DEVRET / LİNK PAYLAŞ ARA EKRANI) -->
-      <section id="view-interstitial" class="hidden animate-view space-y-4">
-        <!-- Sub-view A: Pass & Play Handover -->
-        <div id="interstitial-pass-box" class="glass-card p-6 text-center space-y-4">
-          <div class="w-20 h-20 mx-auto bg-accent-1 p-[3px] neon-logo">
-            <div class="w-full h-full bg-black/90 flex items-center justify-center text-4xl animate-bounce" style="border-radius: inherit;">
-              📲
+        <!-- 1. VIEW: HOME (BAŞLANGIÇ EKRANI — PC'DE KAYDIRMASIZ GENİŞ 2 SÜTUN, MOBİLDE TEK SÜTUN) -->
+        <section id="view-home" class="animate-view space-y-4">
+          <!-- Hero Banner -->
+          <div class="glass-card p-5 xl:p-6 text-center relative overflow-hidden">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-accent-1 p-[2px] neon-logo shrink-0">
+                <div class="w-full h-full bg-black/90 flex items-center justify-center text-3xl" style="border-radius: inherit;">
+                  🔮
+                </div>
+              </div>
+              <div class="text-center sm:text-left">
+                <h1 class="font-display-theme text-3xl sm:text-4xl font-extrabold tracking-wider text-white">
+                  senceo
+                </h1>
+                <p class="text-base sm:text-lg text-accent-1 font-bold mt-0.5">
+                  "Beni ne kadar tanıyorsun?" 🔥
+                </p>
+                <p class="text-xs sm:text-sm opacity-80 mt-0.5">
+                  5 soruyu cevapla, her soruya emoji ve yorumunu bırak, arkadaşın tahmin etsin!
+                </p>
+              </div>
             </div>
           </div>
 
-          <div class="inline-block px-3 py-1 glass-pill text-accent-1 text-xs font-bold uppercase tracking-wider">
-            1. Aşama Tamamlandı!
+          <!-- PC 2-Column Grid so zero vertical scrolling is needed on desktop (#1 & #4) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Left Column: Mode Selection + Player Names -->
+            <div class="space-y-4">
+              <!-- Mode Selection -->
+              <div class="glass-card p-4 space-y-3">
+                <label class="text-sm font-bold uppercase tracking-wider text-accent-1 flex items-center gap-2 font-display-theme">
+                  <span>🎮</span> 1. Oynanış Modunu Seç
+                </label>
+                <div class="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    id="mode-btn-pass"
+                    onclick="selectGameMode('pass')"
+                    class="selectable-card is-active p-3.5 text-left"
+                  >
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-2xl">📱🤝</span>
+                      <span id="mode-check-pass" class="w-5 h-5 rounded-full bg-accent-1 text-black text-xs flex items-center justify-center font-extrabold">✓</span>
+                    </div>
+                    <div class="font-bold text-sm">Yan Yana (Cihazda)</div>
+                    <div class="text-xs opacity-75 leading-snug mt-1">Aynı ekranı sırayla devrederek oynayın.</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    id="mode-btn-link"
+                    onclick="selectGameMode('link')"
+                    class="selectable-card p-3.5 text-left"
+                  >
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-2xl">☁️⚡</span>
+                      <span id="mode-check-link" class="w-5 h-5 rounded-full bg-white/10 text-xs flex items-center justify-center font-extrabold opacity-0">✓</span>
+                    </div>
+                    <div class="font-bold text-sm">Canlı Bulut Oda / Davet</div>
+                    <div class="text-xs opacity-75 leading-snug mt-1">Veritabanına kaydet, arkadaşın bitirince bildirim gelsin!</div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Player Name Inputs -->
+              <div class="glass-card p-4 space-y-3">
+                <label class="text-sm font-bold uppercase tracking-wider text-accent-1 flex items-center gap-2 font-display-theme">
+                  <span>👤</span> 2. Oyuncu Bilgileri
+                </label>
+                
+                <div>
+                  <label for="input-p1-name" class="block text-xs sm:text-sm opacity-85 mb-1 font-semibold">Senin Adın (1. Oyuncu)</label>
+                  <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-lg">😎</span>
+                    <input
+                      id="input-p1-name"
+                      type="text"
+                      maxlength="18"
+                      placeholder="Örn: Emirhan"
+                      oninput="syncHeaderNames()"
+                      class="theme-input w-full pl-11 pr-4 py-3 text-base font-semibold placeholder-white/40"
+                    />
+                  </div>
+                </div>
+
+                <div id="p2-name-home-wrapper">
+                  <label for="input-p2-name" class="block text-xs sm:text-sm opacity-85 mb-1 font-semibold">
+                    Arkadaşının Adı (2. Oyuncu) <span class="opacity-60 text-xs">(İsteğe bağlı)</span>
+                  </label>
+                  <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-lg">🕵️</span>
+                    <input
+                      id="input-p2-name"
+                      type="text"
+                      maxlength="18"
+                      placeholder="Örn: Salihcan"
+                      oninput="syncHeaderNames()"
+                      class="theme-input w-full pl-11 pr-4 py-3 text-base font-semibold placeholder-white/40"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Category Selection + Start CTA -->
+            <div class="flex flex-col justify-between space-y-4">
+              <div class="glass-card p-4 space-y-3 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-2.5">
+                    <label class="text-sm font-bold uppercase tracking-wider text-accent-1 flex items-center gap-2 font-display-theme">
+                      <span>🔥</span> 3. Kategori Seç
+                    </label>
+                    <span class="text-xs opacity-75 font-mono-theme">54 SORU HAVUZU</span>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-2.5" id="category-grid">
+                    <button type="button" onclick="selectCategory('genel')" data-cat="genel" class="cat-btn selectable-card is-active p-3 text-left flex items-center gap-3">
+                      <span class="text-2xl">🌟</span>
+                      <div>
+                        <div class="text-sm font-bold">Genel</div>
+                        <div class="text-xs opacity-75">Klasik & Karışık</div>
+                      </div>
+                    </button>
+
+                    <button type="button" onclick="selectCategory('cift')" data-cat="cift" class="cat-btn selectable-card p-3 text-left flex items-center gap-3">
+                      <span class="text-2xl">❤️</span>
+                      <div>
+                        <div class="text-sm font-bold">Çift / İlişki</div>
+                        <div class="text-xs opacity-75">Romantik & Kıskanç</div>
+                      </div>
+                    </button>
+
+                    <button type="button" onclick="selectCategory('kanka')" data-cat="kanka" class="cat-btn selectable-card p-3 text-left flex items-center gap-3">
+                      <span class="text-2xl">⚡</span>
+                      <div>
+                        <div class="text-sm font-bold">Kanka / Eğlence</div>
+                        <div class="text-xs opacity-75">Dostluk & Mizah</div>
+                      </div>
+                    </button>
+
+                    <button type="button" onclick="selectCategory('ekstrem')" data-cat="ekstrem" class="cat-btn selectable-card p-3 text-left flex items-center gap-3">
+                      <span class="text-2xl">🔥</span>
+                      <div>
+                        <div class="text-sm font-bold">Ekstrem</div>
+                        <div class="text-xs opacity-75">Zorlu İkilemler</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Join Existing Room Quick Box -->
+                <div class="pt-3 border-t border-white/15 flex items-center justify-between gap-2">
+                  <span class="text-xs opacity-80">Arkadaşından Oda Kodu mu geldi?</span>
+                  <button
+                    type="button"
+                    onclick="toggleCloudJoinModal(true)"
+                    class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-accent-1 transition"
+                  >
+                    🔑 Kodu Gir & Katıl
+                  </button>
+                </div>
+              </div>
+
+              <!-- Validation Error Alert -->
+              <div id="home-error" class="hidden rounded-xl bg-red-600/30 border border-red-400 px-4 py-3 text-sm font-bold text-red-100 flex items-center gap-2">
+                <span>⚠️</span>
+                <span id="home-error-text">Lütfen adını gir!</span>
+              </div>
+
+              <!-- Start Button (Larger, readable typography #5 & #6) -->
+              <button
+                type="button"
+                id="btn-start-game"
+                onclick="startPlayerOneTurn()"
+                class="theme-btn-primary w-full py-4 sm:py-5 font-extrabold text-lg sm:text-xl flex items-center justify-center gap-3 shadow-2xl"
+              >
+                <span>TESTİ BAŞLAT</span>
+                <span class="text-2xl">🚀</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. VIEW: INCOMING CLOUD ROOM / CHALLENGE WELCOME SCREEN -->
+        <section id="view-challenge-welcome" class="hidden animate-view space-y-4">
+          <div class="glass-card p-6 sm:p-8 text-center space-y-5 relative overflow-hidden">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-accent-1 p-[3px] neon-logo">
+              <div class="w-full h-full bg-black/90 flex items-center justify-center text-4xl" style="border-radius: inherit;">
+                ⚡
+              </div>
+            </div>
+
+            <div class="inline-block px-4 py-1.5 glass-pill text-accent-1 text-xs sm:text-sm font-bold uppercase tracking-wider">
+              Canlı Meydan Okuma Odası!
+            </div>
+
+            <h2 id="challenge-welcome-title" class="font-display-theme text-2xl sm:text-3xl font-bold text-white leading-snug">
+              <span class="text-accent-1">Oyuncu 1</span> sana meydan okudu! Bakalım onu ne kadar tanıyorsun?
+            </h2>
+
+            <p class="text-sm sm:text-base opacity-85 leading-relaxed">
+              Arkadaşın kendisiyle ilgili 5 soruyu cevapladı, emojilerini ve yorumlarını bıraktı. Şimdi sıra sende! Onun hangi şıkları seçtiğini tahmin et ve kendi yorumunu yaz.
+            </p>
+
+            <div class="text-left space-y-2 pt-2 max-w-md mx-auto">
+              <label for="input-challenger-p2-name" class="block text-sm font-bold text-accent-1 uppercase tracking-wider">
+                Senin Adın Nedir?
+              </label>
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-lg">🕵️</span>
+                <input
+                  id="input-challenger-p2-name"
+                  type="text"
+                  maxlength="18"
+                  placeholder="Adını yaz..."
+                  class="theme-input w-full pl-11 pr-4 py-3.5 text-base font-semibold placeholder-white/40"
+                />
+              </div>
+              <p id="challenge-name-error" class="hidden text-xs sm:text-sm text-red-300 font-semibold pt-1">⚠️ Lütfen tahminlere başlamadan önce adını yaz!</p>
+            </div>
+
+            <button
+              type="button"
+              onclick="acceptUrlChallenge()"
+              class="theme-btn-primary w-full max-w-md mx-auto py-4 font-extrabold text-lg flex items-center justify-center gap-2"
+            >
+              <span>TAHMİNLERE BAŞLA</span>
+              <span>🔥</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- 3. VIEW: QUESTION SCREEN (SORU EKRANI — BÜYÜK YAZILAR, 2x2 PC BUTON DÜZENİ, 1x PAS HAKKI VE EMOJİ/YORUM KUTUSU) -->
+        <section id="view-question" class="hidden animate-view space-y-3.5">
+          <!-- Turn Banner, Progress Bar & 1x Pass Joker Button (#7) -->
+          <div class="glass-card p-3.5 sm:p-4 space-y-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div id="question-turn-badge" class="inline-flex items-center gap-2 font-bold text-sm sm:text-base text-accent-1">
+                <span>😎</span>
+                <span id="question-turn-text">1. Oyuncu Sırası</span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <span id="question-category-pill" class="px-3 py-1 glass-pill text-xs sm:text-sm font-semibold">
+                  🌟 Genel
+                </span>
+
+                <!-- 1x Pass Button (Her oyuncunun sadece 1 kez kullanabildiği Pas seçeneği #7) -->
+                <button
+                  type="button"
+                  id="btn-use-pass"
+                  onclick="handlePassQuestion()"
+                  class="px-3.5 py-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95 transition flex items-center gap-1.5"
+                  title="Bu soruyu pas geç (Oyun boyunca sadece 1 hakkın var!)"
+                >
+                  <span>⏭️</span>
+                  <span id="btn-pass-label">Pas Geç (1 Hak)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full h-3 bg-black/70 rounded-full overflow-hidden p-[2px] border border-white/15">
+              <div
+                id="question-progress-bar"
+                class="h-full rounded-full bg-accent-1 transition-all duration-300"
+                style="width: 20%"
+              ></div>
+            </div>
           </div>
 
-          <h2 class="font-display-theme text-2xl font-bold text-white leading-tight">
-            Telefonu 2. Oyuncuya (Arkadaşına) Ver! 🤝
-          </h2>
+          <!-- Center Glowing Question Card (Larger readable font #5) -->
+          <div id="question-card-box" class="neon-border-card p-5 sm:p-6 text-center min-h-[125px] flex flex-col items-center justify-center relative overflow-hidden">
+            <div id="question-step-label" class="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-accent-1 mb-2 font-mono-theme">
+              KENDİ ADINA CEVAPLA
+            </div>
+            <h2 id="question-text" class="font-display-theme text-xl sm:text-2xl xl:text-[26px] font-bold text-white leading-snug">
+              Soru yükleniyor...
+            </h2>
+          </div>
 
-          <p id="pass-description-text" class="text-xs opacity-80 leading-relaxed">
-            <strong class="text-accent-1">Oyuncu 1</strong> tüm soruları gizlice cevapladı. Şimdi telefonu arkadaşına uzat, bakalım senin ne cevap verdiğini tahmin edebilecek mi!
-          </p>
+          <!-- Feedback Toast during P2 Guess -->
+          <div id="guess-feedback-banner" class="hidden rounded-xl px-4 py-3 text-center font-bold text-sm sm:text-base tracking-wide transition-all">
+          </div>
 
-          <div class="text-left space-y-1.5 pt-1">
-            <label for="input-pass-p2-name" class="block text-xs font-bold text-accent-1 uppercase tracking-wider">
-              2. Oyuncunun (Tahmin Edenin) Adı:
-            </label>
-            <div class="relative">
-              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-base">🕵️</span>
+          <!-- 4 Option Buttons (Mobile: 1 column, PC: 2x2 large buttons so no scrolling needed #1, #4, #5, #6) -->
+          <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <!-- Dynamically populated by JS -->
+          </div>
+
+          <!-- POST-SELECTION EMOJI & COMMENT DRAWER ("The Test" Signature Feature #7) -->
+          <div id="post-answer-comment-box" class="hidden glass-card p-4 sm:p-5 space-y-3.5 border-2 border-accent-1 animate-view">
+            <!-- When P2 is playing, show P1's secret note & emoji reaction first! -->
+            <div id="p1-revealed-note-box" class="hidden rounded-xl bg-black/70 border border-white/20 p-3.5 space-y-1">
+              <div class="text-xs font-extrabold uppercase tracking-wider text-accent-1 flex items-center gap-1.5">
+                <span>💬</span>
+                <span id="p1-revealed-note-title">1. Oyuncunun Bu Soruya Notu & Tepkisi:</span>
+              </div>
+              <p id="p1-revealed-note-content" class="text-sm sm:text-base font-semibold text-white"></p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <span id="comment-box-prompt" class="text-xs sm:text-sm font-bold text-accent-1 uppercase tracking-wider">
+                🎭 Tepki Emojini Seç & Yorumunu Yaz (İsteğe Bağlı):
+              </span>
+              <!-- Quick Emoji Bar -->
+              <div id="emoji-reaction-bar" class="flex items-center gap-1.5 flex-wrap">
+                <button type="button" onclick="selectReactionEmoji('😂', event)" data-emoji="😂" class="emoji-pick-btn w-9 h-9 rounded-lg bg-white/10 hover:bg-white/25 text-lg flex items-center justify-center transition">😂</button>
+                <button type="button" onclick="selectReactionEmoji('🔥', event)" data-emoji="🔥" class="emoji-pick-btn w-9 h-9 rounded-lg bg-white/10 hover:bg-white/25 text-lg flex items-center justify-center transition">🔥</button>
+                <button type="button" onclick="selectReactionEmoji('❤️', event)" data-emoji="❤️" class="emoji-pick-btn w-9 h-9 rounded-lg bg-white/10 hover:bg-white/25 text-lg flex items-center justify-center transition">❤️</button>
+                <button type="button" onclick="selectReactionEmoji('😱', event)" data-emoji="😱" class="emoji-pick-btn w-9 h-9 rounded-lg bg-white/10 hover:bg-white/25 text-lg flex items-center justify-center transition">😱</button>
+                <button type="button" onclick="selectReactionEmoji('🤔', event)" data-emoji="🤔" class="emoji-pick-btn w-9 h-9 rounded-lg bg-white/10 hover:bg-white/25 text-lg flex items-center justify-center transition">🤔</button>
+                <button type="button" onclick="selectReactionEmoji('😎', event)" data-emoji="😎" class="emoji-pick-btn w-9 h-9 rounded-lg bg-white/10 hover:bg-white/25 text-lg flex items-center justify-center transition">😎</button>
+                <button type="button" onclick="selectReactionEmoji('💀', event)" data-emoji="💀" class="emoji-pick-btn w-9 h-9 rounded-lg bg-white/10 hover:bg-white/25 text-lg flex items-center justify-center transition">💀</button>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2.5">
               <input
-                id="input-pass-p2-name"
+                id="input-question-comment"
                 type="text"
-                maxlength="18"
-                placeholder="Arkadaşının adı..."
-                oninput="syncHeaderNamesFromPass()"
-                class="theme-input w-full pl-10 pr-4 py-3 text-sm font-semibold placeholder-white/40"
+                maxlength="120"
+                placeholder="Bu soruya kısa bir mesaj veya kışkırtma yaz... (Örn: Bunu da bilmezsen yuh!)"
+                onkeydown="if(event.key === 'Enter') confirmStepAndAdvance()"
+                class="theme-input flex-1 px-4 py-3 text-sm sm:text-base font-semibold placeholder-white/40"
               />
-            </div>
-            <p id="pass-name-error" class="hidden text-xs text-red-300 font-semibold pt-1">⚠️ Lütfen 2. oyuncunun adını girin!</p>
-          </div>
-
-          <button
-            type="button"
-            onclick="startPlayerTwoTurn()"
-            class="theme-btn-primary w-full py-4 font-bold text-base flex items-center justify-center gap-2"
-          >
-            <span>TELEFONU ALDIM, BAŞLA!</span>
-            <span>⚡</span>
-          </button>
-        </div>
-
-        <!-- Sub-view B: URL Link Share Mode -->
-        <div id="interstitial-link-box" class="hidden glass-card p-6 text-center space-y-4">
-          <div class="w-20 h-20 mx-auto bg-accent-1 p-[3px] neon-logo">
-            <div class="w-full h-full bg-black/90 flex items-center justify-center text-4xl" style="border-radius: inherit;">
-              🔗
+              <button
+                type="button"
+                id="btn-confirm-step"
+                onclick="confirmStepAndAdvance()"
+                class="theme-btn-primary px-6 py-3 font-extrabold text-sm sm:text-base shrink-0 flex items-center justify-center gap-2"
+              >
+                <span id="btn-confirm-step-text">SONRAKİ SORU</span>
+                <span>➔</span>
+              </button>
             </div>
           </div>
+        </section>
 
-          <div class="inline-block px-3 py-1 glass-pill text-emerald-400 text-xs font-bold uppercase tracking-wider">
-            Meydan Okuma Linkin Hazır!
-          </div>
-
-          <h2 class="font-display-theme text-2xl font-bold text-white leading-tight">
-            Arkadaşına Gönder, Seni Test Etsin! 🚀
-          </h2>
-
-          <p class="text-xs opacity-80 leading-relaxed">
-            Cevapların özel olarak şifrelendi ve aşağıdaki linke gömüldü. Bu linki arkadaşına gönderdiğinde doğrudan <strong class="text-accent-1">Tahmin Modu</strong> açılacak!
-          </p>
-
-          <!-- Generated URL Box -->
-          <div class="bg-black/80 border border-white/20 rounded-lg p-2.5 flex items-center gap-2">
-            <input
-              id="generated-challenge-url"
-              type="text"
-              readonly
-              class="w-full bg-transparent text-[11px] text-accent-1 font-mono-theme focus:outline-none truncate"
-              value=""
-            />
-            <button
-              type="button"
-              onclick="copyChallengeLink()"
-              class="theme-btn-primary shrink-0 px-3 py-1.5 text-xs font-bold"
-            >
-              Kopyala
-            </button>
-          </div>
-
-          <div id="copy-toast" class="hidden text-xs font-bold text-emerald-400">
-            ✅ Link panoya kopyalandı!
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="space-y-2.5 pt-1">
-            <button
-              type="button"
-              onclick="shareViaWhatsApp()"
-              class="theme-btn-primary w-full py-3.5 font-bold text-sm flex items-center justify-center gap-2"
-            >
-              <span>💬</span>
-              <span>WhatsApp / Instagram'da Paylaş</span>
-            </button>
-
-            <button
-              type="button"
-              onclick="copyChallengeLink()"
-              class="theme-btn-secondary w-full py-3.5 font-bold text-sm flex items-center justify-center gap-2"
-            >
-              <span>📋</span>
-              <span>Linki Kopyala</span>
-            </button>
-
-            <button
-              type="button"
-              onclick="openChallengeLinkDirectly()"
-              class="w-full py-2.5 font-semibold text-xs opacity-75 hover:opacity-100 transition underline underline-offset-4"
-            >
-              Linki Şimdi Bu Cihazda Test Et (Tahmin Modunu Aç) →
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5. VIEW: SCOREBOARD (SONUÇ EKRANI) -->
-      <section id="view-result" class="hidden animate-view space-y-4">
-        <div class="glass-card p-5 text-center space-y-4 relative overflow-hidden">
-          <div class="inline-block px-3 py-1 glass-pill text-xs font-bold tracking-wider uppercase text-accent-1">
-            ⚡ Uyum Raporu Tamamlandı
-          </div>
-
-          <!-- Circular SVG Gauge -->
-          <div class="relative w-44 h-44 mx-auto flex items-center justify-center">
-            <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 160 160">
-              <defs>
-                <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#ff002b" />
-                  <stop offset="50%" stop-color="#ff7b00" />
-                  <stop offset="100%" stop-color="#ccff00" />
-                </linearGradient>
-              </defs>
-              <!-- Background Track -->
-              <circle
-                cx="80"
-                cy="80"
-                r="66"
-                stroke="rgba(255,255,255,0.12)"
-                stroke-width="14"
-                fill="transparent"
-              />
-              <!-- Animated Progress Circle (Circumference = 2 * PI * 66 ≈ 414.69) -->
-              <circle
-                id="score-circle-progress"
-                cx="80"
-                cy="80"
-                r="66"
-                stroke="url(#scoreGradient)"
-                stroke-width="14"
-                stroke-dasharray="414.69"
-                stroke-dashoffset="414.69"
-                stroke-linecap="round"
-                fill="transparent"
-              />
-            </svg>
-            <!-- Center Percentage Text -->
-            <div class="absolute inset-0 flex flex-col items-center justify-center">
-              <span id="score-percentage-text" class="font-display-theme text-4xl font-extrabold text-accent-1">
-                %0
-              </span>
-              <span class="text-[11px] font-bold uppercase tracking-widest opacity-60 mt-0.5">
-                UYUM SKORU
-              </span>
+        <!-- 4. VIEW: INTERSTITIAL (TELEFONU DEVRET / CANLI BULUT ODA BEKLEME EKRANI) -->
+        <section id="view-interstitial" class="hidden animate-view space-y-4">
+          <!-- Sub-view A: Pass & Play Handover -->
+          <div id="interstitial-pass-box" class="glass-card p-6 sm:p-8 text-center space-y-5">
+            <div class="w-20 h-20 mx-auto bg-accent-1 p-[3px] neon-logo">
+              <div class="w-full h-full bg-black/90 flex items-center justify-center text-4xl animate-bounce" style="border-radius: inherit;">
+                📲
+              </div>
             </div>
-          </div>
 
-          <!-- Players Summary Pill -->
-          <div class="inline-flex items-center gap-2 px-4 py-1.5 glass-pill text-xs font-bold">
-            <span id="result-p1-name" class="text-accent-1">Oyuncu 1</span>
-            <span>⚡</span>
-            <span id="result-p2-name" class="text-white">Oyuncu 2</span>
-            <span class="opacity-50">•</span>
-            <span id="result-correct-ratio" class="text-emerald-400 font-mono-theme">0 / 5 Doğru</span>
-          </div>
+            <div class="inline-block px-4 py-1 glass-pill text-accent-1 text-xs sm:text-sm font-bold uppercase tracking-wider">
+              1. Aşama Tamamlandı!
+            </div>
 
-          <!-- Witty Turkish Verdict -->
-          <div class="bg-black/60 border border-white/15 rounded-xl p-3.5">
-            <p id="result-verdict-title" class="font-display-theme text-lg font-bold text-accent-1 mb-1">
-              Sonuç Yorumu
+            <h2 class="font-display-theme text-2xl sm:text-3xl font-bold text-white leading-tight">
+              Cihazı 2. Oyuncuya (Arkadaşına) Devret! 🤝
+            </h2>
+
+            <p id="pass-description-text" class="text-sm sm:text-base opacity-85 leading-relaxed">
+              <strong class="text-accent-1">Oyuncu 1</strong> tüm soruları cevapladı ve notlarını bıraktı. Şimdi sıra arkadaşında!
             </p>
-            <p id="result-verdict-desc" class="text-xs opacity-90 leading-relaxed">
-              Yorum yükleniyor...
+
+            <div class="text-left space-y-2 pt-1 max-w-md mx-auto">
+              <label for="input-pass-p2-name" class="block text-sm font-bold text-accent-1 uppercase tracking-wider">
+                2. Oyuncunun (Tahmin Edenin) Adı:
+              </label>
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-lg">🕵️</span>
+                <input
+                  id="input-pass-p2-name"
+                  type="text"
+                  maxlength="18"
+                  placeholder="Arkadaşının adı..."
+                  oninput="syncHeaderNamesFromPass()"
+                  class="theme-input w-full pl-11 pr-4 py-3.5 text-base font-semibold placeholder-white/40"
+                />
+              </div>
+              <p id="pass-name-error" class="hidden text-xs sm:text-sm text-red-300 font-semibold pt-1">⚠️ Lütfen 2. oyuncunun adını girin!</p>
+            </div>
+
+            <button
+              type="button"
+              onclick="startPlayerTwoTurn()"
+              class="theme-btn-primary w-full max-w-md mx-auto py-4 font-extrabold text-lg flex items-center justify-center gap-2"
+            >
+              <span>CİHAZI ALDIM, BAŞLA!</span>
+              <span>⚡</span>
+            </button>
+          </div>
+
+          <!-- Sub-view B: Live Cloud DB & Room Code Share Mode -->
+          <div id="interstitial-link-box" class="hidden glass-card p-6 sm:p-7 text-center space-y-4">
+            <div class="w-20 h-20 mx-auto bg-accent-1 p-[3px] neon-logo">
+              <div class="w-full h-full bg-black/90 flex items-center justify-center text-4xl" style="border-radius: inherit;">
+                ☁️
+              </div>
+            </div>
+
+            <div id="cloud-save-status-pill" class="inline-block px-4 py-1 glass-pill text-emerald-400 text-xs sm:text-sm font-bold uppercase tracking-wider">
+              ⚡ Bulut Veritabanına Kaydediliyor...
+            </div>
+
+            <h2 class="font-display-theme text-2xl sm:text-3xl font-bold text-white leading-tight">
+              Canlı Oda Kodun & Davet Linkin Hazır! 🚀
+            </h2>
+
+            <!-- Prominent 6-Char Room Code Box -->
+            <div class="max-w-sm mx-auto bg-black/80 border-2 border-accent-1 rounded-2xl p-4 space-y-1 shadow-xl">
+              <div class="text-xs font-bold uppercase tracking-widest opacity-70">CANLI ODA KODU (VERİTABANI ID)</div>
+              <div id="generated-room-code-display" class="font-mono-theme text-3xl sm:text-4xl font-extrabold tracking-widest text-accent-1">
+                ------
+              </div>
+              <div class="text-xs opacity-75">
+                Arkadaşın sitede sağ üstteki <strong>"☁️ Oda Kodu"</strong> butonuna bu kodu yazarak veya aşağıdaki davet linkiyle katılabilir!
+              </div>
+            </div>
+
+            <p class="text-xs sm:text-sm opacity-85 leading-relaxed max-w-lg mx-auto">
+              🔔 <strong>Canlı Bildirim Sistemi Aktif:</strong> Bu ekranı açık bırakabilirsin! Arkadaşın testi bitirdiği anda sağ üstte <em>"[Arkadaşın] testi cevaplandırdı, şimdi kontrol et!"</em> bildirimi çıkacak.
             </p>
+
+            <!-- Generated URL Box -->
+            <div class="bg-black/80 border border-white/20 rounded-xl p-3 flex items-center gap-2 max-w-lg mx-auto">
+              <input
+                id="generated-challenge-url"
+                type="text"
+                readonly
+                class="w-full bg-transparent text-xs sm:text-sm text-accent-1 font-mono-theme focus:outline-none truncate"
+                value=""
+              />
+              <button
+                type="button"
+                onclick="copyChallengeLink()"
+                class="theme-btn-primary shrink-0 px-4 py-2 text-xs sm:text-sm font-bold"
+              >
+                Kopyala
+              </button>
+            </div>
+
+            <div id="copy-toast" class="hidden text-sm font-bold text-emerald-400">
+              ✅ Davet linki ve oda kodu panoya kopyalandı!
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 max-w-lg mx-auto">
+              <button
+                type="button"
+                onclick="shareViaWhatsApp()"
+                class="theme-btn-primary py-3.5 px-4 font-bold text-sm sm:text-base flex items-center justify-center gap-2"
+              >
+                <span>💬</span>
+                <span>WhatsApp'ta Gönder</span>
+              </button>
+
+              <button
+                type="button"
+                onclick="copyChallengeLink()"
+                class="theme-btn-secondary py-3.5 px-4 font-bold text-sm sm:text-base flex items-center justify-center gap-2"
+              >
+                <span>📋</span>
+                <span>Davet Linkini Kopyala</span>
+              </button>
+            </div>
+
+            <div class="pt-1">
+              <button
+                type="button"
+                onclick="openChallengeLinkDirectly()"
+                class="py-2 font-semibold text-xs sm:text-sm text-accent-1 hover:underline underline-offset-4"
+              >
+                Hemen Bu Cihazda 2. Oyuncu Olarak Tahmin Modunu Test Et →
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. VIEW: SCOREBOARD (SONUÇ EKRANI — HER İKİ OYUNCUNUN YORUMLARI VE EMOJİLERİ SIRAYLA GÖRÜNÜR #7) -->
+        <section id="view-result" class="hidden animate-view space-y-4">
+          <div class="glass-card p-5 sm:p-6 text-center space-y-4 relative overflow-hidden">
+            <div class="inline-block px-4 py-1 glass-pill text-xs sm:text-sm font-bold tracking-wider uppercase text-accent-1">
+              ⚡ Uyum & Diyalog Raporu Tamamlandı
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+              <!-- Circular SVG Gauge -->
+              <div class="relative w-44 h-44 shrink-0 flex items-center justify-center">
+                <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 160 160">
+                  <defs>
+                    <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#ff007f" />
+                      <stop offset="50%" stop-color="#ff7b00" />
+                      <stop offset="100%" stop-color="#00f2fe" />
+                    </linearGradient>
+                  </defs>
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="66"
+                    stroke="rgba(255,255,255,0.12)"
+                    stroke-width="14"
+                    fill="transparent"
+                  />
+                  <circle
+                    id="score-circle-progress"
+                    cx="80"
+                    cy="80"
+                    r="66"
+                    stroke="url(#scoreGradient)"
+                    stroke-width="14"
+                    stroke-dasharray="414.69"
+                    stroke-dashoffset="414.69"
+                    stroke-linecap="round"
+                    fill="transparent"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                  <span id="score-percentage-text" class="font-display-theme text-4xl font-extrabold text-accent-1">
+                    %0
+                  </span>
+                  <span class="text-xs font-bold uppercase tracking-widest opacity-70 mt-0.5">
+                    UYUM SKORU
+                  </span>
+                </div>
+              </div>
+
+              <!-- Verdict & Actions Column -->
+              <div class="flex-1 text-center md:text-left space-y-3">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 glass-pill text-sm font-bold">
+                  <span id="result-p1-name" class="text-accent-1">Oyuncu 1</span>
+                  <span>⚡</span>
+                  <span id="result-p2-name" class="text-white">Oyuncu 2</span>
+                  <span class="opacity-50">•</span>
+                  <span id="result-correct-ratio" class="text-emerald-400 font-mono-theme">0 / 5 Doğru</span>
+                </div>
+
+                <div class="bg-black/60 border border-white/15 rounded-xl p-4">
+                  <p id="result-verdict-title" class="font-display-theme text-lg sm:text-xl font-bold text-accent-1 mb-1">
+                    Sonuç Yorumu
+                  </p>
+                  <p id="result-verdict-desc" class="text-xs sm:text-sm opacity-90 leading-relaxed">
+                    Yorum yükleniyor...
+                  </p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 pt-1">
+                  <button
+                    type="button"
+                    onclick="shareScoreResult()"
+                    class="theme-btn-primary py-3.5 px-4 font-bold text-xs sm:text-sm flex items-center justify-center gap-2"
+                  >
+                    <span>📤</span>
+                    <span>Sonucu Paylaş</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onclick="resetToHome()"
+                    class="theme-btn-secondary py-3.5 px-4 font-bold text-xs sm:text-sm flex items-center justify-center gap-2"
+                  >
+                    <span>🔄</span>
+                    <span>Tekrar Oyna</span>
+                  </button>
+                </div>
+
+                <div id="result-share-toast" class="hidden text-xs sm:text-sm font-bold text-emerald-400">
+                  ✅ Sonuç metni panoya kopyalandı!
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Action Buttons -->
-          <div class="grid grid-cols-2 gap-2.5 pt-1">
-            <button
-              type="button"
-              onclick="shareScoreResult()"
-              class="theme-btn-primary py-3.5 px-3 font-bold text-xs flex items-center justify-center gap-1.5"
-            >
-              <span>📤</span>
-              <span>Sonucu Paylaş</span>
-            </button>
-
-            <button
-              type="button"
-              onclick="resetToHome()"
-              class="theme-btn-secondary py-3.5 px-3 font-bold text-xs flex items-center justify-center gap-1.5"
-            >
-              <span>🔄</span>
-              <span>Tekrar Oyna</span>
-            </button>
-          </div>
-
-          <div id="result-share-toast" class="hidden text-xs font-bold text-emerald-400">
-            ✅ Sonuç metni panoya kopyalandı!
-          </div>
-        </div>
-
-        <!-- Detailed Question-by-Question Breakdown -->
-        <div class="glass-card p-4 space-y-3">
-          <h3 class="text-xs font-extrabold uppercase tracking-wider flex items-center justify-between font-display-theme">
-            <span>📋 Soru & Cevap Özeti</span>
-            <span class="text-[10px] opacity-60 font-normal">Kim ne dedi?</span>
-          </h3>
-
-          <div id="result-breakdown-list" class="space-y-2.5">
-            <!-- Populated by JS -->
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- ================= SETTINGS & THEME SWITCHER MODAL ================= -->
-    <div
-      id="settings-modal"
-      class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
-      onclick="if(event.target === this) toggleSettingsModal(false)"
-    >
-      <div class="glass-card w-full max-w-md p-5 space-y-4 animate-view">
-        <div class="flex items-center justify-between border-b border-white/15 pb-3">
-          <div>
-            <h3 class="font-display-theme text-lg font-extrabold text-white flex items-center gap-2">
-              <span>⚙️</span>
-              <span>Ayarlar & Tema Motoru</span>
+          <!-- Detailed Question-by-Question Breakdown + Ordered Player Comments & Emojis (#7) -->
+          <div class="glass-card p-4 sm:p-5 space-y-3">
+            <h3 class="text-sm font-extrabold uppercase tracking-wider flex items-center justify-between font-display-theme">
+              <span>📋 Soru, Cevap & Oyuncu Yorumları Özeti</span>
+              <span class="text-xs opacity-70 font-normal">1. ve 2. Oyuncu Diyalogları</span>
             </h3>
-            <p class="text-[11px] opacity-70">Görünümü, butonları ve yazı tiplerini komple değiştirin.</p>
+
+            <div id="result-breakdown-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[340px] overflow-y-auto pr-1">
+              <!-- Populated by JS -->
+            </div>
           </div>
-          <button
-            type="button"
-            onclick="toggleSettingsModal(false)"
-            class="w-8 h-8 glass-pill flex items-center justify-center font-bold text-sm hover:border-white"
-          >
-            ✕
-          </button>
+        </section>
+
+      </main>
+
+      <!-- RIGHT SIDE PANEL (GREEN BOX AREA ON PC): Live Reaction & Comment Feed ("The Test" Chat Stream) -->
+      <aside class="hidden xl:flex xl:col-span-3 flex-col gap-4">
+        <div class="glass-card p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-white/15 pb-3">
+            <h3 class="font-display-theme text-base font-bold text-accent-1 flex items-center gap-2">
+              <span>💬</span>
+              <span>Canlı Tepki & Yorum Akışı</span>
+            </h3>
+            <span class="text-xs opacity-70 font-mono-theme">THE TEST CHAT</span>
+          </div>
+
+          <div id="side-live-Reaction-feed" class="space-y-2.5 max-h-[360px] overflow-y-auto pr-1 text-xs">
+            <div class="glass-pill p-3 text-white/75 leading-relaxed">
+              ✨ Her soruda şıkkı seçtikten (veya Pas geçtikten) sonra bıraktığınız <strong>emojiler ve yazılı yorumlar</strong> sırasıyla burada ve sonuç ekranında görünür!
+            </div>
+          </div>
         </div>
+      </aside>
 
-        <!-- 3 Complete Theme Options -->
-        <div class="space-y-2.5">
-          <label class="text-xs font-bold uppercase tracking-wider text-accent-1 block font-display-theme">
-            🎨 Tema Seçimi (Tüm UI & Yazı Stili Değişir)
-          </label>
+    </div>
 
-          <!-- Theme 1: Simsiyah & Kırmızı (Default) -->
-          <button
-            type="button"
-            onclick="applyTheme('crimson')"
-            id="theme-card-crimson"
-            class="w-full p-3.5 rounded-lg border-2 text-left transition flex items-center justify-between gap-3 bg-[#080002] border-[#ff002b]"
-          >
-            <div class="space-y-0.5">
-              <div class="flex items-center gap-2">
-                <span class="text-base">🩸</span>
-                <span class="font-bold text-sm text-white" style="font-family: 'Cinzel', serif;">1. Abyssal Crimson (Varsayılan)</span>
-              </div>
-              <p class="text-[11px] text-[#a37c82]" style="font-family: 'Rajdhani', sans-serif;">
-                Simsiyah & Kırmızı tonlar, keskin köşeli gotik/siber butonlar, Cinzel & Rajdhani yazı stili.
-              </p>
-            </div>
-            <div class="flex items-center gap-1 shrink-0">
-              <span class="w-4 h-4 rounded-full bg-black border border-white/40"></span>
-              <span class="w-4 h-4 rounded-full bg-[#ff002b]"></span>
-            </div>
-          </button>
+    <!-- ================= FOOTER (#6: "senceo uyum & tahmin oyunu emirhanus imp. yapımıdır v.0.02") ================= -->
+    <footer class="mt-5 text-center text-xs sm:text-sm opacity-75 font-semibold space-y-1">
+      <p>
+        senceo uyum &amp; tahmin oyunu <span class="text-accent-1 font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-accent-1">v.0.02</span>
+      </p>
+    </footer>
 
-          <!-- Theme 2: 10 Ekim 2026 Trendi (Neo-Brutalist Kinetic Acid Pop) -->
-          <button
-            type="button"
-            onclick="applyTheme('brutal26')"
-            id="theme-card-brutal26"
-            class="w-full p-3.5 rounded-lg border-2 text-left transition flex items-center justify-between gap-3 bg-[#18191e] border-white/20"
-          >
-            <div class="space-y-0.5">
-              <div class="flex items-center gap-2">
-                <span class="text-base">⚡</span>
-                <span class="font-bold text-sm text-[#ccff00]" style="font-family: 'Syne', sans-serif;">2. Ekim 2026: Neo-Brutal Acid</span>
-              </div>
-              <p class="text-[11px] text-[#b5b0a1]" style="font-family: 'Space Grotesk', sans-serif;">
-                10 Ekim 2026 popüler tasarımı: Asit yeşili & turuncu sert gölgeli brutalist butonlar, Syne & Space Grotesk font.
-              </p>
-            </div>
-            <div class="flex items-center gap-1 shrink-0">
-              <span class="w-4 h-4 rounded-full bg-[#ccff00] border border-black"></span>
-              <span class="w-4 h-4 rounded-full bg-[#ff4d00]"></span>
-            </div>
-          </button>
+  </div>
 
-          <!-- Theme 3: Orijinal Uzay / Gece Mavisi & Neon -->
-          <button
-            type="button"
-            onclick="applyTheme('cosmic')"
-            id="theme-card-cosmic"
-            class="w-full p-3.5 rounded-lg border-2 text-left transition flex items-center justify-between gap-3 bg-[#1b1642] border-white/20"
-          >
-            <div class="space-y-0.5">
-              <div class="flex items-center gap-2">
-                <span class="text-base">🌌</span>
-                <span class="font-bold text-sm text-[#00f2fe]" style="font-family: 'Fredoka', sans-serif;">3. Cosmic Neon (Klasik)</span>
-              </div>
-              <p class="text-[11px] text-white/70" style="font-family: 'Poppins', sans-serif;">
-                Koyu uzay/gece mavisi ve mor geçişli arka plan, neon pembe & elektrik mavisi cam butonlar, Fredoka font.
-              </p>
-            </div>
-            <div class="flex items-center gap-1 shrink-0">
-              <span class="w-4 h-4 rounded-full bg-[#ff007f]"></span>
-              <span class="w-4 h-4 rounded-full bg-[#00f2fe]"></span>
-            </div>
-          </button>
+  <!-- ================= CLOUD ROOM JOIN / CHECK MODAL ================= -->
+  <div
+    id="cloud-join-modal"
+    class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+    onclick="if(event.target === this) toggleCloudJoinModal(false)"
+  >
+    <div class="glass-card w-full max-w-md p-6 space-y-4 animate-view">
+      <div class="flex items-center justify-between border-b border-white/15 pb-3">
+        <div>
+          <h3 class="font-display-theme text-xl font-extrabold text-white flex items-center gap-2">
+            <span>☁️</span>
+            <span>Canlı Bulut Odaya Katıl / Kontrol Et</span>
+          </h3>
+          <p class="text-xs opacity-75">Arkadaşının gönderdiği 6 haneli Oda Kodunu girerek teste katıl veya tamamlanan sonucu gör.</p>
         </div>
+        <button
+          type="button"
+          onclick="toggleCloudJoinModal(false)"
+          class="w-8 h-8 glass-pill flex items-center justify-center font-bold text-sm hover:border-white"
+        >
+          ✕
+        </button>
+      </div>
 
-        <!-- Version & Project Info -->
-        <div class="pt-2 border-t border-white/15 flex items-center justify-between text-[11px] opacity-75 font-mono-theme">
-          <span>Sürüm: <strong class="text-accent-1">v0.01</strong></span>
-          <a href="https://github.com/emo29/senceo" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">
-            github.com/emo29/senceo
-          </a>
+      <div class="space-y-2">
+        <label for="input-join-room-code" class="block text-xs font-bold uppercase tracking-wider text-accent-1">
+          6 Haneli Oda Kodu:
+        </label>
+        <input
+          id="input-join-room-code"
+          type="text"
+          maxlength="10"
+          placeholder="Örn: SNC84K"
+          class="theme-input w-full px-4 py-3.5 text-center font-mono-theme text-2xl font-extrabold uppercase tracking-widest"
+        />
+        <p id="join-room-error" class="hidden text-xs text-red-300 font-bold"></p>
+      </div>
+
+      <button
+        type="button"
+        id="btn-fetch-cloud-room"
+        onclick="joinRoomByCode()"
+        class="theme-btn-primary w-full py-3.5 font-extrabold text-base flex items-center justify-center gap-2"
+      >
+        <span>ODAYI BUL VE AÇ</span>
+        <span>⚡</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= SETTINGS MODAL ("Ayarlar" — Theme + Optional Custom Supabase Config) ================= -->
+  <div
+    id="settings-modal"
+    class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+    onclick="if(event.target === this) toggleSettingsModal(false)"
+  >
+    <div class="glass-card w-full max-w-lg p-6 space-y-4 animate-view max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-white/15 pb-3">
+        <div>
+          <h3 class="font-display-theme text-xl font-extrabold text-white flex items-center gap-2">
+            <span>⚙️</span>
+            <span>Ayarlar</span>
+          </h3>
+          <p class="text-xs opacity-75">Tema görünümünü, yazı boyutlarını ve veritabanı bağlantısını yönetin.</p>
         </div>
-
         <button
           type="button"
           onclick="toggleSettingsModal(false)"
-          class="theme-btn-primary w-full py-3 font-bold text-xs"
+          class="w-8 h-8 glass-pill flex items-center justify-center font-bold text-sm hover:border-white"
         >
-          TAMAM, KAYDET VE KAPAT
+          ✕
         </button>
       </div>
+
+      <!-- 3 Complete Theme Options (Cosmic Neon is now Default #6) -->
+      <div class="space-y-2.5">
+        <label class="text-xs sm:text-sm font-bold uppercase tracking-wider text-accent-1 block font-display-theme">
+          🎨 Tema Seçimi (Tüm Butonlar & Yazı Stili Değişir)
+        </label>
+
+        <!-- Theme 1: Cosmic Neon (DEFAULT #6) -->
+        <button
+          type="button"
+          onclick="applyTheme('cosmic')"
+          id="theme-card-cosmic"
+          class="w-full p-3.5 rounded-xl border-2 text-left transition flex items-center justify-between gap-3 bg-[#1b1642] border-[#00f2fe]"
+        >
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🌌</span>
+              <span class="font-bold text-sm sm:text-base text-[#00f2fe]" style="font-family: 'Fredoka', sans-serif;">1. Cosmic Neon (Varsayılan)</span>
+            </div>
+            <p class="text-xs text-white/80" style="font-family: 'Poppins', sans-serif;">
+              Uzay/gece mavisi ve mor geçişli arka plan, neon pembe & elektrik mavisi cam butonlar, Fredoka & Poppins font.
+            </p>
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <span class="w-4 h-4 rounded-full bg-[#ff007f]"></span>
+            <span class="w-4 h-4 rounded-full bg-[#00f2fe]"></span>
+          </div>
+        </button>
+
+        <!-- Theme 2: Simsiyah & Kırmızı (Abyssal Crimson) -->
+        <button
+          type="button"
+          onclick="applyTheme('crimson')"
+          id="theme-card-crimson"
+          class="w-full p-3.5 rounded-xl border-2 text-left transition flex items-center justify-between gap-3 bg-[#080002] border-white/20"
+        >
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🩸</span>
+              <span class="font-bold text-sm sm:text-base text-white" style="font-family: 'Cinzel', serif;">2. Abyssal Crimson (Simsiyah & Kırmızı)</span>
+            </div>
+            <p class="text-xs text-[#d4a3aa]" style="font-family: 'Rajdhani', sans-serif;">
+              Simsiyah & Kırmızı tonlar, keskin köşeli gotik/siber butonlar, Cinzel & Rajdhani yazı stili.
+            </p>
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <span class="w-4 h-4 rounded-full bg-black border border-white/40"></span>
+            <span class="w-4 h-4 rounded-full bg-[#ff002b]"></span>
+          </div>
+        </button>
+
+        <!-- Theme 3: 10 Ekim 2026 Trendi (Neo-Brutalist Kinetic Acid Pop) -->
+        <button
+          type="button"
+          onclick="applyTheme('brutal26')"
+          id="theme-card-brutal26"
+          class="w-full p-3.5 rounded-xl border-2 text-left transition flex items-center justify-between gap-3 bg-[#18191e] border-white/20"
+        >
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">⚡</span>
+              <span class="font-bold text-sm sm:text-base text-[#ccff00]" style="font-family: 'Syne', sans-serif;">3. Ekim 2026: Neo-Brutal Acid</span>
+            </div>
+            <p class="text-xs text-[#cfc9b8]" style="font-family: 'Space Grotesk', sans-serif;">
+              10 Ekim 2026 popüler tasarımı: Asit yeşili & turuncu sert gölgeli brutalist butonlar, Syne & Space Grotesk font.
+            </p>
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <span class="w-4 h-4 rounded-full bg-[#ccff00] border border-black"></span>
+            <span class="w-4 h-4 rounded-full bg-[#ff4d00]"></span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Supabase / Cloud Database Connection Settings -->
+      <div class="pt-3 border-t border-white/15 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <label class="text-xs sm:text-sm font-bold uppercase tracking-wider text-accent-1 font-display-theme">
+            🗄️ Veritabanı & Supabase Bağlantısı
+          </label>
+          <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">
+            Aktif (Vercel Cloud + Supabase REST)
+          </span>
+        </div>
+        <p class="text-xs opacity-75 leading-relaxed">
+          Uygulama varsayılan olarak <strong>Vercel `/api/rooms` Cloud DB</strong> üzerinden gerçek zamanlı oda kaydı ve bildirim çalıştırır. Özel bir Supabase projeniz varsa URL ve Anon Key girerek doğrudan kendi Supabase tablonuza (`senceo_rooms`) bağlayabilirsiniz:
+        </p>
+        <div class="grid grid-cols-1 gap-2">
+          <input
+            id="input-supabase-url"
+            type="text"
+            placeholder="Supabase Project URL (İsteğe bağlı: https://xyz.supabase.co)"
+            class="theme-input w-full px-3 py-2 text-xs font-mono-theme"
+          />
+          <input
+            id="input-supabase-key"
+            type="password"
+            placeholder="Supabase Anon Public Key (İsteğe bağlı)"
+            class="theme-input w-full px-3 py-2 text-xs font-mono-theme"
+          />
+        </div>
+      </div>
+
+      <!-- Version & Project Info -->
+      <div class="pt-2 border-t border-white/15 flex items-center justify-between text-xs opacity-80 font-mono-theme">
+        <span>Sürüm: <strong class="text-accent-1">v.0.02</strong></span>
+        <a href="https://github.com/emo29/senceo" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">
+          github.com/emo29/senceo
+        </a>
+      </div>
+
+      <button
+        type="button"
+        onclick="saveSettingsAndClose()"
+        class="theme-btn-primary w-full py-3.5 font-extrabold text-sm"
+      >
+        AYARLARI KAYDET VE KAPAT
+      </button>
     </div>
-
-    <!-- ================= FOOTER ================= -->
-    <footer class="mt-6 text-center text-[11px] opacity-55 font-medium space-y-1">
-      <p>senceo ⚡ İki Kişilik Sosyal Uyum & Tahmin Oyunu • <span class="font-mono-theme font-bold text-accent-1">v0.01</span></p>
-    </footer>
-
   </div>
 
   <!-- Scripts -->

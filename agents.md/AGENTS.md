@@ -13,7 +13,7 @@ Bu dosya, **senceo** projesinde çalışan yapay zeka ajanlarının (Agent) uyma
 
 2. **Yerel Git ve GitHub Otomatik Commit Zorunluluğu:**
    - **Her sürümde** değişiklikler hem `senceo` çalışma klasöründeki yerel Git deposuna (`git commit`) kaydedilmeli hem de **`https://github.com/emo29/senceo`** adresindeki uzak (remote) GitHub projesine (`git push`) gönderilmelidir.
-   - Ayrıca canlı Vercel ortamı da güncel sürümle senkronize edilmelidir.
+   - Ayrıca canlı Vercel ortamı (`https://senceo-xi.vercel.app`) da güncel sürümle senkronize edilmelidir.
 
 3. **5 Sürümde Bir Kanıt ve "Okudunuz mu?" Onay Mekanizması:**
    - Her **5 sürümde bir** (veya ilgili kilometre taşlarında) yerel Git ve GitHub'a commit/push yapıldığına dair somut kanıt (commit hash, git log çıktısı, GitHub API/push doğrulaması) kullanıcıya sunulmalıdır.
@@ -33,4 +33,5 @@ Bu dosya, **senceo** projesinde çalışan yapay zeka ajanlarının (Agent) uyma
 
 ## 📊 Sürüm Geçmişi (Version Log)
 
-- **v0.01** — İlk sürüm oluşturuldu, 3 tam kapsamlı tema motoru (Abyssal Crimson [Varsayılan: Simsiyah & Kırmızı], Neo-Brutalist Kinetic [Ekim 2026 Trendi], Cosmic Neon [Orijinal Uzay/Gece Mavisi]), Ayarlar modalı, `AGENTS.md` kuralları, GitHub (`emo29/senceo`) ve Vercel canlı kurulumu tamamlandı.
+- **v0.02** — Canlı Bulut Veritabanı (`/api/rooms` & Supabase REST entegrasyonu), 54 soruluk dev soru havuzu, her soruda Emoji & Yorum yazma sistemi, 1x Pas Jokeri hakkı (Pas geçilse bile yorum yazabilme), karşı oyuncu bitirdiğinde sağ üstte canlı bildirim (`"[Oyuncu] testi cevaplandırdı! Şimdi kontrol et"`), PC için kaydırmasız 3 sütunlu geniş dashboard düzeni (mobil düzen korunarak), Cosmic Neon varsayılan tema, büyütülmüş okunaklı yazı tipleri ve `senceo uyum & tahmin oyunu emirhanus imp. yapımıdır v.0.02` alt bilgisi eklendi.
+- **v0.01** — İlk sürüm oluşturuldu, 3 tam kapsamlı tema motoru, Ayarlar modalı, `AGENTS.md` kuralları, GitHub (`emo29/senceo`) ve Vercel canlı kurulumu tamamlandı.
