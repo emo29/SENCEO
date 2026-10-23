@@ -1,0 +1,47 @@
+{
+  "code": "SNCTST",
+  "status": "waiting_p2",
+  "p1": "Emirhan",
+  "p2": "Salihcan",
+  "cat": "cift",
+  "thm": "cosmic",
+  "qIds": [
+    1,
+    6,
+    25,
+    33,
+    41
+  ],
+  "p1Answers": [
+    0,
+    -1,
+    1,
+    2,
+    0
+  ],
+  "p1Comments": [
+    {
+      "emoji": "😂",
+      "text": "Kesinlikle marketi yağmalarım!"
+    },
+    {
+      "emoji": "⏭️",
+      "text": "Bu soruyu pas geçtim ama yorumum burada!"
+    },
+    {
+      "emoji": "😴",
+      "text": "5 kere ertelemeden uyanamam"
+    },
+    {
+      "emoji": "🚨",
+      "text": "Peki yazarsa kriz çıkar"
+    },
+    {
+      "emoji": "😈",
+      "text": "Affetmem paylaşırım"
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "updatedAt": "2026-10-23T19:19:45.218Z"
+}
