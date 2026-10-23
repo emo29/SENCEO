@@ -3,10 +3,22 @@
   "username": "SOLDAKİ SEKME",
   "level": 1,
   "xp": 0,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCZZR",
+  "activeRooms": [
+    {
+      "code": "SNCZZR",
+      "p1": "SOLDAKİ SEKME",
+      "p2": "",
+      "p1FriendCode": "SNC-4616",
+      "p2FriendCode": "",
+      "status": "waiting_p2",
+      "currentRound": 1,
+      "cat": "genel",
+      "updatedAt": "2026-10-23T23:57:08.557Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-23T23:56:46.587Z"
+  "updatedAt": "2026-10-23T23:57:08.557Z"
 }
