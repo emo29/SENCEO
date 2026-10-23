@@ -20,7 +20,7 @@
 
   <style>
     /* ==========================================================================
-       STITCH DESIGN SYSTEM — 4 COMPLETE THEMES (v0.05)
+       STITCH DESIGN SYSTEM — 4 COMPLETE THEMES (v0.06)
        1. luminous (DEFAULT FOR NEW USERS): Luminous Social Gaming (Beyaz / Light)
        2. obsidian: Obsidian Kinetic (Koyu / Dark)
        3. cosmic: Cosmic Neon (Eski Default — Uzay Mavisi, Derin Mor & Neon Pembe/Mavi)
@@ -141,7 +141,7 @@
       --accent-2: #ff007f;
     }
 
-    /* THEME 4: NEO-BRUTAL ACID (10 Ekim 2026 Trendi — Stitch Arayüzü Üzerinde #1) */
+    /* THEME 4: NEO-BRUTAL ACID (10 Ekim 2026 Trendi — Kusursuz Okunabilir Space Grotesk & Plus Jakarta Sans Tipografi) */
     html[data-theme="brutal26"] {
       --surface: #121316;
       --surface-bg-gradient: none;
@@ -151,29 +151,29 @@
       --surface-high: #2e3240;
       --surface-highest: #383d4e;
       --on-surface: #f7f4eb;
-      --on-surface-variant: #cfc9b8;
-      --outline: #9e998a;
-      --outline-variant: #ccff00;
+      --on-surface-variant: #d5d0c0;
+      --outline: #a5a090;
+      --outline-variant: rgba(204, 255, 0, 0.65);
       --primary: #ccff00;
       --primary-container: #ff4d00;
       --on-primary: #090a0c;
-      --primary-fixed: rgba(204, 255, 0, 0.18);
+      --primary-fixed: rgba(204, 255, 0, 0.16);
       --secondary: #ccff00;
-      --secondary-fixed: rgba(204, 255, 0, 0.22);
+      --secondary-fixed: rgba(204, 255, 0, 0.2);
       --on-secondary-fixed: #ccff00;
       --tertiary: #ff4d00;
       --tertiary-fixed: rgba(255, 77, 0, 0.25);
       --header-bg: rgba(18, 19, 22, 0.94);
-      --card-shadow: 5px 5px 0px #ccff00;
+      --card-shadow: 4px 4px 0px #ccff00;
       --card-border: 2px solid #ccff00;
       --btn-primary-bg: #ccff00;
       --btn-primary-text: #090a0c;
-      --btn-primary-shadow: 4px 4px 0px #ff4d00;
+      --btn-primary-shadow: 3px 3px 0px #ff4d00;
       --btn-primary-border: 2px solid #000000;
       --radius-card: 14px;
       --radius-btn: 10px;
-      --font-body: 'Space Grotesk', sans-serif;
-      --font-display: 'Syne', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-display: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
       --accent-1: #ccff00;
       --accent-2: #ff4d00;
@@ -433,13 +433,13 @@
           <span class="font-display-theme font-extrabold text-xl sm:text-2xl tracking-tight text-primary-theme">senceo</span>
         </button>
 
-        <!-- Desktop & Mobile Multi-Page Navigation Tabs (Opens Separate Views instead of scrolling! #2) -->
+        <!-- Desktop & Mobile Multi-Page Navigation Tabs (Yeni Oyun / Aktif Oyunlar / Bağlarım / Liderlik) -->
         <nav class="flex items-center gap-1">
           <button
             type="button"
             id="nav-tab-setup"
             onclick="switchTopNavPage('setup')"
-            class="px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-colors bg-[var(--surface-high)] text-primary-theme"
+            class="px-2.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-colors bg-[var(--surface-high)] text-primary-theme"
           >
             Yeni Oyun
           </button>
@@ -447,7 +447,7 @@
             type="button"
             id="nav-tab-duels"
             onclick="switchTopNavPage('duels')"
-            class="px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-muted-theme hover:bg-[var(--surface-container)] transition-colors flex items-center gap-1.5"
+            class="px-2.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-muted-theme hover:bg-[var(--surface-container)] transition-colors flex items-center gap-1.5"
           >
             <span>Aktif Oyunlar</span>
             <span id="nav-active-duels-count" class="hidden px-1.5 py-0.5 rounded-full bg-primary-theme text-[10px] font-extrabold">0</span>
@@ -456,15 +456,24 @@
             type="button"
             id="nav-tab-bonds"
             onclick="switchTopNavPage('bonds')"
-            class="px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-muted-theme hover:bg-[var(--surface-container)] transition-colors"
+            class="px-2.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-muted-theme hover:bg-[var(--surface-container)] transition-colors flex items-center gap-1.5"
           >
-            Bağlarım
+            <span>Bağlarım</span>
+            <span id="nav-bonds-req-count" class="hidden px-1.5 py-0.5 rounded-full bg-rose-500 text-white text-[10px] font-extrabold animate-pulse">0</span>
+          </button>
+          <button
+            type="button"
+            id="nav-tab-leaderboard"
+            onclick="switchTopNavPage('leaderboard')"
+            class="hidden md:flex px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-muted-theme hover:bg-[var(--surface-container)] transition-colors items-center gap-1"
+          >
+            <span>Liderlik</span>
           </button>
         </nav>
       </div>
 
-      <!-- Right Action Controls: Notification Banner + "Odaya Katıl" + "Ayarlar" + Profile Pill -->
-      <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Right Action Controls: Live Toast + "Odaya Katıl" + "🔔 Bildirimler" + "Ayarlar" + Profile Pill -->
+      <div class="flex items-center gap-1.5 sm:gap-2.5">
         <button
           type="button"
           id="top-notification-banner"
@@ -479,11 +488,25 @@
         <button
           type="button"
           onclick="toggleCloudJoinModal(true)"
-          class="theme-btn-secondary px-3 py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold shadow-sm"
+          class="theme-btn-secondary px-2.5 sm:px-3 py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold shadow-sm"
           title="Oda Kodu ile Odaya Katıl"
         >
           <span class="material-symbols-outlined text-primary-theme text-[18px]">pin</span>
           <span class="hidden sm:inline">Odaya Katıl</span>
+        </button>
+
+        <!-- Stitch Notification Bell Button ("🔔 Bildirimler") -->
+        <button
+          type="button"
+          id="btn-open-notifications"
+          onclick="toggleNotificationsModal(true)"
+          aria-label="Bildirimler"
+          title="Bildirimler & Gelen Arkadaşlık/Düello İstekleri"
+          class="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl stitch-subcard hover:border-[var(--primary)] flex items-center justify-center transition"
+        >
+          <span class="material-symbols-outlined text-[21px]">notifications</span>
+          <span id="nav-notif-dot" class="hidden absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-rose-500 ring-2 ring-[var(--surface)] animate-ping"></span>
+          <span id="nav-notif-count" class="hidden absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-rose-600 text-white font-mono-theme font-extrabold text-[10px] flex items-center justify-center shadow">0</span>
         </button>
 
         <!-- Settings ("Ayarlar") Button -->
@@ -491,11 +514,11 @@
           type="button"
           id="btn-open-settings"
           onclick="toggleSettingsModal(true)"
-          class="theme-btn-secondary px-3 py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold shadow-sm"
+          class="theme-btn-secondary px-2.5 sm:px-3 py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold shadow-sm"
           title="Ayarlar & Tema Seçimi"
         >
           <span class="material-symbols-outlined text-primary-theme text-[18px]">settings</span>
-          <span class="hidden sm:inline">Ayarlar</span>
+          <span class="hidden lg:inline">Ayarlar</span>
         </button>
 
         <!-- Compact Profile Pill -->
@@ -842,7 +865,7 @@
               class="w-full sm:w-auto px-5 py-3.5 theme-btn-secondary text-sm flex items-center justify-center gap-2"
             >
               <span class="material-symbols-outlined text-primary-theme text-[18px]">key</span>
-              <span>Odaya Katıl</span>
+              <span>6 Haneli Oda Kodu ile Katıl</span>
             </button>
 
             <button
@@ -854,6 +877,24 @@
               <span id="btn-start-game-label">Klasik Düelloyu Başlat</span>
               <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
             </button>
+          </div>
+        </div>
+
+        <!-- Stitch Bottom Helper Note: 3-Step Micro Guide (yeni_oyun_ba_lat_light/code.html) -->
+        <div class="w-full mt-6 rounded-xl p-4 sm:p-5 stitch-subcard flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full bg-[var(--surface-high)] text-primary-theme text-xs flex items-center justify-center font-bold">1</div>
+            <span class="text-xs sm:text-sm font-semibold">Soruları Cevapla</span>
+          </div>
+          <span class="hidden sm:inline-block material-symbols-outlined text-muted-theme text-[16px]">chevron_right</span>
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full bg-[var(--surface-high)] text-primary-theme text-xs flex items-center justify-center font-bold">2</div>
+            <span class="text-xs sm:text-sm font-semibold">Linki veya Kodu Arkadaşınla Paylaş</span>
+          </div>
+          <span class="hidden sm:inline-block material-symbols-outlined text-muted-theme text-[16px]">chevron_right</span>
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full bg-[var(--surface-high)] text-primary-theme text-xs flex items-center justify-center font-bold">3</div>
+            <span class="text-xs sm:text-sm font-semibold">Uyum Skorunu &amp; Karşı Saldırıyı Gör</span>
           </div>
         </div>
       </section>
@@ -875,7 +916,7 @@
                   </span>
                   <span id="urgent-banner-meta" class="text-xs text-muted-theme font-semibold flex items-center gap-1">
                     <span class="material-symbols-outlined text-[14px]">schedule</span>
-                    <span>Canlı Düello Arenası</span>
+                    <span id="urgent-banner-time-text">Canlı Düello Arenası</span>
                   </span>
                 </div>
                 <h2 id="urgent-banner-title" class="font-display-theme text-lg sm:text-xl font-extrabold">
@@ -921,21 +962,21 @@
                 </div>
               </div>
 
-              <!-- Segmented Filter Bar -->
+              <!-- Segmented Filter Bar with Live Counts (Exact Stitch Design) -->
               <div class="flex items-center p-1 rounded-xl stitch-subcard gap-1" id="lobby-filter-tabs">
                 <button type="button" onclick="setActiveLobbyFilter('all')" data-filter="all" class="lobby-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--surface-lowest)] shadow-sm">
-                  Tümü
+                  Tümü (<span id="filter-count-all">0</span>)
                 </button>
                 <button type="button" onclick="setActiveLobbyFilter('turn')" data-filter="turn" class="lobby-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-muted-theme">
-                  Sıra Sende
+                  Sıra Sende (<span id="filter-count-turn">0</span>)
                 </button>
                 <button type="button" onclick="setActiveLobbyFilter('waiting')" data-filter="waiting" class="lobby-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-muted-theme">
-                  Bekleyenler
+                  Bekleyenler (<span id="filter-count-waiting">0</span>)
                 </button>
               </div>
             </div>
 
-            <!-- Duels Cards Stack (With Delete / Finish Button on Each Card #3) -->
+            <!-- Duels Cards Stack -->
             <div id="active-games-lobby-list" class="space-y-4">
               <!-- Populated dynamically by app.js -->
             </div>
@@ -952,7 +993,7 @@
                   </div>
                   <div>
                     <h4 id="dash-card-profile-name" class="font-display-theme font-bold text-base">Misafir Oyuncu</h4>
-                    <span id="dash-card-profile-sub" class="text-xs text-muted-theme">Seviye 1 Başlangıç</span>
+                    <span id="dash-card-profile-sub" class="text-xs text-muted-theme">senceo Seviyen • LVL 1</span>
                   </div>
                 </div>
                 <div id="dash-card-level-pill" class="px-3 py-1 rounded-full stitch-subcard text-primary-theme font-bold text-xs">
@@ -963,7 +1004,7 @@
               <!-- Progress Bar -->
               <div class="space-y-1.5">
                 <div class="flex justify-between items-center text-xs font-bold text-muted-theme">
-                  <span>Seviye İlerlemesi</span>
+                  <span>senceo Seviyen</span>
                   <span id="dash-card-xp-text">0 / 100 XP</span>
                 </div>
                 <div class="w-full h-2 rounded-full bg-[var(--surface-high)] overflow-hidden">
@@ -1026,7 +1067,7 @@
                   class="w-full py-2.5 rounded-xl stitch-subcard hover:border-[var(--primary)] text-primary-theme font-bold text-xs flex items-center justify-center gap-1.5 transition"
                 >
                   <span class="material-symbols-outlined text-[16px]">person_add</span>
-                  <span>Yeni Arkadaş Ekle &amp; Kod Paylaş</span>
+                  <span>Yeni Arkadaş Davet Et</span>
                 </button>
               </div>
             </div>
@@ -1059,24 +1100,50 @@
         </div>
       </section>
 
-      <!-- ================= PAGE 3: BAĞLARIM (DEDICATED SEPARATE PAGE #2 & #5) ================= -->
+      <!-- ================= PAGE 3: BAĞLARIM (DEDICATED SEPARATE PAGE WITH TWO-WAY FRIEND REQUESTS) ================= -->
       <section id="view-bonds" class="hidden animate-view max-w-4xl mx-auto space-y-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <span class="text-[11px] font-bold uppercase tracking-wider text-primary-theme">ARKADAŞLIK &amp; BAĞ SEVİYELERİ</span>
             <h1 class="font-display-theme text-2xl sm:text-3xl font-extrabold">Bağlarım &amp; Arkadaş Kodu</h1>
             <p class="text-xs sm:text-sm text-muted-theme">
-              Arkadaşının <strong>SNC-XXXX</strong> kodunu ekleyerek onun başlattığı aktif düelloya doğrudan katılabilir veya yeni düello başlatabilirsin.
+              Arkadaşının <strong>SNC-XXXX</strong> kodunu eklediğinde karşı tarafa anında <strong>Arkadaşlık Bağı İsteği</strong> ve bildirim gider; kabul ettiğinde veya düello başlattığında doğrudan eşleşirsiniz!
             </p>
           </div>
-          <button
-            type="button"
-            onclick="switchTopNavPage('setup')"
-            class="theme-btn-secondary px-4 py-2.5 text-xs sm:text-sm flex items-center gap-1.5 self-start sm:self-auto"
-          >
-            <span class="material-symbols-outlined text-[18px]">add_circle</span>
-            <span>Yeni Oyun Kur</span>
-          </button>
+          <div class="flex items-center gap-2 self-start sm:self-auto">
+            <button
+              type="button"
+              onclick="syncCloudFriendState(true)"
+              class="theme-btn-secondary px-3.5 py-2.5 text-xs sm:text-sm flex items-center gap-1.5"
+            >
+              <span class="material-symbols-outlined text-[18px]">sync</span>
+              <span>İstekleri &amp; Düelloları Yenile</span>
+            </button>
+            <button
+              type="button"
+              onclick="switchTopNavPage('setup')"
+              class="theme-btn-primary px-4 py-2.5 text-xs sm:text-sm flex items-center gap-1.5"
+            >
+              <span class="material-symbols-outlined text-[18px]">add_circle</span>
+              <span>Yeni Oyun Kur</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- GELEN ARKADAŞLIK & BAĞ İSTEKLERİ KUTUSU (Kabul Et / Reddet) -->
+        <div id="incoming-friend-requests-card" class="hidden stitch-card p-5 border-2 border-[var(--primary)] space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary-theme">person_add_alt</span>
+              <h3 class="font-display-theme font-extrabold text-base">📩 Gelen Arkadaşlık &amp; Bağ İstekleri</h3>
+            </div>
+            <span id="incoming-req-badge" class="px-2.5 py-0.5 rounded-full bg-rose-500 text-white font-bold text-xs">1 Yeni İstek</span>
+          </div>
+          <p class="text-xs text-muted-theme">
+            Seni arkadaş koduyla (`SNC-XXXX`) ekleyen oyuncular aşağıda listelenir. Kabul ettiğinde iki tarafın da Bağ Ağı listesine doğrulanmış olarak eklenir!
+          </p>
+          <div id="incoming-friend-requests-list" class="divide-y divide-[var(--outline-variant)] space-y-2">
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
@@ -1088,7 +1155,7 @@
                 SNC-0000
               </div>
               <p class="text-xs text-muted-theme">
-                Sen 5 soruluk bir düello başlattığında, bu kodu bilen arkadaşın <strong>"Düelloya Katıl ⚡"</strong> butonuna basarak oda kodu aramadan doğrudan senin testine girebilir!
+                Arkadaşın bu kodu girdiğinde sana bildirim gelir ve 5 soruluk düellolarınız otomatik olarak birbirinizin ekranına düşer!
               </p>
               <button
                 type="button"
@@ -1106,14 +1173,14 @@
             <div class="stitch-card p-6 space-y-3">
               <h3 class="font-display-theme font-bold text-base">Arkadaş Kodu veya Oda Kodu ile Bağ Ekle</h3>
               <p class="text-xs text-muted-theme">
-                Arkadaşının <strong>SNC-XXXX</strong> kodunu veya <strong>SNC123</strong> oda kodunu gir. Eğer arkadaşın 5 soru çözüp seni bekliyorsa sistem aktif düelloyu otomatik bulur!
+                Arkadaşının <strong>SNC-XXXX</strong> kodunu girdiğinde karşı tarafa <strong>Arkadaşlık Bağı İsteği</strong> gönderilir ve aktif düellosu varsa anında bulunur!
               </p>
               <div class="flex gap-2">
                 <input
                   id="input-dashboard-friend-code"
                   type="text"
                   maxlength="14"
-                  placeholder="Örn: SNC-4732 veya SNC123"
+                  placeholder="Örn: SNC-2281 veya SNC123"
                   class="stitch-input flex-1 px-3.5 py-2.5 text-xs sm:text-sm font-mono-theme font-bold uppercase"
                 />
                 <button
@@ -1144,6 +1211,55 @@
 
             <div id="bonds-page-full-list" class="divide-y divide-[var(--outline-variant)] space-y-3">
               <!-- Populated dynamically by app.js -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PAGE 4: LİDERLİK TABLOSU (STITCH "Liderlik" NAV PAGE) ================= -->
+      <section id="view-leaderboard" class="hidden animate-view max-w-5xl mx-auto space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-primary-theme">SENCEO ARENA SIRALAMASI</span>
+            <h1 class="font-display-theme text-2xl sm:text-3xl font-extrabold">Liderlik &amp; En Yüksek Uyum İkilileri</h1>
+            <p class="text-xs sm:text-sm text-muted-theme">
+              En yüksek <strong>senceo Seviyesi</strong> oyuncular ve en güçlü <strong>Arkadaşlık Bağı (Ruh İkizi)</strong> ikilileri.
+            </p>
+          </div>
+          <button
+            type="button"
+            onclick="switchTopNavPage('setup')"
+            class="theme-btn-primary px-5 py-2.5 text-xs sm:text-sm flex items-center gap-1.5 self-start sm:self-auto"
+          >
+            <span class="material-symbols-outlined text-[18px]">bolt</span>
+            <span>Düello Başlat &amp; Puan Kazan</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          <!-- Left: Top Players by senceo Seviyen -->
+          <div class="stitch-card p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary-theme">emoji_events</span>
+                <h3 class="font-display-theme font-extrabold text-lg">En Yüksek senceo Seviyesi</h3>
+              </div>
+              <span class="text-xs font-bold text-muted-theme">Bireysel TP Sıralaması</span>
+            </div>
+            <div id="leaderboard-players-list" class="divide-y divide-[var(--outline-variant)] space-y-2">
+            </div>
+          </div>
+
+          <!-- Right: Top Friendship Bonds -->
+          <div class="stitch-card p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-rose-500">favorite</span>
+                <h3 class="font-display-theme font-extrabold text-lg">En Yüksek Uyumlu İkililer</h3>
+              </div>
+              <span class="text-xs font-bold text-muted-theme">Bağ Ağı Sıralaması</span>
+            </div>
+            <div id="leaderboard-bonds-list" class="divide-y divide-[var(--outline-variant)] space-y-2">
             </div>
           </div>
         </div>
@@ -1559,7 +1675,7 @@
               onclick="openChallengeLinkDirectly()"
               class="py-1.5 font-semibold text-xs text-primary-theme hover:underline underline-offset-4"
             >
-              Şimdi Karşı Oyuncu Gözüyle Bu Cihazda Test Et →
+              🧪 Şimdi Karşı Oyuncu Gözüyle Bu Cihazda Test Et (Simülasyon • Düelloyu Etkilemez) →
             </button>
           </div>
         </div>
@@ -1613,7 +1729,7 @@
 
               <div id="result-xp-bond-banner" class="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-[11px] font-extrabold">
                 <span id="result-personal-xp-pill" class="px-2.5 py-1 rounded-lg stitch-subcard text-primary-theme">
-                  ⭐ Öz Seviye: +50 XP
+                  ⭐ senceo Seviyen: +50 XP
                 </span>
                 <span id="result-bond-xp-pill" class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-600 dark:text-rose-300">
                   🤝 İkili Bağ: LVL 1
@@ -1652,6 +1768,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
             <button
               type="button"
+              id="btn-next-round-action"
               onclick="startNextRoundInSameRoom()"
               class="theme-btn-primary py-3.5 px-4 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5"
             >
@@ -1684,18 +1801,87 @@
     </div>
   </main>
 
-  <!-- ================= FOOTER (Only footer shows version, formatted without extra dot after v) ================= -->
-  <footer class="w-full border-t border-[var(--outline-variant)] bg-[var(--surface-low)] py-4 text-center text-xs text-muted-theme font-semibold">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+  <!-- ================= FOOTER (Stitch Footer Links + Mandatory Version Label) ================= -->
+  <footer class="w-full border-t border-[var(--outline-variant)] bg-[var(--surface-low)] py-5 text-center text-xs text-muted-theme font-semibold">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3">
       <div class="flex items-center gap-2">
         <span class="font-display-theme font-extrabold text-primary-theme">senceo</span>
         <span>Arkadaşlık tahmin &amp; içgörü arenası</span>
       </div>
+      <div class="flex items-center gap-4 text-xs">
+        <button type="button" onclick="openInfoGuideModal('howto')" class="hover:text-primary-theme transition-colors">Nasıl Oynanır?</button>
+        <button type="button" onclick="openInfoGuideModal('community')" class="hover:text-primary-theme transition-colors">Topluluk İlkeleri</button>
+        <button type="button" onclick="openInfoGuideModal('privacy')" class="hover:text-primary-theme transition-colors">Gizlilik</button>
+      </div>
       <p>
-        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.05</span>
+        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.06</span>
       </p>
     </div>
   </footer>
+
+  <!-- ================= NOTIFICATIONS CENTER MODAL ("🔔 Bildirimler") ================= -->
+  <div
+    id="notifications-modal"
+    class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+    onclick="if(event.target === this) toggleNotificationsModal(false)"
+  >
+    <div class="stitch-card w-full max-w-lg p-5 sm:p-6 space-y-4 animate-view max-h-[88vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-[var(--outline-variant)] pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-primary-theme flex items-center justify-center">
+            <span class="material-symbols-outlined text-[22px]">notifications_active</span>
+          </div>
+          <div>
+            <h3 class="font-display-theme text-lg font-extrabold">Bildirim Merkezi</h3>
+            <p class="text-xs text-muted-theme">Gelen arkadaşlık bağı istekleri, düello davetleri ve sıra bildirimleri</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            onclick="syncCloudFriendState(true)"
+            class="px-2.5 py-1.5 rounded-lg stitch-subcard text-xs font-bold text-primary-theme hover:border-[var(--primary)] flex items-center gap-1"
+            title="Bildirimleri Yenile"
+          >
+            <span class="material-symbols-outlined text-[15px]">refresh</span>
+            <span>Yenile</span>
+          </button>
+          <button
+            type="button"
+            onclick="clearAllUserNotifications()"
+            class="px-2.5 py-1.5 rounded-lg stitch-subcard text-xs font-bold text-red-500 hover:border-red-500"
+            title="Tüm Bildirimleri Temizle"
+          >
+            Temizle
+          </button>
+          <button type="button" onclick="toggleNotificationsModal(false)" class="w-8 h-8 rounded-full stitch-subcard flex items-center justify-center font-bold text-sm">✕</button>
+        </div>
+      </div>
+
+      <div id="notifications-modal-list" class="space-y-2.5 overflow-y-auto pr-1 flex-1 min-h-[180px]">
+        <!-- Populated dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= INFO GUIDE MODAL (Nasıl Oynanır / Topluluk İlkeleri / Gizlilik) ================= -->
+  <div
+    id="info-guide-modal"
+    class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+    onclick="if(event.target === this) closeInfoGuideModal()"
+  >
+    <div class="stitch-card w-full max-w-lg p-6 space-y-4 animate-view max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-[var(--outline-variant)] pb-3">
+        <h3 id="info-guide-title" class="font-display-theme text-lg font-extrabold text-primary-theme">Nasıl Oynanır?</h3>
+        <button type="button" onclick="closeInfoGuideModal()" class="w-8 h-8 rounded-full stitch-subcard flex items-center justify-center font-bold text-sm">✕</button>
+      </div>
+      <div id="info-guide-body" class="text-xs sm:text-sm text-muted-theme space-y-3 leading-relaxed">
+      </div>
+      <button type="button" onclick="closeInfoGuideModal()" class="theme-btn-primary w-full py-2.5 text-xs font-extrabold">
+        Anladım, Kapat
+      </button>
+    </div>
+  </div>
 
   <!-- ================= SOCIAL LOGIN / OAUTH MODAL ================= -->
   <div
@@ -1806,7 +1992,7 @@
 
       <div class="stitch-subcard p-3.5 space-y-2">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-extrabold uppercase tracking-wider text-primary-theme">⭐ Kendi Öz Seviyen (Soru Bildikçe Artar)</span>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-primary-theme">⭐ senceo Seviyen (Soru Bildikçe Artar)</span>
           <span id="modal-personal-level" class="px-2 py-0.5 rounded bg-primary-theme font-mono-theme font-extrabold text-xs">LVL 1</span>
         </div>
         <div class="w-full h-2.5 bg-black/15 dark:bg-white/10 rounded-full overflow-hidden">
@@ -1818,12 +2004,18 @@
         </div>
       </div>
 
+      <!-- Gelen Bağ İstekleri (Profil İçi) -->
+      <div id="modal-incoming-requests-box" class="hidden stitch-subcard p-3.5 border border-[var(--primary)] space-y-2">
+        <div class="text-xs font-extrabold text-primary-theme">📩 Gelen Arkadaşlık Bağı İstekleri</div>
+        <div id="modal-incoming-requests-list" class="space-y-1.5"></div>
+      </div>
+
       <div class="space-y-2">
         <label class="text-xs font-extrabold uppercase tracking-wider text-primary-theme block font-display-theme">
           🤝 Arkadaşlarım &amp; Doğrulanmış Bağ Seviyeleri
         </label>
         <p class="text-[11px] text-muted-theme">
-          Arkadaşının <strong>Arkadaş Kodunu (`SNC-XXXX`)</strong> veya <strong>Oda Kodunu (`SNC123`)</strong> girerek ekle. Eğer arkadaşın 5 soru çözdüyse direkt onun aktif düellosuna katılabilirsin!
+          Arkadaşının <strong>Arkadaş Kodunu (`SNC-XXXX`)</strong> veya <strong>Oda Kodunu (`SNC123`)</strong> girerek ekle. Karşı tarafa anında bildirim ve arkadaşlık isteği gider!
         </p>
 
         <div class="flex gap-2">
@@ -2010,11 +2202,11 @@
           class="w-full p-3.5 rounded-xl border-2 text-left transition flex items-center justify-between gap-3 bg-[#18191e] text-[#f7f4eb] border-slate-700"
         >
           <div>
-            <div class="font-bold text-sm text-[#ccff00]" style="font-family: 'Syne', sans-serif;">
+            <div class="font-bold text-sm text-[#ccff00]" style="font-family: 'Space Grotesk', sans-serif;">
               ⚡ 4. Neo-Brutal Acid (10 Ekim 2026)
             </div>
             <p class="text-[11px] text-[#cfc9b8]">
-              Yeni arayüz üzerinde asit yeşili &amp; turuncu sert ofset gölgeli brutalist kartlar ve Syne font.
+              Yeni arayüz üzerinde asit yeşili &amp; turuncu sert ofset gölgeli brutalist kartlar ve Space Grotesk font.
             </p>
           </div>
           <div class="flex gap-1.5 shrink-0">

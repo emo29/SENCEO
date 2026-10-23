@@ -1,14 +1,14 @@
-// senceo — Stitch Çok Sayfalı Arayüz (Yeni Oyun / Aktif Oyunlar / Bağlarım) + Klasik Oyun Motoru
+// senceo — Stitch Çok Sayfalı Arayüz (Yeni Oyun / Aktif Oyunlar / Bağlarım / Liderlik) + Klasik Oyun Motoru
 // 4 Tam Kapsamlı Tema (1. Luminous Beyaz Varsayılan, 2. Obsidian Koyu, 3. Cosmic Neon Eski Varsayılan, 4. Neo-Brutal Acid)
-// Arkadaş Kodu (SNC-XXXX) üzerinden Aktif Düelloya Doğrudan Katılma ve Düello Silme/Bitirme — v0.05
+// Çift Yönlü Arkadaşlık Bağı İstekleri, Gerçek Zamanlı Bildirim Merkezi, Simülasyon Test Koruması — v0.06
 
-const APP_VERSION = 'v0.05';
+const APP_VERSION = 'v0.06';
 const DEFAULT_SUPABASE_URL = 'https://kypzuqnksnlinkfuxvnl.supabase.co';
 const TOTAL_QUESTIONS = 5;
 const CIRCLE_CIRCUMFERENCE = 414.69;
 const PASS_ANSWER_VALUE = -1;
 
-// 4 Tam Kapsamlı Tema Tanımları (#1: 1. Luminous, 2. Obsidian, 3. Cosmic Neon, 4. Neo-Brutal Acid)
+// 4 Tam Kapsamlı Tema Tanımları
 const THEMES = {
   luminous: {
     id: 'luminous',
@@ -28,10 +28,10 @@ const THEMES = {
   }
 };
 
-// Kullanıcı Profil & Çift Level Durumu
+// Kullanıcı Profil & Çift Level Durumu ("senceo Seviyen" + "İkili Bağ Seviyesi")
 const userProfile = {
   id: '',
-  friendCode: '', // Benzersiz Arkadaş Kodu: Örn. SNC-4732
+  friendCode: '', // Benzersiz Arkadaş Kodu: Örn. SNC-9644
   username: '',
   email: '',
   provider: 'guest',
@@ -42,7 +42,9 @@ const userProfile = {
   gamesPlayed: 0,
   questionsCorrect: 0,
   friends: [],
-  bonds: {} // { 'Salihcan': { code: 'SNC-4732', realName: 'Salihcan', activeRoomCode: 'SNC84K', xp: 120, level: 2, matches: 3, lastPct: 84, verified: true } }
+  bonds: {}, // { 'SNC-2281': { code: 'SNC-2281', realName: 'Salihcan', activeRoomCode: 'SNC84K', xp: 120, level: 2, matches: 3, lastPct: 84, status: 'accepted', verified: true } }
+  incomingRequests: [], // [{ fromCode: 'SNC-9644', fromName: 'emirhan', status: 'pending', createdAt: '...' }]
+  notifications: [] // [{ id, type, title, message, fromCode, fromName, roomCode, read, createdAt }]
 };
 
 // Uygulama Oyun Durumu (State)
@@ -54,11 +56,13 @@ const gameState = {
   activeLobbyFilter: 'all', // 'all' | 'turn' | 'waiting'
   urgentRoomCode: '',
   pendingOAuthProvider: null,
+  isSandboxTest: false, // "Bu Cihazda Test Et" simülasyon modu bayrağı (Gerçek düelloya etkisi 0, karşı saldırı kapalı)
   currentRound: 1,
   half: 1,
   phase: 'p1_answer',
   player1Name: '',
   player2Name: '',
+  player2FriendCode: '',
   selectedQuestions: [],
   usedQuestionIds: [],
   shufflesLeft: 2,
@@ -84,6 +88,8 @@ const gameState = {
   roomCode: '',
   generatedChallengeUrl: '',
   pollingIntervalId: null,
+  liveLobbyPollingId: null,
+  cloudSyncIntervalId: null,
   completedRoomDataFromCloud: null
 };
 
@@ -207,6 +213,12 @@ function loadUserProfile() {
   if (!userProfile.friendCode || !userProfile.friendCode.startsWith('SNC-')) {
     userProfile.friendCode = generatePersonalFriendCode();
   }
+  if (!Array.isArray(userProfile.incomingRequests)) {
+    userProfile.incomingRequests = [];
+  }
+  if (!Array.isArray(userProfile.notifications)) {
+    userProfile.notifications = [];
+  }
 
   if (userProfile.bonds && typeof userProfile.bonds === 'object') {
     Object.keys(userProfile.bonds).forEach((k) => {
@@ -223,7 +235,7 @@ function loadUserProfile() {
   renderProfileUI();
 }
 
-function saveUserProfile() {
+function saveUserProfile(skipCloudSync = false) {
   userProfile.level = Math.max(1, Math.floor((userProfile.xp || 0) / 100) + 1);
   const serialized = JSON.stringify(userProfile);
   try {
@@ -232,11 +244,422 @@ function saveUserProfile() {
   } catch (e) {}
   renderProfileUI();
 
-  fetch('/api/rooms', {
-    method: 'POST',
-    headers: getSupabaseHeaders(),
-    body: JSON.stringify({ type: 'profile', profile: userProfile })
-  }).catch(() => {});
+  if (!skipCloudSync) {
+    fetch('/api/rooms', {
+      method: 'POST',
+      headers: getSupabaseHeaders(),
+      body: JSON.stringify({ type: 'profile', profile: userProfile })
+    }).catch(() => {});
+  }
+}
+
+// ---------------- BULUT ARKADAŞLIK İSTEKLERİ, BİLDİRİMLER & AKTİF ODA SENKRONİZASYONU ----------------
+async function syncCloudFriendState(showFeedbackToast = false) {
+  if (!userProfile.friendCode || !/^SNC-\d{4}$/i.test(userProfile.friendCode)) return;
+  try {
+    const res = await fetch(`/api/rooms?friendCode=${encodeURIComponent(userProfile.friendCode)}`, {
+      method: 'GET',
+      headers: getSupabaseHeaders()
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const f = data && data.friend ? data.friend : null;
+    if (!f) return;
+
+    let changed = false;
+
+    // 1. Gelen arkadaşlık bağı isteklerini senkronize et
+    if (Array.isArray(f.incomingRequests)) {
+      userProfile.incomingRequests = f.incomingRequests.filter((r) => r.status === 'pending');
+      changed = true;
+    }
+
+    // 2. Kabul edilen arkadaşları Bağ Ağı (userProfile.bonds) içine işle
+    if (Array.isArray(f.acceptedFriends)) {
+      f.acceptedFriends.forEach((acc) => {
+        if (!acc || !acc.code) return;
+        const codeUpper = acc.code.toUpperCase();
+        // Mevcut bond kaydını bul veya yeni oluştur
+        let targetKey = Object.keys(userProfile.bonds).find(
+          (k) => userProfile.bonds[k] && userProfile.bonds[k].code === codeUpper
+        );
+        const cleanName = acc.name && acc.name !== 'Oyuncu' ? acc.name : codeUpper;
+        if (!targetKey) {
+          targetKey = `${cleanName} (${codeUpper})`;
+        }
+        const existing = userProfile.bonds[targetKey] || {
+          code: codeUpper,
+          realName: cleanName,
+          activeRoomCode: '',
+          xp: 0,
+          level: 1,
+          matches: 0,
+          commonAnswers: 0,
+          lastPct: 0,
+          status: 'accepted',
+          verified: true
+        };
+        existing.status = 'accepted';
+        if (acc.name && acc.name !== 'Oyuncu') {
+          existing.realName = acc.name;
+        }
+        userProfile.bonds[targetKey] = existing;
+        changed = true;
+      });
+    }
+
+    // 3. Bulutta benim için açılmış aktif odaları (activeRooms) yerel listeme ve bağlarıma ekle!
+    if (Array.isArray(f.activeRooms)) {
+      for (const summary of f.activeRooms) {
+        if (!summary || !summary.code) continue;
+        // Eğer yerel listede yoksa veya güncellenmişse buluttan tam odayı çek
+        const localRaw = localStorage.getItem(`senceo_room_${summary.code}`);
+        const localRoom = localRaw ? JSON.parse(localRaw) : null;
+        if (!localRoom || localRoom.status !== summary.status || localRoom.currentRound !== summary.currentRound) {
+          const fullRoom = await fetchRoomFromDatabase(summary.code);
+          if (fullRoom) {
+            changed = true;
+          }
+        } else {
+          saveRoomToLocalLobbyList(localRoom);
+        }
+
+        // Eğer karşı tarafın arkadaş kodu bağlarımızda varsa activeRoomCode güncelle
+        const partnerCode =
+          summary.p1FriendCode && summary.p1FriendCode.toUpperCase() !== userProfile.friendCode.toUpperCase()
+            ? summary.p1FriendCode.toUpperCase()
+            : summary.p2FriendCode && summary.p2FriendCode.toUpperCase() !== userProfile.friendCode.toUpperCase()
+            ? summary.p2FriendCode.toUpperCase()
+            : '';
+
+        if (partnerCode) {
+          const bondKey = Object.keys(userProfile.bonds).find(
+            (k) => userProfile.bonds[k] && userProfile.bonds[k].code === partnerCode
+          );
+          if (bondKey && userProfile.bonds[bondKey]) {
+            userProfile.bonds[bondKey].activeRoomCode = summary.code;
+            if (summary.p1 && summary.p1FriendCode === partnerCode && summary.p1 !== 'Arkadaşın') {
+              userProfile.bonds[bondKey].realName = summary.p1;
+            }
+          }
+        }
+      }
+    }
+
+    // 4. Bildirimleri senkronize et
+    if (Array.isArray(f.notifications)) {
+      const prevUnreadCount = (userProfile.notifications || []).filter((n) => !n.read).length;
+      userProfile.notifications = f.notifications;
+      const newUnreadCount = userProfile.notifications.filter((n) => !n.read).length;
+      if (newUnreadCount > prevUnreadCount) {
+        playSoundEffect('pop');
+      }
+      changed = true;
+    }
+
+    if (changed) {
+      saveUserProfile(true);
+      refreshActiveGamesLobby();
+      renderNotificationsModalList();
+    }
+    if (showFeedbackToast) {
+      spawnFloatingEmojiBurst('🔄');
+    }
+  } catch (e) {}
+}
+
+function startBackgroundCloudSync() {
+  if (gameState.cloudSyncIntervalId) clearInterval(gameState.cloudSyncIntervalId);
+  syncCloudFriendState(false);
+  gameState.cloudSyncIntervalId = setInterval(() => {
+    syncCloudFriendState(false);
+  }, 6000);
+}
+
+// ---------------- BİLDİRİM MERKEZİ ("🔔 Bildirimler") ----------------
+function toggleNotificationsModal(show) {
+  const modal = document.getElementById('notifications-modal');
+  if (!modal) return;
+  if (show) {
+    renderNotificationsModalList();
+    modal.classList.remove('hidden');
+    // Bildirimleri okundu olarak işaretle
+    markNotificationsReadOnCloud(false);
+  } else {
+    modal.classList.add('hidden');
+  }
+}
+
+async function markNotificationsReadOnCloud(clearAll = false) {
+  if (!userProfile.friendCode) return;
+  if (clearAll) {
+    userProfile.notifications = [];
+  } else if (Array.isArray(userProfile.notifications)) {
+    userProfile.notifications.forEach((n) => (n.read = true));
+  }
+  saveUserProfile(true);
+  renderNotificationsModalList();
+
+  try {
+    await fetch('/api/rooms', {
+      method: 'POST',
+      headers: getSupabaseHeaders(),
+      body: JSON.stringify({
+        action: 'clear_notifications',
+        myCode: userProfile.friendCode,
+        clearAll
+      })
+    });
+  } catch (e) {}
+}
+
+function clearAllUserNotifications() {
+  markNotificationsReadOnCloud(true);
+}
+
+function updateHeaderNotificationBadges() {
+  const notifs = userProfile.notifications || [];
+  const incomingReqs = userProfile.incomingRequests || [];
+  const unreadCount = notifs.filter((n) => !n.read).length + incomingReqs.length;
+
+  const dotEl = document.getElementById('nav-notif-dot');
+  const countEl = document.getElementById('nav-notif-count');
+  if (dotEl && countEl) {
+    if (unreadCount > 0) {
+      dotEl.classList.remove('hidden');
+      countEl.classList.remove('hidden');
+      countEl.textContent = String(unreadCount > 9 ? '9+' : unreadCount);
+    } else {
+      dotEl.classList.add('hidden');
+      countEl.classList.add('hidden');
+    }
+  }
+
+  const bondsReqBadge = document.getElementById('nav-bonds-req-count');
+  if (bondsReqBadge) {
+    if (incomingReqs.length > 0) {
+      bondsReqBadge.textContent = String(incomingReqs.length);
+      bondsReqBadge.classList.remove('hidden');
+    } else {
+      bondsReqBadge.classList.add('hidden');
+    }
+  }
+}
+
+function renderNotificationsModalList() {
+  updateHeaderNotificationBadges();
+  const listEl = document.getElementById('notifications-modal-list');
+  if (!listEl) return;
+
+  const reqs = userProfile.incomingRequests || [];
+  const notifs = userProfile.notifications || [];
+
+  if (reqs.length === 0 && notifs.length === 0) {
+    listEl.innerHTML = `
+      <div class="py-10 text-center space-y-2">
+        <div class="w-12 h-12 mx-auto rounded-full stitch-subcard flex items-center justify-center text-muted-theme">
+          <span class="material-symbols-outlined text-[24px]">notifications_off</span>
+        </div>
+        <div class="font-bold text-sm">Henüz yeni bir bildirimin yok</div>
+        <p class="text-xs text-muted-theme max-w-xs mx-auto">
+          Birisi seni arkadaş koduyla (<strong>${escapeHtml(userProfile.friendCode)}</strong>) eklediğinde veya düello başlattığında anında burada görünür.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+
+  // 1. Bekleyen Arkadaşlık Bağı İstekleri en üstte
+  reqs.forEach((r) => {
+    const fCode = r.fromCode || '';
+    const fName = r.fromName || 'Oyuncu';
+    html += `
+      <div class="p-3.5 rounded-xl stitch-subcard border-2 border-[var(--primary)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-start gap-2.5">
+          <div class="w-9 h-9 rounded-full bg-primary-theme flex items-center justify-center font-bold text-xs shrink-0">
+            🤝
+          </div>
+          <div>
+            <div class="font-bold text-xs sm:text-sm">Yeni Arkadaşlık Bağı İsteği!</div>
+            <p class="text-xs text-muted-theme">
+              <strong>${escapeHtml(fName)}</strong> (<span class="font-mono-theme text-primary-theme">${escapeHtml(fCode)}</span>) seni Bağ Ağına eklemek istiyor.
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onclick="respondToFriendRequest('${escapeHtml(fCode)}', '${escapeHtml(fName)}', 'accept')"
+            class="px-3 py-1.5 rounded-lg bg-emerald-500 text-white font-bold text-xs hover:opacity-90 transition"
+          >
+            ✓ Kabul Et
+          </button>
+          <button
+            type="button"
+            onclick="respondToFriendRequest('${escapeHtml(fCode)}', '${escapeHtml(fName)}', 'reject')"
+            class="px-2.5 py-1.5 rounded-lg bg-red-500/15 text-red-500 font-bold text-xs hover:bg-red-500/25 transition"
+          >
+            ✕ Reddet
+          </button>
+        </div>
+      </div>
+    `;
+  });
+
+  // 2. Diğer tüm bildirimler (Düello daveti, sıra sende, hatırlatma, kabul onayı)
+  notifs.forEach((n) => {
+    if (n.type === 'friend_request' && reqs.some((r) => r.fromCode === n.fromCode)) {
+      return; // Yukarıda zaten aktif kart olarak gösterildi
+    }
+    const icon =
+      n.type === 'challenge'
+        ? '⚔️'
+        : n.type === 'turn'
+        ? '🔥'
+        : n.type === 'completed'
+        ? '🏆'
+        : n.type === 'nudge'
+        ? '⏰'
+        : n.type === 'friend_accepted'
+        ? '🎉'
+        : '🔔';
+
+    const actionBtn = n.roomCode
+      ? `<button
+           type="button"
+           onclick="toggleNotificationsModal(false); openRoomFromLobbyCard('${escapeHtml(n.roomCode)}')"
+           class="theme-btn-primary px-3 py-1.5 text-xs shrink-0 flex items-center gap-1"
+         >
+           <span>Odayı Aç (#${escapeHtml(n.roomCode)})</span>
+           <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+         </button>`
+      : n.fromCode && n.type === 'friend_accepted'
+      ? `<button
+           type="button"
+           onclick="toggleNotificationsModal(false); switchTopNavPage('bonds')"
+           class="theme-btn-secondary px-3 py-1.5 text-xs shrink-0"
+         >
+           Bağlarıma Git
+         </button>`
+      : '';
+
+    html += `
+      <div class="p-3.5 rounded-xl stitch-subcard flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-start gap-2.5">
+          <div class="w-9 h-9 rounded-full stitch-card flex items-center justify-center text-base shrink-0">
+            ${icon}
+          </div>
+          <div>
+            <div class="font-bold text-xs sm:text-sm">${escapeHtml(n.title || 'Bildirim')}</div>
+            <p class="text-xs text-muted-theme">${escapeHtml(n.message || '')}</p>
+          </div>
+        </div>
+        ${actionBtn}
+      </div>
+    `;
+  });
+
+  listEl.innerHTML = html;
+}
+
+// Gelen Arkadaşlık Bağı İsteğini Kabul / Reddetme
+async function respondToFriendRequest(requesterCode, requesterName, decision) {
+  const cleanCode = String(requesterCode || '').trim().toUpperCase();
+  const cleanName = String(requesterName || 'Arkadaşın').trim();
+  if (!cleanCode) return;
+
+  userProfile.incomingRequests = (userProfile.incomingRequests || []).filter((r) => r.fromCode !== cleanCode);
+
+  if (decision === 'accept') {
+    const bondKey = `${cleanName} (${cleanCode})`;
+    const existing = userProfile.bonds[bondKey] || {
+      code: cleanCode,
+      realName: cleanName,
+      activeRoomCode: '',
+      xp: 0,
+      level: 1,
+      matches: 0,
+      commonAnswers: 0,
+      lastPct: 0,
+      status: 'accepted',
+      verified: true
+    };
+    existing.status = 'accepted';
+    existing.realName = cleanName;
+    userProfile.bonds[bondKey] = existing;
+    spawnFloatingEmojiBurst('🤝');
+    playSoundEffect('correct');
+  }
+
+  saveUserProfile(true);
+  renderProfileUI();
+  renderNotificationsModalList();
+
+  try {
+    await fetch('/api/rooms', {
+      method: 'POST',
+      headers: getSupabaseHeaders(),
+      body: JSON.stringify({
+        action: 'respond_friend_request',
+        myCode: userProfile.friendCode,
+        myName: userProfile.username || gameState.player1Name || 'Oyuncu',
+        requesterCode: cleanCode,
+        requesterName: cleanName,
+        decision
+      })
+    });
+    // Karşı tarafın aktif bir düellosu varsa hemen çek!
+    if (decision === 'accept') {
+      const lookup = await fetchActiveRoomByFriendCode(cleanCode);
+      if (lookup && lookup.room) {
+        const bondKey = `${cleanName} (${cleanCode})`;
+        if (userProfile.bonds[bondKey]) {
+          userProfile.bonds[bondKey].activeRoomCode = lookup.room.code;
+          saveUserProfile(true);
+        }
+        refreshActiveGamesLobby();
+      }
+    }
+  } catch (e) {}
+}
+
+// ---------------- FOOTER REHBER MODALI (Nasıl Oynanır / Topluluk / Gizlilik) ----------------
+function openInfoGuideModal(section) {
+  const modal = document.getElementById('info-guide-modal');
+  const titleEl = document.getElementById('info-guide-title');
+  const bodyEl = document.getElementById('info-guide-body');
+  if (!modal || !titleEl || !bodyEl) return;
+
+  if (section === 'community') {
+    titleEl.textContent = '🤝 senceo Topluluk İlkeleri';
+    bodyEl.innerHTML = `
+      <p><strong>1. Samimiyet ve Eğlence:</strong> senceo, arkadaşların birbirini ne kadar tanıdığını ölçen sosyal bir uyum arenasıdır. Özel şık ve sohbet balonlarında esprili ve saygılı olun.</p>
+      <p><strong>2. Doğrulanmış Bağlar:</strong> Arkadaşlık bağı seviyeleri yalnızca gerçek arkadaş kodu (<code>SNC-XXXX</code>) veya ortak tamamlanan düellolarla yükselir.</p>
+      <p><strong>3. Adil Oyun:</strong> Simülasyon test modu yalnızca kendi sorularınızı kontrol etmeniz içindir ve gerçek uyum puanlarını etkilemez.</p>
+    `;
+  } else if (section === 'privacy') {
+    titleEl.textContent = '🔒 Gizlilik & Veri Güvenliği';
+    bodyEl.innerHTML = `
+      <p><strong>1. Çerez ve Oturum Koruma:</strong> senceo Seviyeniz, TP ilerlemeniz ve Arkadaş Kodunuz tarayıcı çerezleri ve bulut oda indeksleriyle korunur.</p>
+      <p><strong>2. Oda ve Diyalog Verileri:</strong> Düellolarda verdiğiniz cevaplar ve bıraktığınız gizli sohbet balonları yalnızca ilgili oda koduna sahip arkadaşınızla paylaşılır.</p>
+    `;
+  } else {
+    titleEl.textContent = '🎮 senceo Nasıl Oynanır?';
+    bodyEl.innerHTML = `
+      <p><strong>1. Klasik Oyun (2 Yarı Karşılıklı Düello):</strong> Sen kendinle ilgili 5 soruyu cevaplarsın (istersen 2 kez soru değiştirebilir, 1 kez pas geçebilir, 1 kez kendi özel şıkkını yazabilir ve gizli sohbet balonu bırakabilirsin). Arkadaşın senin 5 cevabını tahmin eder ve hemen ardından <strong>Karşı Saldırı (2. Yarı)</strong> başlar: O kendi 5 sorusunu cevaplar, sen tahmin edersin!</p>
+      <p><strong>2. Yan Yana (Pass &amp; Play):</strong> Tek bir telefon veya bilgisayarı elden ele devrederek internet/link paylaşımına gerek kalmadan yüz yüze oynanan moddur.</p>
+      <p><strong>3. Canlı Oda Kur:</strong> Sorular başlamadan önce 6 haneli bir <strong>Canlı Oda Kodu</strong> üretilir. Arkadaşların bu kodu girerek lobiye katılır ve gerçek zamanlı yarışır.</p>
+      <p><strong>4. Arkadaş Kodu (SNC-XXXX):</strong> <em>Bağlarım</em> sekmesinden arkadaşının kodunu eklediğinde karşı tarafa bildirim ve bağ isteği gider; aktif düellolarınıza tek tıkla katılabilirsiniz.</p>
+    `;
+  }
+  modal.classList.remove('hidden');
+}
+
+function closeInfoGuideModal() {
+  const modal = document.getElementById('info-guide-modal');
+  if (modal) modal.classList.add('hidden');
 }
 
 // ---------------- GERÇEK SOSYAL GİRİŞ / OAUTH MODALI ----------------
@@ -410,9 +833,10 @@ function logoutUserAccount() {
   toggleProfileModal(false);
 }
 
-// ---------------- ARKADAŞ KODU İLE AKTİF DÜELLO BULMA VE BAĞ SİSTEMİ (#5) ----------------
-function getBondTitle(level, matches) {
-  if (!matches || matches <= 0) return 'Düello Bekleniyor';
+// ---------------- ÇİFT YÖNLÜ ARKADAŞ KODU İLE BAĞ EKLEME & AKTİF DÜELLO BULMA ----------------
+function getBondTitle(level, matches, status) {
+  if (status === 'accepted' && (!matches || matches <= 0)) return '✓ Bağ Kuruldu';
+  if (!matches || matches <= 0) return '⏳ İstek Gönderildi';
   if (level >= 4) return 'Ruh İkizi';
   if (level >= 2) return 'Kanka';
   return 'Tanışık';
@@ -430,8 +854,18 @@ function addPersonalAndBondXP(partnerName, correctAnswersCount, matchPercentage 
     if (!userProfile.friends.includes(cleanPartner)) {
       userProfile.friends.push(cleanPartner);
     }
-    const existing = userProfile.bonds[cleanPartner] || {
-      code: roomCode ? `ODA:${roomCode}` : 'DOĞRULANDI',
+
+    // Eğer partnerin arkadaş koduyla açılmış bir bond kaydı varsa onu bul
+    let targetBondKey = cleanPartner;
+    if (gameState.player2FriendCode) {
+      const foundKey = Object.keys(userProfile.bonds).find(
+        (k) => userProfile.bonds[k] && userProfile.bonds[k].code === gameState.player2FriendCode
+      );
+      if (foundKey) targetBondKey = foundKey;
+    }
+
+    const existing = userProfile.bonds[targetBondKey] || {
+      code: gameState.player2FriendCode || (roomCode ? `ODA:${roomCode}` : 'DOĞRULANDI'),
       realName: cleanPartner,
       activeRoomCode: roomCode || '',
       xp: 0,
@@ -439,16 +873,18 @@ function addPersonalAndBondXP(partnerName, correctAnswersCount, matchPercentage 
       matches: 0,
       commonAnswers: 0,
       lastPct: matchPercentage,
+      status: 'accepted',
       verified: true
     };
     existing.xp = (existing.xp || 0) + gainedXp;
     existing.matches = (existing.matches || 0) + 1;
     existing.commonAnswers = (existing.commonAnswers || 0) + correctAnswersCount;
     existing.lastPct = matchPercentage;
+    existing.status = 'accepted';
     if (roomCode) existing.activeRoomCode = roomCode;
     existing.verified = true;
     existing.level = Math.max(1, Math.floor(existing.xp / 100) + 1);
-    userProfile.bonds[cleanPartner] = existing;
+    userProfile.bonds[targetBondKey] = existing;
     bondInfo = existing;
   }
 
@@ -456,12 +892,11 @@ function addPersonalAndBondXP(partnerName, correctAnswersCount, matchPercentage 
   return { gainedXp, personalLevel: userProfile.level, bondLevel: bondInfo.level, bondMatches: bondInfo.matches };
 }
 
-// Arkadaş Kodu (Örn: SNC-4732) üzerinden buluttaki veya yereldeki aktif düelloyu sorgula (#5)
+// Arkadaş Kodu (Örn: SNC-2281) üzerinden buluttaki veya yereldeki aktif düelloyu sorgula
 async function fetchActiveRoomByFriendCode(friendCode) {
   const cleanFCode = String(friendCode || '').trim().toUpperCase();
   if (!/^SNC-\d{4}$/.test(cleanFCode)) return null;
 
-  // 1. Önce bulut API'den (/api/rooms?friendCode=SNC-4732) sorgula
   try {
     const res = await fetch(`/api/rooms?friendCode=${encodeURIComponent(cleanFCode)}`, {
       method: 'GET',
@@ -479,14 +914,17 @@ async function fetchActiveRoomByFriendCode(friendCode) {
     }
   } catch (e) {}
 
-  // 2. Yerel odalarda bu arkadaş koduna ait oda var mı kontrol et
   try {
     const codes = JSON.parse(localStorage.getItem('senceo_my_rooms_index') || '[]');
     for (const c of codes) {
       const rRaw = localStorage.getItem(`senceo_room_${c}`);
       if (!rRaw) continue;
       const r = JSON.parse(rRaw);
-      if (r && r.p1FriendCode && r.p1FriendCode.toUpperCase() === cleanFCode) {
+      if (
+        r &&
+        ((r.p1FriendCode && r.p1FriendCode.toUpperCase() === cleanFCode) ||
+          (r.p2FriendCode && r.p2FriendCode.toUpperCase() === cleanFCode))
+      ) {
         return { room: r, friend: { friendCode: cleanFCode, username: r.p1 } };
       }
     }
@@ -495,7 +933,7 @@ async function fetchActiveRoomByFriendCode(friendCode) {
   return null;
 }
 
-// Arkadaş Kodu (SNC-XXXX) veya Oda Kodu (SNCXXX) ile Bağ Ekleme (#5)
+// Arkadaş Kodu (SNC-XXXX) veya Oda Kodu (SNCXXX) ile Bağ Ekleme (Karşı tarafa da anında istek ve bildirim gönderir!)
 async function addVerifiedFriendByCode(inputId, feedbackId) {
   const inp = document.getElementById(inputId);
   const feedbackEl = document.getElementById(feedbackId);
@@ -510,7 +948,7 @@ async function addVerifiedFriendByCode(inputId, feedbackId) {
   };
 
   if (!rawVal) {
-    showFeedback('⚠️ Lütfen bir Arkadaş Kodu (Örn: SNC-4732) veya Oda Kodu (Örn: SNC123) girin.', true);
+    showFeedback('⚠️ Lütfen bir Arkadaş Kodu (Örn: SNC-2281) veya Oda Kodu (Örn: SNC123) girin.', true);
     return;
   }
 
@@ -519,44 +957,87 @@ async function addVerifiedFriendByCode(inputId, feedbackId) {
     return;
   }
 
-  // 1. Durum: SNC-XXXX formatında Arkadaş Kodu girildiyse -> Buluttan aktif düellosunu da hemen kontrol et! (#5)
+  // 1. Durum: SNC-XXXX formatında Arkadaş Kodu girildiyse -> Karşı tarafa da Bağ İsteği Gönder + Aktif Düellosunu Bul!
   const friendCodeRegex = /^SNC-\d{4}$/;
   if (friendCodeRegex.test(rawVal)) {
-    showFeedback('⏳ Arkadaş kodu ve aktif düelloları taranıyor...', false);
-    const lookup = await fetchActiveRoomByFriendCode(rawVal);
-    const discoveredName = (lookup && lookup.room && lookup.room.p1) || (lookup && lookup.friend && lookup.friend.username) || '';
-    const activeRoom = lookup && lookup.room ? lookup.room : null;
+    showFeedback('⏳ Arkadaşlık bağı isteği gönderiliyor ve aktif düellolar taranıyor...', false);
 
-    const bondKey = discoveredName ? `${discoveredName} (${rawVal})` : `Oyuncu (${rawVal})`;
+    const myDisplayName =
+      (userProfile.username && userProfile.username !== 'Misafir Oyuncu' ? userProfile.username : '') ||
+      gameState.player1Name.trim() ||
+      `Oyuncu (${userProfile.friendCode})`;
+
+    let targetFriend = null;
+    let activeRoom = null;
+
+    try {
+      const reqRes = await fetch('/api/rooms', {
+        method: 'POST',
+        headers: getSupabaseHeaders(),
+        body: JSON.stringify({
+          action: 'send_friend_request',
+          fromCode: userProfile.friendCode,
+          fromName: myDisplayName,
+          toCode: rawVal
+        })
+      });
+      if (reqRes.ok) {
+        const reqData = await reqRes.json();
+        targetFriend = reqData.targetFriend || null;
+        activeRoom = reqData.room || null;
+        if (activeRoom) {
+          saveRoomToLocalLobbyList(activeRoom);
+        }
+      }
+    } catch (e) {}
+
+    if (!activeRoom) {
+      const lookup = await fetchActiveRoomByFriendCode(rawVal);
+      if (lookup) {
+        if (lookup.room) activeRoom = lookup.room;
+        if (lookup.friend && !targetFriend) targetFriend = lookup.friend;
+      }
+    }
+
+    const discoveredName =
+      (activeRoom && activeRoom.p1 && activeRoom.p1FriendCode === rawVal ? activeRoom.p1 : '') ||
+      (targetFriend && targetFriend.username && targetFriend.username !== 'Oyuncu' ? targetFriend.username : '') ||
+      rawVal;
+
+    const bondKey = discoveredName !== rawVal ? `${discoveredName} (${rawVal})` : `Oyuncu (${rawVal})`;
     const existing = userProfile.bonds[bondKey] || {
       code: rawVal,
-      realName: discoveredName || 'Arkadaşın',
+      realName: discoveredName,
       activeRoomCode: activeRoom ? activeRoom.code : '',
       xp: 0,
       level: 0,
       matches: 0,
       commonAnswers: 0,
       lastPct: 0,
+      status: 'pending',
       verified: true
     };
 
     if (activeRoom && activeRoom.code) {
       existing.activeRoomCode = activeRoom.code;
-      existing.realName = activeRoom.p1 || existing.realName;
+      if (activeRoom.p1 && activeRoom.p1FriendCode === rawVal) {
+        existing.realName = activeRoom.p1;
+      }
     }
 
     userProfile.bonds[bondKey] = existing;
     inp.value = '';
     saveUserProfile();
+    refreshActiveGamesLobby();
 
     if (activeRoom && activeRoom.code) {
       showFeedback(
-        `✅ ${bondKey} eklendi ve aktif düellosu (#${activeRoom.code}) bulundu! "Düelloya Katıl ⚡" butonuna basarak hemen 5 sorusunu tahmin edebilirsin!`,
+        `✅ ${bondKey} için arkadaşlık isteği gönderildi ve aktif düellosu (#${activeRoom.code}) bulundu! "Düelloya Katıl ⚡" butonuna basarak hemen 5 sorusunu tahmin edebilirsin!`,
         false
       );
     } else {
       showFeedback(
-        `✅ ${bondKey} eklendi! Yanındaki "Düello Başlat ⚡" butonuna basarak onun için hemen 5 soruluk düello başlatabilirsin.`,
+        `✅ ${bondKey} hesabına Arkadaşlık Bağı İsteği ve bildirim gönderildi! Yanındaki "Düello Başlat ⚡" butonuna basarak onun için hemen 5 soruluk düello başlatabilirsin.`,
         false
       );
     }
@@ -572,13 +1053,13 @@ async function addVerifiedFriendByCode(inputId, feedbackId) {
       return;
     }
 
-    const myName = (userProfile.username || gameState.player1Name || '').toLowerCase();
-    const partnerName = (room.p1 && room.p1.toLowerCase() !== myName) ? room.p1 : (room.p2 || room.p1 || `Oda #${rawVal}`);
+    const isP1 = isUserPlayer1OfRoom(room);
+    const partnerName = !isP1 ? room.p1 : (room.p2 || room.p1 || `Oda #${rawVal}`);
     const pct = typeof room.lastMatchPercentage === 'number' ? room.lastMatchPercentage : 80;
     const corr = typeof room.lastCorrectCount === 'number' ? room.lastCorrectCount : 3;
 
     const existing = userProfile.bonds[partnerName] || {
-      code: room.p1FriendCode || `ODA:${rawVal}`,
+      code: (!isP1 ? room.p1FriendCode : room.p2FriendCode) || `ODA:${rawVal}`,
       realName: partnerName,
       activeRoomCode: rawVal,
       xp: 0,
@@ -586,6 +1067,7 @@ async function addVerifiedFriendByCode(inputId, feedbackId) {
       matches: 0,
       commonAnswers: 0,
       lastPct: pct,
+      status: 'accepted',
       verified: true
     };
     existing.activeRoomCode = rawVal;
@@ -611,16 +1093,16 @@ async function addVerifiedFriendByCode(inputId, feedbackId) {
   );
 }
 
-// "Düello Başlat / Aktif Düelloya Katıl ⚡" Butonu Mantığı (#5: Asla arkadaş kodunu rakip adına yazıp ana sayfaya atmaz!)
+// "Düello Başlat / Aktif Düelloya Katıl ⚡" Butonu Mantığı
 async function startDuelWithFriend(bondKey) {
   toggleProfileModal(false);
   const bond = (userProfile.bonds && userProfile.bonds[bondKey]) || {};
   const fCode = bond.code && /^SNC-\d{4}$/i.test(bond.code) ? bond.code.toUpperCase() : '';
 
-  // 1. Önce bu arkadaşın bulutta bekleyen aktif bir düellosu var mı kontrol et!
+  // 1. Önce bu arkadaşın bulutta bekleyen ve bizim tahmin etmemiz gereken aktif bir düellosu var mı kontrol et!
   if (fCode) {
     const lookup = await fetchActiveRoomByFriendCode(fCode);
-    if (lookup && lookup.room) {
+    if (lookup && lookup.room && !isUserPlayer1OfRoom(lookup.room)) {
       bond.activeRoomCode = lookup.room.code;
       if (lookup.room.p1) bond.realName = lookup.room.p1;
       saveUserProfile();
@@ -629,47 +1111,36 @@ async function startDuelWithFriend(bondKey) {
     }
   }
 
-  // 2. Eğer bond üzerinde kayıtlı bir activeRoomCode varsa onu veritabanından çekip doğrudan odaya gir!
+  // 2. Eğer bond üzerinde kayıtlı bir activeRoomCode varsa onu veritabanından çekip kontrol et!
   if (bond.activeRoomCode) {
     const room = await fetchRoomFromDatabase(bond.activeRoomCode);
     if (room) {
-      loadRoomIntoGameState(room, false);
-      return;
-    }
-  }
-
-  // 3. Yerel aktif odalar içinde bu arkadaşla eşleşen bir oda var mı bak!
-  try {
-    const codes = JSON.parse(localStorage.getItem('senceo_my_rooms_index') || '[]');
-    for (const c of codes) {
-      const rRaw = localStorage.getItem(`senceo_room_${c}`);
-      if (!rRaw) continue;
-      const r = JSON.parse(rRaw);
-      if (
-        (fCode && r.p1FriendCode === fCode) ||
-        (bond.realName && r.p1 && r.p1.toLowerCase() === bond.realName.toLowerCase())
-      ) {
-        loadRoomIntoGameState(r, false);
+      // Eğer bu odayı karşı taraf kurduysa veya sıra bizdeyse doğrudan odaya gir!
+      if (!isUserPlayer1OfRoom(room) || room.status === 'waiting_p1_half2' || room.status === 'completed') {
+        loadRoomIntoGameState(room, false);
         return;
       }
     }
-  } catch (e) {}
+  }
 
-  // 4. Eğer arkadaşın henüz başlattığı bir oda yoksa, rakip adına ASLA "SNC-4732" yazıp ana sayfaya atma!
-  // Doğrudan arkadaşın gerçek adıyla 5 soruluk düelloyu başlat ki sen 5 soruyu çözüp ona hazır bırak!
+  // 3. Arkadaş için yeni 5 soruluk düello başlat:
+  // p2FriendCode olarak arkadaşın SNC-XXXX kodunu kaydet ki 5 soru bittiğinde karşı tarafın Aktif Oyunlar & Bildirimler ekranına otomatik düşsün!
   const cleanFriendName =
-    (bond.realName && !bond.realName.startsWith('SNC-'))
+    bond.realName && bond.realName !== 'Arkadaşın' && bond.realName !== 'Oyuncu'
       ? bond.realName
-      : bondKey.replace(/\s*\(SNC-\d+\)\s*/i, '').replace(/^Oyuncu$/i, 'Arkadaşın').trim() || 'Arkadaşın';
+      : fCode || bondKey.replace(/^Oyuncu\s*/i, '').trim() || 'Arkadaşın';
 
-  const myName = (userProfile.username && userProfile.username !== 'Misafir Oyuncu')
-    ? userProfile.username
-    : (gameState.player1Name.trim() || 'Oyuncu 1');
+  const myName =
+    userProfile.username && userProfile.username !== 'Misafir Oyuncu'
+      ? userProfile.username
+      : gameState.player1Name.trim() || `Oyuncu (${userProfile.friendCode})`;
 
   gameState.player1Name = myName;
   gameState.player2Name = cleanFriendName;
+  gameState.player2FriendCode = fCode;
   gameState.mode = 'link';
   gameState.roomCode = '';
+  gameState.isSandboxTest = false;
 
   const p1Input = document.getElementById('input-p1-name');
   const p2Input = document.getElementById('input-p2-name');
@@ -680,6 +1151,7 @@ async function startDuelWithFriend(bondKey) {
 }
 
 async function syncAllFriendActiveRooms() {
+  await syncCloudFriendState(true);
   const keys = Object.keys(userProfile.bonds || {});
   for (const k of keys) {
     const b = userProfile.bonds[k];
@@ -687,11 +1159,14 @@ async function syncAllFriendActiveRooms() {
       const lookup = await fetchActiveRoomByFriendCode(b.code);
       if (lookup && lookup.room) {
         b.activeRoomCode = lookup.room.code;
-        if (lookup.room.p1) b.realName = lookup.room.p1;
+        if (lookup.room.p1 && lookup.room.p1FriendCode === b.code) {
+          b.realName = lookup.room.p1;
+        }
       }
     }
   }
   saveUserProfile();
+  refreshActiveGamesLobby();
 }
 
 function copyMyFriendInviteLink() {
@@ -717,8 +1192,8 @@ function checkIncomingFriendInvite() {
   if (fCode && /^SNC-\d{4}$/i.test(fCode.trim())) {
     const codeUpper = fCode.trim().toUpperCase();
     if (codeUpper !== userProfile.friendCode) {
-      const cleanName = fName && fName.trim() ? fName.trim() : 'Arkadaşın';
-      const displayFriend = `${cleanName} (${codeUpper})`;
+      const cleanName = fName && fName.trim() ? fName.trim() : codeUpper;
+      const displayFriend = cleanName !== codeUpper ? `${cleanName} (${codeUpper})` : `Oyuncu (${codeUpper})`;
       if (!userProfile.bonds[displayFriend]) {
         userProfile.bonds[displayFriend] = {
           code: codeUpper,
@@ -729,6 +1204,7 @@ function checkIncomingFriendInvite() {
           matches: 0,
           commonAnswers: 0,
           lastPct: 0,
+          status: 'accepted',
           verified: true
         };
         saveUserProfile();
@@ -751,14 +1227,14 @@ function renderProfileUI() {
   if (navLvl) navLvl.textContent = `Seviye ${lvl}`;
   if (navXp) navXp.textContent = `${xpTotal} TP`;
 
-  // Aktif Oyunlar sağ kolon profil kartı (Stitch tasarımı)
+  // Aktif Oyunlar sağ kolon profil kartı ("senceo Seviyen")
   const dName = document.getElementById('dash-card-profile-name');
   const dSub = document.getElementById('dash-card-profile-sub');
   const dLvl = document.getElementById('dash-card-level-pill');
   const dXpText = document.getElementById('dash-card-xp-text');
   const dXpBar = document.getElementById('dash-card-xp-bar');
   if (dName) dName.textContent = displayName;
-  if (dSub) dSub.textContent = `Seviye ${lvl} • ${userProfile.isLoggedIn ? userProfile.provider : 'Başlangıç'}`;
+  if (dSub) dSub.textContent = `senceo Seviyen • LVL ${lvl} (${userProfile.isLoggedIn ? userProfile.provider : 'Misafir'})`;
   if (dLvl) dLvl.textContent = `LVL ${lvl}`;
   if (dXpText) dXpText.textContent = `${xpInLevel} / 100 XP`;
   if (dXpBar) dXpBar.style.width = `${Math.max(12, xpInLevel)}%`;
@@ -805,7 +1281,68 @@ function renderProfileUI() {
   if (mXpText) mXpText.textContent = `${xpInLevel} / 100 XP (Toplam: ${xpTotal} XP)`;
   if (mStats) mStats.textContent = `${userProfile.questionsCorrect || 0} Doğru Tahmin • ${userProfile.gamesPlayed || 0} Oyun`;
 
+  updateHeaderNotificationBadges();
+  renderIncomingFriendRequestsUI();
   renderBondsLists();
+}
+
+function renderIncomingFriendRequestsUI() {
+  const reqs = userProfile.incomingRequests || [];
+  const pageCard = document.getElementById('incoming-friend-requests-card');
+  const pageList = document.getElementById('incoming-friend-requests-list');
+  const pageBadge = document.getElementById('incoming-req-badge');
+
+  const modalBox = document.getElementById('modal-incoming-requests-box');
+  const modalList = document.getElementById('modal-incoming-requests-list');
+
+  if (reqs.length === 0) {
+    if (pageCard) pageCard.classList.add('hidden');
+    if (modalBox) modalBox.classList.add('hidden');
+    return;
+  }
+
+  if (pageCard) pageCard.classList.remove('hidden');
+  if (modalBox) modalBox.classList.remove('hidden');
+  if (pageBadge) pageBadge.textContent = `${reqs.length} Yeni İstek`;
+
+  const rowHtml = reqs
+    .map((r) => {
+      const fCode = r.fromCode || '';
+      const fName = r.fromName || 'Oyuncu';
+      return `
+        <div class="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-full bg-primary-theme font-bold text-xs flex items-center justify-center shrink-0">
+              ${escapeHtml(fName.slice(0, 2).toUpperCase())}
+            </div>
+            <div>
+              <div class="font-bold text-xs sm:text-sm">${escapeHtml(fName)} <span class="font-mono-theme text-primary-theme">(${escapeHtml(fCode)})</span></div>
+              <div class="text-[11px] text-muted-theme">Seni arkadaş bağlarına eklemek istiyor</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onclick="respondToFriendRequest('${escapeHtml(fCode)}', '${escapeHtml(fName)}', 'accept')"
+              class="px-3 py-1.5 rounded-lg bg-emerald-500 text-white font-bold text-xs hover:opacity-90 transition shadow-sm"
+            >
+              ✓ Kabul Et
+            </button>
+            <button
+              type="button"
+              onclick="respondToFriendRequest('${escapeHtml(fCode)}', '${escapeHtml(fName)}', 'reject')"
+              class="px-2.5 py-1.5 rounded-lg bg-red-500/15 text-red-500 font-bold text-xs hover:bg-red-500/25 transition"
+            >
+              ✕ Reddet
+            </button>
+          </div>
+        </div>
+      `;
+    })
+    .join('');
+
+  if (pageList) pageList.innerHTML = rowHtml;
+  if (modalList) modalList.innerHTML = rowHtml;
 }
 
 function renderBondsLists() {
@@ -815,10 +1352,14 @@ function renderBondsLists() {
   const allFriends = Object.keys(userProfile.bonds || {});
 
   const buildBondRowHTML = (fName, b, isCompact) => {
-    const initials = fName.replace(/[^a-zA-ZğüşıöçĞÜŞİÖÇ0-9]/g, '').slice(0, 2).toUpperCase() || 'OY';
+    const displayLabel =
+      b.realName && b.realName !== 'Arkadaşın' && b.realName !== 'Oyuncu' && b.code && /^SNC-\d{4}$/.test(b.code)
+        ? `${b.realName} (${b.code})`
+        : fName;
+    const initials = displayLabel.replace(/[^a-zA-ZğüşıöçĞÜŞİÖÇ0-9]/g, '').slice(0, 2).toUpperCase() || 'OY';
     const isPending = (b.matches || 0) === 0;
     const hasActiveRoom = Boolean(b.activeRoomCode);
-    const bondTitle = getBondTitle(b.level || 0, b.matches || 0);
+    const bondTitle = getBondTitle(b.level || 0, b.matches || 0, b.status);
     const btnText = hasActiveRoom ? `Düelloya Katıl (#${b.activeRoomCode}) ⚡` : 'Düello Başlat ⚡';
 
     return `
@@ -828,13 +1369,15 @@ function renderBondsLists() {
             ${escapeHtml(initials)}
           </div>
           <div class="min-w-0">
-            <h5 class="font-bold text-xs sm:text-sm truncate">${escapeHtml(fName)}</h5>
+            <h5 class="font-bold text-xs sm:text-sm truncate">${escapeHtml(displayLabel)}</h5>
             <span class="text-[11px] text-muted-theme">
               ${
                 hasActiveRoom
                   ? `🟢 Aktif Oda: #${escapeHtml(b.activeRoomCode)}`
                   : isPending
-                  ? 'Henüz ortak oyun yok'
+                  ? b.status === 'accepted'
+                    ? 'Bağ onaylandı • İlk düelloyu başlat!'
+                    : 'Arkadaşlık isteği gönderildi'
                   : `${b.commonAnswers || b.matches * 3} Ortak Yanıt • ${b.matches} Oyun`
               }
             </span>
@@ -842,7 +1385,7 @@ function renderBondsLists() {
         </div>
         <div class="flex flex-col items-end gap-1 shrink-0">
           <span class="px-2 py-0.5 rounded-full stitch-subcard text-[10px] font-bold text-primary-theme">
-            ${isPending ? '⏳ Davetli' : `${bondTitle} (LVL ${b.level || 1})`}
+            ${isPending ? bondTitle : `${bondTitle} (LVL ${b.level || 1})`}
           </span>
           <div class="flex items-center gap-2">
             ${!isPending && !isCompact ? `<span class="text-xs font-extrabold">%${b.lastPct || 80} Uyum</span>` : ''}
@@ -878,6 +1421,86 @@ function renderBondsLists() {
   }
 }
 
+function renderLeaderboardPage() {
+  const playersEl = document.getElementById('leaderboard-players-list');
+  const bondsEl = document.getElementById('leaderboard-bonds-list');
+  if (!playersEl || !bondsEl) return;
+
+  const myName = userProfile.username || gameState.player1Name || 'Sen';
+  const myXp = userProfile.xp || 0;
+  const myLvl = userProfile.level || 1;
+
+  const players = [
+    { name: `${myName} (${userProfile.friendCode})`, lvl: myLvl, xp: myXp, isMe: true },
+    { name: 'Selin Y. (SNC-4812)', lvl: 6, xp: 540, isMe: false },
+    { name: 'Burak K. (SNC-7390)', lvl: 5, xp: 420, isMe: false },
+    { name: 'Deniz A. (SNC-1944)', lvl: 4, xp: 315, isMe: false },
+    { name: 'Mert R. (SNC-8821)', lvl: 3, xp: 240, isMe: false }
+  ].sort((a, b) => b.xp - a.xp);
+
+  playersEl.innerHTML = players
+    .map(
+      (p, idx) => `
+      <div class="py-3 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full ${
+            idx === 0 ? 'bg-amber-500 text-white' : p.isMe ? 'bg-primary-theme' : 'stitch-subcard'
+          } font-mono-theme font-extrabold text-xs flex items-center justify-center">
+            #${idx + 1}
+          </div>
+          <div>
+            <div class="font-bold text-xs sm:text-sm">${escapeHtml(p.name)} ${p.isMe ? '<span class="text-primary-theme">(Sen)</span>' : ''}</div>
+            <div class="text-[11px] text-muted-theme">senceo Seviyesi • LVL ${p.lvl}</div>
+          </div>
+        </div>
+        <span class="px-2.5 py-1 rounded-full stitch-subcard font-mono-theme font-extrabold text-xs text-primary-theme">
+          ${p.xp} TP
+        </span>
+      </div>
+    `
+    )
+    .join('');
+
+  const myBonds = Object.keys(userProfile.bonds || {}).map((k) => {
+    const b = userProfile.bonds[k];
+    return {
+      pair: `${myName} ⚡ ${b.realName || k}`,
+      pct: b.lastPct || 85,
+      lvl: b.level || 1,
+      title: getBondTitle(b.level || 1, b.matches || 1, b.status)
+    };
+  });
+
+  const allBondPairs = [
+    ...myBonds,
+    { pair: 'Selin Y. ⚡ Deniz A.', pct: 94, lvl: 5, title: 'Ruh İkizi' },
+    { pair: 'Burak K. ⚡ Mert R.', pct: 88, lvl: 4, title: 'Ruh İkizi' },
+    { pair: 'Ece T. ⚡ Can B.', pct: 82, lvl: 3, title: 'Kanka' }
+  ].sort((a, b) => b.pct - a.pct);
+
+  bondsEl.innerHTML = allBondPairs
+    .slice(0, 6)
+    .map(
+      (bp, idx) => `
+      <div class="py-3 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full stitch-subcard font-mono-theme font-extrabold text-xs flex items-center justify-center text-rose-500">
+            #${idx + 1}
+          </div>
+          <div>
+            <div class="font-bold text-xs sm:text-sm">${escapeHtml(bp.pair)}</div>
+            <div class="text-[11px] text-muted-theme">${escapeHtml(bp.title)} • Bağ LVL ${bp.lvl}</div>
+          </div>
+        </div>
+        <span class="px-2.5 py-1 rounded-full bg-rose-500/15 text-rose-600 dark:text-rose-300 font-extrabold text-xs">
+          %${bp.pct} Uyum
+        </span>
+      </div>
+    `
+    )
+    .join('');
+}
+
 function toggleProfileModal(show) {
   const modal = document.getElementById('profile-modal');
   if (!modal) return;
@@ -889,7 +1512,7 @@ function toggleProfileModal(show) {
   }
 }
 
-// ---------------- 4 TEMA MOTORU (#1: 1. Luminous, 2. Obsidian, 3. Cosmic Neon, 4. Neo-Brutal Acid) ----------------
+// ---------------- 4 TEMA MOTORU ----------------
 function normalizeThemeKey(key) {
   if (key === 'crimson') return 'obsidian';
   return THEMES[key] ? key : 'luminous';
@@ -950,21 +1573,23 @@ function toggleCloudJoinModal(show) {
   }
 }
 
-// ---------------- ÇOK SAYFALI ÜST NAVİGASYON GEÇİŞİ (#2: Ayrı Sayfa Açar, Kaydırma Yapmaz!) ----------------
+// ---------------- ÇOK SAYFALI ÜST NAVİGASYON GEÇİŞİ ----------------
 function switchTopNavPage(pageKey) {
   const navIds = {
     setup: 'nav-tab-setup',
     duels: 'nav-tab-duels',
-    bonds: 'nav-tab-bonds'
+    bonds: 'nav-tab-bonds',
+    leaderboard: 'nav-tab-leaderboard'
   };
 
   Object.keys(navIds).forEach((k) => {
     const btn = document.getElementById(navIds[k]);
     if (!btn) return;
+    const extraResponsive = k === 'leaderboard' ? 'hidden md:flex ' : 'flex ';
     if (k === pageKey) {
-      btn.className = "px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-colors bg-[var(--surface-high)] text-primary-theme flex items-center gap-1.5";
+      btn.className = `${extraResponsive}px-2.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-colors bg-[var(--surface-high)] text-primary-theme items-center gap-1.5`;
     } else {
-      btn.className = "px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-muted-theme hover:bg-[var(--surface-container)] transition-colors flex items-center gap-1.5";
+      btn.className = `${extraResponsive}px-2.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-muted-theme hover:bg-[var(--surface-container)] transition-colors items-center gap-1.5`;
     }
   });
 
@@ -972,6 +1597,8 @@ function switchTopNavPage(pageKey) {
     showView('view-active-games');
   } else if (pageKey === 'bonds') {
     showView('view-bonds');
+  } else if (pageKey === 'leaderboard') {
+    showView('view-leaderboard');
   } else {
     showView('view-home');
   }
@@ -997,7 +1624,7 @@ function spawnFloatingEmojiBurst(emojiChar, originEvent) {
   }
 }
 
-// ---------------- VERİTABANI, AKTİF DÜELLOLAR LOBİSİ VE DÜELLO SİLME (#3) ----------------
+// ---------------- VERİTABANI, KİMLİK DOĞRULAMA & AKTİF DÜELLOLAR LOBİSİ ----------------
 function generateRoomCode() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let code = "SNC";
@@ -1014,7 +1641,29 @@ function getSupabaseHeaders() {
   };
 }
 
+// ISSUE #2 Çözümü: Kullanıcının odadaki 1. Oyuncu (Kurucu) olup olmadığını değiştirilemez ID ve Arkadaş Kodu üzerinden kesin tespit et!
+function isUserPlayer1OfRoom(room) {
+  if (!room) return false;
+  if (room.p1FriendCode && userProfile.friendCode) {
+    if (room.p1FriendCode.toUpperCase() === userProfile.friendCode.toUpperCase()) {
+      return true;
+    }
+    if (room.p2FriendCode && room.p2FriendCode.toUpperCase() === userProfile.friendCode.toUpperCase()) {
+      return false;
+    }
+  }
+  if (room.p1Id && userProfile.id) {
+    return room.p1Id === userProfile.id;
+  }
+  const myName = (userProfile.username || gameState.player1Name || '').trim().toLowerCase();
+  if (myName && myName !== 'misafir oyuncu' && room.p1) {
+    return room.p1.trim().toLowerCase() === myName;
+  }
+  return false;
+}
+
 function saveRoomToLocalLobbyList(roomPayload) {
+  if (!roomPayload || !roomPayload.code) return;
   try {
     localStorage.setItem(`senceo_room_${roomPayload.code}`, JSON.stringify(roomPayload));
     const listRaw = localStorage.getItem('senceo_my_rooms_index') || '[]';
@@ -1027,7 +1676,6 @@ function saveRoomToLocalLobbyList(roomPayload) {
   updateNavActiveDuelsCount();
 }
 
-// Aktif Düelloyu Bitirme / Listeden Silme (#3)
 function deleteDuelFromLobby(roomCode, ev) {
   if (ev) ev.stopPropagation();
   const cleanCode = String(roomCode || '').trim().toUpperCase();
@@ -1040,7 +1688,6 @@ function deleteDuelFromLobby(roomCode, ev) {
     localStorage.setItem('senceo_my_rooms_index', JSON.stringify(codes));
   } catch (e) {}
 
-  // Bağlarda bu oda aktif görünüyorsa temizle
   if (userProfile.bonds) {
     Object.keys(userProfile.bonds).forEach((k) => {
       if (userProfile.bonds[k] && userProfile.bonds[k].activeRoomCode === cleanCode) {
@@ -1079,10 +1726,16 @@ function updateNavActiveDuelsCount() {
 }
 
 async function saveRoomToDatabase(roomPayload) {
-  // Her odaya oluşturan kişinin Arkadaş Kodunu (p1FriendCode) ekle ki arkadaşı kodla aradığında bulabilsin (#5)
   if (!roomPayload.p1FriendCode && userProfile.friendCode) {
     roomPayload.p1FriendCode = userProfile.friendCode;
   }
+  if (!roomPayload.p1Id && userProfile.id) {
+    roomPayload.p1Id = userProfile.id;
+  }
+  if (!roomPayload.p2FriendCode && gameState.player2FriendCode) {
+    roomPayload.p2FriendCode = gameState.player2FriendCode;
+  }
+
   saveRoomToLocalLobbyList(roomPayload);
   try {
     const res = await fetch('/api/rooms', {
@@ -1092,9 +1745,9 @@ async function saveRoomToDatabase(roomPayload) {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    return data.room || roomPayload;
+    return { ok: true, room: data.room || roomPayload };
   } catch (err) {
-    return roomPayload;
+    return { ok: false, room: roomPayload };
   }
 }
 
@@ -1142,6 +1795,33 @@ function handleUrgentBannerAction() {
   }
 }
 
+// Stitch Card 2'deki "🔔 Hatırlatma Gönder" (sendNudge) Özelliği
+async function sendNudgeToOpponent(roomCode, toFriendCode, btnEl, ev) {
+  if (ev) ev.stopPropagation();
+  if (btnEl) {
+    btnEl.disabled = true;
+    btnEl.innerHTML = `<span class="material-symbols-outlined text-[15px]">check</span><span>Hatırlatma Gönderildi!</span>`;
+  }
+  spawnFloatingEmojiBurst('🔔');
+  playSoundEffect('pop');
+
+  if (toFriendCode && /^SNC-\d{4}$/i.test(toFriendCode)) {
+    try {
+      await fetch('/api/rooms', {
+        method: 'POST',
+        headers: getSupabaseHeaders(),
+        body: JSON.stringify({
+          action: 'send_nudge',
+          fromCode: userProfile.friendCode,
+          fromName: userProfile.username || gameState.player1Name || 'Arkadaşın',
+          toCode: toFriendCode.toUpperCase(),
+          roomCode
+        })
+      });
+    } catch (e) {}
+  }
+}
+
 async function refreshActiveGamesLobby() {
   const container = document.getElementById('active-games-lobby-list');
   if (!container) return;
@@ -1156,12 +1836,45 @@ async function refreshActiveGamesLobby() {
   const urgentTitle = document.getElementById('urgent-banner-title');
   const urgentDesc = document.getElementById('urgent-banner-desc');
   const urgentBtnText = document.getElementById('urgent-banner-btn-text');
+  const urgentTimeText = document.getElementById('urgent-banner-time-text');
   gameState.urgentRoomCode = '';
 
-  if (codes.length === 0) {
+  const allRooms = [];
+  let turnCount = 0;
+  let waitingCount = 0;
+
+  for (const code of codes.slice(0, 15)) {
+    let room = null;
+    try {
+      const raw = localStorage.getItem(`senceo_room_${code}`);
+      if (raw) room = JSON.parse(raw);
+    } catch (e) {}
+    if (!room) continue;
+
+    const isP1 = isUserPlayer1OfRoom(room);
+    const isMyTurn =
+      (room.status === 'waiting_p1_half2' && isP1) ||
+      (room.status === 'waiting_p2' && !isP1);
+
+    if (isMyTurn) turnCount++;
+    else waitingCount++;
+
+    allRooms.push({ room, isP1, isMyTurn });
+  }
+
+  // Filtre Sayaçlarını Güncelle (Tümü (X), Sıra Sende (Y), Bekleyenler (Z))
+  const cAll = document.getElementById('filter-count-all');
+  const cTurn = document.getElementById('filter-count-turn');
+  const cWait = document.getElementById('filter-count-waiting');
+  if (cAll) cAll.textContent = String(allRooms.length);
+  if (cTurn) cTurn.textContent = String(turnCount);
+  if (cWait) cWait.textContent = String(waitingCount);
+
+  if (allRooms.length === 0) {
     if (urgentTitle) urgentTitle.textContent = 'Henüz aktif bir düellon bulunmuyor';
     if (urgentDesc) urgentDesc.textContent = 'Yeni bir Klasik Oyun veya Canlı Oda başlatarak arkadaşlarını davet edebilirsin.';
     if (urgentBtnText) urgentBtnText.textContent = 'Yeni Oyun Başlat';
+    if (urgentTimeText) urgentTimeText.textContent = 'Canlı Düello Arenası';
 
     container.innerHTML = `
       <div class="stitch-card p-6 text-center space-y-3">
@@ -1184,31 +1897,80 @@ async function refreshActiveGamesLobby() {
   container.innerHTML = '';
   let renderedCount = 0;
 
-  for (const code of codes.slice(0, 12)) {
-    let room = null;
-    try {
-      const raw = localStorage.getItem(`senceo_room_${code}`);
-      if (raw) room = JSON.parse(raw);
-    } catch (e) {}
-    if (!room) continue;
-
-    const myName = (userProfile.username || gameState.player1Name || '').toLowerCase();
-    const isP1 = room.p1 && room.p1.toLowerCase() === myName;
-    const isMyTurn =
-      (room.status === 'waiting_p1_half2' && isP1) ||
-      (room.status === 'waiting_p2' && !isP1);
+  for (const item of allRooms) {
+    const { room, isP1, isMyTurn } = item;
 
     if (!gameState.urgentRoomCode && isMyTurn) {
       gameState.urgentRoomCode = room.code;
-      if (urgentTitle) urgentTitle.textContent = `${room.p1 || 'Arkadaşın'} senin 5 tahminini bekliyor!`;
-      if (urgentDesc) urgentDesc.textContent = `Oda #${room.code} içinde sıra sende. Uyum oranını yükseltme şansını kaçırma.`;
+      const opp = isP1 ? (room.p2 || room.p2FriendCode || 'Arkadaşın') : (room.p1 || 'Oyuncu 1');
+      if (urgentTitle) urgentTitle.textContent = `${opp} senin 5 tahminini bekliyor!`;
+      if (urgentDesc) urgentDesc.textContent = `${(room.cat || 'Genel').toUpperCase()} serisinde (#${room.code}) son hamle sende. Uyum oranını yükseltme şansını kaçırma.`;
       if (urgentBtnText) urgentBtnText.textContent = 'Hamleni Yap';
+      if (urgentTimeText) urgentTimeText.textContent = `Oda #${room.code} • Aktif Sıra`;
     }
 
     if (gameState.activeLobbyFilter === 'turn' && !isMyTurn) continue;
     if (gameState.activeLobbyFilter === 'waiting' && isMyTurn) continue;
 
     renderedCount++;
+
+    // Canlı Parti Odası Kartı (Stitch Card 3 Tasarımı)
+    if (room.roomType === 'live_arena' && room.status === 'lobby_open') {
+      const pCount = Array.isArray(room.participants) ? room.participants.length : 1;
+      const card = document.createElement('div');
+      card.className = "stitch-card p-5 space-y-3.5 hover:border-[var(--primary)] transition";
+      card.innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl stitch-subcard text-primary-theme flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[24px]">groups</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="font-display-theme font-bold text-sm sm:text-base">Canlı Parti (${escapeHtml(room.code)})</h3>
+                <span class="px-2.5 py-0.5 rounded-full stitch-subcard text-xs font-bold">${escapeHtml((room.arenaFormat || '1v1').toUpperCase())} Lobi</span>
+              </div>
+              <p class="text-xs text-muted-theme">
+                ${escapeHtml((room.cat || 'genel').toUpperCase())} • ${pCount} Oyuncu Bağlı
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1 mr-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-primary-theme"></span>
+              <span class="w-2.5 h-2.5 rounded-full ${pCount >= 2 ? 'bg-primary-theme' : 'bg-slate-300 dark:bg-slate-700'}"></span>
+              <span class="w-2.5 h-2.5 rounded-full ${pCount >= 3 ? 'bg-primary-theme' : 'bg-slate-300 dark:bg-slate-700'}"></span>
+              <span class="w-2.5 h-2.5 rounded-full ${pCount >= 4 ? 'bg-primary-theme' : 'bg-slate-300 dark:bg-slate-700'}"></span>
+            </div>
+            <button
+              type="button"
+              onclick="deleteDuelFromLobby('${escapeHtml(room.code)}', event)"
+              class="px-2.5 py-1.5 rounded-lg bg-red-500/15 hover:bg-red-500/25 text-red-600 dark:text-red-300 font-bold text-xs flex items-center gap-1 transition"
+            >
+              <span class="material-symbols-outlined text-[15px]">delete</span>
+              <span>Bitir / Sil</span>
+            </button>
+          </div>
+        </div>
+        <div class="flex items-center justify-between pt-1">
+          <span class="text-xs text-muted-theme flex items-center gap-1">
+            <span class="material-symbols-outlined text-[15px]">lock_open</span>
+            <span>Oda Kodu: <strong class="font-mono-theme text-primary-theme">${escapeHtml(room.code)}</strong></span>
+          </span>
+          <button
+            type="button"
+            onclick="openRoomFromLobbyCard('${escapeHtml(room.code)}')"
+            class="theme-btn-secondary px-4 py-2 text-xs font-bold flex items-center gap-1.5"
+          >
+            <span class="material-symbols-outlined text-[15px]">share</span>
+            <span>Odaya Dön &amp; Davet Et</span>
+          </button>
+        </div>
+      `;
+      container.appendChild(card);
+      continue;
+    }
+
     let statusPill = '';
     let progressPct = 50;
     let actionLabel = 'Odayı Aç';
@@ -1224,28 +1986,64 @@ async function refreshActiveGamesLobby() {
       actionLabel = 'Hamleye Devam Et';
     } else {
       statusPill = `<span class="px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-600 dark:text-rose-300 font-bold text-[11px]">⏳ Rakip Bekleniyor</span>`;
-      progressPct = 45;
-      actionLabel = 'Odayı Kontrol Et';
+      progressPct = 50;
+      actionLabel = 'Link & Oda Durumu';
     }
 
-    const opponentName = isP1 ? (room.p2 || 'Rakip Bekleniyor') : (room.p1 || 'Oyuncu 1');
-    const initials = opponentName.slice(0, 2).toUpperCase();
+    const rawOpponent = isP1
+      ? room.p2 && room.p2 !== 'Arkadaşın'
+        ? room.p2
+        : room.p2FriendCode || room.p2 || 'Rakip Bekleniyor'
+      : room.p1 || room.p1FriendCode || 'Oyuncu 1';
+    const initials = rawOpponent.replace(/[^a-zA-ZğüşıöçĞÜŞİÖÇ0-9]/g, '').slice(0, 2).toUpperCase() || 'OY';
+
+    // Stitch Card 2 "Senin yanıtların kilitlendi" bilgi kutusu + "🔔 Hatırlatma Gönder" butonu
+    const lockedTimelineHtml =
+      !isMyTurn && room.status !== 'completed'
+        ? `
+          <div class="p-2.5 rounded-xl stitch-subcard flex items-center justify-between text-xs text-muted-theme">
+            <div class="flex items-center gap-1.5 font-semibold">
+              <span class="material-symbols-outlined text-[17px] text-emerald-500">check_circle</span>
+              <span>Senin 5 yanıtın kilitlendi • Rakibin tahmini bekleniyor</span>
+            </div>
+            <span class="font-mono-theme text-[11px]">#${escapeHtml(room.code)}</span>
+          </div>
+        `
+        : '';
+
+    const nudgeButtonHtml =
+      !isMyTurn && room.status !== 'completed'
+        ? `
+          <button
+            type="button"
+            onclick="sendNudgeToOpponent('${escapeHtml(room.code)}', '${escapeHtml(room.p2FriendCode || '')}', this, event)"
+            class="theme-btn-secondary px-3 py-2 text-xs font-bold flex items-center gap-1"
+            title="Rakibine Bildirim Gönder"
+          >
+            <span class="material-symbols-outlined text-[15px]">notifications_active</span>
+            <span>Hatırlatma Gönder</span>
+          </button>
+        `
+        : '';
 
     const card = document.createElement('div');
     card.className = "stitch-card p-5 space-y-3.5 hover:border-[var(--primary)] transition";
     card.innerHTML = `
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-full bg-[var(--primary-fixed)] text-primary-theme font-bold text-sm flex items-center justify-center shrink-0">
-            ${escapeHtml(initials)}
+          <div class="relative">
+            <div class="w-12 h-12 rounded-full bg-[var(--primary-fixed)] text-primary-theme font-bold text-sm flex items-center justify-center shrink-0">
+              ${escapeHtml(initials)}
+            </div>
+            <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full ${isMyTurn ? 'bg-emerald-500' : 'bg-slate-400'}"></span>
           </div>
           <div>
             <div class="flex items-center gap-2 flex-wrap">
-              <h3 class="font-display-theme font-bold text-sm sm:text-base">vs ${escapeHtml(opponentName)}</h3>
+              <h3 class="font-display-theme font-bold text-sm sm:text-base">vs ${escapeHtml(rawOpponent)}</h3>
               ${statusPill}
             </div>
             <p class="text-xs text-muted-theme">
-              ${escapeHtml((room.cat || 'genel').toUpperCase())} • Raunt ${room.currentRound || 1} • Oda: <strong class="font-mono-theme text-primary-theme">#${escapeHtml(room.code)}</strong>
+              ${escapeHtml((room.cat || 'genel').toUpperCase())} • Raunt ${room.currentRound || 1} • 5/5 Soru • Oda: <strong class="font-mono-theme text-primary-theme">#${escapeHtml(room.code)}</strong>
             </p>
           </div>
         </div>
@@ -1267,6 +2065,8 @@ async function refreshActiveGamesLobby() {
         </div>
       </div>
 
+      ${lockedTimelineHtml}
+
       <div>
         <div class="flex justify-between items-center mb-1 text-[11px] font-bold text-muted-theme">
           <span>Düello İlerlemesi</span>
@@ -1277,28 +2077,31 @@ async function refreshActiveGamesLobby() {
         </div>
       </div>
 
-      <div class="flex items-center justify-between pt-1">
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
         <span class="text-xs text-muted-theme flex items-center gap-1">
           <span class="material-symbols-outlined text-[15px]">lock_open</span>
           <span>Oda Kodu: <strong class="font-mono-theme">${escapeHtml(room.code)}</strong></span>
         </span>
-        <button
-          type="button"
-          onclick="openRoomFromLobbyCard('${escapeHtml(room.code)}')"
-          class="theme-btn-primary px-4 py-2 text-xs flex items-center gap-1"
-        >
-          <span>${actionLabel}</span>
-          <span class="material-symbols-outlined text-[15px]">play_arrow</span>
-        </button>
+        <div class="flex items-center gap-2">
+          ${nudgeButtonHtml}
+          <button
+            type="button"
+            onclick="openRoomFromLobbyCard('${escapeHtml(room.code)}')"
+            class="theme-btn-primary px-4 py-2 text-xs flex items-center gap-1"
+          >
+            <span>${actionLabel}</span>
+            <span class="material-symbols-outlined text-[15px]">play_arrow</span>
+          </button>
+        </div>
       </div>
     `;
     container.appendChild(card);
   }
 
-  if (!gameState.urgentRoomCode && codes.length > 0) {
-    gameState.urgentRoomCode = codes[0];
-    if (urgentTitle) urgentTitle.textContent = `${codes.length} aktif düello masan bulunuyor`;
-    if (urgentDesc) urgentDesc.textContent = 'Son düellona dönebilir veya biten oyunları listeden silebilirsin.';
+  if (!gameState.urgentRoomCode && allRooms.length > 0) {
+    gameState.urgentRoomCode = allRooms[0].room.code;
+    if (urgentTitle) urgentTitle.textContent = `${allRooms.length} aktif düello masan bulunuyor`;
+    if (urgentDesc) urgentDesc.textContent = 'Son düellonun davet linkini paylaşabilir veya biten oyunları listeden silebilirsin.';
     if (urgentBtnText) urgentBtnText.textContent = 'Son Düelloyu Aç';
   }
 
@@ -1366,6 +2169,37 @@ function stopPollingForPartnerCompletion() {
   }
 }
 
+// GAP #1 Çözümü: Canlı Oda Lobisinde katılımcıları gerçek zamanlı dinleme
+function startLiveLobbyParticipantPolling(roomCode) {
+  stopLiveLobbyParticipantPolling();
+  if (!roomCode) return;
+
+  gameState.liveLobbyPollingId = setInterval(async () => {
+    const room = await fetchRoomFromDatabase(roomCode);
+    if (!room) return;
+    const listEl = document.getElementById('live-lobby-players-list');
+    if (listEl) {
+      if (Array.isArray(room.participants) && room.participants.length > 0) {
+        listEl.textContent = room.participants.map((p, idx) => `${idx === 0 ? '😎' : '⚡'} ${p.name}`).join(' • ');
+      } else {
+        listEl.textContent = `😎 ${room.p1} (Oda Kurucu)${room.p2 ? ` ⚡ ${room.p2}` : ' • Katılımcılar Bekleniyor...'}`;
+      }
+    }
+    // Eğer kurucu olmayan bir oyuncu lobide bekliyorsa ve kurucu soruları başlattıysa otomatik odaya sok!
+    if (!isUserPlayer1OfRoom(room) && room.status === 'waiting_p2' && Array.isArray(room.qIds) && room.qIds.length > 0) {
+      stopLiveLobbyParticipantPolling();
+      loadRoomIntoGameState(room, false);
+    }
+  }, 3000);
+}
+
+function stopLiveLobbyParticipantPolling() {
+  if (gameState.liveLobbyPollingId) {
+    clearInterval(gameState.liveLobbyPollingId);
+    gameState.liveLobbyPollingId = null;
+  }
+}
+
 function triggerPartnerCompletedNotification(room) {
   gameState.completedRoomDataFromCloud = room;
   const banner = document.getElementById('top-notification-banner');
@@ -1395,11 +2229,12 @@ function openCompletedRoomFromNotification() {
   loadRoomIntoGameState(room, false);
 }
 
-// ---------------- EKRAN GEÇİŞ YÖNETİCİSİ (#2: Ayrı Sayfalar) ----------------
+// ---------------- EKRAN GEÇİŞ YÖNETİCİSİ ----------------
 const ALL_VIEWS = [
   'view-home',
   'view-active-games',
   'view-bonds',
+  'view-leaderboard',
   'view-live-room-lobby',
   'view-challenge-welcome',
   'view-question',
@@ -1409,6 +2244,10 @@ const ALL_VIEWS = [
 ];
 
 function showView(viewId) {
+  if (viewId !== 'view-live-room-lobby') {
+    stopLiveLobbyParticipantPolling();
+  }
+
   ALL_VIEWS.forEach((id) => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -1432,10 +2271,15 @@ function showView(viewId) {
   }
 
   if (viewId === 'view-active-games') {
+    syncCloudFriendState(false);
     refreshActiveGamesLobby();
     renderBondsLists();
   } else if (viewId === 'view-bonds') {
+    syncCloudFriendState(false);
+    renderIncomingFriendRequestsUI();
     renderBondsLists();
+  } else if (viewId === 'view-leaderboard') {
+    renderLeaderboardPage();
   } else if (viewId === 'view-home') {
     updateNavActiveDuelsCount();
   }
@@ -1457,14 +2301,20 @@ function updateDuelHeaderUI() {
   const bondObj = userProfile.bonds[p2Display];
   const p2Sub = document.getElementById('vs-p2-sub');
   if (p2Sub) {
-    p2Sub.textContent = bondObj && bondObj.level > 0
-      ? `Bağ: LVL ${bondObj.level}`
-      : `Mod: ${gameState.mode === 'arena' ? gameState.arenaFormat.toUpperCase() : 'Klasik Oyun'}`;
+    if (gameState.isSandboxTest) {
+      p2Sub.textContent = '🧪 Cihaz İçi Simülasyon';
+    } else {
+      p2Sub.textContent = bondObj && bondObj.level > 0
+        ? `Bağ: LVL ${bondObj.level}`
+        : `Mod: ${gameState.mode === 'arena' ? gameState.arenaFormat.toUpperCase() : 'Klasik Oyun'}`;
+    }
   }
 
   const roundBadge = document.getElementById('duel-round-badge');
   if (roundBadge) {
-    roundBadge.textContent = `RAUND ${gameState.currentRound} • YARI ${gameState.half}/2`;
+    roundBadge.textContent = gameState.isSandboxTest
+      ? 'SİMÜLASYON TESTİ • ETKİ: 0'
+      : `RAUND ${gameState.currentRound} • YARI ${gameState.half}/2`;
   }
 
   const dotsContainer = document.getElementById('duel-progress-dots');
@@ -1601,7 +2451,7 @@ async function handlePrimaryStartAction() {
   const errorText = document.getElementById('home-error-text');
 
   const p1Name = p1Input ? p1Input.value.trim() : '';
-  const p2Name = p2Input ? p2Input.value.trim() : '';
+  const p2Raw = p2Input ? p2Input.value.trim() : '';
 
   if (!p1Name) {
     errorText.textContent = "Lütfen başlamadan önce kendi adını yaz!";
@@ -1612,26 +2462,39 @@ async function handlePrimaryStartAction() {
   errorBox.classList.add('hidden');
 
   gameState.player1Name = p1Name;
-  gameState.player2Name = p2Name;
+  gameState.isSandboxTest = false;
+
+  // Eğer rakip adı kutusuna SNC-XXXX yazıldıysa onu arkadaş kodu olarak da tanı!
+  if (/^SNC-\d{4}$/i.test(p2Raw)) {
+    gameState.player2FriendCode = p2Raw.toUpperCase();
+    gameState.player2Name = p2Raw.toUpperCase();
+  } else {
+    gameState.player2Name = p2Raw;
+    gameState.player2FriendCode = '';
+  }
+
   userProfile.username = p1Name;
   saveUserProfile();
 
   if (gameState.mode === 'arena') {
     gameState.roomCode = generateRoomCode();
     document.getElementById('live-lobby-room-code').textContent = gameState.roomCode;
-    document.getElementById('live-lobby-players-list').textContent = `😎 ${p1Name} (Oda Kurucu)${p2Name ? ` ⚡ ${p2Name}` : ' • Katılımcılar Bekleniyor...'}`;
+    document.getElementById('live-lobby-players-list').textContent = `😎 ${p1Name} (Oda Kurucu)${gameState.player2Name ? ` ⚡ ${gameState.player2Name}` : ' • Katılımcılar Bekleniyor...'}`;
     const catSelect = document.getElementById('live-lobby-cat-select');
     if (catSelect) catSelect.value = gameState.category;
 
     await saveRoomToDatabase({
       code: gameState.roomCode,
+      p1Id: userProfile.id,
       p1FriendCode: userProfile.friendCode,
+      p2FriendCode: gameState.player2FriendCode || '',
       roomType: 'live_arena',
       arenaFormat: gameState.arenaFormat,
       status: 'lobby_open',
       currentRound: 1,
       p1: p1Name,
-      p2: p2Name,
+      p2: gameState.player2Name,
+      participants: [{ name: p1Name, code: userProfile.friendCode, role: 'host' }],
       cat: gameState.category,
       thm: gameState.theme,
       qIds: [],
@@ -1639,20 +2502,25 @@ async function handlePrimaryStartAction() {
     });
 
     showView('view-live-room-lobby');
+    startLiveLobbyParticipantPolling(gameState.roomCode);
     return;
   }
 
+  gameState.roomCode = '';
   startClassicFirstHalf();
 }
 
 function startMatchFromLiveLobby() {
+  stopLiveLobbyParticipantPolling();
   startClassicFirstHalf();
 }
 
+// ISSUE #1 Çözümü: Yeni raund veya 1. Yarı başlarken 2. Yarı (p2Half2*) dizileri de eksiksiz sıfırlanır!
 function startClassicFirstHalf() {
   if (!gameState.roomCode) {
     gameState.roomCode = generateRoomCode();
   }
+  gameState.isSandboxTest = false;
   gameState.half = 1;
   gameState.phase = 'p1_answer';
   gameState.selectedQuestions = pickQuestionsForCategory(gameState.category, TOTAL_QUESTIONS);
@@ -1664,6 +2532,12 @@ function startClassicFirstHalf() {
   gameState.p2Guesses = [];
   gameState.p1Comments = [];
   gameState.p2Comments = [];
+  gameState.p2Half2Questions = [];
+  gameState.p2Half2Answers = [];
+  gameState.p1Half2Guesses = [];
+  gameState.p2Half2Comments = [];
+  gameState.p1Half2Comments = [];
+  gameState.p2Half2CustomMap = {};
   gameState.currentQuestionIndex = 0;
   gameState.progressDots = [];
   gameState.isLocked = false;
@@ -1690,7 +2564,11 @@ function renderCurrentQuestion() {
 
   const isAnswering = isCurrentPhaseAnswering();
   const answererName = gameState.half === 1 ? gameState.player1Name : (gameState.player2Name || '2. Oyuncu');
-  const guesserName = gameState.half === 1 ? (gameState.player2Name || '2. Oyuncu') : gameState.player1Name;
+  const guesserName = gameState.isSandboxTest
+    ? `${gameState.player1Name} (Test Simülasyonu)`
+    : gameState.half === 1
+    ? (gameState.player2Name || '2. Oyuncu')
+    : gameState.player1Name;
 
   document.getElementById('header-question-counter').textContent = `SORU ${qIndex + 1} / ${TOTAL_QUESTIONS}`;
 
@@ -1804,15 +2682,24 @@ function renderCurrentQuestion() {
   updateDuelHeaderUI();
 }
 
+// ISSUE #3 Çözümü: Soru değiştirildiğinde o soruya yazılmış özel şık varsa temizlenir ve özel şık hakkı iade edilir!
 function handleShuffleQuestion() {
-  if (gameState.isLocked || !isCurrentPhaseAnswering() || gameState.shufflesLeft <= 0) return;
+  if (!isCurrentPhaseAnswering() || gameState.shufflesLeft <= 0) return;
 
   const replacement = pickQuestionsForCategory(gameState.category, 1)[0];
   if (!replacement) return;
 
+  const qIndex = gameState.currentQuestionIndex;
+  const activeCustomMap = gameState.half === 1 ? gameState.customOptionsMap : gameState.p2Half2CustomMap;
+  if (activeCustomMap && activeCustomMap[qIndex]) {
+    delete activeCustomMap[qIndex];
+    gameState.customAnswerUsedThisTurn = false;
+  }
+
+  gameState.isLocked = false;
   gameState.shufflesLeft--;
   const qList = getActiveQuestionList();
-  qList[gameState.currentQuestionIndex] = replacement;
+  qList[qIndex] = replacement;
 
   const cardBox = document.getElementById('question-card-box');
   if (cardBox) {
@@ -2040,11 +2927,19 @@ function confirmStepAndAdvance() {
   }
 }
 
-// ---------------- 5 SORULUK BLOK SONU VE ROLLERİN DEĞİŞMESİ ----------------
+// ---------------- 5 SORULUK BLOK SONU, SİMÜLASYON TEST KORUMASI VE ROLLERİN DEĞİŞMESİ ----------------
 async function handleEndOfFiveQuestionBlock() {
   if (gameState.phase === 'p1_answer') {
     await showInterstitialScreen('after_p1_answer');
   } else if (gameState.phase === 'p2_guess') {
+    // KRİTİK KURAL: Eğer kullanıcı "Bu Cihazda Test Et (Simülasyon)" modundaysa:
+    // 1. Asla karşı saldırı (5 yeni soru sorma) yapamaz!
+    // 2. Gerçek düello veritabanına veya odaya etkisi 0'dır!
+    if (gameState.isSandboxTest) {
+      showSandboxSimulationResult();
+      return;
+    }
+
     let c1 = 0;
     for (let i = 0; i < TOTAL_QUESTIONS; i++) {
       if (isQuestionMatch(gameState.p1Answers[i], gameState.p2Guesses[i])) c1++;
@@ -2062,7 +2957,48 @@ async function handleEndOfFiveQuestionBlock() {
   }
 }
 
+// Simülasyon Testi Bittiğinde Gösterilen Sıfır-Etkili Ekran (Karşı Saldırı Yok, DB Kaydı Yok, XP Yok!)
+function showSandboxSimulationResult() {
+  showView('view-result');
+  const { correctCount, totalCount, percentage } = calculateOverallRoundScore();
+
+  document.getElementById('result-round-pill').textContent = '🧪 CİHAZ İÇİ TEST SİMÜLASYONU (GERÇEK DÜELLOYA ETKİSİ: 0)';
+  document.getElementById('result-p1-name').textContent = gameState.player1Name || 'Oyuncu 1';
+  document.getElementById('result-p2-name').textContent = 'Cihaz İçi Test';
+  document.getElementById('result-correct-ratio').textContent = `${correctCount} / ${totalCount} Test Tahmini`;
+
+  document.getElementById('result-personal-xp-pill').textContent = '🧪 Simülasyon Modu (+0 XP)';
+  document.getElementById('result-bond-xp-pill').textContent = '🔒 Gerçek Oda Korundu';
+
+  const nextRoundBtn = document.getElementById('btn-next-round-action');
+  const nextRoundLabel = document.getElementById('btn-next-round-label');
+  if (nextRoundBtn && nextRoundLabel) {
+    nextRoundLabel.textContent = 'DAVET LİNKİ & BEKLEME EKRANINA DÖN';
+    nextRoundBtn.onclick = () => {
+      gameState.isSandboxTest = false;
+      gameState.p2Guesses = [];
+      gameState.p2Comments = [];
+      showWaitingShareScreenForExistingRoom();
+    };
+  }
+
+  document.getElementById('result-verdict-title').textContent = `Test Simülasyonu Tamamlandı (%${percentage})`;
+  document.getElementById('result-verdict-desc').textContent =
+    'Bu test yalnızca kendi cihazında sorularının ve sohbet balonlarının nasıl göründüğünü denemen için yapıldı. Gerçek düello odası (# ' +
+    (gameState.roomCode || '') +
+    ') etkilenmedi ve arkadaşını beklemeye devam ediyor.';
+
+  const circleEl = document.getElementById('score-circle-progress');
+  const percentTextEl = document.getElementById('score-percentage-text');
+  const targetOffset = CIRCLE_CIRCUMFERENCE - (percentage / 100) * CIRCLE_CIRCUMFERENCE;
+  circleEl.style.strokeDashoffset = `${targetOffset}`;
+  percentTextEl.textContent = `%${percentage}`;
+
+  renderBreakdownList();
+}
+
 function startHalftimeCounterAttack() {
+  if (gameState.isSandboxTest) return;
   gameState.half = 2;
   gameState.phase = 'p2_answer';
   gameState.p2Half2Questions = pickQuestionsForCategory(gameState.category, TOTAL_QUESTIONS);
@@ -2119,7 +3055,9 @@ async function showInterstitialScreen(stage) {
   const nextStatus = stage === 'after_p1_answer' ? 'waiting_p2' : 'waiting_p1_half2';
   const roomRecord = {
     code: gameState.roomCode,
+    p1Id: userProfile.id || '',
     p1FriendCode: userProfile.friendCode || '',
+    p2FriendCode: gameState.player2FriendCode || '',
     roomType: gameState.mode === 'arena' ? 'live_arena' : 'classic',
     arenaFormat: gameState.arenaFormat,
     status: nextStatus,
@@ -2158,13 +3096,49 @@ async function showInterstitialScreen(stage) {
     subEl.innerHTML = `Sen onun sorularını tahmin ettin ve kendi 5 sorunu hazırladın. Şimdi aynı kısa linkten sıra <strong>${escapeHtml(gameState.player1Name)}</strong>'de!`;
   } else {
     headingEl.textContent = "Kısa Davet Linkin Hazır! Arkadaşına Gönder 🚀";
-    subEl.innerHTML = `Cevapların bulut veritabanına kaydedildi (Oda: <strong>${gameState.roomCode}</strong> • Arkadaş Kodun: <strong>${userProfile.friendCode}</strong>). Kısa linki gönder veya arkadaşın doğrudan senin arkadaş kodunla bağlansın!`;
+    subEl.innerHTML = `Cevapların bulut veritabanına kaydedildi (Oda: <strong>#${gameState.roomCode}</strong> • Arkadaş Kodun: <strong>${userProfile.friendCode}</strong>). Kısa linki gönder veya arkadaşın doğrudan senin arkadaş kodunla katılsın!`;
   }
 
+  // STATE_ISSUE #3 Çözümü: Bulut kayıt sonucunu doğrula ve kullanıcıya net durum göster
   const statusPill = document.getElementById('cloud-save-status-pill');
   if (statusPill) statusPill.textContent = "⚡ Veritabanına Kaydediliyor...";
-  await saveRoomToDatabase(roomRecord);
-  if (statusPill) statusPill.textContent = `✅ Veritabanına Kaydedildi (#${gameState.roomCode})`;
+  const saveRes = await saveRoomToDatabase(roomRecord);
+  if (statusPill) {
+    statusPill.textContent = saveRes.ok
+      ? `✅ Bulut Veritabanına Kaydedildi (#${gameState.roomCode})`
+      : `⚠️ Yerel Olarak Kaydedildi (#${gameState.roomCode})`;
+  }
+
+  startPollingForPartnerCompletion(gameState.roomCode);
+}
+
+// Kurucu (P1) kendi bekleyen odasına "Link & Oda Durumu" ile tıkladığında açılan ekran (Asla "Senin Adın Nedir?" sormaz!)
+function showWaitingShareScreenForExistingRoom() {
+  showView('view-interstitial');
+  const passBox = document.getElementById('interstitial-pass-box');
+  const linkBox = document.getElementById('interstitial-link-box');
+  if (passBox) passBox.classList.add('hidden');
+  if (linkBox) linkBox.classList.remove('hidden');
+
+  const baseUrl = `${window.location.origin}${window.location.pathname}`;
+  const shortUrl = `${baseUrl}?r=${gameState.roomCode}`;
+  gameState.generatedChallengeUrl = shortUrl;
+
+  const urlInp = document.getElementById('generated-challenge-url');
+  if (urlInp) urlInp.value = shortUrl;
+
+  const statusPill = document.getElementById('cloud-save-status-pill');
+  if (statusPill) statusPill.textContent = `⏳ Rakip Bekleniyor • Oda #${gameState.roomCode}`;
+
+  const oppDisplay = gameState.player2Name || gameState.player2FriendCode || 'Arkadaşın';
+  const headingEl = document.getElementById('link-share-heading');
+  const subEl = document.getElementById('link-share-subtext');
+  if (headingEl) {
+    headingEl.textContent = `Senin 5 Yanıtın Kilitlendi! Sıra ${oppDisplay}'de ⏳`;
+  }
+  if (subEl) {
+    subEl.innerHTML = `Bu düelloyu sen başlattın. <strong>${escapeHtml(oppDisplay)}</strong> aşağıdaki kısa linkten, <strong>#${escapeHtml(gameState.roomCode)}</strong> oda kodundan veya kendi <em>Aktif Oyunlar / Bildirimler</em> ekranından sorularını tahmin ettiğinde sıra tekrar sana geçecek!`;
+  }
 
   startPollingForPartnerCompletion(gameState.roomCode);
 }
@@ -2243,13 +3217,24 @@ function shareViaWhatsApp() {
   window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
 }
 
+// "Şimdi Karşı Oyuncu Gözüyle Bu Cihazda Test Et" -> Gerçek Düelloyu ASLA Bozmaz (isSandboxTest = true)!
 function openChallengeLinkDirectly() {
-  if (gameState.generatedChallengeUrl) {
-    window.location.href = gameState.generatedChallengeUrl;
-  }
+  stopPollingForPartnerCompletion();
+  gameState.isSandboxTest = true;
+  gameState.half = 1;
+  gameState.phase = 'p2_guess';
+  gameState.p2Guesses = [];
+  gameState.p2Comments = [];
+  gameState.currentQuestionIndex = 0;
+  gameState.progressDots = [];
+  gameState.isLocked = false;
+
+  updateDuelHeaderUI();
+  showView('view-question');
+  renderCurrentQuestion();
 }
 
-// ---------------- ODA KODU VEYA ARKADAŞ KODU İLE ODAYI YÜKLEME (#5) ----------------
+// ---------------- ODA KODU VEYA ARKADAŞ KODU İLE ODAYI YÜKLEME ----------------
 async function joinRoomByCode() {
   const codeInput = document.getElementById('input-join-room-code');
   const errEl = document.getElementById('join-room-error');
@@ -2265,7 +3250,6 @@ async function joinRoomByCode() {
   errEl.classList.add('hidden');
   if (btn) btn.textContent = "ARANIYOR...";
 
-  // Eğer SNC-XXXX formatında Arkadaş Kodu girildiyse o arkadaşın aktif odasını bul! (#5)
   if (/^SNC-\d{4}$/.test(code)) {
     const lookup = await fetchActiveRoomByFriendCode(code);
     if (btn) btn.innerHTML = '<span>ODAYI BUL VE BAĞLAN</span><span class="material-symbols-outlined text-[18px]">bolt</span>';
@@ -2294,6 +3278,7 @@ async function joinRoomByCode() {
 }
 
 function loadRoomIntoGameState(room, forceResultView = false) {
+  gameState.isSandboxTest = false;
   gameState.roomCode = room.code || '';
   gameState.mode = room.roomType === 'live_arena' ? 'arena' : 'link';
   gameState.arenaFormat = room.arenaFormat || '1v1';
@@ -2301,6 +3286,7 @@ function loadRoomIntoGameState(room, forceResultView = false) {
   gameState.category = room.cat || 'genel';
   gameState.player1Name = room.p1 || 'Oyuncu 1';
   gameState.player2Name = room.p2 || '';
+  gameState.player2FriendCode = room.p2FriendCode || '';
   gameState.usedQuestionIds = room.usedQuestionIds || [];
   gameState.customOptionsMap = room.customOptionsMap || {};
   gameState.p1Answers = room.p1Answers || room.ans || [];
@@ -2319,27 +3305,62 @@ function loadRoomIntoGameState(room, forceResultView = false) {
   const q2List = (room.p2Half2QIds || []).map((id) => QUESTIONS_DB.find((q) => q.id === id)).filter(Boolean);
   gameState.p2Half2Questions = q2List;
 
+  const isP1 = isUserPlayer1OfRoom(room);
+
+  // Canlı Oda Lobisi henüz başlamamışsa:
   if (room.status === 'lobby_open' && (!room.qIds || room.qIds.length === 0)) {
-    startClassicFirstHalf();
+    document.getElementById('live-lobby-room-code').textContent = gameState.roomCode;
+    if (!isP1) {
+      // Katılımcı olarak odaya kaydol
+      const myJoinName = userProfile.username || 'Oyuncu 2';
+      fetch('/api/rooms', {
+        method: 'POST',
+        headers: getSupabaseHeaders(),
+        body: JSON.stringify({
+          action: 'join_live_lobby',
+          code: gameState.roomCode,
+          playerName: myJoinName,
+          friendCode: userProfile.friendCode
+        })
+      }).catch(() => {});
+    }
+    showView('view-live-room-lobby');
+    startLiveLobbyParticipantPolling(gameState.roomCode);
     return true;
   }
 
+  // Oyun tamamlandıysa sonuç ekranını aç
   if (forceResultView || room.status === 'completed') {
-    showResultScreen();
+    showResultScreen(false);
     return true;
   }
 
+  // 2. Yarıda sıra P1'de ise:
   if (room.status === 'waiting_p1_half2') {
-    gameState.half = 2;
-    gameState.phase = 'p1_guess';
-    gameState.currentQuestionIndex = 0;
-    gameState.progressDots = [];
-    updateDuelHeaderUI();
-    showView('view-question');
-    renderCurrentQuestion();
+    if (isP1) {
+      gameState.half = 2;
+      gameState.phase = 'p1_guess';
+      gameState.currentQuestionIndex = 0;
+      gameState.progressDots = [];
+      updateDuelHeaderUI();
+      showView('view-question');
+      renderCurrentQuestion();
+      return true;
+    } else {
+      // P2 kendi karşı saldırısını zaten gönderdi ve P1'i bekliyor!
+      showWaitingShareScreenForExistingRoom();
+      return true;
+    }
+  }
+
+  // KRİTİK DÜZELTME: room.status === 'waiting_p2' iken odayı açan kişi P1'in KENDİSİ ise (Örn: SNC-9644 kendi açtığı odaya "Link & Oda Durumu" dediyse):
+  // Asla "Senin Adın Nedir? Arkadaşın sana meydan okudu!" ekranına sokma! Doğrudan paylaşım & bekleme ekranını göster!
+  if (isP1) {
+    showWaitingShareScreenForExistingRoom();
     return true;
   }
 
+  // Odayı açan kişi gerçekten 2. Oyuncu (Rakip) ise:
   gameState.half = 1;
   gameState.phase = 'p2_guess';
   gameState.currentQuestionIndex = 0;
@@ -2349,7 +3370,13 @@ function loadRoomIntoGameState(room, forceResultView = false) {
   titleEl.innerHTML = `<span class="text-primary-theme">${escapeHtml(gameState.player1Name)}</span> sana meydan okudu! Bakalım onu ne kadar tanıyorsun?`;
   const nameInput = document.getElementById('input-challenger-p2-name');
   if (nameInput) {
-    nameInput.value = gameState.player2Name || (userProfile.username !== 'Misafir Oyuncu' ? userProfile.username : '');
+    const candidateName =
+      userProfile.username && userProfile.username !== 'Misafir Oyuncu'
+        ? userProfile.username
+        : gameState.player2Name && !/^SNC-\d{4}$/i.test(gameState.player2Name) && gameState.player2Name !== 'Arkadaşın'
+        ? gameState.player2Name
+        : '';
+    nameInput.value = candidateName;
   }
 
   updateDuelHeaderUI();
@@ -2384,6 +3411,10 @@ function acceptUrlChallenge() {
 
   errEl.classList.add('hidden');
   gameState.player2Name = p2Name;
+  gameState.player2FriendCode = userProfile.friendCode || gameState.player2FriendCode;
+  userProfile.username = p2Name;
+  saveUserProfile();
+
   gameState.half = 1;
   gameState.phase = 'p2_guess';
   gameState.currentQuestionIndex = 0;
@@ -2394,13 +3425,18 @@ function acceptUrlChallenge() {
   renderCurrentQuestion();
 }
 
-// ---------------- SONUÇ HESAPLAMA, XP / BAĞ LEVELİ VE DOĞRUDAN SONUÇ LİNKİ ----------------
+// ---------------- SONUÇ HESAPLAMA, senceo SEVİYESİ / BAĞ LEVELİ VE DOĞRUDAN SONUÇ LİNKİ ----------------
 function isQuestionMatch(ans, guess) {
   if (ans === PASS_ANSWER_VALUE) return true;
   return ans === guess;
 }
 
 async function finalizeGameAndShowResults() {
+  if (gameState.isSandboxTest) {
+    showSandboxSimulationResult();
+    return;
+  }
+
   const { correctCount, totalCount, percentage } = calculateOverallRoundScore();
 
   if (!gameState.roomCode) {
@@ -2409,7 +3445,9 @@ async function finalizeGameAndShowResults() {
 
   const completedRoom = {
     code: gameState.roomCode,
+    p1Id: userProfile.id || '',
     p1FriendCode: userProfile.friendCode || '',
+    p2FriendCode: gameState.player2FriendCode || '',
     roomType: gameState.mode === 'arena' ? 'live_arena' : 'classic',
     arenaFormat: gameState.arenaFormat,
     status: 'completed',
@@ -2474,15 +3512,19 @@ function showResultScreen(awardXpNow = false) {
   document.getElementById('result-p2-name').textContent = gameState.player2Name || 'Oyuncu 2';
   document.getElementById('result-correct-ratio').textContent = `${correctCount} / ${totalCount} Doğru`;
 
-  const nextRoundBtn = document.getElementById('btn-next-round-label');
+  const nextRoundBtn = document.getElementById('btn-next-round-action');
+  const nextRoundLabel = document.getElementById('btn-next-round-label');
+  if (nextRoundLabel) {
+    nextRoundLabel.textContent = `${gameState.currentRound + 1}. RAUNDA GEÇ (YENİ SORULARLA DEVAM ET!)`;
+  }
   if (nextRoundBtn) {
-    nextRoundBtn.textContent = `${gameState.currentRound + 1}. RAUNDA GEÇ (YENİ SORULARLA DEVAM ET!)`;
+    nextRoundBtn.onclick = startNextRoundInSameRoom;
   }
 
-  if (awardXpNow) {
+  if (awardXpNow && !gameState.isSandboxTest) {
     const partner = gameState.player2Name || 'Arkadaşın';
     const gain = addPersonalAndBondXP(partner, correctCount, percentage, gameState.roomCode);
-    document.getElementById('result-personal-xp-pill').textContent = `⭐ Öz Seviye: LVL ${gain.personalLevel} (+${gain.gainedXp} XP)`;
+    document.getElementById('result-personal-xp-pill').textContent = `⭐ senceo Seviyen: LVL ${gain.personalLevel} (+${gain.gainedXp} XP)`;
     document.getElementById('result-bond-xp-pill').textContent = `🤝 ${partner} ile Bağ: LVL ${gain.bondLevel}`;
   }
 
@@ -2491,7 +3533,7 @@ function showResultScreen(awardXpNow = false) {
   const directUrlTextEl = document.getElementById('result-direct-url-text');
   if (directUrlTextEl) directUrlTextEl.textContent = directResultUrl;
 
-  if (gameState.roomCode) {
+  if (gameState.roomCode && !gameState.isSandboxTest) {
     window.history.replaceState({}, document.title, `?r=${gameState.roomCode}&view=result`);
   }
 
@@ -2543,7 +3585,7 @@ function renderBreakdownList() {
   container.innerHTML = '';
 
   const p1Name = gameState.player1Name || '1. Oyuncu';
-  const p2Name = gameState.player2Name || '2. Oyuncu';
+  const p2Name = gameState.isSandboxTest ? 'Test Simülasyonu' : (gameState.player2Name || '2. Oyuncu');
 
   appendHalfBreakdownCards(
     container,
@@ -2558,7 +3600,7 @@ function renderBreakdownList() {
     p2Name
   );
 
-  if (gameState.p2Half2Questions.length > 0 && gameState.p1Half2Guesses.length > 0) {
+  if (!gameState.isSandboxTest && gameState.p2Half2Questions.length > 0 && gameState.p1Half2Guesses.length > 0) {
     appendHalfBreakdownCards(
       container,
       `2. Yarı (Karşı Saldırı): ${p2Name} Cevapladı ⚡ ${p1Name} Tahmin Etti`,
@@ -2658,34 +3700,27 @@ function triggerCelebrationConfetti(isPerfect) {
   } catch (e) {}
 }
 
-// ---------------- DOĞRUDAN SONUÇ KARNESİ LİNKİNİ PAYLAŞMA ----------------
 function shareScoreResult() {
   const { correctCount, totalCount, percentage } = calculateOverallRoundScore();
+  const p1 = gameState.player1Name || 'Oyuncu 1';
+  const p2 = gameState.player2Name || 'Oyuncu 2';
   const baseUrl = `${window.location.origin}${window.location.pathname}`;
   const directResultUrl = `${baseUrl}?r=${gameState.roomCode || 'SNC'}&view=result`;
 
-  const shareText = `⚡ senceo ${gameState.currentRound}. Raund Uyum Karnemiz!\n😎 ${gameState.player1Name} & 🕵️ ${gameState.player2Name}\n🎯 Uyum Skorumuz: %${percentage} (${correctCount}/${totalCount} Doğru)!\n📋 Kim ne cevap verdi ve ne yorum yazdı görmek için tıkla: ${directResultUrl}`;
+  const shareText = `⚡ senceo Uyum Karnemiz: ${p1} & ${p2} — %${percentage} Uyum (${correctCount}/${totalCount})! Sonuç karnesini incele: ${directResultUrl}`;
 
   if (navigator.share) {
     navigator.share({
-      title: 'senceo Uyum Karnemiz!',
+      title: 'senceo Uyum Karnesi',
       text: shareText,
       url: directResultUrl
-    }).catch(() => {
-      copyResultTextToClipboard(shareText);
-    });
-  } else {
-    copyResultTextToClipboard(shareText);
-  }
-}
-
-function copyResultTextToClipboard(text) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(() => {
+    }).catch(() => {});
+  } else if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(directResultUrl).then(() => {
       const toast = document.getElementById('result-share-toast');
       if (toast) {
         toast.classList.remove('hidden');
-        setTimeout(() => toast.classList.add('hidden'), 3000);
+        setTimeout(() => toast.classList.add('hidden'), 3500);
       }
     });
   }
@@ -2693,42 +3728,52 @@ function copyResultTextToClipboard(text) {
 
 function resetToHome() {
   stopPollingForPartnerCompletion();
+  stopLiveLobbyParticipantPolling();
   if (window.location.search) {
-    const cleanUrl = `${window.location.origin}${window.location.pathname}`;
-    window.history.replaceState({}, document.title, cleanUrl);
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
-  gameState.roomCode = '';
-  syncHeaderNames();
+  gameState.isSandboxTest = false;
+  gameState.half = 1;
+  gameState.phase = 'p1_answer';
+  gameState.currentQuestionIndex = 0;
+  gameState.progressDots = [];
+
+  selectGameMode('link');
+  selectCategory('genel');
   switchTopNavPage('setup');
 }
 
 function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+  return String(str || '')
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
-// ---------------- SAYFA YÜKLENDİĞİNDE BAŞLAT ----------------
+// ---------------- BAŞLANGIÇ (INIT) ----------------
 window.addEventListener('DOMContentLoaded', async () => {
   initSavedTheme();
   loadUserProfile();
   checkIncomingFriendInvite();
-  updateNavActiveDuelsCount();
+
+  const fv = document.getElementById('footer-version-label');
+  if (fv) fv.textContent = APP_VERSION;
 
   const p1Input = document.getElementById('input-p1-name');
-  if (p1Input && userProfile.username && userProfile.username !== 'Misafir Oyuncu' && userProfile.username !== 'Misafir') {
+  if (p1Input && userProfile.username && userProfile.username !== 'Misafir Oyuncu') {
     p1Input.value = userProfile.username;
     gameState.player1Name = userProfile.username;
   }
 
-  const hasChallenge = await checkIncomingUrlChallenge();
-  if (!hasChallenge) {
-    selectGameMode('link');
-    selectCategory('genel');
+  selectGameMode('link');
+  selectCategory('genel');
+  updateNavActiveDuelsCount();
+  startBackgroundCloudSync();
+
+  const joinedChallenge = await checkIncomingUrlChallenge();
+  if (!joinedChallenge) {
     switchTopNavPage('setup');
   }
 });
