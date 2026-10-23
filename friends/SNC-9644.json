@@ -1,7 +1,25 @@
 {
   "friendCode": "SNC-9644",
   "username": "emirhan",
+  "level": 1,
+  "xp": 0,
   "latestRoomCode": "SNCB8L",
-  "status": "waiting_p1_half2",
-  "updatedAt": "2026-10-23T23:01:45.647Z"
+  "activeRooms": [
+    {
+      "code": "SNCB8L",
+      "p1": "emirhan",
+      "p2": "testemirhan",
+      "p1FriendCode": "SNC-9644",
+      "p2FriendCode": "SNC-2281",
+      "status": "waiting_p2",
+      "currentRound": 1,
+      "cat": "genel",
+      "updatedAt": "2026-10-23T23:26:50.966Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-23T23:26:50.966Z",
+  "status": "waiting_p1_half2"
 }
