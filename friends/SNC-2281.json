@@ -3,8 +3,20 @@
   "username": "testemirhan",
   "level": 1,
   "xp": 0,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCB8L",
+  "activeRooms": [
+    {
+      "code": "SNCB8L",
+      "p1": "emirhan",
+      "p2": "testemirhan",
+      "p1FriendCode": "SNC-9644",
+      "p2FriendCode": "SNC-2281",
+      "status": "waiting_p2",
+      "currentRound": 1,
+      "cat": "genel",
+      "updatedAt": "2026-10-23T23:26:51.808Z"
+    }
+  ],
   "incomingRequests": [
     {
       "fromCode": "SNC-9644",
@@ -15,6 +27,17 @@
   ],
   "acceptedFriends": [],
   "notifications": [
+    {
+      "id": "CHALLENGE_SNCB8L_R1",
+      "type": "challenge",
+      "title": "⚔️ Yeni Düello Meydan Okuması!",
+      "message": "emirhan (SNC-9644) senin için 5 soru çözdü! Tahmin etmek için tıkla (#SNCB8L).",
+      "fromCode": "SNC-9644",
+      "fromName": "emirhan",
+      "roomCode": "SNCB8L",
+      "read": false,
+      "createdAt": "2026-10-23T23:26:51.808Z"
+    },
     {
       "id": "FREQ_SNC-9644_TO_SNC-2281",
       "type": "friend_request",
@@ -27,5 +50,5 @@
       "createdAt": "2026-10-23T23:25:18.165Z"
     }
   ],
-  "updatedAt": "2026-10-23T23:26:12.007Z"
+  "updatedAt": "2026-10-23T23:26:51.808Z"
 }
