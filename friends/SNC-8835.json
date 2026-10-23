@@ -3,10 +3,22 @@
   "username": "i",
   "level": 1,
   "xp": 0,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCVYP",
+  "activeRooms": [
+    {
+      "code": "SNCVYP",
+      "p1": "i",
+      "p2": "",
+      "p1FriendCode": "SNC-8835",
+      "p2FriendCode": "",
+      "status": "lobby_open",
+      "currentRound": 1,
+      "cat": "genel",
+      "updatedAt": "2026-10-23T23:40:35.244Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-23T23:40:33.893Z"
+  "updatedAt": "2026-10-23T23:40:35.244Z"
 }
