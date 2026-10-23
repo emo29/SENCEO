@@ -1,0 +1,24 @@
+{
+  "code": "SNCVYP",
+  "p1Id": "USR_EVQX4YU",
+  "p1FriendCode": "SNC-8835",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "i",
+  "p2": "",
+  "participants": [
+    {
+      "name": "i",
+      "code": "SNC-8835",
+      "role": "host"
+    }
+  ],
+  "cat": "genel",
+  "thm": "obsidian",
+  "qIds": [],
+  "createdAt": "2026-10-23T23:40:34.078Z",
+  "updatedAt": "2026-10-23T23:40:33.961Z"
+}
