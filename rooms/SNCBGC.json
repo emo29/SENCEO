@@ -47,7 +47,7 @@
     9
   ],
   "createdAt": "2026-10-24T12:43:52.867Z",
-  "updatedAt": "2026-10-24T12:44:36.100Z",
+  "updatedAt": "2026-10-24T12:44:38.167Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -68,8 +68,8 @@
       31,
       9
     ],
-    "qIndex": 3,
-    "currentQIndex": 3,
+    "qIndex": 4,
+    "currentQIndex": 4,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -84,36 +84,24 @@
         "team": "common"
       }
     ],
-    "activeTurnOrderIdx": 1,
-    "activeAnswererCode": "SNC-6189",
-    "activeAnswererName": "Hakan",
-    "activeGuesserCode": "SNC-2119",
-    "activeGuesserName": "Mert",
-    "subPhase": "reveal",
-    "currentAnswer": 1,
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-2119",
+    "activeAnswererName": "Mert",
+    "activeGuesserCode": "SNC-6189",
+    "activeGuesserName": "Hakan",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 2,
+    "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-2119": {
-        "code": "SNC-2119",
-        "name": "Mert",
-        "guessIndex": 2,
-        "comment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": false,
-        "submittedAt": 1792845876100
-      }
-    },
+    "guessesByPlayer": {},
     "history": [
       {
         "qIndex": 0,
@@ -216,6 +204,40 @@
             "submittedAt": 1792845868618
           }
         }
+      },
+      {
+        "qIndex": 3,
+        "qId": 31,
+        "answererCode": "SNC-6189",
+        "answererName": "Hakan",
+        "guesserCode": "SNC-2119",
+        "guesserName": "Mert",
+        "answerIdx": 1,
+        "guessIdx": 2,
+        "answerIndex": 1,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-2119": {
+            "code": "SNC-2119",
+            "name": "Mert",
+            "guessIndex": 2,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": false,
+            "submittedAt": 1792845876100
+          }
+        }
       }
     ],
     "scores": {
@@ -254,7 +276,7 @@
         "points": 200
       }
     },
-    "phaseStartedAt": 1792845876100,
-    "updatedAt": 1792845876100
+    "phaseStartedAt": 1792845878167,
+    "updatedAt": 1792845878167
   }
 }
