@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-3675",
-  "username": "soldakipc1",
+  "username": "aaa1",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
@@ -8,8 +8,22 @@
   "provider": "guest",
   "isPermanentMember": false,
   "lastXpActivityAt": 1792803650524,
-  "latestRoomCode": "SNC2LG",
+  "latestRoomCode": "SNCCDV",
   "activeRooms": [
+    {
+      "code": "SNCCDV",
+      "p1": "aaa1",
+      "p2": "",
+      "p1FriendCode": "SNC-3675",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "ffa",
+      "status": "lobby_open",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T01:14:55.419Z"
+    },
     {
       "code": "SNC2LG",
       "p1": "soldakipc1",
@@ -70,5 +84,5 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T01:11:01.234Z"
+  "updatedAt": "2026-10-24T01:14:55.419Z"
 }
