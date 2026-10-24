@@ -20,7 +20,7 @@
 
   <style>
     /* ==========================================================================
-       STITCH DESIGN SYSTEM — 4 COMPLETE THEMES (v0.06)
+       STITCH DESIGN SYSTEM — 4 COMPLETE THEMES (v0.07)
        1. luminous (DEFAULT FOR NEW USERS): Luminous Social Gaming (Beyaz / Light)
        2. obsidian: Obsidian Kinetic (Koyu / Dark)
        3. cosmic: Cosmic Neon (Eski Default — Uzay Mavisi, Derin Mor & Neon Pembe/Mavi)
@@ -416,6 +416,69 @@
 
     #score-circle-progress {
       transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ================= 3 SANİYELİK KUM SAATİ ANİMASYONU (Kum Akar -> 180 Derece Döner) ================= */
+    @keyframes hourglassRotate3s {
+      0%, 76% { transform: rotate(0deg); }
+      96%, 100% { transform: rotate(180deg); }
+    }
+    @keyframes sandTopDrain3s {
+      0% { transform: scaleY(1); opacity: 1; }
+      74% { transform: scaleY(0.04); opacity: 0.9; }
+      76%, 100% { transform: scaleY(0); opacity: 0; }
+    }
+    @keyframes sandBottomFill3s {
+      0% { transform: scaleY(0.05); }
+      75% { transform: scaleY(1); }
+      100% { transform: scaleY(1); }
+    }
+    @keyframes sandStreamFlow3s {
+      0%, 73% { opacity: 1; stroke-dashoffset: 0; }
+      75%, 100% { opacity: 0; stroke-dashoffset: -16; }
+    }
+
+    .hourglass-3s-wrapper {
+      animation: hourglassRotate3s 3s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      transform-origin: 50% 50%;
+    }
+    .hg-sand-top {
+      animation: sandTopDrain3s 3s linear infinite;
+      transform-origin: 50% 100%;
+      transform-box: fill-box;
+    }
+    .hg-sand-bottom {
+      animation: sandBottomFill3s 3s linear infinite;
+      transform-origin: 50% 100%;
+      transform-box: fill-box;
+    }
+    .hg-sand-stream {
+      stroke-dasharray: 4 3;
+      animation: sandStreamFlow3s 3s linear infinite;
+    }
+
+    /* ================= ODA KURUCUSU ALTIN SARISI & BOLD STİLİ ================= */
+    .host-gold-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(251, 191, 36, 0.08) 100%) !important;
+      border: 2px solid #f59e0b !important;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25) !important;
+    }
+    .host-gold-name {
+      color: #d97706 !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.01em;
+    }
+    html[data-theme="obsidian"] .host-gold-name,
+    html[data-theme="cosmic"] .host-gold-name,
+    html[data-theme="brutal26"] .host-gold-name {
+      color: #fbbf24 !important;
+      text-shadow: 0 0 10px rgba(251, 191, 36, 0.35);
+    }
+    .settings-locked-member {
+      opacity: 0.52;
+      pointer-events: none;
+      user-select: none;
+      filter: grayscale(0.25);
     }
   </style>
 </head>
@@ -1265,19 +1328,28 @@
         </div>
       </section>
 
-      <!-- ================= VIEW: LIVE ROOM SETUP LOBBY BEFORE QUESTIONS ================= -->
-      <section id="view-live-room-lobby" class="hidden animate-view max-w-2xl mx-auto space-y-4">
-        <div class="stitch-card p-6 text-center space-y-5">
-          <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider">
-            <span class="material-symbols-outlined text-[16px]">groups</span>
-            <span>Canlı Oda Kuruldu • Oyuncular Bekleniyor</span>
+      <!-- ================= VIEW: LIVE ROOM SETUP LOBBY BEFORE QUESTIONS (v0.07 Full Host/Member Sync & Teams) ================= -->
+      <section id="view-live-room-lobby" class="hidden animate-view max-w-3xl mx-auto space-y-4">
+        <div class="stitch-card p-5 sm:p-7 text-center space-y-5">
+          <!-- Top Role Status Banner -->
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-[16px]">groups</span>
+              <span id="live-lobby-status-badge">Canlı Oda • Eşzamanlı Senkronizasyon Aktif</span>
+            </div>
+
+            <div id="live-lobby-role-banner" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 text-xs font-extrabold">
+              <span>👑</span>
+              <span id="live-lobby-role-text">Oda Kurucususun (Ayarları Yönetebilirsin)</span>
+            </div>
           </div>
 
           <h2 class="font-display-theme text-2xl font-extrabold">
-            Oda Kodu Hazır! Arkadaşlarını Çağır 🔥
+            Canlı Oda Arenası 🔥
           </h2>
 
-          <div class="stitch-subcard p-5 max-w-sm mx-auto space-y-2 border-2 border-[var(--primary)]">
+          <!-- Room Code & Share Box -->
+          <div class="stitch-subcard p-4 sm:p-5 max-w-md mx-auto space-y-2 border-2 border-[var(--primary)]">
             <div class="text-[11px] font-bold uppercase tracking-widest text-muted-theme">CANLI ODA KODU</div>
             <div id="live-lobby-room-code" class="font-mono-theme text-3xl sm:text-4xl font-extrabold tracking-widest text-primary-theme">
               SNC000
@@ -1305,49 +1377,267 @@
             </div>
           </div>
 
-          <div class="text-left space-y-2">
-            <label class="text-xs font-bold uppercase tracking-wider text-primary-theme block font-display-theme">
-              ⚔️ Oda Formatı &amp; Takım Modu Seç
-            </label>
-            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="arena-format-grid">
-              <button type="button" onclick="selectArenaFormat('1v1')" data-fmt="1v1" class="fmt-btn selectable-card is-active p-2.5 text-center font-bold text-xs">1v1 Düello</button>
-              <button type="button" onclick="selectArenaFormat('2v2')" data-fmt="2v2" class="fmt-btn selectable-card p-2.5 text-center font-bold text-xs">2v2 Takım</button>
-              <button type="button" onclick="selectArenaFormat('3v3')" data-fmt="3v3" class="fmt-btn selectable-card p-2.5 text-center font-bold text-xs">3v3 Takım</button>
-              <button type="button" onclick="selectArenaFormat('4v4')" data-fmt="4v4" class="fmt-btn selectable-card p-2.5 text-center font-bold text-xs">4v4 Takım</button>
-              <button type="button" onclick="selectArenaFormat('5v5')" data-fmt="5v5" class="fmt-btn selectable-card p-2.5 text-center font-bold text-xs">5v5 Klan</button>
-              <button type="button" onclick="selectArenaFormat('ffa')" data-fmt="ffa" class="fmt-btn selectable-card p-2.5 text-center font-bold text-xs">🌪️ Herkes Tek</button>
+          <!-- PARTICIPANTS LIST (Host in Golden Yellow Bold; Host can click any player to Transfer Host / Kick / Assign Ebe) -->
+          <div class="stitch-subcard p-4 text-left space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <div class="text-xs font-extrabold uppercase tracking-wider text-primary-theme flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px]">group</span>
+                  <span>Odadaki Oyuncular (<span id="live-lobby-player-count">1</span> Kişi)</span>
+                </div>
+                <p id="live-lobby-host-hint" class="text-[11px] text-muted-theme">
+                  👑 Kurucu altın sarısı görünür. Kurucu bir oyuncunun üzerine tıklayarak <strong>Kuruculuğu Devret</strong>, <strong>Ebe Ata</strong> veya <strong>Odadan At</strong> yapabilir.
+                </p>
+              </div>
+              <div id="live-lobby-players-list" class="hidden text-xs font-bold"></div>
             </div>
-            <p id="arena-format-desc" class="text-xs text-muted-theme">
-              1v1 Düello: İki oyuncu birbirini ne kadar tanıdığını canlı test eder.
-            </p>
+
+            <div id="live-lobby-participants-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <!-- Populated dynamically by app.js -->
+            </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-            <div class="stitch-subcard p-3.5">
-              <div class="text-[11px] font-bold text-primary-theme uppercase">Soru Havuzu</div>
-              <select id="live-lobby-cat-select" onchange="selectCategory(this.value)" class="mt-1.5 w-full stitch-input px-3 py-2 text-xs font-bold">
-                <option value="genel">🌟 Karışık (75 Soru)</option>
-                <option value="cift">❤️ Çift &amp; İlişki</option>
-                <option value="kanka">⚡ Kanka &amp; Mizah</option>
-                <option value="ekstrem">🔥 Ekstrem İkilemler</option>
-              </select>
+          <!-- LIVE TEAM SELECTION ARENA (Shown when 2v2, 3v3, 4v4, 5v5 is selected) -->
+          <div id="live-lobby-teams-section" class="hidden stitch-subcard p-4 text-left space-y-3 border-2 border-[var(--primary)]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <div class="text-xs font-extrabold uppercase tracking-wider text-primary-theme">
+                  🚩 Canlı Takım Seçimi (Tıkla &amp; Takımına Uç!)
+                </div>
+                <p class="text-[11px] text-muted-theme">
+                  Mavi Takıma, Kırmızı Takıma veya Ortak Odaya tıkladığında ismin anında oraya geçer!
+                </p>
+              </div>
+              <button
+                type="button"
+                onclick="switchMyLiveTeam('none')"
+                class="px-3 py-1.5 rounded-lg stitch-card text-xs font-bold hover:border-[var(--primary)] transition self-start sm:self-auto"
+              >
+                🏟️ Ortak Odaya Dön (Takımsız)
+              </button>
             </div>
 
-            <div class="stitch-subcard p-3.5">
-              <div class="text-[11px] font-bold text-primary-theme uppercase">Odadaki Oyuncular</div>
-              <div id="live-lobby-players-list" class="mt-1.5 text-xs font-bold truncate">
-                😎 Oyuncu 1 (Kurucu)
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <!-- Blue Team Box -->
+              <div
+                onclick="switchMyLiveTeam('blue')"
+                class="cursor-pointer rounded-xl p-3.5 bg-blue-500/10 border-2 border-blue-500/50 hover:border-blue-500 transition space-y-2"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="font-display-theme font-extrabold text-xs sm:text-sm text-blue-600 dark:text-blue-400">🔵 MAVİ TAKIM</span>
+                  <span class="px-2 py-0.5 rounded bg-blue-500 text-white text-[10px] font-extrabold">Tıkla &amp; Katıl</span>
+                </div>
+                <div id="live-team-blue-list" class="space-y-1.5 min-h-[42px] text-xs font-bold">
+                </div>
+              </div>
+
+              <!-- Red Team Box -->
+              <div
+                onclick="switchMyLiveTeam('red')"
+                class="cursor-pointer rounded-xl p-3.5 bg-rose-500/10 border-2 border-rose-500/50 hover:border-rose-500 transition space-y-2"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="font-display-theme font-extrabold text-xs sm:text-sm text-rose-600 dark:text-rose-400">🔴 KIRMIZI TAKIM</span>
+                  <span class="px-2 py-0.5 rounded bg-rose-500 text-white text-[10px] font-extrabold">Tıkla &amp; Katıl</span>
+                </div>
+                <div id="live-team-red-list" class="space-y-1.5 min-h-[42px] text-xs font-bold">
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="flex gap-3 pt-2">
+          <!-- SETTINGS CONTAINER (Interactive for Host, Locked/Dimmed & Live-Synced for Members) -->
+          <div id="live-lobby-settings-container" class="space-y-4 text-left">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-primary-theme font-display-theme">
+                ⚙️ Canlı Oda Ayarları (Anlık Senkronize)
+              </span>
+              <span id="live-settings-lock-badge" class="hidden px-2.5 py-0.5 rounded-full bg-slate-500/20 text-xs font-bold text-muted-theme">
+                🔒 Sadece Kurucu Değiştirebilir
+              </span>
+            </div>
+
+            <!-- 1. Ana Oda Formatı -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-muted-theme block">1. Oyun &amp; Takım Formatı:</label>
+              <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="arena-format-grid">
+                <button type="button" onclick="selectArenaFormat('1v1')" data-fmt="1v1" class="fmt-btn selectable-card is-active p-2.5 text-center font-bold text-xs">1v1 Düello</button>
+                <button type="button" onclick="selectArenaFormat('2v2')" data-fmt="2v2" class="fmt-btn selectable-card p-2.5 text-center font-bold text-xs">2v2 Takım</button>
+                <button type="button" onclick="selectArenaFormat('3v3')" data-fmt="3v3" class="fmt-btn selectable-card p-2.5 text-center font-bold text-xs">3v3 Takım</button>
+                <button type="button" onclick="selectArenaFormat('4v4')" data-fmt="4v4" class="fmt-btn selectable-card p-2.5 text-center font-bold text-xs">4v4 Takım</button>
+                <button type="button" onclick="selectArenaFormat('5v5')" data-fmt="5v5" class="fmt-btn selectable-card p-2.5 text-center font-bold text-xs">5v5 Klan</button>
+                <button type="button" onclick="selectArenaFormat('ffa')" data-fmt="ffa" class="fmt-btn selectable-card p-2.5 text-center font-bold text-xs">🌪️ Herkes Tek</button>
+              </div>
+              <p id="arena-format-desc" class="text-[11px] text-muted-theme">
+                1v1 Düello: İki oyuncu birbirini ne kadar tanıdığını canlı test eder.
+              </p>
+            </div>
+
+            <!-- 2A. Tekli / Herkes Tek Alt Mod Seçeneği (Seçenek A: Ebeli vs Seçenek B: Paket) -->
+            <div id="live-ffa-submode-box" class="stitch-subcard p-3.5 space-y-2">
+              <div class="text-xs font-extrabold text-primary-theme">🎯 Tekli / Herkes Tek Oynanış Tarzı Seç:</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onclick="selectLiveFfaSubMode('ebe')"
+                  data-ffasub="ebe"
+                  class="ffa-sub-btn selectable-card is-active p-3 text-left space-y-0.5"
+                >
+                  <div class="font-bold text-xs">🎯 Ebeli Canlı Mod (Kahoot Tarzı)</div>
+                  <div class="text-[11px] text-muted-theme">Sıradaki oyuncu (Ebe) kendi adına çözer, odadaki diğer herkes aynı anda onu tahmin edip puan kazanır!</div>
+                </button>
+                <button
+                  type="button"
+                  onclick="selectLiveFfaSubMode('packet')"
+                  data-ffasub="packet"
+                  class="ffa-sub-btn selectable-card p-3 text-left space-y-0.5"
+                >
+                  <div class="font-bold text-xs">📦 Paket Modu (Klasik Sıralı)</div>
+                  <div class="text-[11px] text-muted-theme">Oyuncular seçilen soru sayısı kadar paketini çözer, ardından diğer oyuncular paketi tahmin eder.</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- 2B. Takımlı Alt Mod Seçeneği (2v2, 3v3, 4v4, 5v5 seçildiğinde çıkar) -->
+            <div id="live-team-submode-box" class="hidden stitch-subcard p-3.5 space-y-2">
+              <div class="text-xs font-extrabold text-primary-theme">⚔️ Takım Yarışma Kuralı Seç:</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onclick="selectLiveTeamSubMode('coop_pair')"
+                  data-teamsub="coop_pair"
+                  class="team-sub-btn selectable-card is-active p-3 text-left space-y-0.5"
+                >
+                  <div class="font-bold text-xs">🤝 Eşli Takım İçi Uyum Savaşı</div>
+                  <div class="text-[11px] text-muted-theme">Mavi Takım kendi takım arkadaşını, Kırmızı Takım kendi takım arkadaşını tahmin eder; uyumu yüksek takım kazanır!</div>
+                </button>
+                <button
+                  type="button"
+                  onclick="selectLiveTeamSubMode('cross_team')"
+                  data-teamsub="cross_team"
+                  class="team-sub-btn selectable-card p-3 text-left space-y-0.5"
+                >
+                  <div class="font-bold text-xs">⚔️ Karşı Takımı Tahmin Etme</div>
+                  <div class="text-[11px] text-muted-theme">Mavi Takım cevaplar, Kırmızı Takım Mavi Takımı tahmin etmeye çalışır (sonra roller değişir).</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- 3. Soru Çözme Düzeni (1'er 1'er, 2'şer, 3'er, 4'er, 5'er, 10'ar) -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-muted-theme block">
+                2. Soru Çözme Sırası &amp; Kaçar Soru Çözüleceği (1'er 1'er, 2'şer, 3'er, 4'er, 5'er, 10'ar):
+              </label>
+              <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="live-turn-step-grid">
+                <button type="button" onclick="selectLiveTurnStep(1)" data-step="1" class="step-mode-btn selectable-card is-active p-2.5 text-center font-bold text-xs">1'er 1'er ⚡</button>
+                <button type="button" onclick="selectLiveTurnStep(2)" data-step="2" class="step-mode-btn selectable-card p-2.5 text-center font-bold text-xs">2'şer 2'şer</button>
+                <button type="button" onclick="selectLiveTurnStep(3)" data-step="3" class="step-mode-btn selectable-card p-2.5 text-center font-bold text-xs">3'er 3'er</button>
+                <button type="button" onclick="selectLiveTurnStep(4)" data-step="4" class="step-mode-btn selectable-card p-2.5 text-center font-bold text-xs">4'er 4'er</button>
+                <button type="button" onclick="selectLiveTurnStep(5)" data-step="5" class="step-mode-btn selectable-card p-2.5 text-center font-bold text-xs">5'er 5'er</button>
+                <button type="button" onclick="selectLiveTurnStep(10)" data-step="10" class="step-mode-btn selectable-card p-2.5 text-center font-bold text-xs">10'ar 10'ar</button>
+              </div>
+              <p id="live-turn-step-desc" class="text-[11px] text-muted-theme">
+                1'er 1'er: İlk oyuncu 1 soru çözer, diğeri hemen bilir; sonra diğer oyuncu 1 soru çözer, öteki bilir!
+              </p>
+            </div>
+
+            <!-- 4. Süre Sınırı (Süresiz, 10sn, 30sn, 90sn) & Soru Havuzu & İlk Başlayan (Rastgele / Manuel Ebe) -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <!-- Timer -->
+              <div class="stitch-subcard p-3.5 space-y-1.5">
+                <div class="text-[11px] font-bold text-primary-theme uppercase">⏱️ Soru Süre Sınırı</div>
+                <div class="grid grid-cols-2 gap-1.5" id="live-timer-grid">
+                  <button type="button" onclick="selectLiveTimer(0)" data-timer="0" class="timer-mode-btn selectable-card is-active py-1.5 px-2 text-xs font-bold">♾️ Süresiz</button>
+                  <button type="button" onclick="selectLiveTimer(10)" data-timer="10" class="timer-mode-btn selectable-card py-1.5 px-2 text-xs font-bold">⚡ 10 Sn</button>
+                  <button type="button" onclick="selectLiveTimer(30)" data-timer="30" class="timer-mode-btn selectable-card py-1.5 px-2 text-xs font-bold">⏱️ 30 Sn</button>
+                  <button type="button" onclick="selectLiveTimer(90)" data-timer="90" class="timer-mode-btn selectable-card py-1.5 px-2 text-xs font-bold">⏳ 90 Sn</button>
+                </div>
+              </div>
+
+              <!-- Category -->
+              <div class="stitch-subcard p-3.5 space-y-1.5">
+                <div class="text-[11px] font-bold text-primary-theme uppercase">📚 Soru Havuzu</div>
+                <select id="live-lobby-cat-select" onchange="selectCategory(this.value, true)" class="w-full stitch-input px-3 py-2 text-xs font-bold">
+                  <option value="genel">🌟 Karışık (75 Soru)</option>
+                  <option value="iliskiler">❤️ İlişkiler &amp; Romantizm</option>
+                  <option value="eglence">🎉 Eğlence &amp; Pop Kültür</option>
+                  <option value="absurt">🤪 Absürt &amp; Kanka</option>
+                  <option value="derin">🌌 Derin &amp; Karakter</option>
+                </select>
+              </div>
+
+              <!-- Starter / Ebe Selection -->
+              <div class="stitch-subcard p-3.5 space-y-1.5">
+                <div class="text-[11px] font-bold text-primary-theme uppercase">🎲 İlk Başlayan / Ebe</div>
+                <select id="live-lobby-starter-select" onchange="selectLiveStarterMode(this.value)" class="w-full stitch-input px-3 py-2 text-xs font-bold">
+                  <option value="random">🎲 Sistem Rastgele Seçsin</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Bar (Host sees Start button; Members see Waiting for Host message) -->
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
             <button type="button" onclick="resetToHome()" class="theme-btn-secondary px-5 py-3.5 font-bold text-xs sm:text-sm">
-              ← İptal
+              ← Odadan Ayrıl
             </button>
-            <button type="button" onclick="startMatchFromLiveLobby()" class="theme-btn-primary flex-1 py-3.5 font-extrabold text-sm sm:text-base flex items-center justify-center gap-2">
-              <span>ODAYI BAŞLAT VE SORULARA GEÇ</span>
+            <button
+              type="button"
+              id="btn-host-start-live-match"
+              onclick="startMatchFromLiveLobby()"
+              class="theme-btn-primary flex-1 py-3.5 font-extrabold text-sm sm:text-base flex items-center justify-center gap-2"
+            >
+              <span id="btn-host-start-live-label">ODAYI HERKES İÇİN EŞZAMANLI BAŞLAT</span>
               <span class="material-symbols-outlined text-[20px]">bolt</span>
+            </button>
+            <div
+              id="member-waiting-host-banner"
+              class="hidden flex-1 py-3.5 px-4 rounded-xl stitch-subcard border border-amber-500/40 text-amber-600 dark:text-amber-300 font-bold text-xs sm:text-sm flex items-center justify-center gap-2"
+            >
+              <span class="material-symbols-outlined text-[18px] animate-spin">hourglass_top</span>
+              <span id="member-waiting-host-text">Oda Kurucusunun oyunu başlatması bekleniyor...</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= VIEW: LIVE TURN / ROUND WAITING SCREEN WITH 3s HOURGLASS ANIMATION ================= -->
+      <section id="view-live-turn-wait" class="hidden animate-view max-w-xl mx-auto space-y-4">
+        <div class="stitch-card p-6 sm:p-8 text-center space-y-5">
+          <!-- 3-Second Sand-Flowing & 180-Degree Rotating Hourglass SVG -->
+          <div class="w-24 h-24 mx-auto rounded-3xl stitch-subcard border-2 border-[var(--primary)] flex items-center justify-center shadow-lg">
+            <svg class="w-14 h-14 hourglass-3s-wrapper" viewBox="0 0 64 64" fill="none">
+              <path d="M16 10H48M16 54H48" stroke="var(--primary)" stroke-width="4" stroke-linecap="round"/>
+              <path d="M20 10C20 22 30 28 32 32C34 28 44 22 44 10H20Z" stroke="var(--primary)" stroke-width="3" fill="rgba(96,99,238,0.08)"/>
+              <path d="M20 54C20 42 30 36 32 32C34 36 44 42 44 54H20Z" stroke="var(--primary)" stroke-width="3" fill="rgba(96,99,238,0.08)"/>
+              <!-- Top Draining Sand -->
+              <path class="hg-sand-top" d="M23 14H41C40 22 34 27 32 30C30 27 24 22 23 14Z" fill="#f59e0b"/>
+              <!-- Falling Stream -->
+              <line class="hg-sand-stream" x1="32" y1="30" x2="32" y2="51" stroke="#f59e0b" stroke-width="2.5"/>
+              <!-- Bottom Filling Sand -->
+              <path class="hg-sand-bottom" d="M22 52C24 44 29 39 32 36C35 39 40 44 42 52H22Z" fill="#f59e0b"/>
+            </svg>
+          </div>
+
+          <div id="live-wait-badge" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-300 text-xs font-extrabold uppercase tracking-wider">
+            <span>⏳ CANLI SIRA BEKLENİYOR</span>
+          </div>
+
+          <h2 id="live-wait-heading" class="font-display-theme text-xl sm:text-2xl font-extrabold leading-snug">
+            Sıra diğer oyuncuda! Lütfen o çözene kadar sıranı bekle...
+          </h2>
+
+          <p id="live-wait-subtext" class="text-xs sm:text-sm text-muted-theme leading-relaxed max-w-md mx-auto">
+            Rakibin soruları cevapladığı anda ekranında bildirim çıkacak ve hemen tahmin etmeye başlayacaksın. (Her 4 saniyede bir otomatik kontrol ediliyor)
+          </p>
+
+          <div class="flex items-center justify-center gap-2 pt-2">
+            <button
+              type="button"
+              onclick="resetToHome()"
+              class="theme-btn-secondary px-5 py-3 text-xs sm:text-sm font-bold"
+            >
+              🏠 Ana Sayfaya Dön
             </button>
           </div>
         </div>
@@ -1409,6 +1699,15 @@
           </div>
 
           <div class="flex items-center gap-2 flex-wrap">
+            <!-- Live Room Countdown Timer Badge -->
+            <div
+              id="question-live-timer-pill"
+              class="hidden px-3 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/40 text-rose-600 dark:text-rose-300 font-mono-theme font-extrabold text-xs items-center gap-1"
+            >
+              <span>⏱️</span>
+              <span id="question-live-timer-text">30sn</span>
+            </div>
+
             <button
               type="button"
               id="btn-shuffle-question"
@@ -1442,6 +1741,12 @@
           </h2>
         </div>
 
+        <!-- 1.5s Delay Typing Indicator Before Secret Bubble Pops -->
+        <div id="messenger-typing-indicator" class="hidden stitch-subcard border border-[var(--primary)] px-4 py-2.5 flex items-center justify-center gap-2 text-xs font-bold text-primary-theme animate-pulse">
+          <span>💬</span>
+          <span id="messenger-typing-text">Arkadaşının bıraktığı gizli not açılıyor (1.5 sn)...</span>
+        </div>
+
         <div id="messenger-secret-bubble" class="hidden messenger-bubble-pop stitch-card border-2 border-[var(--primary)] p-4">
           <div class="flex items-start gap-3">
             <div class="w-10 h-10 rounded-full bg-primary-theme flex items-center justify-center text-lg shrink-0 shadow">
@@ -1452,7 +1757,7 @@
                 <span id="messenger-bubble-sender" class="text-xs font-extrabold text-primary-theme uppercase tracking-wider">
                   Oyuncu 1'in Gizli Notu
                 </span>
-                <span class="text-[10px] text-muted-theme font-mono-theme">Az önce • Sohbet Balonu</span>
+                <span class="text-[10px] text-muted-theme font-mono-theme">1.5sn Sonra Açıldı • Sohbet Balonu</span>
               </div>
               <p id="messenger-bubble-text" class="text-sm sm:text-base font-bold mt-0.5 leading-snug"></p>
             </div>
@@ -1567,7 +1872,7 @@
         </div>
       </section>
 
-      <!-- ================= VIEW: INTERSTITIAL (SHORT LINK ?r=CODE SHARE OR PASS DEVICE) ================= -->
+      <!-- ================= VIEW: INTERSTITIAL (3s HOURGLASS ANIMATION + 4s POLLING + SHORT LINK ?r=CODE) ================= -->
       <section id="view-interstitial" class="hidden animate-view max-w-xl mx-auto space-y-4">
         <div id="interstitial-pass-box" class="stitch-card p-6 sm:p-8 text-center space-y-4">
           <div class="w-16 h-16 mx-auto rounded-2xl bg-primary-theme flex items-center justify-center text-3xl animate-bounce shadow-md">
@@ -1612,20 +1917,28 @@
         </div>
 
         <div id="interstitial-link-box" class="hidden stitch-card p-6 sm:p-8 text-center space-y-4">
-          <div class="w-16 h-16 mx-auto rounded-2xl bg-primary-theme flex items-center justify-center text-3xl shadow-md">
-            🔗
+          <!-- 3-Second Sand-Flowing & 180-Degree Rotating Hourglass Animation (Replaces static icon on waiting screen) -->
+          <div class="w-20 h-20 mx-auto rounded-2xl bg-primary-theme flex items-center justify-center shadow-lg">
+            <svg class="w-12 h-12 hourglass-3s-wrapper" viewBox="0 0 64 64" fill="none">
+              <path d="M16 10H48M16 54H48" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+              <path d="M20 10C20 22 30 28 32 32C34 28 44 22 44 10H20Z" stroke="#ffffff" stroke-width="3" fill="rgba(255,255,255,0.12)"/>
+              <path d="M20 54C20 42 30 36 32 32C34 36 44 42 44 54H20Z" stroke="#ffffff" stroke-width="3" fill="rgba(255,255,255,0.12)"/>
+              <path class="hg-sand-top" d="M23 14H41C40 22 34 27 32 30C30 27 24 22 23 14Z" fill="#fbbf24"/>
+              <line class="hg-sand-stream" x1="32" y1="30" x2="32" y2="51" stroke="#fbbf24" stroke-width="2.5"/>
+              <path class="hg-sand-bottom" d="M22 52C24 44 29 39 32 36C35 39 40 44 42 52H22Z" fill="#fbbf24"/>
+            </svg>
           </div>
 
           <div id="cloud-save-status-pill" class="inline-block px-3.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider">
-            ✅ Veritabanına Kaydedildi!
+            ⏳ RAKİP BEKLENİYOR
           </div>
 
           <h2 id="link-share-heading" class="font-display-theme text-xl sm:text-2xl font-extrabold leading-tight">
-            Kısa Davet Linkin Hazır! Arkadaşına Gönder 🚀
+            Senin 5 Yanıtın Kilitlendi! Sıra Rakibinde ⏳
           </h2>
 
           <p id="link-share-subtext" class="text-xs sm:text-sm text-muted-theme leading-relaxed">
-            Cevapların ve gizli sohbet balonların bulut veritabanına kaydedildi. Aşağıdaki <strong>kısa linki</strong> arkadaşına gönder!
+            Cevapların ve gizli sohbet balonların bulut veritabanına kaydedildi. Rakibin çözdüğü anda (her 4 saniyede bir kontrol edilir) ekranında <strong>"Rakip Çözdü! Sıra Sende"</strong> penceresi açılacak!
           </p>
 
           <div class="stitch-subcard border-2 border-[var(--primary)] p-3 flex items-center justify-between gap-2">
@@ -1681,7 +1994,7 @@
         </div>
       </section>
 
-      <!-- ================= VIEW: SCOREBOARD (SONUÇ EKRANI) ================= -->
+      <!-- ================= VIEW: SCOREBOARD (SONUÇ EKRANI + CANLI LOBİ SKOR TABLOSU) ================= -->
       <section id="view-result" class="hidden animate-view max-w-2xl mx-auto space-y-4">
         <div class="stitch-card p-6 text-center space-y-5 relative overflow-hidden">
           <div id="result-round-pill" class="inline-block px-3.5 py-1 rounded-full stitch-subcard text-xs font-bold tracking-wider uppercase text-primary-theme">
@@ -1747,6 +2060,16 @@
             </div>
           </div>
 
+          <!-- CANLI LOBİ MAÇ SONU PUAN SIRALAMASI & KAZANAN KÜRSÜSÜ (Canlı Oda Oyunlarında Görünür) -->
+          <div id="result-live-lobby-scoreboard" class="hidden stitch-subcard p-4 text-left space-y-2.5 border-2 border-[var(--primary)]">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-primary-theme">🏆 Canlı Lobi Puan Durumu &amp; Kazanan</span>
+              <span id="result-live-winner-badge" class="px-2.5 py-0.5 rounded-full bg-amber-500 text-white font-extrabold text-[11px]">👑 Kazanan</span>
+            </div>
+            <div id="result-live-lobby-scores-list" class="space-y-1.5">
+            </div>
+          </div>
+
           <div class="stitch-subcard p-3 flex items-center justify-between gap-2 text-left">
             <div class="truncate">
               <div class="text-[10px] uppercase font-bold text-muted-theme">Canlı Sonuç &amp; Karne Linki:</div>
@@ -1801,7 +2124,7 @@
     </div>
   </main>
 
-  <!-- ================= FOOTER (Stitch Footer Links + Mandatory Version Label) ================= -->
+  <!-- ================= FOOTER (Stitch Footer Links + Mandatory Version Label v0.07) ================= -->
   <footer class="w-full border-t border-[var(--outline-variant)] bg-[var(--surface-low)] py-5 text-center text-xs text-muted-theme font-semibold">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3">
       <div class="flex items-center gap-2">
@@ -1814,7 +2137,7 @@
         <button type="button" onclick="openInfoGuideModal('privacy')" class="hover:text-primary-theme transition-colors">Gizlilik</button>
       </div>
       <p>
-        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.06</span>
+        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.07</span>
       </p>
     </div>
   </footer>
@@ -2001,6 +2324,35 @@
         <div class="flex items-center justify-between text-[11px] text-muted-theme font-mono-theme">
           <span id="modal-personal-xp-text">0 / 100 XP</span>
           <span id="modal-personal-stats">0 Doğru Tahmin • 0 Oyun</span>
+        </div>
+      </div>
+
+      <!-- MİSAFİR PUANIMI ÜYELİĞE AKTAR KUTUSU (7 Günlük Takip & Kalıcı Üyeliğe Geçiş) -->
+      <div id="guest-transfer-membership-card" class="stitch-subcard p-3.5 border-2 border-amber-500/50 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold text-amber-600 dark:text-amber-400">🔄 Misafir Puanımı Kalıcı Üyeliğe Aktar</span>
+          <span id="guest-retention-badge" class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300 font-mono-theme font-bold text-[10px]">7 Gün Koruma</span>
+        </div>
+        <p id="guest-transfer-desc" class="text-[11px] text-muted-theme leading-snug">
+          Misafir hesapların puanları, arkadaş kodu (<strong>SNC-XXXX</strong>) ve bağları tarayıcı çerezlerinde tutulur; <strong>7 gün boyunca hiç puan artmazsa</strong> misafir verileri otomatik silinir. Puanını ve kodunu kalıcı yapmak için üyeliğe aktar:
+        </p>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button
+            type="button"
+            onclick="toggleProfileModal(false); openSocialLoginModal('Google')"
+            class="theme-btn-primary py-2 px-2.5 text-xs font-extrabold flex items-center justify-center gap-1"
+          >
+            <span>G</span>
+            <span>Google'a Aktar</span>
+          </button>
+          <button
+            type="button"
+            onclick="toggleProfileModal(false); openSocialLoginModal('iCloud')"
+            class="theme-btn-secondary py-2 px-2.5 text-xs font-bold flex items-center justify-center gap-1"
+          >
+            <span>☁️</span>
+            <span>iCloud / Mail Aktar</span>
+          </button>
         </div>
       </div>
 
@@ -2223,6 +2575,197 @@
       >
         AYARLARI KAYDET VE KAPAT
       </button>
+    </div>
+  </div>
+
+  <!-- ================= 4 SANİYELİK BEKLEME SONRASI "RAKİP ÇÖZDÜ, SIRA SENDE!" MODALI ================= -->
+  <div
+    id="opponent-turn-ready-modal"
+    class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
+  >
+    <div class="stitch-card w-full max-w-md p-6 text-center space-y-4 animate-view border-2 border-emerald-500">
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-bounce">
+        ⚡
+      </div>
+      <div class="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 text-xs font-extrabold uppercase tracking-wider">
+        🔥 SIRA SENDE!
+      </div>
+      <h3 id="turn-ready-modal-title" class="font-display-theme text-xl font-extrabold">
+        Rakip Soruları Cevaplandırdı! Sıra Sende!
+      </h3>
+      <p id="turn-ready-modal-desc" class="text-xs sm:text-sm text-muted-theme leading-relaxed">
+        Arkadaşın sorularını tamamladı. Şimdi doğrudan sorulara geçip tahmin edebilir veya ana sayfaya dönebilirsin!
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+        <button
+          type="button"
+          onclick="continueFromTurnReadyModal()"
+          class="theme-btn-primary py-3.5 px-4 text-xs sm:text-sm font-extrabold flex items-center justify-center gap-1.5"
+        >
+          <span>⚡ Devam Et</span>
+        </button>
+        <button
+          type="button"
+          onclick="returnHomeFromTurnReadyModal()"
+          class="theme-btn-secondary py-3.5 px-4 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5"
+        >
+          <span>🏠 Ana Sayfaya Dön</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ODA KURUCUSU KATILIMCI YÖNETİM MODALI (Kuruculuğu Devret / Ebe Ata / At) ================= -->
+  <div
+    id="host-participant-modal"
+    class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
+    onclick="if(event.target === this) closeHostParticipantModal()"
+  >
+    <div class="stitch-card w-full max-w-sm p-5 space-y-4 animate-view">
+      <div class="flex items-center justify-between border-b border-[var(--outline-variant)] pb-3">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-amber-500">👑 KURUCU YÖNETİM PANELİ</span>
+          <h3 id="host-manage-target-name" class="font-display-theme text-lg font-extrabold">Oyuncu Yönetimi</h3>
+        </div>
+        <button type="button" onclick="closeHostParticipantModal()" class="w-8 h-8 rounded-full stitch-subcard flex items-center justify-center font-bold text-sm">✕</button>
+      </div>
+
+      <div class="space-y-2">
+        <button
+          type="button"
+          onclick="executeHostParticipantAction('transfer_host')"
+          class="w-full p-3 rounded-xl stitch-subcard hover:border-amber-500 text-left flex items-center justify-between transition"
+        >
+          <div class="flex items-center gap-2.5">
+            <span class="text-lg">👑</span>
+            <div>
+              <div class="font-bold text-xs sm:text-sm text-amber-600 dark:text-amber-400">Oda Kuruculuğunu Devret</div>
+              <div class="text-[11px] text-muted-theme">Bu oyuncu altın sarısı kurucu olur ve ayarları yönetir</div>
+            </div>
+          </div>
+          <span class="text-xs font-bold">➔</span>
+        </button>
+
+        <button
+          type="button"
+          onclick="executeHostParticipantAction('set_ebe')"
+          class="w-full p-3 rounded-xl stitch-subcard hover:border-[var(--primary)] text-left flex items-center justify-between transition"
+        >
+          <div class="flex items-center gap-2.5">
+            <span class="text-lg">🎯</span>
+            <div>
+              <div class="font-bold text-xs sm:text-sm text-primary-theme">İlk Başlayan / Ebe Rolü Ata</div>
+              <div class="text-[11px] text-muted-theme">Oyun başladığında ilk soruyu bu oyuncu çözer</div>
+            </div>
+          </div>
+          <span class="text-xs font-bold">➔</span>
+        </button>
+
+        <div class="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onclick="executeHostParticipantAction('set_team', 'blue')"
+            class="p-2.5 rounded-xl bg-blue-500/15 border border-blue-500/40 text-blue-600 dark:text-blue-300 font-bold text-xs hover:bg-blue-500/25 transition"
+          >
+            🔵 Mavi Takıma At
+          </button>
+          <button
+            type="button"
+            onclick="executeHostParticipantAction('set_team', 'red')"
+            class="p-2.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-600 dark:text-rose-300 font-bold text-xs hover:bg-rose-500/25 transition"
+          >
+            🔴 Kırmızı Takıma At
+          </button>
+        </div>
+
+        <button
+          type="button"
+          onclick="executeHostParticipantAction('kick')"
+          class="w-full p-3 rounded-xl bg-red-500/15 border border-red-500/40 text-red-600 dark:text-red-300 text-left flex items-center justify-between hover:bg-red-500/25 transition"
+        >
+          <div class="flex items-center gap-2.5">
+            <span class="text-lg">🥾</span>
+            <div>
+              <div class="font-bold text-xs sm:text-sm">Kullanıcıyı Odadan At</div>
+              <div class="text-[11px] opacity-80">Oyuncuyu lobiden çıkarır</div>
+            </div>
+          </div>
+          <span class="text-xs font-bold">✕</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= OYUNCU SAYISI UYUŞMAZLIĞI (Örn: 3 Kişi ile 3v3 Seçildiğinde) AKILLI MODALI ================= -->
+  <div
+    id="live-mismatch-modal"
+    class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
+    onclick="if(event.target === this) closeLiveMismatchModal()"
+  >
+    <div class="stitch-card w-full max-w-lg p-6 space-y-4 animate-view border-2 border-amber-500">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-2xl shrink-0 shadow">
+            ⚠️
+          </div>
+          <div>
+            <h3 id="mismatch-modal-title" class="font-display-theme text-lg font-extrabold">
+              Sadece 3 Kişisiniz! Herkes Tek Başlatayım mı?
+            </h3>
+            <p id="mismatch-modal-desc" class="text-xs text-muted-theme">
+              Seçtiğin takım modu için yeterli oyuncu yok. Mevcut oyuncularla <strong>🌪️ Herkes Tek</strong> moduna geçip hemen başlatmak ister misin?
+            </p>
+          </div>
+        </div>
+        <button type="button" onclick="closeLiveMismatchModal()" class="w-8 h-8 rounded-full stitch-subcard flex items-center justify-center font-bold text-sm">✕</button>
+      </div>
+
+      <!-- Herkes Tek Alt Mod Seçimi (Ebeli vs 5'er Soru Paket) -->
+      <div class="stitch-subcard p-3.5 space-y-2.5">
+        <div class="text-xs font-extrabold text-primary-theme">1. Herkes Tek Oynanış Biçimi:</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button
+            type="button"
+            onclick="selectMismatchFfaMode('ebe', 1)"
+            id="mismatch-opt-ebe"
+            class="selectable-card is-active p-3 text-left space-y-0.5"
+          >
+            <div class="font-bold text-xs">🎯 Ebeli Tarz (1'er Soru Canlı)</div>
+            <div class="text-[11px] text-muted-theme">Sıradaki Ebe 1 soru çözer, odadaki diğer herkes onu tahmin eder!</div>
+          </button>
+          <button
+            type="button"
+            onclick="selectMismatchFfaMode('packet', 5)"
+            id="mismatch-opt-packet"
+            class="selectable-card p-3 text-left space-y-0.5"
+          >
+            <div class="font-bold text-xs">📦 5'er Soru Paket Tarzı</div>
+            <div class="text-[11px] text-muted-theme">Sıradaki oyuncu 5 soruluk paketini çözer, diğerleri tahmin eder!</div>
+          </button>
+        </div>
+
+        <div class="text-xs font-extrabold text-primary-theme pt-1">2. İlk Ebe / Başlayan Kişi Seçimi:</div>
+        <select id="mismatch-ebe-select" onchange="selectLiveStarterMode(this.value)" class="w-full stitch-input px-3 py-2 text-xs font-bold">
+          <option value="random">🎲 Sistem Rastgele Ebe Seçsin</option>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+        <button
+          type="button"
+          onclick="confirmSwitchToFfaAndStart()"
+          class="theme-btn-primary py-3.5 px-4 text-xs sm:text-sm font-extrabold flex items-center justify-center gap-1.5"
+        >
+          <span>✅ Evet, Herkes Tek Başlat!</span>
+        </button>
+        <button
+          type="button"
+          onclick="closeLiveMismatchModal()"
+          class="theme-btn-secondary py-3.5 px-4 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5"
+        >
+          <span>❌ Hayır, Lobide Bekle</span>
+        </button>
+      </div>
     </div>
   </div>
 

@@ -1,16 +1,20 @@
-// Vercel Serverless Function (/api/rooms) — v0.06
+// Vercel Serverless Function (/api/rooms) — v0.07
 // Varsayılan Supabase: https://kypzuqnksnlinkfuxvnl.supabase.co
-// Özellikler:
+// Özellikler (v0.07):
 // 1. 409 Conflict korumalı (Optimistic Retry) Bulut JSON Okuma/Yazma
-// 2. Çift Yönlü Arkadaşlık Bağı İstekleri (send_friend_request, accept_friend_request, reject_friend_request)
-// 3. Gerçek Zamanlı Bildirim Merkezi (Arkadaşlık isteği, yeni düello daveti, sıra sende, hatırlatma/nudge)
-// 4. Hem p1FriendCode hem p2FriendCode için çoklu aktif düello indeksleme (activeRooms[])
-// 5. Canlı Oda Lobi katılımcı senkronizasyonu (join_live_lobby) ve Liderlik Tablosu (leaderboard)
+// 2. Çift Yönlü Arkadaşlık Bağı İstekleri (send_friend_request, respond_friend_request)
+// 3. Gerçek Zamanlı Bildirim Merkezi & Hatırlatma (send_nudge, clear_notifications)
+// 4. Canlı Oda Lobi Tam Senkronizasyonu:
+//    - join_live_lobby, update_live_lobby (Sadece Kurucu), switch_live_team (Mavi/Kırmızı/Lobi uçuşu),
+//    - manage_live_participant (Kuruculuğu Devret, Odadan At, Ebe Ata),
+//    - start_live_match & submit_live_step (Eşzamanlı sıra tabanlı 1'er, 2'şer, 3'er, 4'er, 5'er, 10'ar & Ebeli/Paket modları)
+// 5. Global Liderlik Tablosu (leaderboard/global.json) + 7 Günlük İnaktif Misafir Temizliği
 
 const DEFAULT_SUPABASE_URL = "https://kypzuqnksnlinkfuxvnl.supabase.co";
 const GH_TOKEN = process.env.GH_TOKEN || "";
 const GH_REPO = process.env.GH_REPO || "emo29/senceo";
 const GH_BRANCH = "rooms-db";
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
 let branchVerified = false;
 
@@ -74,8 +78,7 @@ async function getJsonFromCloudPath(relPath) {
   return { data: JSON.parse(content), sha: data.sha };
 }
 
-// STATE_ISSUE #1 Çözümü: 409 Conflict durumunda güncel SHA ile 3 kez otomatik yeniden deneme
-async function putJsonToCloudPath(relPath, payloadOrUpdater, commitMessage, maxRetries = 3) {
+async function putJsonToCloudPath(relPath, payloadOrUpdater, commitMessage, maxRetries = 4) {
   if (!GH_TOKEN) {
     return typeof payloadOrUpdater === "function" ? payloadOrUpdater(null) : payloadOrUpdater;
   }
@@ -131,6 +134,11 @@ function createDefaultFriendRecord(friendCode, username = "Oyuncu") {
     username: username || "Oyuncu",
     level: 1,
     xp: 0,
+    gamesPlayed: 0,
+    questionsCorrect: 0,
+    provider: "guest",
+    isPermanentMember: false,
+    lastXpActivityAt: Date.now(),
     latestRoomCode: "",
     activeRooms: [],
     incomingRequests: [],
@@ -167,8 +175,11 @@ function upsertActiveRoomInFriendRecord(record, roomObj) {
     p2: roomObj.p2 || "",
     p1FriendCode: roomObj.p1FriendCode || "",
     p2FriendCode: roomObj.p2FriendCode || "",
+    roomType: roomObj.roomType || "classic",
+    arenaFormat: roomObj.arenaFormat || "1v1",
     status: roomObj.status || "waiting_p2",
     currentRound: roomObj.currentRound || 1,
+    nextRoundStarterCode: roomObj.nextRoundStarterCode || "",
     cat: roomObj.cat || "genel",
     lastMatchPercentage: roomObj.lastMatchPercentage,
     updatedAt: new Date().toISOString()
@@ -183,6 +194,77 @@ function upsertActiveRoomInFriendRecord(record, roomObj) {
   record.latestRoomCode = roomObj.code;
 }
 
+// Global Liderlik Tablosunu Güncelle + 7 Gün Puanı Artmayan Misafirleri Otomatik Sil
+async function upsertGlobalLeaderboardEntry(profileObj) {
+  if (!profileObj || !profileObj.friendCode || !/^SNC-\d{4}$/i.test(profileObj.friendCode)) return;
+  const cleanCode = profileObj.friendCode.toUpperCase();
+  const isMember =
+    Boolean(profileObj.isPermanentMember) ||
+    (profileObj.provider && !["guest", "Misafir"].includes(profileObj.provider) && Boolean(profileObj.email));
+
+  try {
+    await putJsonToCloudPath(
+      "leaderboard/global.json",
+      (existing) => {
+        const now = Date.now();
+        let list = Array.isArray(existing?.players) ? existing.players : [];
+
+        // 7 gün boyunca hiç XP kazanmamış misafir hesapları temizle
+        list = list.filter((item) => {
+          if (!item || !item.friendCode) return false;
+          if (item.isPermanentMember) return true;
+          const lastAct = Number(item.lastXpActivityAt) || new Date(item.updatedAt || now).getTime();
+          return now - lastAct <= SEVEN_DAYS_MS;
+        });
+
+        const idx = list.findIndex((p) => p.friendCode === cleanCode);
+        const prev = idx >= 0 ? list[idx] : null;
+        const newXp = Math.max(Number(profileObj.xp) || 0, Number(prev?.xp) || 0);
+        const xpIncreased = !prev || newXp > (Number(prev.xp) || 0);
+
+        const entry = {
+          friendCode: cleanCode,
+          username:
+            profileObj.username && profileObj.username !== "Misafir Oyuncu"
+              ? profileObj.username
+              : prev?.username || "Misafir Oyuncu",
+          avatar: profileObj.avatar || prev?.avatar || "😎",
+          level: Math.max(1, Math.floor(newXp / 100) + 1),
+          xp: newXp,
+          gamesPlayed: Math.max(Number(profileObj.gamesPlayed) || 0, Number(prev?.gamesPlayed) || 0),
+          questionsCorrect: Math.max(Number(profileObj.questionsCorrect) || 0, Number(prev?.questionsCorrect) || 0),
+          provider: profileObj.provider || prev?.provider || "guest",
+          isPermanentMember: isMember || Boolean(prev?.isPermanentMember),
+          lastXpActivityAt: xpIncreased
+            ? now
+            : Number(profileObj.lastXpActivityAt) || Number(prev?.lastXpActivityAt) || now,
+          updatedAt: new Date().toISOString()
+        };
+
+        if (idx >= 0) {
+          list[idx] = entry;
+        } else {
+          list.push(entry);
+        }
+
+        list.sort((a, b) => {
+          if ((b.xp || 0) !== (a.xp || 0)) return (b.xp || 0) - (a.xp || 0);
+          if ((b.questionsCorrect || 0) !== (a.questionsCorrect || 0)) {
+            return (b.questionsCorrect || 0) - (a.questionsCorrect || 0);
+          }
+          return (b.gamesPlayed || 0) - (a.gamesPlayed || 0);
+        });
+
+        return {
+          updatedAt: new Date().toISOString(),
+          players: list.slice(0, 100)
+        };
+      },
+      `Update global leaderboard for ${cleanCode}`
+    );
+  } catch (e) {}
+}
+
 async function getRoomFromCloud(roomCode) {
   const cleanCode = String(roomCode).toUpperCase().replace(/[^A-Z0-9_-]/g, "");
   const found = await getJsonFromCloudPath(`rooms/${cleanCode}.json`);
@@ -191,6 +273,15 @@ async function getRoomFromCloud(roomCode) {
 
 async function saveRoomToCloud(roomCode, roomObj) {
   const cleanCode = String(roomCode).toUpperCase().replace(/[^A-Z0-9_-]/g, "");
+
+  // Raund tamamlandığında (completed), bir sonraki raundda (Raund N+1) İLK BAŞLAYACAK KİŞİYİ (2. başlayan = p2) kilitle!
+  if (roomObj.status === "completed") {
+    roomObj.nextRoundStarterCode = roomObj.p2FriendCode || "";
+    roomObj.nextRoundStarterName = roomObj.p2 || "2. Oyuncu";
+    roomObj.nextRoundSecondCode = roomObj.p1FriendCode || "";
+    roomObj.nextRoundSecondName = roomObj.p1 || "1. Oyuncu";
+  }
+
   await putJsonToCloudPath(
     `rooms/${cleanCode}.json`,
     roomObj,
@@ -208,7 +299,6 @@ async function saveRoomToCloud(roomCode, roomObj) {
           if (roomObj.p1 && roomObj.p1 !== "Misafir Oyuncu") rec.username = roomObj.p1;
           upsertActiveRoomInFriendRecord(rec, roomObj);
 
-          // Eğer P2 hamlesini yaptıysa (waiting_p1_half2) veya oyun bittiyse (completed) P1'e bildirim ekle!
           if (roomObj.status === "waiting_p1_half2") {
             pushNotification(rec, {
               id: `TURN_P1_${cleanCode}_R${roomObj.currentRound || 1}`,
@@ -296,19 +386,47 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === "GET") {
+      // Global Liderlik Tablosu Sorgusu
+      if (req.query.leaderboard) {
+        const lb = await getJsonFromCloudPath("leaderboard/global.json");
+        const now = Date.now();
+        const players = Array.isArray(lb?.data?.players)
+          ? lb.data.players.filter((item) => {
+              if (!item || !item.friendCode) return false;
+              if (item.isPermanentMember) return true;
+              const lastAct = Number(item.lastXpActivityAt) || new Date(item.updatedAt || now).getTime();
+              return now - lastAct <= SEVEN_DAYS_MS;
+            })
+          : [];
+        return res.status(200).json({ ok: true, players });
+      }
+
       const friendCode = req.query.friendCode;
       if (friendCode) {
         const cleanFCode = String(friendCode).trim().toUpperCase().replace(/[^A-Z0-9_-]/g, "");
         const fIndex = await getJsonFromCloudPath(`friends/${cleanFCode}.json`);
         if (fIndex && fIndex.data) {
+          // 7 gün boyunca puanı artmayan misafir kontrolü
+          const rec = fIndex.data;
+          const now = Date.now();
+          const lastAct = Number(rec.lastXpActivityAt) || new Date(rec.updatedAt || now).getTime();
+          if (!rec.isPermanentMember && ["guest", "Misafir"].includes(rec.provider || "guest") && now - lastAct > SEVEN_DAYS_MS) {
+            return res.status(200).json({
+              source: "friend-index",
+              expiredGuest: true,
+              friend: createDefaultFriendRecord(cleanFCode, "Misafir Oyuncu"),
+              room: null
+            });
+          }
+
           let linkedRoom = null;
-          if (fIndex.data.latestRoomCode) {
-            const rFound = await getRoomFromCloud(fIndex.data.latestRoomCode);
+          if (rec.latestRoomCode) {
+            const rFound = await getRoomFromCloud(rec.latestRoomCode);
             if (rFound) linkedRoom = rFound.room;
           }
           return res.status(200).json({
             source: "friend-index",
-            friend: fIndex.data,
+            friend: rec,
             room: linkedRoom
           });
         }
@@ -320,6 +438,11 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: "Oda kodu (code) gerekli." });
       }
       const cleanCode = String(code).trim().toUpperCase();
+
+      const found = await getRoomFromCloud(cleanCode);
+      if (found) {
+        return res.status(200).json({ source: "cloud-db", room: found.room });
+      }
 
       if (sbUrl && sbKey) {
         try {
@@ -340,11 +463,7 @@ export default async function handler(req, res) {
         } catch (sbReadErr) {}
       }
 
-      const found = await getRoomFromCloud(cleanCode);
-      if (!found) {
-        return res.status(404).json({ error: "Oda bulunamadı. Kodun doğru olduğundan emin olun." });
-      }
-      return res.status(200).json({ source: "cloud-db", room: found.room });
+      return res.status(404).json({ error: "Oda bulunamadı. Kodun doğru olduğundan emin olun." });
     }
 
     if (req.method === "POST" || req.method === "PUT") {
@@ -360,7 +479,6 @@ export default async function handler(req, res) {
           return res.status(400).json({ error: "Geçersiz arkadaş kodu formatı." });
         }
 
-        // Hedef kullanıcının (toCode) dosyasına gelen isteği ve bildirimi yaz
         const targetRecord = await putJsonToCloudPath(
           `friends/${toCode}.json`,
           (existing) => {
@@ -424,7 +542,6 @@ export default async function handler(req, res) {
           return res.status(400).json({ error: "Geçersiz arkadaş kodu." });
         }
 
-        // Kendi kaydımı güncelle
         const updatedMe = await putJsonToCloudPath(
           `friends/${myCode}.json`,
           (existing) => {
@@ -456,7 +573,6 @@ export default async function handler(req, res) {
           `Respond (${decision}) friend request ${requesterCode} by ${myCode}`
         );
 
-        // Karşı tarafın (requesterCode) kaydını da güncelle ve kabul edildiyse bildirim gönder!
         if (decision === "accept") {
           await putJsonToCloudPath(
             `friends/${requesterCode}.json`,
@@ -547,40 +663,349 @@ export default async function handler(req, res) {
         const playerName = String(body.playerName || "Oyuncu").trim();
         const friendCode = String(body.friendCode || "").trim().toUpperCase();
 
+        let wasKicked = false;
         const updatedRoom = await putJsonToCloudPath(
           `rooms/${code}.json`,
           (existing) => {
             if (!existing) return null;
-            if (!Array.isArray(existing.participants)) {
-              existing.participants = [{ name: existing.p1 || "Kurucu", code: existing.p1FriendCode || "", role: "host" }];
+            if (Array.isArray(existing.kickedCodes) && friendCode && existing.kickedCodes.includes(friendCode)) {
+              wasKicked = true;
+              return existing;
             }
-            const exists = existing.participants.some(
+            if (!Array.isArray(existing.participants)) {
+              existing.participants = [
+                {
+                  name: existing.p1 || "Kurucu",
+                  code: existing.p1FriendCode || "",
+                  role: "host",
+                  team: "none",
+                  score: 0,
+                  correct: 0
+                }
+              ];
+            }
+            const existingIdx = existing.participants.findIndex(
               (p) => (friendCode && p.code === friendCode) || p.name.toLowerCase() === playerName.toLowerCase()
             );
-            if (!exists) {
+            if (existingIdx >= 0) {
+              existing.participants[existingIdx].name = playerName;
+              if (friendCode) existing.participants[existingIdx].code = friendCode;
+            } else {
               existing.participants.push({
                 name: playerName,
                 code: friendCode,
                 role: "member",
+                team: "none",
+                score: 0,
+                correct: 0,
                 joinedAt: new Date().toISOString()
               });
             }
-            if (!existing.p2) existing.p2 = playerName;
-            if (!existing.p2FriendCode && friendCode) existing.p2FriendCode = friendCode;
+            if (!existing.p2 && friendCode !== existing.p1FriendCode) existing.p2 = playerName;
+            if (!existing.p2FriendCode && friendCode && friendCode !== existing.p1FriendCode) {
+              existing.p2FriendCode = friendCode;
+            }
             existing.updatedAt = new Date().toISOString();
             return existing;
           },
           `Player ${playerName} joined live lobby ${code}`
         );
+
+        if (wasKicked) {
+          return res.status(403).json({ error: "Oda kurucusu tarafından bu odadan çıkarıldınız.", kicked: true });
+        }
         return res.status(200).json({ ok: true, room: updatedRoom });
       }
 
-      // 6. AKSİYON: Profil ve Arkadaş Kodu Kaydı (type === 'profile')
+      // 6. AKSİYON: Canlı Oda Ayarlarını Güncelleme (SADECE ODA KURUCUSU — update_live_lobby)
+      if (body.action === "update_live_lobby") {
+        const code = String(body.code || "").trim().toUpperCase();
+        const callerCode = String(body.callerCode || "").trim().toUpperCase();
+        const settings = body.settings || {};
+
+        let unauthorized = false;
+        const updatedRoom = await putJsonToCloudPath(
+          `rooms/${code}.json`,
+          (existing) => {
+            if (!existing) return null;
+            const hostCode = String(existing.hostCode || existing.p1FriendCode || "").toUpperCase();
+            if (hostCode && callerCode && hostCode !== callerCode) {
+              unauthorized = true;
+              return existing;
+            }
+            if (settings.arenaFormat) existing.arenaFormat = settings.arenaFormat;
+            if (settings.cat) existing.cat = settings.cat;
+            if (settings.turnStepMode !== undefined) existing.turnStepMode = Number(settings.turnStepMode) || 1;
+            if (settings.totalQuestionsCount !== undefined) {
+              existing.totalQuestionsCount = Number(settings.totalQuestionsCount) || 5;
+            }
+            if (settings.questionTimerSec !== undefined) {
+              existing.questionTimerSec = Number(settings.questionTimerSec) || 0;
+            }
+            if (settings.starterSelectionMode) existing.starterSelectionMode = settings.starterSelectionMode;
+            if (settings.designatedStarterCode !== undefined) {
+              existing.designatedStarterCode = settings.designatedStarterCode;
+            }
+            if (settings.ffaSubMode) existing.ffaSubMode = settings.ffaSubMode;
+            if (settings.teamSubMode) existing.teamSubMode = settings.teamSubMode;
+            existing.updatedAt = new Date().toISOString();
+            return existing;
+          },
+          `Host updated live lobby settings ${code}`
+        );
+
+        if (unauthorized) {
+          return res.status(403).json({ error: "Sadece oda kurucusu ayarları değiştirebilir!" });
+        }
+        return res.status(200).json({ ok: true, room: updatedRoom });
+      }
+
+      // 7. AKSİYON: Canlı Odada Takım Değiştirme (Mavi / Kırmızı / Lobi — switch_live_team)
+      if (body.action === "switch_live_team") {
+        const code = String(body.code || "").trim().toUpperCase();
+        const playerCode = String(body.playerCode || "").trim().toUpperCase();
+        const playerName = String(body.playerName || "").trim();
+        const team = ["blue", "red", "none"].includes(body.team) ? body.team : "none";
+
+        const updatedRoom = await putJsonToCloudPath(
+          `rooms/${code}.json`,
+          (existing) => {
+            if (!existing || !Array.isArray(existing.participants)) return existing;
+            const p = existing.participants.find(
+              (item) => (playerCode && item.code === playerCode) || item.name === playerName
+            );
+            if (p) {
+              p.team = team;
+            }
+            existing.updatedAt = new Date().toISOString();
+            return existing;
+          },
+          `Player ${playerName || playerCode} switched team to ${team} in ${code}`
+        );
+        return res.status(200).json({ ok: true, room: updatedRoom });
+      }
+
+      // 8. AKSİYON: Kurucunun Katılımcı Yönetimi (Kuruculuğu Devret, Odadan At, Ebe Ata — manage_live_participant)
+      if (body.action === "manage_live_participant") {
+        const code = String(body.code || "").trim().toUpperCase();
+        const callerCode = String(body.callerCode || "").trim().toUpperCase();
+        const targetCode = String(body.targetCode || "").trim().toUpperCase();
+        const targetName = String(body.targetName || "").trim();
+        const subAction = body.subAction; // 'transfer_host' | 'kick' | 'set_ebe' | 'set_team'
+
+        let unauthorized = false;
+        const updatedRoom = await putJsonToCloudPath(
+          `rooms/${code}.json`,
+          (existing) => {
+            if (!existing) return null;
+            const currentHostCode = String(existing.hostCode || existing.p1FriendCode || "").toUpperCase();
+            if (currentHostCode && callerCode && currentHostCode !== callerCode) {
+              unauthorized = true;
+              return existing;
+            }
+            if (!Array.isArray(existing.participants)) existing.participants = [];
+
+            const targetIdx = existing.participants.findIndex(
+              (p) => (targetCode && p.code === targetCode) || p.name === targetName
+            );
+            if (targetIdx < 0) return existing;
+            const targetObj = existing.participants[targetIdx];
+
+            if (subAction === "kick") {
+              existing.participants.splice(targetIdx, 1);
+              if (!Array.isArray(existing.kickedCodes)) existing.kickedCodes = [];
+              if (targetObj.code && !existing.kickedCodes.includes(targetObj.code)) {
+                existing.kickedCodes.push(targetObj.code);
+              }
+            } else if (subAction === "transfer_host") {
+              existing.participants.forEach((p) => {
+                p.role = "member";
+              });
+              targetObj.role = "host";
+              existing.hostCode = targetObj.code || "";
+              existing.p1FriendCode = targetObj.code || existing.p1FriendCode;
+              existing.p1 = targetObj.name || existing.p1;
+            } else if (subAction === "set_ebe") {
+              existing.starterSelectionMode = "manual";
+              existing.designatedStarterCode = targetObj.code || targetObj.name;
+              existing.designatedStarterName = targetObj.name;
+            } else if (subAction === "set_team") {
+              targetObj.team = ["blue", "red", "none"].includes(body.team) ? body.team : "none";
+            }
+
+            existing.updatedAt = new Date().toISOString();
+            return existing;
+          },
+          `Host managed participant (${subAction}) in ${code}`
+        );
+
+        if (unauthorized) {
+          return res.status(403).json({ error: "Sadece oda kurucusu bu işlemi yapabilir!" });
+        }
+        return res.status(200).json({ ok: true, room: updatedRoom });
+      }
+
+      // 9. AKSİYON: Canlı Odayı Eşzamanlı Başlatma (start_live_match) ve Canlı Adım Gönderme (submit_live_step)
+      if (body.action === "start_live_match") {
+        const code = String(body.code || "").trim().toUpperCase();
+        const callerCode = String(body.callerCode || "").trim().toUpperCase();
+        const liveInit = body.liveInit || {};
+
+        const updatedRoom = await putJsonToCloudPath(
+          `rooms/${code}.json`,
+          (existing) => {
+            if (!existing) return null;
+            const currentHostCode = String(existing.hostCode || existing.p1FriendCode || "").toUpperCase();
+            if (currentHostCode && callerCode && currentHostCode !== callerCode) {
+              return existing;
+            }
+            if (liveInit.arenaFormat) existing.arenaFormat = liveInit.arenaFormat;
+            if (liveInit.ffaSubMode) existing.ffaSubMode = liveInit.ffaSubMode;
+            if (liveInit.teamSubMode) existing.teamSubMode = liveInit.teamSubMode;
+            if (liveInit.turnStepMode) existing.turnStepMode = Number(liveInit.turnStepMode) || 1;
+            if (liveInit.questionTimerSec !== undefined) {
+              existing.questionTimerSec = Number(liveInit.questionTimerSec) || 0;
+            }
+            existing.status = "live_in_progress";
+            existing.liveState = liveInit.liveState;
+            existing.updatedAt = new Date().toISOString();
+            return existing;
+          },
+          `Start live match ${code}`
+        );
+
+        return res.status(200).json({ ok: true, room: updatedRoom });
+      }
+
+      if (body.action === "submit_live_step") {
+        const code = String(body.code || "").trim().toUpperCase();
+        const playerCode = String(body.playerCode || "").trim().toUpperCase();
+        const playerName = String(body.playerName || "Oyuncu").trim();
+        const subPhase = body.subPhase; // 'answer_progress' | 'submit_answers' | 'submit_guesses'
+        const stepData = body.stepData || {};
+
+        const updatedRoom = await putJsonToCloudPath(
+          `rooms/${code}.json`,
+          (existing) => {
+            if (!existing || !existing.liveState) return existing;
+            const ls = existing.liveState;
+
+            if (subPhase === "answer_progress") {
+              ls.answeredCountSoFar = Number(stepData.answeredCountSoFar) || 0;
+            } else if (subPhase === "submit_answers") {
+              ls.currentBatchAnswers = stepData.answers || [];
+              ls.currentBatchComments = stepData.comments || [];
+              ls.currentBatchCustomMap = stepData.customMap || {};
+              ls.guessesByPlayer = {};
+              ls.phase = "guessing";
+              ls.phaseStartedAt = Date.now();
+            } else if (subPhase === "submit_guesses") {
+              if (!ls.guessesByPlayer) ls.guessesByPlayer = {};
+              const pKey = playerCode || playerName;
+              ls.guessesByPlayer[pKey] = {
+                playerCode,
+                playerName,
+                guesses: stepData.guesses || [],
+                comments: stepData.comments || [],
+                correctCount: Number(stepData.correctCount) || 0,
+                totalCount: Number(stepData.totalCount) || 1,
+                submittedAt: new Date().toISOString()
+              };
+
+              if (!ls.scoresByPlayer) ls.scoresByPlayer = {};
+              const participantObj = (existing.participants || []).find(
+                (p) => (playerCode && p.code === playerCode) || p.name === playerName
+              );
+              const prevScore = ls.scoresByPlayer[pKey] || {
+                code: playerCode,
+                name: playerName,
+                team: participantObj?.team || "none",
+                correct: 0,
+                total: 0,
+                points: 0
+              };
+              prevScore.correct += Number(stepData.correctCount) || 0;
+              prevScore.total += Number(stepData.totalCount) || 1;
+              prevScore.points = prevScore.correct * 100;
+              ls.scoresByPlayer[pKey] = prevScore;
+
+              // Tüm tahminciler bitirdiyse sıradaki oyuncuya (veya oyun sonuna) geç!
+              const allParticipants = Array.isArray(existing.participants) ? existing.participants : [];
+              const expectedGuessers = allParticipants.filter(
+                (p) => (p.code || p.name) !== (ls.activeAnswererCode || ls.activeAnswererName)
+              );
+              const submittedKeys = Object.keys(ls.guessesByPlayer);
+              const everyoneGuessed =
+                expectedGuessers.length <= 1 ||
+                expectedGuessers.every(
+                  (g) => submittedKeys.includes(g.code) || submittedKeys.includes(g.name)
+                );
+
+              if (everyoneGuessed) {
+                if (!Array.isArray(ls.historyBatches)) ls.historyBatches = [];
+                ls.historyBatches.push({
+                  turnIndex: ls.turnIndex,
+                  answererCode: ls.activeAnswererCode,
+                  answererName: ls.activeAnswererName,
+                  qIds: ls.currentBatchQIds,
+                  answers: ls.currentBatchAnswers,
+                  comments: ls.currentBatchComments,
+                  customMap: ls.currentBatchCustomMap,
+                  guessesByPlayer: ls.guessesByPlayer
+                });
+
+                const nextTurnIdx = (Number(ls.turnIndex) || 0) + 1;
+                if (nextTurnIdx >= (Number(ls.totalTurns) || 2) || !stepData.nextBatchQIds?.length) {
+                  existing.status = "completed";
+                  ls.phase = "completed";
+                  // Kazananı ve toplam uyumu hesapla
+                  const scoreArr = Object.values(ls.scoresByPlayer);
+                  scoreArr.sort((a, b) => (b.points || 0) - (a.points || 0));
+                  existing.liveLeaderboard = scoreArr;
+                  const totalC = scoreArr.reduce((acc, s) => acc + (s.correct || 0), 0);
+                  const totalQ = scoreArr.reduce((acc, s) => acc + (s.total || 0), 0);
+                  existing.lastMatchPercentage = totalQ > 0 ? Math.round((totalC / totalQ) * 100) : 80;
+                  existing.lastCorrectCount = totalC;
+                  existing.lastTotalQuestions = totalQ;
+                } else {
+                  ls.turnIndex = nextTurnIdx;
+                  const orderList = Array.isArray(ls.turnOrder) && ls.turnOrder.length > 0
+                    ? ls.turnOrder
+                    : allParticipants;
+                  const nextAnswerer = orderList[nextTurnIdx % orderList.length] || allParticipants[0];
+                  ls.activeAnswererCode = nextAnswerer.code || "";
+                  ls.activeAnswererName = nextAnswerer.name || "Oyuncu";
+                  ls.currentBatchQIds = stepData.nextBatchQIds;
+                  ls.currentBatchAnswers = [];
+                  ls.currentBatchComments = [];
+                  ls.currentBatchCustomMap = {};
+                  ls.guessesByPlayer = {};
+                  ls.answeredCountSoFar = 0;
+                  ls.phase = "answering";
+                  ls.phaseStartedAt = Date.now();
+                }
+              }
+            }
+
+            existing.updatedAt = new Date().toISOString();
+            return existing;
+          },
+          `Live step (${subPhase}) in ${code}`
+        );
+
+        return res.status(200).json({ ok: true, room: updatedRoom });
+      }
+
+      // 10. AKSİYON: Profil ve Arkadaş Kodu Kaydı (type === 'profile')
       if (body.type === "profile" && body.profile) {
         const p = body.profile;
         let syncedFriendRecord = null;
         if (p.friendCode && /^SNC-\d{4}$/i.test(p.friendCode)) {
           const cleanFCode = p.friendCode.toUpperCase();
+          const isMember =
+            Boolean(p.isPermanentMember) ||
+            (p.provider && !["guest", "Misafir"].includes(p.provider) && Boolean(p.email));
+
           try {
             syncedFriendRecord = await putJsonToCloudPath(
               `friends/${cleanFCode}.json`,
@@ -589,14 +1014,25 @@ export default async function handler(req, res) {
                 if (p.username && p.username !== "Misafir Oyuncu") {
                   rec.username = p.username;
                 }
-                rec.level = p.level || rec.level || 1;
-                rec.xp = p.xp || rec.xp || 0;
+                const prevXp = Number(rec.xp) || 0;
+                const nextXp = Math.max(Number(p.xp) || 0, prevXp);
+                if (nextXp > prevXp || !rec.lastXpActivityAt) {
+                  rec.lastXpActivityAt = Date.now();
+                }
+                rec.level = Math.max(1, Math.floor(nextXp / 100) + 1);
+                rec.xp = nextXp;
+                rec.gamesPlayed = Math.max(Number(p.gamesPlayed) || 0, Number(rec.gamesPlayed) || 0);
+                rec.questionsCorrect = Math.max(Number(p.questionsCorrect) || 0, Number(rec.questionsCorrect) || 0);
+                rec.provider = p.provider || rec.provider || "guest";
+                rec.isPermanentMember = isMember || Boolean(rec.isPermanentMember);
                 rec.updatedAt = new Date().toISOString();
                 return rec;
               },
               `Update friend profile ${cleanFCode}`
             );
           } catch (e) {}
+
+          await upsertGlobalLeaderboardEntry(p);
         }
 
         if (sbUrl && sbKey) {
@@ -629,7 +1065,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, profile: p, friendCloud: syncedFriendRecord });
       }
 
-      // 7. AKSİYON: Oda / Oyun Oturumu Kaydı
+      // 11. AKSİYON: Oda / Oyun Oturumu Kaydı
       const room = body.room;
       if (!room || !room.code) {
         return res.status(400).json({ error: "Geçersiz oda verisi." });
