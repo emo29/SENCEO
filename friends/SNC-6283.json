@@ -20,18 +20,30 @@
       "p2FriendCode": "SNC-6283",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-6283",
       "cat": "genel",
-      "updatedAt": "2026-10-24T02:38:33.335Z"
+      "lastMatchPercentage": 50,
+      "updatedAt": "2026-10-24T02:43:09.773Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [
+    {
+      "id": "DONE_P1_SNCMYN_R1",
+      "type": "completed",
+      "title": "🏆 Düello Tamamlandı! (%50 Uyum)",
+      "message": "deneb ile #SNCMYN düellosunun sonuç karnesi hazır!",
+      "fromCode": "SNC-6283",
+      "fromName": "deneb",
+      "roomCode": "SNCMYN",
+      "read": false,
+      "createdAt": "2026-10-24T02:43:09.773Z"
+    },
     {
       "id": "TURN_P1_SNCMYN_R1",
       "type": "turn",
@@ -44,6 +56,6 @@
       "createdAt": "2026-10-24T02:38:33.335Z"
     }
   ],
-  "updatedAt": "2026-10-24T02:38:33.335Z",
+  "updatedAt": "2026-10-24T02:43:09.773Z",
   "deletedRoomCodes": []
 }
