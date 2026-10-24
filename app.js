@@ -4406,8 +4406,12 @@ async function finishP2WatchP1Slides() {
   if (revNextBox) revNextBox.classList.add('hidden');
 
   gameState.phase = 'completed';
-  await setP2WatchingSlidesStatus(false, true);
+  if (gameState.liveRoomData) {
+    gameState.liveRoomData.p2WatchingSlides = false;
+    gameState.liveRoomData.p2WatchedSlides = true;
+  }
   showResultScreen(false);
+  await setP2WatchingSlidesStatus(false, true);
 }
 
 // ---------------- SORU EKRANI RENDER, SÜRE SAYACI & 1.5SN BALONCUK GECİKMESİ ----------------
@@ -6517,10 +6521,11 @@ async function startNextRoundInSameRoom() {
   const roomP1NameLower = String((roomRef && roomRef.p1) || '').trim().toLowerCase();
   const roomP2NameLower = String(prevP2Name || '').trim().toLowerCase();
 
+  const explicitTabRole = getMyRoleForRoom(roomRef, finishedRoundNum);
   let wasIPlayer1InFinishedRound = isUserPlayer1OfRoom(roomRef, finishedRoundNum);
 
-  // Ek Güvenlik Kilidi: Eğer nextRoundStarterCode belli ve benim kodum p1CodeInRoom ise (veya ismim p1 ile aynıysa), kesinlikle P1'im!
-  if (!wasIPlayer1InFinishedRound && gameState.mode !== 'pass') {
+  // Ek Güvenlik Kilidi: Eğer sekme rolü açıkça 'p2' değilse ve benim kodum p1CodeInRoom ise (veya ismim p1 ile aynıysa), kesinlikle P1'im!
+  if (!wasIPlayer1InFinishedRound && explicitTabRole !== 'p2' && gameState.mode !== 'pass') {
     if (prevP2Code && myCode && prevP2Code !== myCode && p1CodeInRoom === myCode) {
       wasIPlayer1InFinishedRound = true;
     } else if (myCurrentNameLower && roomP1NameLower && myCurrentNameLower === roomP1NameLower && myCurrentNameLower !== roomP2NameLower) {
