@@ -1,14 +1,14 @@
 {
   "friendCode": "SNC-9999",
-  "username": "TestUser999",
+  "username": "sıradanb",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
   "provider": "guest",
   "isPermanentMember": false,
-  "passwordProtected": true,
-  "passwordHash": "MTIz",
+  "passwordProtected": false,
+  "passwordHash": "",
   "lastXpActivityAt": 1792811578022,
   "latestRoomCode": "SNCZGZ",
   "activeRooms": [
