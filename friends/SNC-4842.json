@@ -1,0 +1,25 @@
+{
+  "friendCode": "SNC-4842",
+  "username": "Oyuncu (SNC-4842)",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792845308521,
+  "latestRoomCode": "",
+  "activeRooms": [],
+  "incomingRequests": [],
+  "acceptedFriends": [
+    {
+      "code": "SNC-3078",
+      "name": "ZZerban",
+      "acceptedAt": "2026-10-24T12:35:08.521Z"
+    }
+  ],
+  "notifications": [],
+  "updatedAt": "2026-10-24T12:35:08.521Z"
+}
