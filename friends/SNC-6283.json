@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-6283",
-  "username": "denea",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "username": "deneb",
+  "level": 2,
+  "xp": 150,
+  "gamesPlayed": 1,
+  "questionsCorrect": 5,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792809513334,
+  "lastXpActivityAt": 1792809790721,
   "latestRoomCode": "SNCMYN",
   "activeRooms": [
     {
@@ -56,6 +56,6 @@
       "createdAt": "2026-10-24T02:38:33.335Z"
     }
   ],
-  "updatedAt": "2026-10-24T02:43:09.773Z",
+  "updatedAt": "2026-10-24T02:43:10.721Z",
   "deletedRoomCodes": []
 }
