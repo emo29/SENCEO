@@ -47,7 +47,7 @@
     9
   ],
   "createdAt": "2026-10-24T12:43:52.867Z",
-  "updatedAt": "2026-10-24T12:44:07.116Z",
+  "updatedAt": "2026-10-24T12:44:10.442Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,19 +89,31 @@
     "activeAnswererName": "Mert",
     "activeGuesserCode": "SNC-6189",
     "activeGuesserName": "Hakan",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "Süre Bitimi Özel Şık A",
-    "currentGuess": null,
+    "currentGuess": 3,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-6189": {
+        "code": "SNC-6189",
+        "name": "Hakan",
+        "guessIndex": 3,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "submittedAt": 1792845850442
+      }
+    },
     "history": [],
     "scores": {
       "SNC-2119": {
@@ -116,9 +128,9 @@
         "code": "SNC-6189",
         "name": "Hakan",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       }
     },
     "scoresByPlayer": {
@@ -134,12 +146,12 @@
         "code": "SNC-6189",
         "name": "Hakan",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       }
     },
-    "phaseStartedAt": 1792845847116,
-    "updatedAt": 1792845847116
+    "phaseStartedAt": 1792845850442,
+    "updatedAt": 1792845850442
   }
 }
