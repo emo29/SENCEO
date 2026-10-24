@@ -48,7 +48,7 @@
   ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:33:00.721Z",
+  "updatedAt": "2026-10-24T11:33:34.390Z",
   "liveMatchState": {
     "qIds": [
       60,
@@ -78,19 +78,31 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-1265",
     "activeGuesserName": "B4ris",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "😎",
       "text": "keisnlikle bu"
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 0,
     "currentGuessComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "😱",
+      "text": "bastın kahkahayı yadaaaa cimere verdik mustafayı"
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-1265": {
+        "code": "SNC-1265",
+        "name": "B4ris",
+        "guessIndex": 0,
+        "comment": {
+          "emoji": "😱",
+          "text": "bastın kahkahayı yadaaaa cimere verdik mustafayı"
+        },
+        "isCorrect": false,
+        "submittedAt": 1792841614390
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -201,7 +213,7 @@
         "name": "B4ris",
         "team": "blue",
         "correct": 0,
-        "total": 1,
+        "total": 2,
         "points": 0
       },
       "SNC-7224": {
@@ -219,7 +231,7 @@
         "name": "B4ris",
         "team": "blue",
         "correct": 0,
-        "total": 1,
+        "total": 2,
         "points": 0
       },
       "SNC-7224": {
@@ -231,7 +243,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792841580721,
-    "updatedAt": 1792841580721
+    "phaseStartedAt": 1792841614390,
+    "updatedAt": 1792841614390
   }
 }
