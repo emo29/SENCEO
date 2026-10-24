@@ -48,7 +48,7 @@
   ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:31:02.156Z",
+  "updatedAt": "2026-10-24T11:31:52.763Z",
   "liveMatchState": {
     "qIds": [
       60,
@@ -78,11 +78,11 @@
     "activeAnswererName": "B4ris",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "",
-      "text": ""
+      "text": "bozuk kısımları fixle oyun iyi"
     },
     "currentCustomOption": "",
     "currentGuess": null,
@@ -197,7 +197,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792841462156,
-    "updatedAt": 1792841462156
+    "phaseStartedAt": 1792841512763,
+    "updatedAt": 1792841512763
   }
 }
