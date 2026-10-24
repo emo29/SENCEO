@@ -3,7 +3,7 @@
   "p1Id": "USR_FRAYIKZ",
   "hostCode": "SNC-5480",
   "p1FriendCode": "SNC-5480",
-  "p2FriendCode": "",
+  "p2FriendCode": "SNC-1865",
   "roomType": "live_arena",
   "arenaFormat": "1v1",
   "liveSettings": {
@@ -17,7 +17,7 @@
   "status": "lobby_open",
   "currentRound": 1,
   "p1": "Hakan",
-  "p2": "",
+  "p2": "Mert",
   "participants": [
     {
       "name": "Hakan",
@@ -25,11 +25,21 @@
       "role": "host",
       "team": "common",
       "isHost": true
+    },
+    {
+      "name": "Mert",
+      "code": "SNC-1865",
+      "role": "member",
+      "isHost": false,
+      "team": "common",
+      "score": 0,
+      "correct": 0,
+      "joinedAt": "2026-10-24T12:46:41.320Z"
     }
   ],
   "cat": "genel",
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T12:46:38.015Z",
-  "updatedAt": "2026-10-24T12:46:36.951Z"
+  "updatedAt": "2026-10-24T12:46:41.320Z"
 }
