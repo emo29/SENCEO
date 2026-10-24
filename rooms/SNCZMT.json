@@ -14,8 +14,8 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "completed",
-  "currentRound": 1,
+  "status": "live_in_progress",
+  "currentRound": 2,
   "p1": "emirhan",
   "p2": "komnenos",
   "participants": [
@@ -40,361 +40,112 @@
   "cat": "genel",
   "thm": "luminous",
   "qIds": [
-    31,
-    58,
-    1,
-    29,
-    11
+    3,
+    30,
+    32,
+    70,
+    66
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T18:58:43.195Z",
-  "liveLeaderboard": [
-    {
-      "code": "SNC-2002",
-      "name": "komnenos",
-      "team": "common",
-      "correct": 2,
-      "total": 2,
-      "points": 200
-    },
-    {
-      "code": "SNC-7224",
-      "name": "emirhan",
-      "team": "common",
-      "correct": 0,
-      "total": 3,
-      "points": 0
-    }
-  ],
-  "p1Answers": [
-    1,
-    0,
-    0,
-    1,
-    0
-  ],
-  "p2Guesses": [
-    0,
-    0,
-    1,
-    1,
-    1
-  ],
-  "p1Comments": [
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "😱",
-      "text": "ena1 beklemesi"
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "😎",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    }
-  ],
-  "p2Comments": [
-    {
-      "emoji": "😂",
-      "text": "qolaydı"
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "😂",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "😱",
-      "text": ""
-    }
-  ],
+  "updatedAt": "2026-10-24T18:59:01.242Z",
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
   "usedQuestionIds": [
     31,
     58,
     1,
     29,
-    11
+    11,
+    3,
+    30,
+    32,
+    70,
+    66
   ],
   "liveMatchState": {
     "qIds": [
-      31,
-      58,
-      1,
-      29,
-      11
+      3,
+      30,
+      32,
+      70,
+      66
     ],
-    "qIndex": 4,
-    "currentQIndex": 4,
+    "qIndex": 0,
+    "currentQIndex": 0,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
       {
-        "code": "SNC-2002",
-        "name": "komnenos",
+        "code": "SNC-7224",
+        "name": "emirhan",
         "team": "common"
       },
       {
-        "code": "SNC-7224",
-        "name": "emirhan",
+        "code": "SNC-2002",
+        "name": "komnenos",
         "team": "common"
       }
     ],
     "activeTurnOrderIdx": 0,
-    "activeAnswererCode": "SNC-2002",
-    "activeAnswererName": "komnenos",
-    "activeGuesserCode": "SNC-7224",
-    "activeGuesserName": "emirhan",
-    "subPhase": "completed",
-    "currentAnswer": 0,
+    "activeAnswererCode": "SNC-7224",
+    "activeAnswererName": "emirhan",
+    "activeGuesserCode": "SNC-2002",
+    "activeGuesserName": "komnenos",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 1,
+    "currentGuess": null,
     "currentGuessComment": {
-      "emoji": "😱",
+      "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-7224": {
-        "code": "SNC-7224",
-        "name": "emirhan",
-        "guessIndex": 1,
-        "comment": {
-          "emoji": "😱",
-          "text": ""
-        },
-        "isCorrect": false,
-        "submittedAt": 1792868309265
-      }
-    },
-    "history": [
-      {
-        "qIndex": 0,
-        "qId": 31,
-        "answererCode": "SNC-2002",
-        "answererName": "komnenos",
-        "guesserCode": "SNC-7224",
-        "guesserName": "emirhan",
-        "answerIdx": 1,
-        "guessIdx": 0,
-        "answerIndex": 1,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "😂",
-          "text": "qolaydı"
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-7224": {
-            "code": "SNC-7224",
-            "name": "emirhan",
-            "guessIndex": 0,
-            "comment": {
-              "emoji": "😂",
-              "text": "qolaydı"
-            },
-            "isCorrect": false,
-            "submittedAt": 1792868156930
-          }
-        }
-      },
-      {
-        "qIndex": 1,
-        "qId": 58,
-        "answererCode": "SNC-7224",
-        "answererName": "emirhan",
-        "guesserCode": "SNC-2002",
-        "guesserName": "komnenos",
-        "answerIdx": 0,
-        "guessIdx": 0,
-        "answerIndex": 0,
-        "answerComment": {
-          "emoji": "😱",
-          "text": "ena1 beklemesi"
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-2002": {
-            "code": "SNC-2002",
-            "name": "komnenos",
-            "guessIndex": 0,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": true,
-            "submittedAt": 1792868185981
-          }
-        }
-      },
-      {
-        "qIndex": 2,
-        "qId": 1,
-        "answererCode": "SNC-2002",
-        "answererName": "komnenos",
-        "guesserCode": "SNC-7224",
-        "guesserName": "emirhan",
-        "answerIdx": 0,
-        "guessIdx": 1,
-        "answerIndex": 0,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "😂",
-          "text": ""
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-7224": {
-            "code": "SNC-7224",
-            "name": "emirhan",
-            "guessIndex": 1,
-            "comment": {
-              "emoji": "😂",
-              "text": ""
-            },
-            "isCorrect": false,
-            "submittedAt": 1792868227628
-          }
-        }
-      },
-      {
-        "qIndex": 3,
-        "qId": 29,
-        "answererCode": "SNC-7224",
-        "answererName": "emirhan",
-        "guesserCode": "SNC-2002",
-        "guesserName": "komnenos",
-        "answerIdx": 1,
-        "guessIdx": 1,
-        "answerIndex": 1,
-        "answerComment": {
-          "emoji": "😎",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-2002": {
-            "code": "SNC-2002",
-            "name": "komnenos",
-            "guessIndex": 1,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": true,
-            "submittedAt": 1792868279463
-          }
-        }
-      },
-      {
-        "qIndex": 4,
-        "qId": 11,
-        "answererCode": "SNC-2002",
-        "answererName": "komnenos",
-        "guesserCode": "SNC-7224",
-        "guesserName": "emirhan",
-        "answerIdx": 0,
-        "guessIdx": 1,
-        "answerIndex": 0,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "😱",
-          "text": ""
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-7224": {
-            "code": "SNC-7224",
-            "name": "emirhan",
-            "guessIndex": 1,
-            "comment": {
-              "emoji": "😱",
-              "text": ""
-            },
-            "isCorrect": false,
-            "submittedAt": 1792868309265
-          }
-        }
-      }
-    ],
+    "guessesByPlayer": {},
+    "history": [],
     "scores": {
-      "SNC-2002": {
-        "code": "SNC-2002",
-        "name": "komnenos",
-        "team": "common",
-        "correct": 2,
-        "total": 2,
-        "points": 200
-      },
       "SNC-7224": {
         "code": "SNC-7224",
         "name": "emirhan",
         "team": "common",
         "correct": 0,
-        "total": 3,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-2002": {
+        "code": "SNC-2002",
+        "name": "komnenos",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
         "points": 0
       }
     },
     "scoresByPlayer": {
-      "SNC-2002": {
-        "code": "SNC-2002",
-        "name": "komnenos",
-        "team": "common",
-        "correct": 2,
-        "total": 2,
-        "points": 200
-      },
       "SNC-7224": {
         "code": "SNC-7224",
         "name": "emirhan",
         "team": "common",
         "correct": 0,
-        "total": 3,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-2002": {
+        "code": "SNC-2002",
+        "name": "komnenos",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
         "points": 0
       }
     },
-    "phaseStartedAt": 1792868309265,
-    "updatedAt": 1792868323195
+    "phaseStartedAt": 1792868341242,
+    "updatedAt": 1792868341242
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
