@@ -47,7 +47,7 @@
     1
   ],
   "createdAt": "2026-10-24T04:20:40.448Z",
-  "updatedAt": "2026-10-24T04:26:56.214Z",
+  "updatedAt": "2026-10-24T04:27:26.219Z",
   "kickedCodes": [
     "SNC-3224"
   ],
@@ -394,5 +394,9 @@
       "emoji": "",
       "text": "Eee değiştiremiyorum şıkkı"
     }
-  ]
+  ],
+  "round2NudgeAt": 1792816046219,
+  "round2NudgeFrom": "emirhan",
+  "round2NudgeFromCode": "SNC-7224",
+  "round2NudgeTargetRound": 2
 }
