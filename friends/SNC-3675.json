@@ -8,10 +8,25 @@
   "provider": "guest",
   "isPermanentMember": false,
   "lastXpActivityAt": 1792803650524,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCSGB",
+  "activeRooms": [
+    {
+      "code": "SNCSGB",
+      "p1": "soldakipc1",
+      "p2": "",
+      "p1FriendCode": "SNC-3675",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T01:00:53.543Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T01:00:50.524Z"
+  "updatedAt": "2026-10-24T01:00:53.543Z"
 }
