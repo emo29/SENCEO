@@ -158,17 +158,19 @@
       "text": "alttaki seçenek daha ii"
     }
   ],
-  "p2WatchingSlides": false,
+  "p2WatchingSlides": true,
   "p2WatchedSlides": false,
   "lastMatchPercentage": 70,
   "lastCorrectCount": 7,
   "lastTotalQuestions": 10,
   "completedAt": "2026-10-24T04:10:04.823Z",
-  "updatedAt": "2026-10-24T04:14:33.220Z",
+  "updatedAt": "2026-10-24T04:14:39.626Z",
   "nextRoundSecondCode": "SNC-7224",
   "nextRoundSecondName": "emirhan",
   "round2NudgeAt": 1792815273220,
   "round2NudgeFrom": "emirhan",
   "round2NudgeFromCode": "SNC-7224",
-  "round2NudgeTargetRound": 2
+  "round2NudgeTargetRound": 2,
+  "p2WatchingBy": "salihcan",
+  "slideStatusUpdatedAt": 1792815279626
 }
