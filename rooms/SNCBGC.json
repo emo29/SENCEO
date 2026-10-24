@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "live_in_progress",
+  "status": "completed",
   "currentRound": 1,
   "p1": "Hakan",
   "p2": "Mert",
@@ -47,12 +47,83 @@
     9
   ],
   "createdAt": "2026-10-24T12:43:52.867Z",
-  "updatedAt": "2026-10-24T12:44:43.005Z",
-  "liveLeaderboard": null,
-  "p1Answers": [],
-  "p2Guesses": [],
-  "p1Comments": [],
-  "p2Comments": [],
+  "updatedAt": "2026-10-24T12:44:44.314Z",
+  "liveLeaderboard": [
+    {
+      "code": "SNC-6189",
+      "name": "Hakan",
+      "team": "common",
+      "correct": 3,
+      "total": 3,
+      "points": 300
+    },
+    {
+      "code": "SNC-2119",
+      "name": "Mert",
+      "team": "common",
+      "correct": 1,
+      "total": 2,
+      "points": 100
+    }
+  ],
+  "p1Answers": [
+    3,
+    3,
+    1,
+    1,
+    1
+  ],
+  "p2Guesses": [
+    3,
+    3,
+    1,
+    2,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
   "usedQuestionIds": [
     30,
     70,
@@ -89,7 +160,7 @@
     "activeAnswererName": "Mert",
     "activeGuesserCode": "SNC-6189",
     "activeGuesserName": "Hakan",
-    "subPhase": "reveal",
+    "subPhase": "completed",
     "currentAnswer": 1,
     "currentAnswerComment": {
       "emoji": "",
@@ -250,6 +321,40 @@
             "submittedAt": 1792845876100
           }
         }
+      },
+      {
+        "qIndex": 4,
+        "qId": 9,
+        "answererCode": "SNC-2119",
+        "answererName": "Mert",
+        "guesserCode": "SNC-6189",
+        "guesserName": "Hakan",
+        "answerIdx": 1,
+        "guessIdx": 1,
+        "answerIndex": 1,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-6189": {
+            "code": "SNC-6189",
+            "name": "Hakan",
+            "guessIndex": 1,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": true,
+            "submittedAt": 1792845883005
+          }
+        }
       }
     ],
     "scores": {
@@ -289,6 +394,9 @@
       }
     },
     "phaseStartedAt": 1792845883005,
-    "updatedAt": 1792845883005
-  }
+    "updatedAt": 1792845884314
+  },
+  "lastMatchPercentage": 80,
+  "lastCorrectCount": 4,
+  "lastTotalQuestions": 5
 }
