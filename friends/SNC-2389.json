@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-2389",
   "username": "Selin",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "level": 4,
+  "xp": 300,
+  "gamesPlayed": 1,
+  "questionsCorrect": 10,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792845348181,
+  "lastXpActivityAt": 1792845370631,
   "latestRoomCode": "SNC4WP",
   "activeRooms": [
     {
@@ -33,7 +33,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:36:09.649Z",
+  "updatedAt": "2026-10-24T12:36:10.631Z",
   "lastPropagatedName": "Selin",
   "deletedRoomCodes": []
 }
