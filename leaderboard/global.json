@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T04:10:08.442Z",
+  "updatedAt": "2026-10-24T04:20:40.925Z",
   "players": [
     {
       "friendCode": "SNC-3375",
@@ -40,8 +40,8 @@
       "provider": "guest",
       "isPermanentMember": false,
       "passwordProtected": false,
-      "lastXpActivityAt": 1792815008442,
-      "updatedAt": "2026-10-24T04:10:08.442Z"
+      "lastXpActivityAt": 1792815007724,
+      "updatedAt": "2026-10-24T04:20:40.925Z"
     },
     {
       "friendCode": "SNC-5838",
