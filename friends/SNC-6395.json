@@ -1,0 +1,37 @@
+{
+  "friendCode": "SNC-6395",
+  "username": "EmirhanTest",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792807220629,
+  "latestRoomCode": "SNCHZK",
+  "activeRooms": [
+    {
+      "code": "SNCHZK",
+      "p1": "EmirhanTest",
+      "p2": "",
+      "p1FriendCode": "SNC-6395",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T02:00:20.629Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-24T02:00:20.629Z",
+  "deletedRoomCodes": []
+}
