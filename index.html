@@ -2064,6 +2064,17 @@
             ⚡ 1. Raund Uyum &amp; Diyalog Raporu
           </div>
 
+          <!-- PLAYER 1 RAPOR EKRANINDA: Player 2 Tahmin Slaytını İzlerken Gösterilen Canlı Animasyonlu Bildirim Bandı -->
+          <div id="p1-partner-watching-slides-banner" class="hidden stitch-subcard border-2 border-amber-500 bg-amber-500/15 px-4 py-3 text-center space-y-1 animate-pulse">
+            <div class="flex items-center justify-center gap-2 text-xs sm:text-sm font-extrabold text-amber-600 dark:text-amber-400">
+              <span class="material-symbols-outlined text-[18px] animate-spin">autorenew</span>
+              <span id="p1-partner-watching-slides-title">🎬 Arkadaşın şu an tahmin slaytını izliyor...</span>
+            </div>
+            <p id="p1-partner-watching-slides-desc" class="text-[11px] text-muted-theme">
+              Senin verdiğin tahminleri ve bıraktığın sohbet balonlarını slayt halinde kontrol ediyor. İzlemeyi bitirdiğinde bu yazı otomatik kaybolacak!
+            </p>
+          </div>
+
           <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
             <div class="relative w-36 h-36 shrink-0 flex items-center justify-center">
               <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 160 160">
@@ -2133,6 +2144,22 @@
             </div>
           </div>
 
+          <!-- SADECE PLAYER 2'DE GÖRÜNEN: "Tahminleri Kontrol Et (Player 1'in Tahmin Slaytını İzle)" Kutusu -->
+          <div id="p2-watch-slides-box" class="hidden stitch-subcard border-2 border-emerald-500 bg-emerald-500/10 p-4 space-y-2.5 text-center">
+            <div id="p2-watch-slides-desc" class="text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-300">
+              🎬 Bakalım arkadaşın senin hazırladığın 5 soruya ne cevap vermiş? (5 sn Cevap + 4 sn Balon Slaytı)
+            </div>
+            <button
+              type="button"
+              id="btn-p2-watch-slides"
+              onclick="startP2WatchP1Slides()"
+              class="theme-btn-primary w-full py-3.5 px-5 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg"
+            >
+              <span>🎬</span>
+              <span id="btn-p2-watch-slides-label">TAHMİNLERİ KONTROL ET (SLAYTI İZLE)</span>
+            </button>
+          </div>
+
           <div class="stitch-subcard p-3 flex items-center justify-between gap-2 text-left">
             <div class="truncate">
               <div class="text-[10px] uppercase font-bold text-muted-theme">Canlı Sonuç &amp; Karne Linki:</div>
@@ -2191,7 +2218,7 @@
     </div>
   </main>
 
-  <!-- ================= FOOTER (Stitch Footer Links + Mandatory Version Label v0.09) ================= -->
+  <!-- ================= FOOTER (Stitch Footer Links + Mandatory Version Label v0.10) ================= -->
   <footer class="w-full border-t border-[var(--outline-variant)] bg-[var(--surface-low)] py-5 text-center text-xs text-muted-theme font-semibold">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3">
       <div class="flex items-center gap-2">
@@ -2204,7 +2231,7 @@
         <button type="button" onclick="openInfoGuideModal('privacy')" class="hover:text-primary-theme transition-colors">Gizlilik</button>
       </div>
       <p>
-        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.09</span>
+        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.10</span>
       </p>
     </div>
   </footer>

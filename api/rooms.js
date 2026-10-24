@@ -1,9 +1,9 @@
-// Vercel Serverless Function (/api/rooms) — v0.08
+// Vercel Serverless Function (/api/rooms) — v0.10
 // Varsayılan Supabase: https://kypzuqnksnlinkfuxvnl.supabase.co
-// Özellikler (v0.08):
+// Özellikler (v0.10):
 // 1. 409 Conflict korumalı (Optimistic Retry) Bulut JSON Okuma/Yazma
 // 2. Çift Yönlü Arkadaşlık Bağı İstekleri (send_friend_request, respond_friend_request)
-// 3. Gerçek Zamanlı Bildirim Merkezi & Hatırlatma (send_nudge, clear_notifications)
+// 3. Gerçek Zamanlı Bildirim Merkezi & Hatırlatma (send_nudge, clear_notifications, set_slide_watch_status)
 // 4. Canlı Oda Lobi Tam Senkronizasyonu:
 //    - join_live_lobby (Eski odadan otomatik çıkarma + Tek Kurucu garantisi)
 //    - leave_live_lobby (Kurucu çıkarsa odadaki rastgele birine veya kalan son kişiye otomatik kuruculuk devri!)
@@ -384,6 +384,45 @@ async function getRoomFromCloud(roomCode) {
   return found ? { room: found.data, sha: found.sha } : null;
 }
 
+// Canlı Oda maçlarında (1v1, 2v2, 3v3, 4v4, 5v5, Herkes Tek) aktif cevaplayıcı ve tahminciyi hesaplayan yardımcı fonksiyon
+function computeActiveAnswererAndGuesser(turnOrder, activeTurnOrderIdx, arenaFormat, liveSettings) {
+  const safeOrder =
+    Array.isArray(turnOrder) && turnOrder.length > 0
+      ? turnOrder
+      : [{ code: "SNC-0001", name: "Oyuncu 1", team: "common" }];
+  const ansIdx = ((Number(activeTurnOrderIdx) || 0) % safeOrder.length + safeOrder.length) % safeOrder.length;
+  const answerer = safeOrder[ansIdx];
+
+  if (safeOrder.length === 1) {
+    return { answerer, guesser: answerer };
+  }
+
+  const fmt = String(arenaFormat || "1v1").toLowerCase();
+  const isTeamFmt = ["2v2", "3v3", "4v4", "5v5"].includes(fmt);
+  const teamRule = String((liveSettings && liveSettings.teamSubMode) || "partner").toLowerCase();
+
+  if (isTeamFmt && answerer.team && answerer.team !== "common") {
+    if (teamRule === "partner") {
+      // Eşli Uyum: Aynı takımdaki takım arkadaşını bul
+      const partner = safeOrder.find(
+        (p, idx) => idx !== ansIdx && p.team === answerer.team
+      );
+      if (partner) return { answerer, guesser: partner };
+    } else if (teamRule === "rival") {
+      // Karşı Takımı Tahmin: Rakip takımdan sıradaki oyuncuyu bul
+      for (let offset = 1; offset < safeOrder.length; offset++) {
+        const candidate = safeOrder[(ansIdx + offset) % safeOrder.length];
+        if (candidate && candidate.team && candidate.team !== answerer.team) {
+          return { answerer, guesser: candidate };
+        }
+      }
+    }
+  }
+
+  const guesser = safeOrder[(ansIdx + 1) % safeOrder.length];
+  return { answerer, guesser };
+}
+
 async function saveRoomToCloud(roomCode, roomObj) {
   const cleanCode = String(roomCode).toUpperCase().replace(/[^A-Z0-9_-]/g, "");
 
@@ -423,6 +462,12 @@ async function saveRoomToCloud(roomCode, roomObj) {
         roomObj.nextRoundStarterName = roomObj.p2 || "2. Oyuncu";
         roomObj.nextRoundSecondCode = roomObj.p1FriendCode || "";
         roomObj.nextRoundSecondName = roomObj.p1 || "1. Oyuncu";
+        if (roomObj.p2WatchingSlides === undefined) {
+          roomObj.p2WatchingSlides = Boolean(existing && existing.p2WatchingSlides);
+        }
+        if (roomObj.p2WatchedSlides === undefined) {
+          roomObj.p2WatchedSlides = Boolean(existing && existing.p2WatchedSlides);
+        }
       }
 
       return roomObj;
@@ -451,16 +496,6 @@ async function saveRoomToCloud(roomCode, roomObj) {
               type: "turn",
               title: "🔥 Sıra Sende! Karşı Saldırı Geldi",
               message: `${roomObj.p2 || "Arkadaşın"} 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#${cleanCode})`,
-              fromCode: roomObj.p2FriendCode || "",
-              fromName: roomObj.p2 || "Arkadaşın",
-              roomCode: cleanCode
-            });
-          } else if (roomObj.status === "completed") {
-            pushNotification(rec, {
-              id: `DONE_P1_${cleanCode}_R${roomObj.currentRound || 1}`,
-              type: "completed",
-              title: `🏆 Düello Tamamlandı! (%${roomObj.lastMatchPercentage ?? 80} Uyum)`,
-              message: `${roomObj.p2 || "Arkadaşın"} ile #${cleanCode} düellosunun sonuç karnesi hazır!`,
               fromCode: roomObj.p2FriendCode || "",
               fromName: roomObj.p2 || "Arkadaşın",
               roomCode: cleanCode
@@ -834,6 +869,43 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true });
       }
 
+      // 4B. AKSİYON: Player 2'nin Tahmin Slaytını İzleme Durumunu Canlı Bildirme (set_slide_watch_status)
+      // Player 2 "Tahminleri Kontrol Et" butonuna bastığında Player 1'in rapor ekranında animasyonlu "X tahminlerini izliyor..." yazar, bitince otomatik kaybolur!
+      if (body.action === "set_slide_watch_status") {
+        const code = String(body.code || "").trim().toUpperCase();
+        const watching = Boolean(body.watching);
+        const watched = Boolean(body.watched);
+        const watcherName = String(body.watcherName || "").trim();
+        const watcherCode = String(body.watcherCode || "").trim().toUpperCase();
+
+        if (!code) {
+          return res.status(400).json({ error: "Oda kodu gerekli." });
+        }
+
+        const updatedRoom = await putJsonToCloudPath(
+          `rooms/${code}.json`,
+          (existing) => {
+            if (!existing) return null;
+            existing.p2WatchingSlides = watching;
+            if (watched || !watching) {
+              existing.p2WatchedSlides = watched || Boolean(existing.p2WatchedSlides);
+            }
+            if (watcherName) {
+              existing.p2WatchingBy = watcherName;
+            }
+            if (watcherCode) {
+              existing.p2WatchingByCode = watcherCode;
+            }
+            existing.slideStatusUpdatedAt = Date.now();
+            existing.updatedAt = new Date().toISOString();
+            return existing;
+          },
+          `Slide watch status (${watching ? "watching" : "finished"}) in ${code}`
+        );
+
+        return res.status(200).json({ ok: true, room: updatedRoom });
+      }
+
       // 5. AKSİYON: Canlı Odaya Katılımcı Ekleme (join_live_lobby)
       if (body.action === "join_live_lobby") {
         const code = String(body.code || "").trim().toUpperCase();
@@ -1049,7 +1121,7 @@ export default async function handler(req, res) {
       if (body.action === "start_live_match") {
         const code = String(body.code || "").trim().toUpperCase();
         const callerCode = String(body.callerCode || body.requesterCode || "").trim().toUpperCase();
-        const qIds = Array.isArray(body.qIds) ? body.qIds : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const qIds = Array.isArray(body.qIds) && body.qIds.length > 0 ? body.qIds : [1, 2, 3, 4, 5];
         const liveSettings = body.liveSettings || {};
 
         const updatedRoom = await putJsonToCloudPath(
@@ -1093,7 +1165,12 @@ export default async function handler(req, res) {
             }
 
             const turnStep = Math.max(1, Number(existing.liveSettings.turnStep) || 1);
-            const firstPlayer = turnOrder[0];
+            const { answerer, guesser } = computeActiveAnswererAndGuesser(
+              turnOrder,
+              0,
+              existing.arenaFormat,
+              existing.liveSettings
+            );
 
             const scoresByPlayer = {};
             turnOrder.forEach((p) => {
@@ -1112,19 +1189,25 @@ export default async function handler(req, res) {
             existing.status = "live_in_progress";
             existing.liveMatchState = {
               qIds,
+              qIndex: 0,
               currentQIndex: 0,
               turnStep,
               stepProgressInTurn: 0,
               turnOrder,
               activeTurnOrderIdx: 0,
-              activeAnswererCode: firstPlayer.code,
-              activeAnswererName: firstPlayer.name,
+              activeAnswererCode: answerer.code,
+              activeAnswererName: answerer.name,
+              activeGuesserCode: guesser.code,
+              activeGuesserName: guesser.name,
               subPhase: "answering", // 'answering' -> 'guessing' -> 'reveal'
               currentAnswer: null,
-              currentAnswerComment: "",
+              currentAnswerComment: { emoji: "", text: "" },
               currentCustomOption: "",
+              currentGuess: null,
+              currentGuessComment: { emoji: "", text: "" },
               guessesByPlayer: {},
               history: [],
+              scores: scoresByPlayer,
               scoresByPlayer,
               phaseStartedAt: Date.now(),
               updatedAt: Date.now()
@@ -1144,19 +1227,36 @@ export default async function handler(req, res) {
         const code = String(body.code || "").trim().toUpperCase();
         const playerCode = String(body.playerCode || body.friendCode || "").trim().toUpperCase();
         const playerName = String(body.playerName || "Oyuncu").trim();
-        const stepAction = body.stepAction || body.subPhase;
+        const stepAction = body.subAction || body.stepAction || body.subPhase;
+        const choiceIdx =
+          body.choiceIndex !== undefined
+            ? Number(body.choiceIndex)
+            : body.answerIndex !== undefined
+            ? Number(body.answerIndex)
+            : Number(body.guessIndex);
+        const commentObj =
+          body.comment && typeof body.comment === "object"
+            ? {
+                emoji: String(body.comment.emoji || "").trim(),
+                text: String(body.comment.text || "").trim()
+              }
+            : { emoji: "", text: String(body.comment || "").trim() };
 
         const updatedRoom = await putJsonToCloudPath(
           `rooms/${code}.json`,
           (existing) => {
             if (!existing || !existing.liveMatchState) return existing;
             const lms = existing.liveMatchState;
-            const turnOrder = Array.isArray(lms.turnOrder) && lms.turnOrder.length > 0
-              ? lms.turnOrder
-              : (existing.participants || []).map((p) => ({ code: p.code, name: p.name, team: p.team || "common" }));
+            const turnOrder =
+              Array.isArray(lms.turnOrder) && lms.turnOrder.length > 0
+                ? lms.turnOrder
+                : (existing.participants || []).map((p) => ({
+                    code: p.code,
+                    name: p.name,
+                    team: p.team || "common"
+                  }));
 
             if (stepAction === "lock_answer") {
-              // Sadece aktif cevaplayıcı şıkkını kilitleyebilir
               if (
                 lms.activeAnswererCode &&
                 playerCode &&
@@ -1164,27 +1264,30 @@ export default async function handler(req, res) {
               ) {
                 return existing;
               }
-              lms.currentAnswer = Number(body.answerIndex);
-              lms.currentAnswerComment = String(body.comment || "").trim();
+              lms.currentAnswer = choiceIdx;
+              lms.currentAnswerComment = commentObj;
               lms.currentCustomOption = String(body.customOption || "").trim();
+              lms.currentGuess = null;
+              lms.currentGuessComment = { emoji: "", text: "" };
               lms.guessesByPlayer = {};
-              // Eğer odada tek kişi varsa direkt reveal aşamasına geç, 2+ kişi varsa guessing aşamasına geç!
               lms.subPhase = turnOrder.length <= 1 ? "reveal" : "guessing";
               lms.phaseStartedAt = Date.now();
               lms.updatedAt = Date.now();
             } else if (stepAction === "lock_guess") {
               if (!lms.guessesByPlayer) lms.guessesByPlayer = {};
               const pKey = playerCode || playerName;
-              const guessIdx = Number(body.guessIndex);
               const isCorrect =
-                lms.currentAnswer === -1 || guessIdx === Number(lms.currentAnswer);
+                lms.currentAnswer === -1 || choiceIdx === Number(lms.currentAnswer);
+
+              lms.currentGuess = choiceIdx;
+              lms.currentGuessComment = commentObj;
 
               if (!lms.guessesByPlayer[pKey]) {
                 lms.guessesByPlayer[pKey] = {
                   code: playerCode,
                   name: playerName,
-                  guessIndex: guessIdx,
-                  comment: String(body.comment || "").trim(),
+                  guessIndex: choiceIdx,
+                  comment: commentObj,
                   isCorrect,
                   submittedAt: Date.now()
                 };
@@ -1204,18 +1307,30 @@ export default async function handler(req, res) {
                   scoreEntry.points += 100;
                 }
                 lms.scoresByPlayer[pKey] = scoreEntry;
+                lms.scores = lms.scoresByPlayer;
               }
 
-              // Beklenen tüm tahminciler tahminini kilitlediyse 'reveal' (sonuç + 1.5sn balon) aşamasına geç!
+              // 1v1 ve Takımlı Modlarda aktif tahminci (activeGuesserCode) kilitlediğinde anında 'reveal' aşamasına geçer!
+              // FFA (Herkes Tek) modunda ise odadaki diğer tüm tahminciler kilitlediğinde (veya tek tahminci varsa anında) 'reveal' aşamasına geçer!
+              const fmt = String(existing.arenaFormat || "1v1").toLowerCase();
+              const isDesignatedGuesserMatch =
+                fmt !== "ffa" &&
+                lms.activeGuesserCode &&
+                String(lms.activeGuesserCode).toUpperCase() === playerCode;
+
               const expectedGuessers = turnOrder.filter(
-                (p) => String(p.code || p.name).toUpperCase() !== String(lms.activeAnswererCode || lms.activeAnswererName).toUpperCase()
+                (p) =>
+                  String(p.code || p.name).toUpperCase() !==
+                  String(lms.activeAnswererCode || lms.activeAnswererName).toUpperCase()
               );
               const submittedKeys = Object.keys(lms.guessesByPlayer).map((k) => k.toUpperCase());
               const allGuessed =
-                expectedGuessers.length === 0 ||
-                expectedGuessers.every((g) =>
-                  submittedKeys.includes(String(g.code || "").toUpperCase()) ||
-                  submittedKeys.includes(String(g.name || "").toUpperCase())
+                isDesignatedGuesserMatch ||
+                expectedGuessers.length <= 1 ||
+                expectedGuessers.every(
+                  (g) =>
+                    submittedKeys.includes(String(g.code || "").toUpperCase()) ||
+                    submittedKeys.includes(String(g.name || "").toUpperCase())
                 );
 
               if (allGuessed) {
@@ -1227,33 +1342,49 @@ export default async function handler(req, res) {
               if (lms.subPhase !== "reveal") return existing;
 
               if (!Array.isArray(lms.history)) lms.history = [];
-              const qId = Array.isArray(lms.qIds) ? lms.qIds[lms.currentQIndex] : lms.currentQIndex + 1;
+              const curQ = Number(lms.qIndex ?? lms.currentQIndex) || 0;
+              const qId = Array.isArray(lms.qIds) ? lms.qIds[curQ] : curQ + 1;
+              const revCorrect =
+                lms.currentAnswer === -1 || lms.currentAnswer === lms.currentGuess;
+
               lms.history.push({
-                qIndex: lms.currentQIndex,
+                qIndex: curQ,
                 qId,
                 answererCode: lms.activeAnswererCode,
                 answererName: lms.activeAnswererName,
+                guesserCode: lms.activeGuesserCode,
+                guesserName: lms.activeGuesserName,
+                answerIdx: lms.currentAnswer,
+                guessIdx: lms.currentGuess,
                 answerIndex: lms.currentAnswer,
                 answerComment: lms.currentAnswerComment,
+                guessComment: lms.currentGuessComment,
+                isCorrect: revCorrect,
                 customOption: lms.currentCustomOption,
                 guessesByPlayer: { ...(lms.guessesByPlayer || {}) }
               });
 
-              const nextQIndex = (Number(lms.currentQIndex) || 0) + 1;
-              const totalQs = Array.isArray(lms.qIds) ? lms.qIds.length : 10;
+              const nextQIndex = curQ + 1;
+              const totalQs = Array.isArray(lms.qIds) ? lms.qIds.length : 5;
 
               if (nextQIndex >= totalQs) {
                 existing.status = "completed";
                 lms.subPhase = "completed";
-                const scoreArr = Object.values(lms.scoresByPlayer || {});
+                lms.scores = lms.scoresByPlayer || lms.scores || {};
+                const scoreArr = Object.values(lms.scores);
                 scoreArr.sort((a, b) => (b.points || 0) - (a.points || 0));
                 existing.liveLeaderboard = scoreArr;
                 const totalC = scoreArr.reduce((acc, s) => acc + (s.correct || 0), 0);
                 const totalT = scoreArr.reduce((acc, s) => acc + (s.total || 0), 0);
-                existing.lastMatchPercentage = totalT > 0 ? Math.round((totalC / totalT) * 100) : 85;
+                existing.lastMatchPercentage = totalT > 0 ? Math.round((totalC / totalT) * 100) : 80;
                 existing.lastCorrectCount = totalC;
                 existing.lastTotalQuestions = totalT;
+                existing.p1Answers = lms.history.map((h) => h.answerIdx);
+                existing.p2Guesses = lms.history.map((h) => h.guessIdx);
+                existing.p1Comments = lms.history.map((h) => h.answerComment || { emoji: "", text: "" });
+                existing.p2Comments = lms.history.map((h) => h.guessComment || { emoji: "", text: "" });
               } else {
+                lms.qIndex = nextQIndex;
                 lms.currentQIndex = nextQIndex;
                 const turnStep = Math.max(1, Number(lms.turnStep) || 1);
                 let nextStepInTurn = (Number(lms.stepProgressInTurn) || 0) + 1;
@@ -1265,15 +1396,25 @@ export default async function handler(req, res) {
                   nextOrderIdx = (nextOrderIdx + 1) % Math.max(1, turnOrder.length);
                 }
 
-                const nextAnswerer = turnOrder[nextOrderIdx] || turnOrder[0];
+                const { answerer, guesser } = computeActiveAnswererAndGuesser(
+                  turnOrder,
+                  nextOrderIdx,
+                  existing.arenaFormat,
+                  existing.liveSettings
+                );
+
                 lms.stepProgressInTurn = nextStepInTurn;
                 lms.activeTurnOrderIdx = nextOrderIdx;
-                lms.activeAnswererCode = nextAnswerer.code;
-                lms.activeAnswererName = nextAnswerer.name;
+                lms.activeAnswererCode = answerer.code;
+                lms.activeAnswererName = answerer.name;
+                lms.activeGuesserCode = guesser.code;
+                lms.activeGuesserName = guesser.name;
                 lms.subPhase = "answering";
                 lms.currentAnswer = null;
-                lms.currentAnswerComment = "";
+                lms.currentAnswerComment = { emoji: "", text: "" };
                 lms.currentCustomOption = "";
+                lms.currentGuess = null;
+                lms.currentGuessComment = { emoji: "", text: "" };
                 lms.guessesByPlayer = {};
                 lms.phaseStartedAt = Date.now();
               }
