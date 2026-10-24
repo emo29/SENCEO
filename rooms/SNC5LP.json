@@ -5,7 +5,7 @@
   "p1FriendCode": "SNC-1265",
   "p2FriendCode": "SNC-1265",
   "roomType": "live_arena",
-  "arenaFormat": "1v1",
+  "arenaFormat": "2v2",
   "liveSettings": {
     "ffaSubMode": "ebeli",
     "teamSubMode": "",
@@ -42,5 +42,5 @@
   "qIds": [],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:28:47.661Z"
+  "updatedAt": "2026-10-24T11:28:50.039Z"
 }
