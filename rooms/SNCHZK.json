@@ -1,0 +1,35 @@
+{
+  "code": "SNCHZK",
+  "p1Id": "USR_QUUQIC5",
+  "hostCode": "SNC-6395",
+  "p1FriendCode": "SNC-6395",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "liveSettings": {
+    "ffaSubMode": "ebeli",
+    "teamSubMode": "",
+    "turnStep": 1,
+    "timerSeconds": 0,
+    "starterMode": "random",
+    "selectedStarterCode": ""
+  },
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "EmirhanTest",
+  "p2": "",
+  "participants": [
+    {
+      "name": "EmirhanTest",
+      "code": "SNC-6395",
+      "role": "host",
+      "team": "common",
+      "isHost": true
+    }
+  ],
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [],
+  "createdAt": "2026-10-24T02:00:19.873Z",
+  "updatedAt": "2026-10-24T02:00:19.495Z"
+}
