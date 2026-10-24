@@ -8,8 +8,22 @@
   "provider": "guest",
   "isPermanentMember": false,
   "lastXpActivityAt": 1792804954138,
-  "latestRoomCode": "SNCCDV",
+  "latestRoomCode": "SNCBE4",
   "activeRooms": [
+    {
+      "code": "SNCBE4",
+      "p1": "sağdakipc1",
+      "p2": "",
+      "p1FriendCode": "SNC-6066",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "ffa",
+      "status": "lobby_open",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T01:22:51.242Z"
+    },
     {
       "code": "SNCCDV",
       "p1": "aaa1",
@@ -40,5 +54,5 @@
       "createdAt": "2026-10-24T01:22:34.138Z"
     }
   ],
-  "updatedAt": "2026-10-24T01:22:48.188Z"
+  "updatedAt": "2026-10-24T01:22:51.242Z"
 }
