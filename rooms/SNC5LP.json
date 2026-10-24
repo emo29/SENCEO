@@ -23,7 +23,7 @@
       "name": "B4ris",
       "code": "SNC-1265",
       "role": "host",
-      "team": "blue",
+      "team": "red",
       "isHost": true
     },
     {
@@ -42,5 +42,5 @@
   "qIds": [],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:28:27.406Z"
+  "updatedAt": "2026-10-24T11:28:39.157Z"
 }
