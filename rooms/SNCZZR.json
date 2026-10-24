@@ -1,15 +1,15 @@
 {
   "code": "SNCZZR",
-  "p1Id": "USR_P9BCT29",
-  "p1FriendCode": "SNC-4616",
-  "p2FriendCode": "",
+  "p1Id": "USR_YWUWGE2",
+  "p1FriendCode": "SNC-3394",
+  "p2FriendCode": "SNC-3394",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
-  "whoseTurn": "p2",
+  "whoseTurn": "p1",
   "p1": "SOLDAKİ SEKME",
-  "p2": "",
+  "p2": "sağdaki sekme",
   "cat": "genel",
   "thm": "luminous",
   "qIds": [
@@ -24,7 +24,12 @@
     58,
     62,
     26,
-    1
+    1,
+    25,
+    7,
+    70,
+    32,
+    74
   ],
   "customOptionsMap": {
     "1": "AAAAAAAA"
@@ -58,13 +63,73 @@
       "text": "AAAAAAAAAAAA"
     }
   ],
-  "p2Guesses": [],
-  "p2Comments": [],
-  "p2Half2QIds": [],
+  "p2Guesses": [
+    0,
+    0,
+    1,
+    0,
+    0
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": "lol"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Half2QIds": [
+    25,
+    7,
+    70,
+    32,
+    74
+  ],
   "p2Half2CustomMap": {},
-  "p2Half2Answers": [],
-  "p2Half2Comments": [],
+  "p2Half2Answers": [
+    0,
+    0,
+    1,
+    1,
+    0
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "😂",
+      "text": "233232323"
+    },
+    {
+      "emoji": "😂",
+      "text": "333333333333"
+    },
+    {
+      "emoji": "🤔",
+      "text": "333333333333333333"
+    },
+    {
+      "emoji": "",
+      "text": "1111111111111111"
+    }
+  ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-23T23:57:07.569Z"
+  "updatedAt": "2026-10-24T00:02:28.616Z"
 }
