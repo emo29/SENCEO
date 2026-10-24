@@ -8,7 +8,7 @@
   "arenaFormat": "2v2",
   "liveSettings": {
     "ffaSubMode": "ebeli",
-    "teamSubMode": "",
+    "teamSubMode": "coop_pair",
     "turnStep": 1,
     "timerSeconds": 30,
     "starterMode": "manual",
@@ -42,5 +42,5 @@
   "qIds": [],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:28:50.039Z"
+  "updatedAt": "2026-10-24T11:29:10.235Z"
 }
