@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792841554614,
-  "latestRoomCode": "TEUMXO",
+  "latestRoomCode": "TMMPSY",
   "activeRooms": [
+    {
+      "code": "TMMPSY",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1100",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "ffa",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:37:55.010Z"
+    },
     {
       "code": "TEUMXO",
       "p1": "Oyuncu_A",
@@ -192,6 +208,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:36:35.802Z",
+  "updatedAt": "2026-10-24T12:37:55.010Z",
   "deletedRoomCodes": []
 }
