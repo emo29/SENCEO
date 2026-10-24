@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792841554614,
-  "latestRoomCode": "TJQWPE",
+  "latestRoomCode": "TZKTMY",
   "activeRooms": [
+    {
+      "code": "TZKTMY",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1100",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "ffa",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T11:36:58.122Z"
+    },
     {
       "code": "TJQWPE",
       "p1": "Oyuncu_A",
@@ -128,6 +144,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T11:36:33.976Z",
+  "updatedAt": "2026-10-24T11:36:58.122Z",
   "deletedRoomCodes": []
 }
