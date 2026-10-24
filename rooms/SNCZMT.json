@@ -47,7 +47,7 @@
     74
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T19:05:58.954Z",
+  "updatedAt": "2026-10-24T19:06:05.481Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -78,8 +78,8 @@
       55,
       74
     ],
-    "qIndex": 2,
-    "currentQIndex": 2,
+    "qIndex": 3,
+    "currentQIndex": 3,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -94,36 +94,24 @@
         "team": "common"
       }
     ],
-    "activeTurnOrderIdx": 0,
-    "activeAnswererCode": "SNC-2002",
-    "activeAnswererName": "komnenos",
-    "activeGuesserCode": "SNC-7224",
-    "activeGuesserName": "emirhan",
-    "subPhase": "reveal",
-    "currentAnswer": 3,
+    "activeTurnOrderIdx": 1,
+    "activeAnswererCode": "SNC-7224",
+    "activeAnswererName": "emirhan",
+    "activeGuesserCode": "SNC-2002",
+    "activeGuesserName": "komnenos",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
-    "currentCustomOption": "memelerime dokunurum",
-    "currentGuess": 0,
+    "currentCustomOption": "",
+    "currentGuess": null,
     "currentGuessComment": {
-      "emoji": "😱",
-      "text": "D"
+      "emoji": "",
+      "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-7224": {
-        "code": "SNC-7224",
-        "name": "emirhan",
-        "guessIndex": 0,
-        "comment": {
-          "emoji": "😱",
-          "text": "D"
-        },
-        "isCorrect": false,
-        "submittedAt": 1792868758954
-      }
-    },
+    "guessesByPlayer": {},
     "history": [
       {
         "qIndex": 0,
@@ -192,6 +180,40 @@
             "submittedAt": 1792868661156
           }
         }
+      },
+      {
+        "qIndex": 2,
+        "qId": 28,
+        "answererCode": "SNC-2002",
+        "answererName": "komnenos",
+        "guesserCode": "SNC-7224",
+        "guesserName": "emirhan",
+        "answerIdx": 3,
+        "guessIdx": 0,
+        "answerIndex": 3,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "😱",
+          "text": "D"
+        },
+        "isCorrect": false,
+        "customOption": "memelerime dokunurum",
+        "guessesByPlayer": {
+          "SNC-7224": {
+            "code": "SNC-7224",
+            "name": "emirhan",
+            "guessIndex": 0,
+            "comment": {
+              "emoji": "😱",
+              "text": "D"
+            },
+            "isCorrect": false,
+            "submittedAt": 1792868758954
+          }
+        }
       }
     ],
     "scores": {
@@ -230,8 +252,8 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792868758954,
-    "updatedAt": 1792868758954
+    "phaseStartedAt": 1792868765481,
+    "updatedAt": 1792868765481
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
