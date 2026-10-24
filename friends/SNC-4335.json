@@ -10,10 +10,28 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792811572308,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNC7K6",
+  "activeRooms": [
+    {
+      "code": "SNC7K6",
+      "p1": "denemea",
+      "p2": "",
+      "p1FriendCode": "SNC-4335",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T03:12:55.526Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T03:12:52.308Z"
+  "updatedAt": "2026-10-24T03:12:55.526Z",
+  "deletedRoomCodes": []
 }
