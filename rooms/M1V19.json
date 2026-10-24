@@ -2,7 +2,7 @@
   "code": "M1V19",
   "roomType": "live_arena",
   "arenaFormat": "1v1",
-  "status": "live_lobby",
+  "status": "live_in_progress",
   "hostCode": "SNC-1001",
   "hostName": "Oyuncu_A",
   "p1": "Oyuncu_A",
@@ -26,5 +26,95 @@
   "liveSettings": {},
   "p1Id": "USR_LEUVH3I",
   "p2FriendCode": "SNC-7788",
-  "updatedAt": "2026-10-24T03:59:34.923Z"
+  "updatedAt": "2026-10-24T03:59:37.701Z",
+  "cat": "genel",
+  "qIds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "liveMatchState": {
+    "qIds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-1002",
+        "name": "Oyuncu_B",
+        "team": "B"
+      },
+      {
+        "code": "SNC-1001",
+        "name": "Oyuncu_A",
+        "team": "A"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-1002",
+    "activeAnswererName": "Oyuncu_B",
+    "activeGuesserCode": "SNC-1001",
+    "activeGuesserName": "Oyuncu_A",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-1002": {
+        "code": "SNC-1002",
+        "name": "Oyuncu_B",
+        "team": "B",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1001": {
+        "code": "SNC-1001",
+        "name": "Oyuncu_A",
+        "team": "A",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-1002": {
+        "code": "SNC-1002",
+        "name": "Oyuncu_B",
+        "team": "B",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1001": {
+        "code": "SNC-1001",
+        "name": "Oyuncu_A",
+        "team": "A",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1792814377701,
+    "updatedAt": 1792814377701
+  }
 }
