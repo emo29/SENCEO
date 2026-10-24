@@ -51,6 +51,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "NUDGE_SNCCMC_1792812125863",
+      "type": "next_round_nudge",
+      "title": "🔥 2. Raund Çağrısı! (İlk Sıra Sende)",
+      "message": "sıradana #SNCCMC odasında 2. Raunda geçmen için sana bildirim gönderdi! İlk sıra sende, hemen başlat!",
+      "fromCode": "SNC-3375",
+      "fromName": "sıradana",
+      "roomCode": "SNCCMC",
+      "read": false,
+      "createdAt": "2026-10-24T03:22:05.863Z"
+    },
+    {
       "id": "DONE_P2_SNCCMC_R1",
       "type": "completed",
       "title": "🏆 sıradana Tahminlerini Tamamladı!",
@@ -73,6 +84,6 @@
       "createdAt": "2026-10-24T03:17:36.108Z"
     }
   ],
-  "updatedAt": "2026-10-24T03:20:21.705Z",
+  "updatedAt": "2026-10-24T03:22:05.863Z",
   "deletedRoomCodes": []
 }
