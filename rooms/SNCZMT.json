@@ -47,7 +47,7 @@
     66
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T18:59:33.567Z",
+  "updatedAt": "2026-10-24T18:59:59.253Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -94,8 +94,8 @@
     "activeAnswererName": "komnenos",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
@@ -179,8 +179,8 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792868373567,
-    "updatedAt": 1792868373567
+    "phaseStartedAt": 1792868399253,
+    "updatedAt": 1792868399253
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
