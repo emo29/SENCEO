@@ -2,15 +2,15 @@
   "code": "SNCZGZ",
   "p1Id": "USR_9TUDGOQ",
   "p1FriendCode": "SNC-8029",
-  "p2Id": "",
-  "p2FriendCode": "",
+  "p2Id": "USR_9TUDGOQ",
+  "p2FriendCode": "SNC-9999",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
-  "whoseTurn": "p2",
+  "whoseTurn": "p1",
   "p1": "sıradana",
-  "p2": "",
+  "p2": "sıradanb",
   "cat": "genel",
   "thm": "luminous",
   "qIds": [
@@ -25,7 +25,12 @@
     30,
     7,
     55,
-    62
+    62,
+    9,
+    66,
+    70,
+    25,
+    27
   ],
   "customOptionsMap": {},
   "p1Answers": [
@@ -45,13 +50,49 @@
     {},
     {}
   ],
-  "p2Guesses": [],
-  "p2Comments": [],
-  "p2Half2QIds": [],
+  "p2Guesses": [
+    0,
+    2,
+    2,
+    1,
+    0
+  ],
+  "p2Comments": [
+    {
+      "emoji": "😂",
+      "text": "b1 balon"
+    },
+    {},
+    {},
+    {},
+    {}
+  ],
+  "p2Half2QIds": [
+    9,
+    66,
+    70,
+    25,
+    27
+  ],
   "p2Half2CustomMap": {},
-  "p2Half2Answers": [],
-  "p2Half2Comments": [],
+  "p2Half2Answers": [
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "😎",
+      "text": "b2"
+    },
+    {},
+    {},
+    {},
+    {}
+  ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T12:52:19.323Z"
+  "updatedAt": "2026-10-24T12:52:21.190Z"
 }
