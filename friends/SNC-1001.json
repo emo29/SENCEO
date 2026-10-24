@@ -1,0 +1,37 @@
+{
+  "friendCode": "SNC-1001",
+  "username": "Oyuncu_A",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792814210626,
+  "latestRoomCode": "M1V19",
+  "activeRooms": [
+    {
+      "code": "M1V19",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1001",
+      "p2FriendCode": "SNC-9999",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "live_lobby",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T03:56:50.626Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-24T03:56:50.626Z",
+  "deletedRoomCodes": []
+}
