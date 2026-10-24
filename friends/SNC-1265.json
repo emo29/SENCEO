@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-1265",
   "username": "ZZerban",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "level": 2,
+  "xp": 150,
+  "gamesPlayed": 1,
+  "questionsCorrect": 5,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792808354167,
+  "lastXpActivityAt": 1792842659861,
   "latestRoomCode": "SNCQD8",
   "activeRooms": [
     {
@@ -49,6 +49,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T11:50:58.928Z",
+  "updatedAt": "2026-10-24T11:50:59.861Z",
   "deletedRoomCodes": []
 }
