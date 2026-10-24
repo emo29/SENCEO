@@ -1,0 +1,69 @@
+{
+  "code": "SNCJPC",
+  "p1Id": "USR_FW6OPX9",
+  "p1FriendCode": "SNC-7224",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "emirhan",
+  "p2": "",
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [
+    25,
+    28,
+    9,
+    31,
+    66
+  ],
+  "usedQuestionIds": [
+    25,
+    28,
+    9,
+    31,
+    66
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    0,
+    1,
+    2,
+    0
+  ],
+  "p1Comments": [
+    {
+      "emoji": "🔥",
+      "text": "yataktan alarmı kapatmak için fırlıom"
+    },
+    {
+      "emoji": "🔥",
+      "text": "mal senceo aynı soruları soruyo havuz rastgele fln  yoq mu"
+    },
+    {
+      "emoji": "😂",
+      "text": "5 de 5 yaparsın artık"
+    },
+    {
+      "emoji": "🔥",
+      "text": "zaten her gün patates pilav"
+    },
+    {
+      "emoji": "😎",
+      "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-24T04:03:18.568Z"
+}
