@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792841554614,
-  "latestRoomCode": "TKWUHJ",
+  "latestRoomCode": "TKSKBV",
   "activeRooms": [
+    {
+      "code": "TKSKBV",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1100",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "4v4",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T11:36:09.542Z"
+    },
     {
       "code": "TKWUHJ",
       "p1": "Oyuncu_A",
@@ -96,6 +112,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T11:35:45.453Z",
+  "updatedAt": "2026-10-24T11:36:09.542Z",
   "deletedRoomCodes": []
 }
