@@ -31,14 +31,21 @@ Bu dosya, **senceo** projesinde çalışan yapay zeka ajanlarının (Agent) uyma
 
 ---
 
-## 📌 KURAL 3: Yerel Günlük Dosyaları (`tüm konuşmalar.md` ve `sürümler.md`) — GitHub'a Yüklenmeme Zorunluluğu
+## 📌 KURAL 3: Yerel Günlük Dosyaları (`tüm konuşmalar.md`, `sürümler.md` ve `HATALAR.MD`) — Zorunlu Güncelleme ve GitHub'a Yüklenmeme Kuralı
 
-1. **`tüm konuşmalar.md` (Yerel Konuşma ve Prompt Günlüğü):**
-   - Kullanıcıdan gelen her yeni prompt ve yapılan her teknik çözüm `c:\Users\Emirha\Downloads\S E N C E O\tüm konuşmalar.md` dosyasına kronolojik olarak işlenmelidir.
-2. **`sürümler.md` (Yerel Sürüm Notları):**
-   - Her sürüm artışında (`v0.08`, `v0.09`...) yapılan tüm yenilikler ve hata düzeltmeleri `c:\Users\Emirha\Downloads\S E N C E O\sürümler.md` dosyasına eklenmelidir.
-3. **Kesinlikle GitHub'a Yüklenmez (`.gitignore` Koruması):**
-   - `tüm konuşmalar.md` ve `sürümler.md` dosyaları `.gitignore` içerisinde tanımlıdır; yalnızca yerel bilgisayarda durur ve **`https://github.com/emo29/senceo`** adresine **ASLA** push edilmez!
+1. **`tüm konuşmalar.md` (Yerel Konuşma ve Prompt Günlüğü — Her Mesajda Zorunlu):**
+   - Kullanıcıdan gelen **her yeni prompt (birebir metni + özeti)** ve yapılan **her teknik çözüm/yanıt**, sürüm artışı olsun veya olmasın **her konuşma adımında anında** `c:\Users\Emirha\Downloads\S E N C E O\tüm konuşmalar.md` dosyasına işlenmelidir.
+   - Dosya başında en güncel sürüm/aşama net olarak belirtilmeli, eski sürümlerin başlığında yanıltıcı `"Güncel Sürüm"` ibaresi bırakılmamalıdır.
+2. **`sürümler.md` (Yerel Sürüm Notları — Her Sürüm Sonunda Zorunlu):**
+   - Her sürüm artışında (`v0.01` -> `v0.11`...) yapılan tüm yenilikler, mimari değişiklikler ve hata düzeltmeleri `c:\Users\Emirha\Downloads\S E N C E O\sürümler.md` dosyasının en üstüne (en yeni sürüm en üstte olacak şekilde) eksiksiz eklenmelidir.
+3. **`HATALAR.MD` (Tüm Sürümler Hata, Kök Neden ve Çözüm Kayıt Defteri — Her Sürüm ve Hata Düzeltmesi Sonunda Zorunlu):**
+   - Kullanıcı tarafından bildirilen veya test/simülasyon sırasında tespit edilip düzeltilen **tüm hatalar**, `c:\Users\Emirha\Downloads\S E N C E O\HATALAR.MD` belgesine:
+     1. **Belirti / Kullanıcının Yaşadığı Sorun**,
+     2. **Kök Neden (Neyden Kaynaklandığı)**,
+     3. **Nasıl Çözüldüğü (Teknik Çözüm ve İlgili Fonksiyonlar)**
+     başlıklarıyla detaylı olarak işlenmelidir. Her sürüm sonunda düzeltilen hata varsa mutlaka `HATALAR.MD` güncellenmelidir.
+4. **Kesinlikle GitHub'a Yüklenmez (`.gitignore` Koruması):**
+   - `tüm konuşmalar.md`, `sürümler.md` ve `HATALAR.MD` dosyaları `.gitignore` içerisinde tanımlıdır; yalnızca yerel bilgisayarda (`c:\Users\Emirha\Downloads\S E N C E O\`) durur ve **`https://github.com/emo29/senceo`** adresine **ASLA** push edilmez!
 
 ---
 
