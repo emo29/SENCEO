@@ -23,7 +23,7 @@
       "name": "sağdakipc1",
       "code": "SNC-6066",
       "role": "member",
-      "team": "blue",
+      "team": "none",
       "score": 0,
       "correct": 0,
       "joinedAt": "2026-10-24T01:01:36.759Z"
@@ -33,5 +33,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T01:01:03.299Z",
-  "updatedAt": "2026-10-24T01:02:00.268Z"
+  "updatedAt": "2026-10-24T01:02:07.248Z"
 }
