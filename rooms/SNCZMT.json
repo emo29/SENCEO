@@ -3,7 +3,7 @@
   "p1Id": "USR_FW6OPX9",
   "hostCode": "SNC-7224",
   "p1FriendCode": "SNC-7224",
-  "p2FriendCode": "",
+  "p2FriendCode": "SNC-2002",
   "roomType": "live_arena",
   "arenaFormat": "1v1",
   "liveSettings": {
@@ -17,7 +17,7 @@
   "status": "lobby_open",
   "currentRound": 1,
   "p1": "emirhan",
-  "p2": "",
+  "p2": "komnenos",
   "participants": [
     {
       "name": "emirhan",
@@ -25,11 +25,21 @@
       "role": "host",
       "team": "common",
       "isHost": true
+    },
+    {
+      "name": "komnenos",
+      "code": "SNC-2002",
+      "role": "member",
+      "isHost": false,
+      "team": "common",
+      "score": 0,
+      "correct": 0,
+      "joinedAt": "2026-10-24T18:55:16.514Z"
     }
   ],
   "cat": "genel",
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T18:55:05.432Z"
+  "updatedAt": "2026-10-24T18:55:16.514Z"
 }
