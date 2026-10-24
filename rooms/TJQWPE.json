@@ -2,7 +2,7 @@
   "code": "TJQWPE",
   "roomType": "live_arena",
   "arenaFormat": "5v5",
-  "status": "live_in_progress",
+  "status": "completed",
   "hostCode": "SNC-1100",
   "hostName": "Oyuncu_A",
   "p1": "Oyuncu_A",
@@ -85,10 +85,91 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-1100"
   },
-  "updatedAt": "2026-10-24T11:36:53.672Z",
+  "updatedAt": "2026-10-24T11:36:54.922Z",
   "cat": "genel",
   "currentRound": 1,
-  "liveLeaderboard": null,
+  "liveLeaderboard": [
+    {
+      "code": "SNC-1101",
+      "name": "Oyuncu_B",
+      "team": "blue",
+      "correct": 1,
+      "total": 1,
+      "points": 100
+    },
+    {
+      "code": "SNC-1104",
+      "name": "Oyuncu_E",
+      "team": "blue",
+      "correct": 1,
+      "total": 1,
+      "points": 100
+    },
+    {
+      "code": "SNC-1100",
+      "name": "Oyuncu_A",
+      "team": "blue",
+      "correct": 0,
+      "total": 0,
+      "points": 0
+    },
+    {
+      "code": "SNC-1102",
+      "name": "Oyuncu_C",
+      "team": "blue",
+      "correct": 0,
+      "total": 1,
+      "points": 0
+    },
+    {
+      "code": "SNC-1103",
+      "name": "Oyuncu_D",
+      "team": "blue",
+      "correct": 0,
+      "total": 1,
+      "points": 0
+    },
+    {
+      "code": "SNC-1105",
+      "name": "Oyuncu_F",
+      "team": "red",
+      "correct": 0,
+      "total": 1,
+      "points": 0
+    },
+    {
+      "code": "SNC-1106",
+      "name": "Oyuncu_G",
+      "team": "red",
+      "correct": 0,
+      "total": 0,
+      "points": 0
+    },
+    {
+      "code": "SNC-1107",
+      "name": "Oyuncu_H",
+      "team": "red",
+      "correct": 0,
+      "total": 0,
+      "points": 0
+    },
+    {
+      "code": "SNC-1108",
+      "name": "Oyuncu_J",
+      "team": "red",
+      "correct": 0,
+      "total": 0,
+      "points": 0
+    },
+    {
+      "code": "SNC-1109",
+      "name": "Oyuncu_K",
+      "team": "red",
+      "correct": 0,
+      "total": 0,
+      "points": 0
+    }
+  ],
   "qIds": [
     1,
     2,
@@ -165,7 +246,7 @@
     "activeAnswererName": "Oyuncu_E",
     "activeGuesserCode": "SNC-1105",
     "activeGuesserName": "Oyuncu_F",
-    "subPhase": "reveal",
+    "subPhase": "completed",
     "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "🔥",
@@ -324,6 +405,40 @@
             },
             "isCorrect": true,
             "submittedAt": 1792841810162
+          }
+        }
+      },
+      {
+        "qIndex": 4,
+        "qId": 5,
+        "answererCode": "SNC-1104",
+        "answererName": "Oyuncu_E",
+        "guesserCode": "SNC-1105",
+        "guesserName": "Oyuncu_F",
+        "answerIdx": 2,
+        "guessIdx": 1,
+        "answerIndex": 2,
+        "answerComment": {
+          "emoji": "🔥",
+          "text": "Oyuncu_E lock_answer"
+        },
+        "guessComment": {
+          "emoji": "🔥",
+          "text": "Oyuncu_F lock_guess"
+        },
+        "isCorrect": false,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-1105": {
+            "code": "SNC-1105",
+            "name": "Oyuncu_F",
+            "guessIndex": 1,
+            "comment": {
+              "emoji": "🔥",
+              "text": "Oyuncu_F lock_guess"
+            },
+            "isCorrect": false,
+            "submittedAt": 1792841813672
           }
         }
       }
@@ -493,6 +608,67 @@
       }
     },
     "phaseStartedAt": 1792841813672,
-    "updatedAt": 1792841813672
-  }
+    "updatedAt": 1792841814922
+  },
+  "lastMatchPercentage": 40,
+  "lastCorrectCount": 2,
+  "lastTotalQuestions": 5,
+  "p1Answers": [
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "p2Guesses": [
+    2,
+    1,
+    1,
+    2,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "🔥",
+      "text": "Oyuncu_A lock_answer"
+    },
+    {
+      "emoji": "🔥",
+      "text": "Oyuncu_B lock_answer"
+    },
+    {
+      "emoji": "🔥",
+      "text": "Oyuncu_C lock_answer"
+    },
+    {
+      "emoji": "🔥",
+      "text": "Oyuncu_D lock_answer"
+    },
+    {
+      "emoji": "🔥",
+      "text": "Oyuncu_E lock_answer"
+    }
+  ],
+  "p2Comments": [
+    {
+      "emoji": "🔥",
+      "text": "Oyuncu_B lock_guess"
+    },
+    {
+      "emoji": "🔥",
+      "text": "Oyuncu_C lock_guess"
+    },
+    {
+      "emoji": "🔥",
+      "text": "Oyuncu_D lock_guess"
+    },
+    {
+      "emoji": "🔥",
+      "text": "Oyuncu_E lock_guess"
+    },
+    {
+      "emoji": "🔥",
+      "text": "Oyuncu_F lock_guess"
+    }
+  ]
 }
