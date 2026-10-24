@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T02:06:55.641Z",
+  "updatedAt": "2026-10-24T02:19:15.017Z",
   "players": [
     {
       "friendCode": "SNC-1813",
@@ -68,6 +68,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792807615641,
       "updatedAt": "2026-10-24T02:06:55.641Z"
+    },
+    {
+      "friendCode": "SNC-1265",
+      "username": "B4ris",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792808355017,
+      "updatedAt": "2026-10-24T02:19:15.017Z"
     }
   ]
 }
