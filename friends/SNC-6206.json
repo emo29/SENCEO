@@ -20,18 +20,31 @@
       "p2FriendCode": "SNC-6206",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-6206",
       "cat": "genel",
-      "updatedAt": "2026-10-24T04:08:30.464Z"
+      "lastMatchPercentage": 70,
+      "updatedAt": "2026-10-24T04:10:06.380Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-24T04:08:30.464Z",
+  "notifications": [
+    {
+      "id": "DONE_P2_SNCJPC_R1",
+      "type": "completed",
+      "title": "🏆 emirhan Tahminlerini Tamamladı!",
+      "message": "#SNCJPC düellosu bitti! Uyum skorunuz: %70",
+      "fromCode": "SNC-7224",
+      "fromName": "emirhan",
+      "roomCode": "SNCJPC",
+      "read": false,
+      "createdAt": "2026-10-24T04:10:06.380Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T04:10:06.380Z",
   "deletedRoomCodes": []
 }
