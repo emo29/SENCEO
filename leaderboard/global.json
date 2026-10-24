@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T12:34:15.317Z",
+  "updatedAt": "2026-10-24T12:34:21.308Z",
   "players": [
     {
       "friendCode": "SNC-3375",
@@ -296,7 +296,7 @@
     },
     {
       "friendCode": "SNC-6682",
-      "username": "Misafir Oyuncu",
+      "username": "emirhan",
       "avatar": "😎",
       "level": 1,
       "xp": 0,
@@ -306,7 +306,7 @@
       "isPermanentMember": false,
       "passwordProtected": false,
       "lastXpActivityAt": 1792845255317,
-      "updatedAt": "2026-10-24T12:34:15.317Z"
+      "updatedAt": "2026-10-24T12:34:21.308Z"
     }
   ]
 }
