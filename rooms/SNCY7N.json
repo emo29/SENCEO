@@ -10,7 +10,7 @@
     "ffaSubMode": "ebe",
     "teamSubMode": "",
     "turnStep": 1,
-    "timerSeconds": 0,
+    "timerSeconds": 10,
     "starterMode": "random",
     "selectedStarterCode": ""
   },
@@ -31,5 +31,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T02:02:14.116Z",
-  "updatedAt": "2026-10-24T02:02:45.705Z"
+  "updatedAt": "2026-10-24T02:03:17.921Z"
 }
