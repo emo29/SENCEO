@@ -50,7 +50,7 @@
       "fromCode": "SNC-6066",
       "fromName": "sağdakipc1",
       "roomCode": "SNCCFJ",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T01:54:06.006Z"
     },
     {
@@ -61,7 +61,7 @@
       "fromCode": "SNC-6066",
       "fromName": "sağdakipc1",
       "roomCode": "SNCCFJ",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T01:53:59.592Z"
     },
     {
@@ -72,7 +72,7 @@
       "fromCode": "SNC-6066",
       "fromName": "sağdakipc1",
       "roomCode": "SNCCFJ",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T01:53:56.823Z"
     },
     {
@@ -83,7 +83,7 @@
       "fromCode": "SNC-6066",
       "fromName": "sağdakipc1",
       "roomCode": "SNCCFJ",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T01:53:47.638Z"
     },
     {
@@ -94,7 +94,7 @@
       "fromCode": "SNC-6066",
       "fromName": "sağdakipc1",
       "roomCode": "SNCCFJ",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T01:53:41.898Z"
     },
     {
@@ -105,7 +105,7 @@
       "fromCode": "SNC-6066",
       "fromName": "sağdakipc1",
       "roomCode": "SNCCFJ",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T01:53:38.022Z"
     },
     {
@@ -116,9 +116,9 @@
       "fromCode": "SNC-6066",
       "fromName": "sağdakipc1",
       "roomCode": "SNCCDV",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T01:22:34.138Z"
     }
   ],
-  "updatedAt": "2026-10-24T01:54:06.006Z"
+  "updatedAt": "2026-10-24T01:54:14.488Z"
 }
