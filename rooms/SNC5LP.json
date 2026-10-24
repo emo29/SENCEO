@@ -48,7 +48,7 @@
   ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:32:30.949Z",
+  "updatedAt": "2026-10-24T11:33:00.721Z",
   "liveMatchState": {
     "qIds": [
       60,
@@ -78,11 +78,11 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-1265",
     "activeGuesserName": "B4ris",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 3,
     "currentAnswerComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "😎",
+      "text": "keisnlikle bu"
     },
     "currentCustomOption": "",
     "currentGuess": null,
@@ -231,7 +231,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792841550949,
-    "updatedAt": 1792841550949
+    "phaseStartedAt": 1792841580721,
+    "updatedAt": 1792841580721
   }
 }
