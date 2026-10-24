@@ -7,6 +7,8 @@
   "questionsCorrect": 0,
   "provider": "guest",
   "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
   "lastXpActivityAt": 1792804954138,
   "latestRoomCode": "SNCBE4",
   "activeRooms": [
@@ -120,5 +122,5 @@
       "createdAt": "2026-10-24T01:22:34.138Z"
     }
   ],
-  "updatedAt": "2026-10-24T01:54:14.488Z"
+  "updatedAt": "2026-10-24T02:02:13.883Z"
 }
