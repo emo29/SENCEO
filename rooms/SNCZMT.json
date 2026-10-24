@@ -14,8 +14,8 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "completed",
-  "currentRound": 2,
+  "status": "live_in_progress",
+  "currentRound": 3,
   "p1": "emirhan",
   "p2": "komnenos",
   "participants": [
@@ -40,90 +40,19 @@
   "cat": "genel",
   "thm": "luminous",
   "qIds": [
-    3,
-    30,
-    32,
-    70,
-    66
+    27,
+    62,
+    28,
+    55,
+    74
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T19:02:36.859Z",
-  "liveLeaderboard": [
-    {
-      "code": "SNC-2002",
-      "name": "komnenos",
-      "team": "common",
-      "correct": 2,
-      "total": 3,
-      "points": 200
-    },
-    {
-      "code": "SNC-7224",
-      "name": "emirhan",
-      "team": "common",
-      "correct": 0,
-      "total": 2,
-      "points": 0
-    }
-  ],
-  "p1Answers": [
-    0,
-    2,
-    0,
-    1,
-    0
-  ],
-  "p2Guesses": [
-    0,
-    0,
-    0,
-    0,
-    3
-  ],
-  "p1Comments": [
-    {
-      "emoji": "😎",
-      "text": "amerikanya"
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "🔥",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
-    }
-  ],
-  "p2Comments": [
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "😱",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    }
-  ],
+  "updatedAt": "2026-10-24T19:02:48.849Z",
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
   "usedQuestionIds": [
     31,
     58,
@@ -134,272 +63,94 @@
     30,
     32,
     70,
-    66
+    66,
+    27,
+    62,
+    28,
+    55,
+    74
   ],
   "liveMatchState": {
     "qIds": [
-      3,
-      30,
-      32,
-      70,
-      66
+      27,
+      62,
+      28,
+      55,
+      74
     ],
-    "qIndex": 4,
-    "currentQIndex": 4,
+    "qIndex": 0,
+    "currentQIndex": 0,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
       {
-        "code": "SNC-7224",
-        "name": "emirhan",
+        "code": "SNC-2002",
+        "name": "komnenos",
         "team": "common"
       },
       {
-        "code": "SNC-2002",
-        "name": "komnenos",
+        "code": "SNC-7224",
+        "name": "emirhan",
         "team": "common"
       }
     ],
     "activeTurnOrderIdx": 0,
-    "activeAnswererCode": "SNC-7224",
-    "activeAnswererName": "emirhan",
-    "activeGuesserCode": "SNC-2002",
-    "activeGuesserName": "komnenos",
-    "subPhase": "completed",
-    "currentAnswer": 0,
+    "activeAnswererCode": "SNC-2002",
+    "activeAnswererName": "komnenos",
+    "activeGuesserCode": "SNC-7224",
+    "activeGuesserName": "emirhan",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
-      "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
+      "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 3,
+    "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
       "SNC-2002": {
         "code": "SNC-2002",
         "name": "komnenos",
-        "guessIndex": 3,
-        "comment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": false,
-        "submittedAt": 1792868550642
-      }
-    },
-    "history": [
-      {
-        "qIndex": 0,
-        "qId": 3,
-        "answererCode": "SNC-7224",
-        "answererName": "emirhan",
-        "guesserCode": "SNC-2002",
-        "guesserName": "komnenos",
-        "answerIdx": 0,
-        "guessIdx": 0,
-        "answerIndex": 0,
-        "answerComment": {
-          "emoji": "😎",
-          "text": "amerikanya"
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-2002": {
-            "code": "SNC-2002",
-            "name": "komnenos",
-            "guessIndex": 0,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": true,
-            "submittedAt": 1792868368896
-          }
-        }
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
       },
-      {
-        "qIndex": 1,
-        "qId": 30,
-        "answererCode": "SNC-2002",
-        "answererName": "komnenos",
-        "guesserCode": "SNC-7224",
-        "guesserName": "emirhan",
-        "answerIdx": 2,
-        "guessIdx": 0,
-        "answerIndex": 2,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "😱",
-          "text": ""
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-7224": {
-            "code": "SNC-7224",
-            "name": "emirhan",
-            "guessIndex": 0,
-            "comment": {
-              "emoji": "😱",
-              "text": ""
-            },
-            "isCorrect": false,
-            "submittedAt": 1792868404155
-          }
-        }
-      },
-      {
-        "qIndex": 2,
-        "qId": 32,
-        "answererCode": "SNC-7224",
-        "answererName": "emirhan",
-        "guesserCode": "SNC-2002",
-        "guesserName": "komnenos",
-        "answerIdx": 0,
-        "guessIdx": 0,
-        "answerIndex": 0,
-        "answerComment": {
-          "emoji": "🔥",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-2002": {
-            "code": "SNC-2002",
-            "name": "komnenos",
-            "guessIndex": 0,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": true,
-            "submittedAt": 1792868479364
-          }
-        }
-      },
-      {
-        "qIndex": 3,
-        "qId": 70,
-        "answererCode": "SNC-2002",
-        "answererName": "komnenos",
-        "guesserCode": "SNC-7224",
-        "guesserName": "emirhan",
-        "answerIdx": 1,
-        "guessIdx": 0,
-        "answerIndex": 1,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-7224": {
-            "code": "SNC-7224",
-            "name": "emirhan",
-            "guessIndex": 0,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": false,
-            "submittedAt": 1792868514976
-          }
-        }
-      },
-      {
-        "qIndex": 4,
-        "qId": 66,
-        "answererCode": "SNC-7224",
-        "answererName": "emirhan",
-        "guesserCode": "SNC-2002",
-        "guesserName": "komnenos",
-        "answerIdx": 0,
-        "guessIdx": 3,
-        "answerIndex": 0,
-        "answerComment": {
-          "emoji": "",
-          "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-2002": {
-            "code": "SNC-2002",
-            "name": "komnenos",
-            "guessIndex": 3,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": false,
-            "submittedAt": 1792868550642
-          }
-        }
-      }
-    ],
-    "scores": {
       "SNC-7224": {
         "code": "SNC-7224",
         "name": "emirhan",
         "team": "common",
         "correct": 0,
-        "total": 2,
+        "total": 0,
         "points": 0
-      },
-      "SNC-2002": {
-        "code": "SNC-2002",
-        "name": "komnenos",
-        "team": "common",
-        "correct": 2,
-        "total": 3,
-        "points": 200
       }
     },
     "scoresByPlayer": {
+      "SNC-2002": {
+        "code": "SNC-2002",
+        "name": "komnenos",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
       "SNC-7224": {
         "code": "SNC-7224",
         "name": "emirhan",
         "team": "common",
         "correct": 0,
-        "total": 2,
+        "total": 0,
         "points": 0
-      },
-      "SNC-2002": {
-        "code": "SNC-2002",
-        "name": "komnenos",
-        "team": "common",
-        "correct": 2,
-        "total": 3,
-        "points": 200
       }
     },
-    "phaseStartedAt": 1792868550642,
-    "updatedAt": 1792868556859
+    "phaseStartedAt": 1792868568849,
+    "updatedAt": 1792868568849
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
