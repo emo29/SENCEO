@@ -34,6 +34,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "NUDGE_SNCJPC_1792815271334",
+      "type": "next_round_nudge",
+      "title": "🔥 2. Raund Çağrısı! (İlk Sıra Sende)",
+      "message": "emirhan #SNCJPC odasında 2. Raunda geçmen için sana bildirim gönderdi! İlk sıra sende, hemen başlat!",
+      "fromCode": "SNC-7224",
+      "fromName": "emirhan",
+      "roomCode": "SNCJPC",
+      "read": false,
+      "createdAt": "2026-10-24T04:14:31.334Z"
+    },
+    {
       "id": "DONE_P2_SNCJPC_R1",
       "type": "completed",
       "title": "🏆 emirhan Tahminlerini Tamamladı!",
@@ -45,6 +56,6 @@
       "createdAt": "2026-10-24T04:10:06.380Z"
     }
   ],
-  "updatedAt": "2026-10-24T04:10:06.380Z",
+  "updatedAt": "2026-10-24T04:14:31.334Z",
   "deletedRoomCodes": []
 }
