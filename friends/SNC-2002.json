@@ -10,12 +10,30 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792867958902,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNC2XD",
+  "activeRooms": [
+    {
+      "code": "SNC2XD",
+      "p1": "komnenos",
+      "p2": "",
+      "p1FriendCode": "SNC-2002",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T18:54:10.920Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T18:52:38.902Z",
+  "updatedAt": "2026-10-24T18:54:10.920Z",
   "lastPropagatedName": "komnenos",
-  "isPasswordProtected": false
+  "isPasswordProtected": false,
+  "deletedRoomCodes": []
 }
