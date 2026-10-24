@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-9999",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-9999",
       "cat": "genel",
-      "updatedAt": "2026-10-24T03:56:39.446Z"
+      "lastMatchPercentage": 60,
+      "updatedAt": "2026-10-24T03:56:42.148Z"
     }
   ],
   "incomingRequests": [],
@@ -44,6 +45,6 @@
       "createdAt": "2026-10-24T03:56:39.446Z"
     }
   ],
-  "updatedAt": "2026-10-24T03:56:39.446Z",
+  "updatedAt": "2026-10-24T03:56:42.148Z",
   "deletedRoomCodes": []
 }
