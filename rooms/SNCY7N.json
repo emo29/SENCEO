@@ -7,7 +7,7 @@
   "roomType": "live_arena",
   "arenaFormat": "ffa",
   "liveSettings": {
-    "ffaSubMode": "ebeli",
+    "ffaSubMode": "ebe",
     "teamSubMode": "",
     "turnStep": 1,
     "timerSeconds": 0,
@@ -31,5 +31,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T02:02:14.116Z",
-  "updatedAt": "2026-10-24T02:02:43.221Z"
+  "updatedAt": "2026-10-24T02:02:45.705Z"
 }
