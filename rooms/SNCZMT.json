@@ -47,7 +47,7 @@
     11
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T18:56:04.125Z",
+  "updatedAt": "2026-10-24T18:56:18.085Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,11 +89,11 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-2002",
     "activeGuesserName": "komnenos",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 0,
     "currentAnswerComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "😱",
+      "text": "ena1 beklemesi"
     },
     "currentCustomOption": "",
     "currentGuess": null,
@@ -174,7 +174,7 @@
         "points": 0
       }
     },
-    "phaseStartedAt": 1792868164125,
-    "updatedAt": 1792868164125
+    "phaseStartedAt": 1792868178085,
+    "updatedAt": 1792868178085
   }
 }
