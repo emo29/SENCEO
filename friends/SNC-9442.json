@@ -10,10 +10,28 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792809431478,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCMYN",
+  "activeRooms": [
+    {
+      "code": "SNCMYN",
+      "p1": "denea",
+      "p2": "",
+      "p1FriendCode": "SNC-9442",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T02:37:28.980Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T02:37:11.478Z"
+  "updatedAt": "2026-10-24T02:37:28.980Z",
+  "deletedRoomCodes": []
 }
