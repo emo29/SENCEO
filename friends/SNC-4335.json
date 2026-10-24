@@ -15,23 +15,35 @@
     {
       "code": "SNC7K6",
       "p1": "denemea",
-      "p2": "",
+      "p2": "denemeb",
       "p1FriendCode": "SNC-4335",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-9999",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-24T03:12:55.526Z"
+      "updatedAt": "2026-10-24T03:12:57.294Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-24T03:12:55.526Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNC7K6_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "denemeb 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNC7K6)",
+      "fromCode": "SNC-9999",
+      "fromName": "denemeb",
+      "roomCode": "SNC7K6",
+      "read": false,
+      "createdAt": "2026-10-24T03:12:57.294Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T03:12:57.294Z",
   "deletedRoomCodes": []
 }
