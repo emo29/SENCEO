@@ -15,24 +15,36 @@
     {
       "code": "SNCNG7",
       "p1": "Ayşe",
-      "p2": "",
+      "p2": "Burak",
       "p1FriendCode": "SNC-6252",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-6754",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-24T12:35:22.299Z"
+      "updatedAt": "2026-10-24T12:35:30.561Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-24T12:35:22.299Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCNG7_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "Burak 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCNG7)",
+      "fromCode": "SNC-6754",
+      "fromName": "Burak",
+      "roomCode": "SNCNG7",
+      "read": false,
+      "createdAt": "2026-10-24T12:35:30.561Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T12:35:30.561Z",
   "lastPropagatedName": "Ayşe",
   "deletedRoomCodes": []
 }
