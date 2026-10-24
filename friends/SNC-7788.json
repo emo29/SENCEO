@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792814370887,
-  "latestRoomCode": "SNC8U4",
+  "latestRoomCode": "M1V19",
   "activeRooms": [
+    {
+      "code": "M1V19",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1001",
+      "p2FriendCode": "SNC-7788",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "live_lobby",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T03:59:36.742Z"
+    },
     {
       "code": "SNC8U4",
       "p1": "sıradana",
@@ -45,6 +61,6 @@
       "createdAt": "2026-10-24T03:59:24.026Z"
     }
   ],
-  "updatedAt": "2026-10-24T03:59:30.887Z",
+  "updatedAt": "2026-10-24T03:59:36.742Z",
   "deletedRoomCodes": []
 }
