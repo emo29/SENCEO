@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "live_in_progress",
+  "status": "completed",
   "currentRound": 2,
   "p1": "Hakan",
   "p2": "Mert",
@@ -47,12 +47,83 @@
     11
   ],
   "createdAt": "2026-10-24T12:46:38.015Z",
-  "updatedAt": "2026-10-24T12:48:08.231Z",
-  "liveLeaderboard": null,
-  "p1Answers": [],
-  "p2Guesses": [],
-  "p1Comments": [],
-  "p2Comments": [],
+  "updatedAt": "2026-10-24T12:48:10.692Z",
+  "liveLeaderboard": [
+    {
+      "code": "SNC-1865",
+      "name": "Mert",
+      "team": "common",
+      "correct": 3,
+      "total": 3,
+      "points": 300
+    },
+    {
+      "code": "SNC-5480",
+      "name": "Hakan",
+      "team": "common",
+      "correct": 2,
+      "total": 2,
+      "points": 200
+    }
+  ],
+  "p1Answers": [
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "p2Guesses": [
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
   "usedQuestionIds": [
     53,
     30,
@@ -94,7 +165,7 @@
     "activeAnswererName": "Hakan",
     "activeGuesserCode": "SNC-1865",
     "activeGuesserName": "Mert",
-    "subPhase": "reveal",
+    "subPhase": "completed",
     "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "",
@@ -255,6 +326,40 @@
             "submittedAt": 1792846081592
           }
         }
+      },
+      {
+        "qIndex": 4,
+        "qId": 11,
+        "answererCode": "SNC-5480",
+        "answererName": "Hakan",
+        "guesserCode": "SNC-1865",
+        "guesserName": "Mert",
+        "answerIdx": 2,
+        "guessIdx": 2,
+        "answerIndex": 2,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-1865": {
+            "code": "SNC-1865",
+            "name": "Mert",
+            "guessIndex": 2,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": true,
+            "submittedAt": 1792846088231
+          }
+        }
       }
     ],
     "scores": {
@@ -294,9 +399,9 @@
       }
     },
     "phaseStartedAt": 1792846088231,
-    "updatedAt": 1792846088231
+    "updatedAt": 1792846090692
   },
-  "lastMatchPercentage": 80,
-  "lastCorrectCount": 4,
+  "lastMatchPercentage": 100,
+  "lastCorrectCount": 5,
   "lastTotalQuestions": 5
 }
