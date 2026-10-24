@@ -85,7 +85,7 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-1100"
   },
-  "updatedAt": "2026-10-24T11:38:25.256Z",
+  "updatedAt": "2026-10-24T11:38:26.591Z",
   "cat": "genel",
   "currentRound": 1,
   "liveLeaderboard": null,
@@ -175,7 +175,7 @@
     "currentGuess": 1,
     "currentGuessComment": {
       "emoji": "🔥",
-      "text": "Oyuncu_B lock_guess"
+      "text": "Oyuncu_C lock_guess"
     },
     "guessesByPlayer": {
       "SNC-1100": {
@@ -199,6 +199,17 @@
         },
         "isCorrect": false,
         "submittedAt": 1792841905256
+      },
+      "SNC-1102": {
+        "code": "SNC-1102",
+        "name": "Oyuncu_C",
+        "guessIndex": 1,
+        "comment": {
+          "emoji": "🔥",
+          "text": "Oyuncu_C lock_guess"
+        },
+        "isCorrect": false,
+        "submittedAt": 1792841906591
       }
     },
     "history": [
@@ -713,7 +724,7 @@
         "name": "Oyuncu_C",
         "team": "common",
         "correct": 3,
-        "total": 3,
+        "total": 4,
         "points": 300
       },
       "SNC-1103": {
@@ -795,7 +806,7 @@
         "name": "Oyuncu_C",
         "team": "common",
         "correct": 3,
-        "total": 3,
+        "total": 4,
         "points": 300
       },
       "SNC-1103": {
@@ -856,6 +867,6 @@
       }
     },
     "phaseStartedAt": 1792841900667,
-    "updatedAt": 1792841905256
+    "updatedAt": 1792841906591
   }
 }
