@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-3675",
-  "username": "deneme1",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "username": "aaa1",
+  "level": 4,
+  "xp": 300,
+  "gamesPlayed": 1,
+  "questionsCorrect": 10,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792803650524,
+  "lastXpActivityAt": 1792808835185,
   "latestRoomCode": "SNCWYX",
   "activeRooms": [
     {
@@ -126,6 +126,6 @@
       "createdAt": "2026-10-24T02:25:40.290Z"
     }
   ],
-  "updatedAt": "2026-10-24T02:27:14.169Z",
+  "updatedAt": "2026-10-24T02:27:15.185Z",
   "deletedRoomCodes": []
 }
