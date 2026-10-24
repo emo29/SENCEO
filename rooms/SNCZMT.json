@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "currentRound": 1,
   "p1": "emirhan",
   "p2": "komnenos",
@@ -39,7 +39,107 @@
   ],
   "cat": "genel",
   "thm": "luminous",
-  "qIds": [],
+  "qIds": [
+    31,
+    58,
+    1,
+    29,
+    11
+  ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T18:55:16.514Z"
+  "updatedAt": "2026-10-24T18:55:25.401Z",
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
+  "usedQuestionIds": [
+    31,
+    58,
+    1,
+    29,
+    11
+  ],
+  "liveMatchState": {
+    "qIds": [
+      31,
+      58,
+      1,
+      29,
+      11
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-2002",
+        "name": "komnenos",
+        "team": "common"
+      },
+      {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "team": "common"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-2002",
+    "activeAnswererName": "komnenos",
+    "activeGuesserCode": "SNC-7224",
+    "activeGuesserName": "emirhan",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-2002": {
+        "code": "SNC-2002",
+        "name": "komnenos",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-7224": {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-2002": {
+        "code": "SNC-2002",
+        "name": "komnenos",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-7224": {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1792868125401,
+    "updatedAt": 1792868125401
+  }
 }
