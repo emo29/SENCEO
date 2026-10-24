@@ -47,7 +47,7 @@
     1
   ],
   "createdAt": "2026-10-24T04:20:40.448Z",
-  "updatedAt": "2026-10-24T04:26:02.008Z",
+  "updatedAt": "2026-10-24T04:26:49.969Z",
   "kickedCodes": [
     "SNC-3224"
   ],
@@ -80,19 +80,31 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-6206",
     "activeGuesserName": "salihcan",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "😱",
       "text": "uykusuzum o yüzden böyle olur şu an"
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 1,
     "currentGuessComment": {
       "emoji": "",
-      "text": ""
+      "text": "Eee değiştiremiyorum şıkkı"
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-6206": {
+        "code": "SNC-6206",
+        "name": "salihcan",
+        "guessIndex": 1,
+        "comment": {
+          "emoji": "",
+          "text": "Eee değiştiremiyorum şıkkı"
+        },
+        "isCorrect": false,
+        "submittedAt": 1792816009969
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -245,7 +257,7 @@
         "name": "salihcan",
         "team": "common",
         "correct": 0,
-        "total": 2,
+        "total": 3,
         "points": 0
       }
     },
@@ -263,11 +275,11 @@
         "name": "salihcan",
         "team": "common",
         "correct": 0,
-        "total": 2,
+        "total": 3,
         "points": 0
       }
     },
-    "phaseStartedAt": 1792815962008,
-    "updatedAt": 1792815962008
+    "phaseStartedAt": 1792816009969,
+    "updatedAt": 1792816009969
   }
 }
