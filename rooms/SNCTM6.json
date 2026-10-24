@@ -2,15 +2,15 @@
   "code": "SNCTM6",
   "p1Id": "USR_N599BA3",
   "p1FriendCode": "SNC-3375",
-  "p2Id": "",
-  "p2FriendCode": "",
+  "p2Id": "USR_DTQ17I9",
+  "p2FriendCode": "SNC-7929",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
-  "whoseTurn": "p2",
+  "whoseTurn": "p1",
   "p1": "sıradana",
-  "p2": "",
+  "p2": "sıradanb",
   "cat": "genel",
   "thm": "luminous",
   "qIds": [
@@ -25,7 +25,12 @@
     62,
     30,
     66,
-    70
+    70,
+    28,
+    58,
+    3,
+    1,
+    53
   ],
   "customOptionsMap": {},
   "p1Answers": [
@@ -57,13 +62,75 @@
       "text": "a"
     }
   ],
-  "p2Guesses": [],
-  "p2Comments": [],
-  "p2Half2QIds": [],
-  "p2Half2CustomMap": {},
-  "p2Half2Answers": [],
-  "p2Half2Comments": [],
+  "p2Guesses": [
+    0,
+    0,
+    1,
+    0,
+    0
+  ],
+  "p2Comments": [
+    {
+      "emoji": "🔥",
+      "text": "b"
+    },
+    {
+      "emoji": "😎",
+      "text": "b"
+    },
+    {
+      "emoji": "🤔",
+      "text": "b"
+    },
+    {
+      "emoji": "",
+      "text": "b"
+    },
+    {
+      "emoji": "💀",
+      "text": "b"
+    }
+  ],
+  "p2Half2QIds": [
+    28,
+    58,
+    3,
+    1,
+    53
+  ],
+  "p2Half2CustomMap": {
+    "2": "bbbbbbbbbbbbbb"
+  },
+  "p2Half2Answers": [
+    1,
+    1,
+    3,
+    1,
+    1
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "😂",
+      "text": "b"
+    },
+    {
+      "emoji": "😎",
+      "text": "b"
+    },
+    {
+      "emoji": "❤️",
+      "text": "b"
+    },
+    {
+      "emoji": "😎",
+      "text": "b"
+    },
+    {
+      "emoji": "🤔",
+      "text": "b"
+    }
+  ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T03:15:29.461Z"
+  "updatedAt": "2026-10-24T03:16:17.235Z"
 }
