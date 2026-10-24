@@ -1,15 +1,15 @@
 {
   "code": "SNCMYN",
-  "p1Id": "USR_RADB20O",
-  "p1FriendCode": "SNC-9442",
-  "p2FriendCode": "",
+  "p1Id": "USR_UGVVK0A",
+  "p1FriendCode": "SNC-6283",
+  "p2FriendCode": "SNC-6283",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
-  "whoseTurn": "p2",
+  "whoseTurn": "p1",
   "p1": "denea",
-  "p2": "",
+  "p2": "deneb",
   "cat": "genel",
   "thm": "luminous",
   "qIds": [
@@ -24,7 +24,12 @@
     9,
     11,
     28,
-    53
+    53,
+    3,
+    58,
+    55,
+    27,
+    29
   ],
   "customOptionsMap": {},
   "p1Answers": [
@@ -56,13 +61,73 @@
       "text": "a"
     }
   ],
-  "p2Guesses": [],
-  "p2Comments": [],
-  "p2Half2QIds": [],
+  "p2Guesses": [
+    0,
+    1,
+    1,
+    1,
+    1
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": "za bildim b"
+    },
+    {
+      "emoji": "",
+      "text": "tüh bilemedim b"
+    },
+    {
+      "emoji": "",
+      "text": "tüh bilemedim b"
+    },
+    {
+      "emoji": "",
+      "text": "tüh bilemedim b"
+    },
+    {
+      "emoji": "",
+      "text": "tüh bilemedim b"
+    }
+  ],
+  "p2Half2QIds": [
+    3,
+    58,
+    55,
+    27,
+    29
+  ],
   "p2Half2CustomMap": {},
-  "p2Half2Answers": [],
-  "p2Half2Comments": [],
+  "p2Half2Answers": [
+    0,
+    1,
+    1,
+    1,
+    1
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": "zaxdb"
+    },
+    {
+      "emoji": "❤️",
+      "text": "zaxdb"
+    },
+    {
+      "emoji": "",
+      "text": "zaxdb"
+    },
+    {
+      "emoji": "",
+      "text": "zaxdb"
+    },
+    {
+      "emoji": "",
+      "text": "zaxdb"
+    }
+  ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T02:37:28.003Z"
+  "updatedAt": "2026-10-24T02:38:32.352Z"
 }
