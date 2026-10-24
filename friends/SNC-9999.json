@@ -1,0 +1,37 @@
+{
+  "friendCode": "SNC-9999",
+  "username": "denemeb",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792811578022,
+  "latestRoomCode": "SNC7K6",
+  "activeRooms": [
+    {
+      "code": "SNC7K6",
+      "p1": "denemea",
+      "p2": "denemeb",
+      "p1FriendCode": "SNC-4335",
+      "p2FriendCode": "SNC-9999",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T03:12:58.022Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-24T03:12:58.022Z",
+  "deletedRoomCodes": []
+}
