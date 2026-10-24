@@ -1,0 +1,18 @@
+{
+  "updatedAt": "2026-10-24T00:59:17.510Z",
+  "players": [
+    {
+      "friendCode": "SNC-1813",
+      "username": "EmirhanTest",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "lastXpActivityAt": 1792803557510,
+      "updatedAt": "2026-10-24T00:59:17.510Z"
+    }
+  ]
+}
