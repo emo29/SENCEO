@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-3675",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-3675",
       "cat": "genel",
-      "updatedAt": "2026-10-24T02:25:40.290Z"
+      "lastMatchPercentage": 100,
+      "updatedAt": "2026-10-24T02:27:14.169Z"
     },
     {
       "code": "SNCCDV",
@@ -103,6 +104,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "DONE_P1_SNCWYX_R1",
+      "type": "completed",
+      "title": "🏆 Düello Tamamlandı! (%100 Uyum)",
+      "message": "aaa1 ile #SNCWYX düellosunun sonuç karnesi hazır!",
+      "fromCode": "SNC-3675",
+      "fromName": "aaa1",
+      "roomCode": "SNCWYX",
+      "read": false,
+      "createdAt": "2026-10-24T02:27:14.169Z"
+    },
+    {
       "id": "TURN_P1_SNCWYX_R1",
       "type": "turn",
       "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
@@ -114,6 +126,6 @@
       "createdAt": "2026-10-24T02:25:40.290Z"
     }
   ],
-  "updatedAt": "2026-10-24T02:25:40.290Z",
+  "updatedAt": "2026-10-24T02:27:14.169Z",
   "deletedRoomCodes": []
 }
