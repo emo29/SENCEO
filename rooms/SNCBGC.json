@@ -1,0 +1,35 @@
+{
+  "code": "SNCBGC",
+  "p1Id": "USR_7CPMEUV",
+  "hostCode": "SNC-6189",
+  "p1FriendCode": "SNC-6189",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "liveSettings": {
+    "ffaSubMode": "ebe",
+    "teamSubMode": "",
+    "turnStep": 1,
+    "timerSeconds": 0,
+    "starterMode": "random",
+    "selectedStarterCode": ""
+  },
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "Hakan",
+  "p2": "",
+  "participants": [
+    {
+      "name": "Hakan",
+      "code": "SNC-6189",
+      "role": "host",
+      "team": "common",
+      "isHost": true
+    }
+  ],
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [],
+  "createdAt": "2026-10-24T12:43:52.867Z",
+  "updatedAt": "2026-10-24T12:43:51.804Z"
+}
