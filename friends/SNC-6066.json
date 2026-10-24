@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792804954138,
-  "latestRoomCode": "SNCBE4",
+  "latestRoomCode": "SNCY7N",
   "activeRooms": [
+    {
+      "code": "SNCY7N",
+      "p1": "sağdakipc1",
+      "p2": "",
+      "p1FriendCode": "SNC-6066",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T02:02:16.960Z"
+    },
     {
       "code": "SNCBE4",
       "p1": "sağdakipc1",
@@ -122,5 +138,6 @@
       "createdAt": "2026-10-24T01:22:34.138Z"
     }
   ],
-  "updatedAt": "2026-10-24T02:02:13.883Z"
+  "updatedAt": "2026-10-24T02:02:16.960Z",
+  "deletedRoomCodes": []
 }
