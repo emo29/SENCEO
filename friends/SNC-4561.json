@@ -13,8 +13,26 @@
   "latestRoomCode": "",
   "activeRooms": [],
   "incomingRequests": [],
-  "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-24T12:33:05.892Z",
+  "acceptedFriends": [
+    {
+      "code": "SNC-7927",
+      "name": "Oyuncu (SNC-7927)",
+      "acceptedAt": "2026-10-24T12:33:09.896Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "FINVITE_SNC-7927_TO_SNC-4561",
+      "type": "friend_accepted",
+      "title": "🎉 Davet Linkinle Yeni Bağ Kuruldu!",
+      "message": "Oyuncu (SNC-7927) davet linkine tıkladı ve karşılıklı arkadaş bağlarınıza eklendi!",
+      "fromCode": "SNC-7927",
+      "fromName": "Oyuncu (SNC-7927)",
+      "roomCode": "",
+      "read": false,
+      "createdAt": "2026-10-24T12:33:09.896Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T12:33:09.896Z",
   "lastPropagatedName": "ZZerban"
 }
