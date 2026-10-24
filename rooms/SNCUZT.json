@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "currentRound": 1,
   "p1": "Hakan",
   "p2": "Mert",
@@ -39,7 +39,107 @@
   ],
   "cat": "genel",
   "thm": "luminous",
-  "qIds": [],
+  "qIds": [
+    29,
+    30,
+    31,
+    32,
+    26
+  ],
   "createdAt": "2026-10-24T12:42:21.504Z",
-  "updatedAt": "2026-10-24T12:42:26.340Z"
+  "updatedAt": "2026-10-24T12:42:27.962Z",
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
+  "usedQuestionIds": [
+    29,
+    30,
+    31,
+    32,
+    26
+  ],
+  "liveMatchState": {
+    "qIds": [
+      29,
+      30,
+      31,
+      32,
+      26
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-8292",
+        "name": "Mert",
+        "team": "common"
+      },
+      {
+        "code": "SNC-4396",
+        "name": "Hakan",
+        "team": "common"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-8292",
+    "activeAnswererName": "Mert",
+    "activeGuesserCode": "SNC-4396",
+    "activeGuesserName": "Hakan",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-8292": {
+        "code": "SNC-8292",
+        "name": "Mert",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-4396": {
+        "code": "SNC-4396",
+        "name": "Hakan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-8292": {
+        "code": "SNC-8292",
+        "name": "Mert",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-4396": {
+        "code": "SNC-4396",
+        "name": "Hakan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1792845747962,
+    "updatedAt": 1792845747962
+  }
 }
