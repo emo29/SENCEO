@@ -48,7 +48,7 @@
   ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:30:45.224Z",
+  "updatedAt": "2026-10-24T11:30:54.642Z",
   "liveMatchState": {
     "qIds": [
       60,
@@ -78,19 +78,31 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-1265",
     "activeGuesserName": "B4ris",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "💀",
       "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 3,
     "currentGuessComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "💀",
+      "text": "obaaaaa"
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-1265": {
+        "code": "SNC-1265",
+        "name": "B4ris",
+        "guessIndex": 3,
+        "comment": {
+          "emoji": "💀",
+          "text": "obaaaaa"
+        },
+        "isCorrect": false,
+        "submittedAt": 1792841454642
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -133,7 +145,7 @@
         "name": "B4ris",
         "team": "blue",
         "correct": 0,
-        "total": 0,
+        "total": 1,
         "points": 0
       },
       "SNC-7224": {
@@ -151,7 +163,7 @@
         "name": "B4ris",
         "team": "blue",
         "correct": 0,
-        "total": 0,
+        "total": 1,
         "points": 0
       },
       "SNC-7224": {
@@ -163,7 +175,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792841445224,
-    "updatedAt": 1792841445224
+    "phaseStartedAt": 1792841454642,
+    "updatedAt": 1792841454642
   }
 }
