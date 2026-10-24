@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792841554614,
-  "latestRoomCode": "TWTURF",
+  "latestRoomCode": "THJBYH",
   "activeRooms": [
+    {
+      "code": "THJBYH",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1100",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "4v4",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:40:30.441Z"
+    },
     {
       "code": "TWTURF",
       "p1": "Oyuncu_A",
@@ -240,6 +256,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:39:48.886Z",
+  "updatedAt": "2026-10-24T12:40:30.441Z",
   "deletedRoomCodes": []
 }
