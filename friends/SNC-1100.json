@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792841554614,
-  "latestRoomCode": "TMMPSY",
+  "latestRoomCode": "TOJSPU",
   "activeRooms": [
+    {
+      "code": "TOJSPU",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1100",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "2v2",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:38:34.285Z"
+    },
     {
       "code": "TMMPSY",
       "p1": "Oyuncu_A",
@@ -208,6 +224,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:37:55.010Z",
+  "updatedAt": "2026-10-24T12:38:34.285Z",
   "deletedRoomCodes": []
 }
