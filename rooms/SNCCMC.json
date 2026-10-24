@@ -4,15 +4,16 @@
   "p1FriendCode": "SNC-3375",
   "p2Id": "USR_DTQ17I9",
   "p2FriendCode": "SNC-7929",
+  "nextRoundStarterCode": "SNC-7929",
+  "nextRoundStarterName": "sıradanb",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "sıradana",
   "p2": "sıradanb",
   "cat": "genel",
-  "thm": "luminous",
+  "thm": "obsidian",
   "qIds": [
     31,
     9,
@@ -138,7 +139,40 @@
       "text": ""
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T03:19:31.124Z"
+  "p1Half2Guesses": [
+    1,
+    1,
+    1,
+    0,
+    0
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "lastMatchPercentage": 70,
+  "lastCorrectCount": 7,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-24T03:20:20.308Z",
+  "updatedAt": "2026-10-24T03:20:20.014Z",
+  "nextRoundSecondCode": "SNC-3375",
+  "nextRoundSecondName": "sıradana"
 }
