@@ -47,7 +47,7 @@
     62
   ],
   "createdAt": "2026-10-24T12:43:52.867Z",
-  "updatedAt": "2026-10-24T12:45:00.262Z",
+  "updatedAt": "2026-10-24T12:45:02.007Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -73,8 +73,8 @@
       1,
       62
     ],
-    "qIndex": 1,
-    "currentQIndex": 1,
+    "qIndex": 2,
+    "currentQIndex": 2,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -89,36 +89,24 @@
         "team": "common"
       }
     ],
-    "activeTurnOrderIdx": 1,
-    "activeAnswererCode": "SNC-2119",
-    "activeAnswererName": "Mert",
-    "activeGuesserCode": "SNC-6189",
-    "activeGuesserName": "Hakan",
-    "subPhase": "reveal",
-    "currentAnswer": 2,
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-6189",
+    "activeAnswererName": "Hakan",
+    "activeGuesserCode": "SNC-2119",
+    "activeGuesserName": "Mert",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 2,
+    "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-6189": {
-        "code": "SNC-6189",
-        "name": "Hakan",
-        "guessIndex": 2,
-        "comment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "submittedAt": 1792845900262
-      }
-    },
+    "guessesByPlayer": {},
     "history": [
       {
         "qIndex": 0,
@@ -151,6 +139,40 @@
             },
             "isCorrect": true,
             "submittedAt": 1792845893297
+          }
+        }
+      },
+      {
+        "qIndex": 1,
+        "qId": 53,
+        "answererCode": "SNC-2119",
+        "answererName": "Mert",
+        "guesserCode": "SNC-6189",
+        "guesserName": "Hakan",
+        "answerIdx": 2,
+        "guessIdx": 2,
+        "answerIndex": 2,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-6189": {
+            "code": "SNC-6189",
+            "name": "Hakan",
+            "guessIndex": 2,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": true,
+            "submittedAt": 1792845900262
           }
         }
       }
@@ -191,8 +213,8 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792845900262,
-    "updatedAt": 1792845900262
+    "phaseStartedAt": 1792845902007,
+    "updatedAt": 1792845902007
   },
   "lastMatchPercentage": 80,
   "lastCorrectCount": 4,
