@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792808835185,
-  "latestRoomCode": "SNCWYX",
+  "latestRoomCode": "SNCVQH",
   "activeRooms": [
+    {
+      "code": "SNCVQH",
+      "p1": "denemea",
+      "p2": "",
+      "p1FriendCode": "SNC-3675",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T02:28:32.672Z"
+    },
     {
       "code": "SNCWYX",
       "p1": "deneme1",
@@ -126,6 +142,6 @@
       "createdAt": "2026-10-24T02:25:40.290Z"
     }
   ],
-  "updatedAt": "2026-10-24T02:28:21.617Z",
+  "updatedAt": "2026-10-24T02:28:32.672Z",
   "deletedRoomCodes": []
 }
