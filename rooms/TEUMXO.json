@@ -2,7 +2,7 @@
   "code": "TEUMXO",
   "roomType": "live_arena",
   "arenaFormat": "ffa",
-  "status": "completed",
+  "status": "live_in_progress",
   "hostCode": "SNC-1100",
   "hostName": "Oyuncu_A",
   "p1": "Oyuncu_A",
@@ -36,126 +36,47 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-1100"
   },
-  "updatedAt": "2026-10-24T12:37:30.078Z",
+  "updatedAt": "2026-10-24T12:37:31.141Z",
   "cat": "genel",
-  "currentRound": 1,
-  "liveLeaderboard": [
-    {
-      "code": "SNC-1100",
-      "name": "Oyuncu_A",
-      "team": "common",
-      "correct": 2,
-      "total": 3,
-      "points": 200
-    },
-    {
-      "code": "SNC-1101",
-      "name": "Oyuncu_B",
-      "team": "common",
-      "correct": 2,
-      "total": 3,
-      "points": 200
-    },
-    {
-      "code": "SNC-1102",
-      "name": "Oyuncu_C",
-      "team": "common",
-      "correct": 2,
-      "total": 4,
-      "points": 200
-    }
-  ],
-  "p1Answers": [
-    3,
-    2,
-    2,
-    2,
-    2
-  ],
-  "p2Guesses": [
-    3,
-    1,
-    2,
-    1,
-    2
-  ],
-  "p1Comments": [
-    {
-      "emoji": "🔥",
-      "text": "Oyuncu_A lock_answer"
-    },
-    {
-      "emoji": "🔥",
-      "text": "Oyuncu_B lock_answer"
-    },
-    {
-      "emoji": "🔥",
-      "text": "Oyuncu_C lock_answer"
-    },
-    {
-      "emoji": "🔥",
-      "text": "Oyuncu_A lock_answer"
-    },
-    {
-      "emoji": "🔥",
-      "text": "Oyuncu_B lock_answer"
-    }
-  ],
-  "p2Comments": [
-    {
-      "emoji": "🔥",
-      "text": "Oyuncu_C lock_guess"
-    },
-    {
-      "emoji": "🔥",
-      "text": "Oyuncu_C lock_guess"
-    },
-    {
-      "emoji": "🔥",
-      "text": "Oyuncu_B lock_guess"
-    },
-    {
-      "emoji": "🔥",
-      "text": "Oyuncu_C lock_guess"
-    },
-    {
-      "emoji": "🔥",
-      "text": "Oyuncu_C lock_guess"
-    }
-  ],
+  "currentRound": 2,
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
   "qIds": [
-    1,
-    2,
-    3,
-    4,
-    5
+    6,
+    7,
+    8,
+    9,
+    10
   ],
   "usedQuestionIds": [
     1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
   ],
   "liveMatchState": {
     "qIds": [
-      1,
-      2,
-      3,
-      4,
-      5
+      6,
+      7,
+      8,
+      9,
+      10
     ],
-    "qIndex": 4,
-    "currentQIndex": 4,
+    "qIndex": 0,
+    "currentQIndex": 0,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
       {
-        "code": "SNC-1100",
-        "name": "Oyuncu_A",
-        "team": "common"
-      },
-      {
         "code": "SNC-1101",
         "name": "Oyuncu_B",
         "team": "common"
@@ -164,330 +85,86 @@
         "code": "SNC-1102",
         "name": "Oyuncu_C",
         "team": "common"
+      },
+      {
+        "code": "SNC-1100",
+        "name": "Oyuncu_A",
+        "team": "common"
       }
     ],
-    "activeTurnOrderIdx": 1,
+    "activeTurnOrderIdx": 0,
     "activeAnswererCode": "SNC-1101",
     "activeAnswererName": "Oyuncu_B",
     "activeGuesserCode": "SNC-1102",
     "activeGuesserName": "Oyuncu_C",
-    "subPhase": "completed",
-    "currentAnswer": 2,
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
-      "emoji": "🔥",
-      "text": "Oyuncu_B lock_answer"
+      "emoji": "",
+      "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 2,
+    "currentGuess": null,
     "currentGuessComment": {
-      "emoji": "🔥",
-      "text": "Oyuncu_C lock_guess"
+      "emoji": "",
+      "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-1100": {
-        "code": "SNC-1100",
-        "name": "Oyuncu_A",
-        "guessIndex": 2,
-        "comment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_A lock_guess"
-        },
-        "isCorrect": true,
-        "submittedAt": 1792845446864
-      },
-      "SNC-1102": {
-        "code": "SNC-1102",
-        "name": "Oyuncu_C",
-        "guessIndex": 2,
-        "comment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_C lock_guess"
-        },
-        "isCorrect": true,
-        "submittedAt": 1792845447947
-      }
-    },
-    "history": [
-      {
-        "qIndex": 0,
-        "qId": 1,
-        "answererCode": "SNC-1100",
-        "answererName": "Oyuncu_A",
-        "guesserCode": "SNC-1101",
-        "guesserName": "Oyuncu_B",
-        "answerIdx": 3,
-        "guessIdx": 3,
-        "answerIndex": 3,
-        "answerComment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_A lock_answer"
-        },
-        "guessComment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_C lock_guess"
-        },
-        "isCorrect": true,
-        "customOption": "Oyuncu_A Özel Cevabı",
-        "guessesByPlayer": {
-          "SNC-1101": {
-            "code": "SNC-1101",
-            "name": "Oyuncu_B",
-            "guessIndex": 3,
-            "comment": {
-              "emoji": "🔥",
-              "text": "Oyuncu_B lock_guess"
-            },
-            "isCorrect": true,
-            "submittedAt": 1792845406499
-          },
-          "SNC-1102": {
-            "code": "SNC-1102",
-            "name": "Oyuncu_C",
-            "guessIndex": 3,
-            "comment": {
-              "emoji": "🔥",
-              "text": "Oyuncu_C lock_guess"
-            },
-            "isCorrect": true,
-            "submittedAt": 1792845407582
-          }
-        }
-      },
-      {
-        "qIndex": 1,
-        "qId": 2,
-        "answererCode": "SNC-1101",
-        "answererName": "Oyuncu_B",
-        "guesserCode": "SNC-1102",
-        "guesserName": "Oyuncu_C",
-        "answerIdx": 2,
-        "guessIdx": 1,
-        "answerIndex": 2,
-        "answerComment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_B lock_answer"
-        },
-        "guessComment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_C lock_guess"
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-1100": {
-            "code": "SNC-1100",
-            "name": "Oyuncu_A",
-            "guessIndex": 1,
-            "comment": {
-              "emoji": "🔥",
-              "text": "Oyuncu_A lock_guess"
-            },
-            "isCorrect": false,
-            "submittedAt": 1792845415445
-          },
-          "SNC-1102": {
-            "code": "SNC-1102",
-            "name": "Oyuncu_C",
-            "guessIndex": 1,
-            "comment": {
-              "emoji": "🔥",
-              "text": "Oyuncu_C lock_guess"
-            },
-            "isCorrect": false,
-            "submittedAt": 1792845416562
-          }
-        }
-      },
-      {
-        "qIndex": 2,
-        "qId": 3,
-        "answererCode": "SNC-1102",
-        "answererName": "Oyuncu_C",
-        "guesserCode": "SNC-1100",
-        "guesserName": "Oyuncu_A",
-        "answerIdx": 2,
-        "guessIdx": 2,
-        "answerIndex": 2,
-        "answerComment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_C lock_answer"
-        },
-        "guessComment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_B lock_guess"
-        },
-        "isCorrect": true,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-1100": {
-            "code": "SNC-1100",
-            "name": "Oyuncu_A",
-            "guessIndex": 2,
-            "comment": {
-              "emoji": "🔥",
-              "text": "Oyuncu_A lock_guess"
-            },
-            "isCorrect": true,
-            "submittedAt": 1792845425476
-          },
-          "SNC-1101": {
-            "code": "SNC-1101",
-            "name": "Oyuncu_B",
-            "guessIndex": 2,
-            "comment": {
-              "emoji": "🔥",
-              "text": "Oyuncu_B lock_guess"
-            },
-            "isCorrect": true,
-            "submittedAt": 1792845426613
-          }
-        }
-      },
-      {
-        "qIndex": 3,
-        "qId": 4,
-        "answererCode": "SNC-1100",
-        "answererName": "Oyuncu_A",
-        "guesserCode": "SNC-1101",
-        "guesserName": "Oyuncu_B",
-        "answerIdx": 2,
-        "guessIdx": 1,
-        "answerIndex": 2,
-        "answerComment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_A lock_answer"
-        },
-        "guessComment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_C lock_guess"
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-1101": {
-            "code": "SNC-1101",
-            "name": "Oyuncu_B",
-            "guessIndex": 1,
-            "comment": {
-              "emoji": "🔥",
-              "text": "Oyuncu_B lock_guess"
-            },
-            "isCorrect": false,
-            "submittedAt": 1792845437106
-          },
-          "SNC-1102": {
-            "code": "SNC-1102",
-            "name": "Oyuncu_C",
-            "guessIndex": 1,
-            "comment": {
-              "emoji": "🔥",
-              "text": "Oyuncu_C lock_guess"
-            },
-            "isCorrect": false,
-            "submittedAt": 1792845438198
-          }
-        }
-      },
-      {
-        "qIndex": 4,
-        "qId": 5,
-        "answererCode": "SNC-1101",
-        "answererName": "Oyuncu_B",
-        "guesserCode": "SNC-1102",
-        "guesserName": "Oyuncu_C",
-        "answerIdx": 2,
-        "guessIdx": 2,
-        "answerIndex": 2,
-        "answerComment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_B lock_answer"
-        },
-        "guessComment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_C lock_guess"
-        },
-        "isCorrect": true,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-1100": {
-            "code": "SNC-1100",
-            "name": "Oyuncu_A",
-            "guessIndex": 2,
-            "comment": {
-              "emoji": "🔥",
-              "text": "Oyuncu_A lock_guess"
-            },
-            "isCorrect": true,
-            "submittedAt": 1792845446864
-          },
-          "SNC-1102": {
-            "code": "SNC-1102",
-            "name": "Oyuncu_C",
-            "guessIndex": 2,
-            "comment": {
-              "emoji": "🔥",
-              "text": "Oyuncu_C lock_guess"
-            },
-            "isCorrect": true,
-            "submittedAt": 1792845447947
-          }
-        }
-      }
-    ],
+    "guessesByPlayer": {},
+    "history": [],
     "scores": {
-      "SNC-1100": {
-        "code": "SNC-1100",
-        "name": "Oyuncu_A",
-        "team": "common",
-        "correct": 2,
-        "total": 3,
-        "points": 200
-      },
       "SNC-1101": {
         "code": "SNC-1101",
         "name": "Oyuncu_B",
         "team": "common",
-        "correct": 2,
-        "total": 3,
-        "points": 200
+        "correct": 0,
+        "total": 0,
+        "points": 0
       },
       "SNC-1102": {
         "code": "SNC-1102",
         "name": "Oyuncu_C",
         "team": "common",
-        "correct": 2,
-        "total": 4,
-        "points": 200
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1100": {
+        "code": "SNC-1100",
+        "name": "Oyuncu_A",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
       }
     },
     "scoresByPlayer": {
-      "SNC-1100": {
-        "code": "SNC-1100",
-        "name": "Oyuncu_A",
-        "team": "common",
-        "correct": 2,
-        "total": 3,
-        "points": 200
-      },
       "SNC-1101": {
         "code": "SNC-1101",
         "name": "Oyuncu_B",
         "team": "common",
-        "correct": 2,
-        "total": 3,
-        "points": 200
+        "correct": 0,
+        "total": 0,
+        "points": 0
       },
       "SNC-1102": {
         "code": "SNC-1102",
         "name": "Oyuncu_C",
         "team": "common",
-        "correct": 2,
-        "total": 4,
-        "points": 200
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1100": {
+        "code": "SNC-1100",
+        "name": "Oyuncu_A",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
       }
     },
-    "phaseStartedAt": 1792845447947,
-    "updatedAt": 1792845450078
+    "phaseStartedAt": 1792845451141,
+    "updatedAt": 1792845451141
   },
   "lastMatchPercentage": 60,
   "lastCorrectCount": 6,
