@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-24T02:27:16.315Z",
+  "updatedAt": "2026-10-24T02:28:22.403Z",
   "players": [
     {
       "friendCode": "SNC-3675",
-      "username": "aaa1",
+      "username": "denemea",
       "avatar": "😎",
       "level": 4,
       "xp": 300,
@@ -12,8 +12,8 @@
       "provider": "guest",
       "isPermanentMember": false,
       "passwordProtected": false,
-      "lastXpActivityAt": 1792808836315,
-      "updatedAt": "2026-10-24T02:27:16.315Z"
+      "lastXpActivityAt": 1792808835472,
+      "updatedAt": "2026-10-24T02:28:22.402Z"
     },
     {
       "friendCode": "SNC-1813",
