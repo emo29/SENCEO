@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "live_in_progress",
+  "status": "completed",
   "currentRound": 1,
   "p1": "emirhan",
   "p2": "komnenos",
@@ -47,12 +47,83 @@
     11
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T18:58:29.265Z",
-  "liveLeaderboard": null,
-  "p1Answers": [],
-  "p2Guesses": [],
-  "p1Comments": [],
-  "p2Comments": [],
+  "updatedAt": "2026-10-24T18:58:43.195Z",
+  "liveLeaderboard": [
+    {
+      "code": "SNC-2002",
+      "name": "komnenos",
+      "team": "common",
+      "correct": 2,
+      "total": 2,
+      "points": 200
+    },
+    {
+      "code": "SNC-7224",
+      "name": "emirhan",
+      "team": "common",
+      "correct": 0,
+      "total": 3,
+      "points": 0
+    }
+  ],
+  "p1Answers": [
+    1,
+    0,
+    0,
+    1,
+    0
+  ],
+  "p2Guesses": [
+    0,
+    0,
+    1,
+    1,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "😱",
+      "text": "ena1 beklemesi"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "😎",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Comments": [
+    {
+      "emoji": "😂",
+      "text": "qolaydı"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "😂",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "😱",
+      "text": ""
+    }
+  ],
   "usedQuestionIds": [
     31,
     58,
@@ -89,7 +160,7 @@
     "activeAnswererName": "komnenos",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "reveal",
+    "subPhase": "completed",
     "currentAnswer": 0,
     "currentAnswerComment": {
       "emoji": "",
@@ -250,6 +321,40 @@
             "submittedAt": 1792868279463
           }
         }
+      },
+      {
+        "qIndex": 4,
+        "qId": 11,
+        "answererCode": "SNC-2002",
+        "answererName": "komnenos",
+        "guesserCode": "SNC-7224",
+        "guesserName": "emirhan",
+        "answerIdx": 0,
+        "guessIdx": 1,
+        "answerIndex": 0,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "😱",
+          "text": ""
+        },
+        "isCorrect": false,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-7224": {
+            "code": "SNC-7224",
+            "name": "emirhan",
+            "guessIndex": 1,
+            "comment": {
+              "emoji": "😱",
+              "text": ""
+            },
+            "isCorrect": false,
+            "submittedAt": 1792868309265
+          }
+        }
       }
     ],
     "scores": {
@@ -289,6 +394,9 @@
       }
     },
     "phaseStartedAt": 1792868309265,
-    "updatedAt": 1792868309265
-  }
+    "updatedAt": 1792868323195
+  },
+  "lastMatchPercentage": 40,
+  "lastCorrectCount": 2,
+  "lastTotalQuestions": 5
 }
