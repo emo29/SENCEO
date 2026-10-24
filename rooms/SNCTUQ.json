@@ -1,0 +1,28 @@
+{
+  "code": "SNCTUQ",
+  "p1Id": "USR_1X1CEXC",
+  "hostCode": "SNC-1813",
+  "p1FriendCode": "SNC-1813",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "liveSettings": {},
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "EmirhanTest",
+  "p2": "",
+  "participants": [
+    {
+      "name": "EmirhanTest",
+      "code": "SNC-1813",
+      "role": "host",
+      "team": "common",
+      "isHost": true
+    }
+  ],
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [],
+  "createdAt": "2026-10-24T00:59:16.882Z",
+  "updatedAt": "2026-10-24T00:59:16.450Z"
+}
