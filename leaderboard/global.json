@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T03:12:53.293Z",
+  "updatedAt": "2026-10-24T03:13:03.345Z",
   "players": [
     {
       "friendCode": "SNC-3675",
@@ -128,7 +128,7 @@
     },
     {
       "friendCode": "SNC-4335",
-      "username": "denemea",
+      "username": "EmirhanTest",
       "avatar": "😎",
       "level": 1,
       "xp": 0,
@@ -137,8 +137,8 @@
       "provider": "guest",
       "isPermanentMember": false,
       "passwordProtected": false,
-      "lastXpActivityAt": 1792811573292,
-      "updatedAt": "2026-10-24T03:12:53.292Z"
+      "lastXpActivityAt": 1792811572311,
+      "updatedAt": "2026-10-24T03:13:03.345Z"
     }
   ]
 }
