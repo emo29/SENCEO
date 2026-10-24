@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-3375",
   "username": "sıradana",
-  "level": 3,
-  "xp": 210,
-  "gamesPlayed": 1,
-  "questionsCorrect": 7,
+  "level": 5,
+  "xp": 420,
+  "gamesPlayed": 2,
+  "questionsCorrect": 14,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792811857119,
+  "lastXpActivityAt": 1792812022875,
   "latestRoomCode": "SNCCMC",
   "activeRooms": [
     {
@@ -95,6 +95,6 @@
       "createdAt": "2026-10-24T03:16:18.254Z"
     }
   ],
-  "updatedAt": "2026-10-24T03:20:20.899Z",
+  "updatedAt": "2026-10-24T03:20:22.875Z",
   "deletedRoomCodes": []
 }
