@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792814210626,
-  "latestRoomCode": "M3V3NQW",
+  "latestRoomCode": "M4V4S0J",
   "activeRooms": [
+    {
+      "code": "M4V4S0J",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1001",
+      "p2FriendCode": "SNC-8029",
+      "roomType": "live_arena",
+      "arenaFormat": "4v4",
+      "status": "live_lobby",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:52:49.307Z"
+    },
     {
       "code": "M3V3NQW",
       "p1": "Oyuncu_A",
@@ -160,6 +176,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:52:43.400Z",
+  "updatedAt": "2026-10-24T12:52:49.307Z",
   "deletedRoomCodes": []
 }
