@@ -10,8 +10,24 @@
   "passwordProtected": true,
   "passwordHash": "MTIz",
   "lastXpActivityAt": 1792815007494,
-  "latestRoomCode": "SNCVJQ",
+  "latestRoomCode": "SNCZMT",
   "activeRooms": [
+    {
+      "code": "SNCZMT",
+      "p1": "emirhan",
+      "p2": "",
+      "p1FriendCode": "SNC-7224",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T18:55:06.372Z"
+    },
     {
       "code": "SNCVJQ",
       "p1": "emirhan",
@@ -99,7 +115,7 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-24T17:58:24.233Z",
+  "updatedAt": "2026-10-24T18:55:06.372Z",
   "deletedRoomCodes": [],
   "isPasswordProtected": true,
   "lastPropagatedName": "emirhan"
