@@ -61,6 +61,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "NUDGE_SNCCFJ_1792807434987",
+      "type": "nudge",
+      "title": "⏰ Düello Hatırlatması!",
+      "message": "aaa1 seni #SNCCFJ kodlu düelloda bekliyor! Hadi 5 soruyu tahmin et!",
+      "fromCode": "SNC-3675",
+      "fromName": "aaa1",
+      "roomCode": "SNCCFJ",
+      "read": false,
+      "createdAt": "2026-10-24T02:03:54.987Z"
+    },
+    {
       "id": "NUDGE_SNCCFJ_1792806846006",
       "type": "nudge",
       "title": "⏰ Düello Hatırlatması!",
@@ -138,6 +149,6 @@
       "createdAt": "2026-10-24T01:22:34.138Z"
     }
   ],
-  "updatedAt": "2026-10-24T02:02:16.960Z",
+  "updatedAt": "2026-10-24T02:03:54.987Z",
   "deletedRoomCodes": []
 }
