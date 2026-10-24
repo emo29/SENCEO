@@ -3,11 +3,12 @@
   "p1Id": "USR_9I6XA8U",
   "p1FriendCode": "SNC-3675",
   "p2FriendCode": "SNC-3675",
+  "nextRoundStarterCode": "SNC-3675",
+  "nextRoundStarterName": "aaa1",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "deneme1",
   "p2": "aaa1",
   "cat": "genel",
@@ -132,7 +133,40 @@
       "text": "w"
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T02:25:39.380Z"
+  "p1Half2Guesses": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "😎",
+      "text": ""
+    },
+    {
+      "emoji": "😱",
+      "text": "1"
+    },
+    {
+      "emoji": "😱",
+      "text": "1"
+    },
+    {
+      "emoji": "😱",
+      "text": "1"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "lastMatchPercentage": 100,
+  "lastCorrectCount": 10,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-24T02:27:13.673Z",
+  "updatedAt": "2026-10-24T02:27:13.255Z",
+  "nextRoundSecondCode": "SNC-3675",
+  "nextRoundSecondName": "deneme1"
 }
