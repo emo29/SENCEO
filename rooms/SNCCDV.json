@@ -3,14 +3,14 @@
   "p1Id": "USR_9I6XA8U",
   "hostCode": "SNC-3675",
   "p1FriendCode": "SNC-3675",
-  "p2FriendCode": "",
+  "p2FriendCode": "SNC-6066",
   "roomType": "live_arena",
   "arenaFormat": "ffa",
   "liveSettings": {},
   "status": "lobby_open",
   "currentRound": 1,
   "p1": "aaa1",
-  "p2": "",
+  "p2": "sağdakipc1",
   "participants": [
     {
       "name": "aaa1",
@@ -18,11 +18,20 @@
       "role": "host",
       "team": "common",
       "isHost": true
+    },
+    {
+      "name": "sağdakipc1",
+      "code": "SNC-6066",
+      "role": "member",
+      "team": "none",
+      "score": 0,
+      "correct": 0,
+      "joinedAt": "2026-10-24T01:15:04.468Z"
     }
   ],
   "cat": "genel",
   "thm": "obsidian",
   "qIds": [],
   "createdAt": "2026-10-24T01:14:54.909Z",
-  "updatedAt": "2026-10-24T01:14:54.463Z"
+  "updatedAt": "2026-10-24T01:15:04.468Z"
 }
