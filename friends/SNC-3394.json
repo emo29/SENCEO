@@ -9,18 +9,28 @@
       "code": "SNCZZR",
       "p1": "SOLDAKİ SEKME",
       "p2": "sağdaki sekme",
-      "p1FriendCode": "SNC-3394",
+      "p1FriendCode": "SNC-4616",
       "p2FriendCode": "SNC-3394",
-      "status": "completed",
-      "currentRound": 1,
+      "status": "waiting_p2",
+      "currentRound": 2,
       "cat": "genel",
-      "lastMatchPercentage": 60,
-      "updatedAt": "2026-10-24T00:05:24.633Z"
+      "updatedAt": "2026-10-24T00:06:20.422Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [
+    {
+      "id": "CHALLENGE_SNCZZR_R2",
+      "type": "challenge",
+      "title": "⚔️ Yeni Düello Meydan Okuması!",
+      "message": "SOLDAKİ SEKME (SNC-4616) senin için 5 soru çözdü! Tahmin etmek için tıkla (#SNCZZR).",
+      "fromCode": "SNC-4616",
+      "fromName": "SOLDAKİ SEKME",
+      "roomCode": "SNCZZR",
+      "read": false,
+      "createdAt": "2026-10-24T00:06:20.422Z"
+    },
     {
       "id": "DONE_P1_SNCZZR_R1",
       "type": "completed",
@@ -55,5 +65,5 @@
       "createdAt": "2026-10-24T00:02:29.600Z"
     }
   ],
-  "updatedAt": "2026-10-24T00:05:25.877Z"
+  "updatedAt": "2026-10-24T00:06:20.422Z"
 }
