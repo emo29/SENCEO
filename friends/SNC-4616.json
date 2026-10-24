@@ -8,17 +8,17 @@
     {
       "code": "SNCZZR",
       "p1": "SOLDAKİ SEKME",
-      "p2": "",
+      "p2": "sağdaki sekme",
       "p1FriendCode": "SNC-4616",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-3394",
       "status": "waiting_p2",
-      "currentRound": 1,
+      "currentRound": 2,
       "cat": "genel",
-      "updatedAt": "2026-10-23T23:57:08.557Z"
+      "updatedAt": "2026-10-24T00:06:19.564Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T00:02:45.706Z"
+  "updatedAt": "2026-10-24T00:06:19.564Z"
 }
