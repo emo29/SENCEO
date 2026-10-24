@@ -47,7 +47,7 @@
     27
   ],
   "createdAt": "2026-10-24T12:46:38.015Z",
-  "updatedAt": "2026-10-24T12:47:27.159Z",
+  "updatedAt": "2026-10-24T12:47:29.764Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,8 +89,8 @@
     "activeAnswererName": "Mert",
     "activeGuesserCode": "SNC-5480",
     "activeGuesserName": "Hakan",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 1,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
@@ -276,7 +276,7 @@
         "points": 200
       }
     },
-    "phaseStartedAt": 1792846047159,
-    "updatedAt": 1792846047159
+    "phaseStartedAt": 1792846049764,
+    "updatedAt": 1792846049764
   }
 }
