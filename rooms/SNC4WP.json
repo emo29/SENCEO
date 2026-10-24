@@ -1,0 +1,170 @@
+{
+  "code": "SNC4WP",
+  "p1Id": "USR_4HRQSOB",
+  "p1FriendCode": "SNC-2389",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "nextRoundStarterCode": "",
+  "nextRoundStarterName": "Kerem",
+  "roomType": "pass",
+  "arenaFormat": "1v1",
+  "status": "completed",
+  "currentRound": 1,
+  "p1": "Selin",
+  "p2": "Kerem",
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [
+    55,
+    74,
+    3,
+    2,
+    1
+  ],
+  "usedQuestionIds": [
+    55,
+    74,
+    3,
+    2,
+    1,
+    7,
+    25,
+    29,
+    28,
+    32
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    1,
+    2,
+    0,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "😂",
+      "text": "Selin notu"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [
+    0,
+    1,
+    2,
+    0,
+    1
+  ],
+  "p2Comments": [
+    {
+      "emoji": "😂",
+      "text": "Kerem tahmini"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Half2QIds": [
+    7,
+    25,
+    29,
+    28,
+    32
+  ],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [
+    1,
+    2,
+    0,
+    1,
+    2
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p1Half2Guesses": [
+    1,
+    2,
+    0,
+    1,
+    2
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 100,
+  "lastCorrectCount": 10,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-24T12:36:09.862Z",
+  "updatedAt": "2026-10-24T12:36:08.750Z",
+  "nextRoundSecondCode": "SNC-2389",
+  "nextRoundSecondName": "Selin"
+}
