@@ -5,9 +5,8 @@
   "p2FriendCode": "SNC-3394",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "SOLDAKİ SEKME",
   "p2": "sağdaki sekme",
   "cat": "genel",
@@ -129,7 +128,38 @@
       "text": "1111111111111111"
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T00:02:28.616Z"
+  "p1Half2Guesses": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "lastMatchPercentage": 60,
+  "lastCorrectCount": 6,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-24T00:05:24.134Z",
+  "updatedAt": "2026-10-24T00:05:23.680Z"
 }
