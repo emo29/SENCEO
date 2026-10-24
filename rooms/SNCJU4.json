@@ -1,7 +1,7 @@
 {
   "code": "SNCJU4",
   "p1Id": "USR_FW6OPX9",
-  "hostCode": "SNC-7224",
+  "hostCode": "",
   "p1FriendCode": "SNC-7224",
   "p2FriendCode": "",
   "roomType": "live_arena",
@@ -14,22 +14,14 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "lobby_open",
+  "status": "abandoned",
   "currentRound": 1,
   "p1": "emirhan",
   "p2": "",
-  "participants": [
-    {
-      "name": "emirhan",
-      "code": "SNC-7224",
-      "role": "host",
-      "team": "common",
-      "isHost": true
-    }
-  ],
+  "participants": [],
   "cat": "genel",
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T04:28:12.695Z",
-  "updatedAt": "2026-10-24T04:28:12.338Z"
+  "updatedAt": "2026-10-24T11:27:44.153Z"
 }
