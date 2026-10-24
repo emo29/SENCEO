@@ -48,7 +48,7 @@
   ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:37:54.643Z",
+  "updatedAt": "2026-10-24T11:38:32.418Z",
   "liveMatchState": {
     "qIds": [
       60,
@@ -78,19 +78,31 @@
     "activeAnswererName": "B4ris",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "direk babamı arayıp ağlarım",
-    "currentGuess": null,
+    "currentGuess": 0,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-7224": {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "guessIndex": 0,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "submittedAt": 1792841912418
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -243,7 +255,7 @@
         "name": "emirhan",
         "team": "common",
         "correct": 1,
-        "total": 2,
+        "total": 3,
         "points": 100
       }
     },
@@ -261,11 +273,11 @@
         "name": "emirhan",
         "team": "common",
         "correct": 1,
-        "total": 2,
+        "total": 3,
         "points": 100
       }
     },
-    "phaseStartedAt": 1792841874643,
-    "updatedAt": 1792841874643
+    "phaseStartedAt": 1792841912418,
+    "updatedAt": 1792841912418
   }
 }
