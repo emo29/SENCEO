@@ -47,7 +47,7 @@
     1
   ],
   "createdAt": "2026-10-24T04:20:40.448Z",
-  "updatedAt": "2026-10-24T04:23:54.756Z",
+  "updatedAt": "2026-10-24T04:24:02.228Z",
   "kickedCodes": [
     "SNC-3224"
   ],
@@ -80,8 +80,8 @@
     "activeAnswererName": "salihcan",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 1,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
@@ -165,7 +165,7 @@
         "points": 0
       }
     },
-    "phaseStartedAt": 1792815834756,
-    "updatedAt": 1792815834756
+    "phaseStartedAt": 1792815842228,
+    "updatedAt": 1792815842228
   }
 }
