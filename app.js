@@ -8,6 +8,7 @@ const TOTAL_QUESTIONS = 5;
 const CIRCLE_CIRCUMFERENCE = 414.69;
 const PASS_ANSWER_VALUE = -1;
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+const GUEST_INACTIVITY_LIMIT_MS = SEVEN_DAYS_MS;
 
 // 4 Tam Kapsamlı Tema Tanımları
 const THEMES = {
@@ -3032,16 +3033,24 @@ async function handlePrimaryStartAction() {
   const errorBox = document.getElementById('home-error');
   const errorText = document.getElementById('home-error-text');
 
-  const p1Name = p1Input ? p1Input.value.trim() : '';
+  let p1Name = p1Input ? p1Input.value.trim() : '';
   const p2Raw = p2Input ? p2Input.value.trim() : '';
 
+  if (!p1Name && userProfile.username && userProfile.username !== 'Misafir Oyuncu') {
+    p1Name = userProfile.username.trim();
+    if (p1Input) p1Input.value = p1Name;
+  }
+
   if (!p1Name) {
-    errorText.textContent = "Lütfen başlamadan önce kendi adını yaz!";
-    errorBox.classList.remove('hidden');
-    if (p1Input) p1Input.focus();
+    if (errorText) errorText.textContent = "Lütfen başlamadan önce kendi adını yaz!";
+    if (errorBox) errorBox.classList.remove('hidden');
+    if (p1Input) {
+      p1Input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      p1Input.focus();
+    }
     return;
   }
-  errorBox.classList.add('hidden');
+  if (errorBox) errorBox.classList.add('hidden');
 
   gameState.player1Name = p1Name;
   gameState.isSandboxTest = false;
@@ -4781,4 +4790,52 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (!joinedChallenge) {
     switchTopNavPage('setup');
   }
+
+  if (new URLSearchParams(window.location.search).get('e2e_verify') === '1') {
+    await runAutomatedE2EVerification();
+  }
 });
+
+async function runAutomatedE2EVerification() {
+  try {
+    // 1. Profil modalını açma testi
+    toggleProfileModal(true);
+    const profModal = document.getElementById('profile-modal');
+    const profOpen = profModal && !profModal.classList.contains('hidden');
+    const codeText = (document.getElementById('modal-my-friend-code') || {}).textContent || '';
+    console.log(`E2E_VERIFY [1/4] Profile Modal Open=${profOpen}, FriendCode=${codeText}`);
+    toggleProfileModal(false);
+
+    // 2. Klasik Düelloyu Başlat testi
+    const p1Inp = document.getElementById('input-p1-name');
+    if (p1Inp) p1Inp.value = 'EmirhanTest';
+    selectGameMode('link');
+    await handlePrimaryStartAction();
+    const qView = document.getElementById('view-question');
+    const qOpenLink = qView && !qView.classList.contains('hidden');
+    const optCountLink = document.querySelectorAll('#options-container .option-btn').length;
+    console.log(`E2E_VERIFY [2/4] Klasik Duello Start Open=${qOpenLink}, Options=${optCountLink}`);
+
+    // 3. Yan Yana Düelloyu Başlat testi
+    resetToHome();
+    if (p1Inp) p1Inp.value = 'EmirhanTest';
+    selectGameMode('pass');
+    await handlePrimaryStartAction();
+    const qOpenPass = qView && !qView.classList.contains('hidden');
+    const optCountPass = document.querySelectorAll('#options-container .option-btn').length;
+    console.log(`E2E_VERIFY [3/4] Yan Yana Duello Start Open=${qOpenPass}, Options=${optCountPass}`);
+
+    // 4. Canlı Oda Kur & Kod Al testi
+    resetToHome();
+    if (p1Inp) p1Inp.value = 'EmirhanTest';
+    selectGameMode('arena');
+    await handlePrimaryStartAction();
+    const lobbyView = document.getElementById('view-live-room-lobby');
+    const lobbyOpen = lobbyView && !lobbyView.classList.contains('hidden');
+    const roomCode = (document.getElementById('live-lobby-room-code') || {}).textContent || '';
+    const hostGoldCards = document.querySelectorAll('#live-lobby-participants-grid .host-gold-card').length;
+    console.log(`E2E_VERIFY [4/4] Canli Oda Lobby Open=${lobbyOpen}, RoomCode=${roomCode}, HostGoldCard=${hostGoldCards}`);
+  } catch (err) {
+    console.error('E2E_VERIFY_ERROR:', err && err.stack ? err.stack : err);
+  }
+}
