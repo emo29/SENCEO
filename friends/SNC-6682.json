@@ -13,7 +13,13 @@
   "latestRoomCode": "",
   "activeRooms": [],
   "incomingRequests": [],
-  "acceptedFriends": [],
+  "acceptedFriends": [
+    {
+      "code": "SNC-3311",
+      "name": "ZZerban",
+      "acceptedAt": "2026-10-24T12:34:17.309Z"
+    }
+  ],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:34:14.404Z"
+  "updatedAt": "2026-10-24T12:34:17.309Z"
 }
