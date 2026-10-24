@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792811857119,
-  "latestRoomCode": "SNCTM6",
+  "latestRoomCode": "SNCCMC",
   "activeRooms": [
+    {
+      "code": "SNCCMC",
+      "p1": "sıradana",
+      "p2": "",
+      "p1FriendCode": "SNC-3375",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T03:19:13.596Z"
+    },
     {
       "code": "SNCTM6",
       "p1": "sıradana",
@@ -56,6 +72,6 @@
       "createdAt": "2026-10-24T03:16:18.254Z"
     }
   ],
-  "updatedAt": "2026-10-24T03:19:06.260Z",
+  "updatedAt": "2026-10-24T03:19:13.596Z",
   "deletedRoomCodes": []
 }
