@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792815007494,
-  "latestRoomCode": "SNCJPC",
+  "latestRoomCode": "SNC5WV",
   "activeRooms": [
+    {
+      "code": "SNC5WV",
+      "p1": "emirhan",
+      "p2": "",
+      "p1FriendCode": "SNC-7224",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T04:20:42.901Z"
+    },
     {
       "code": "SNCJPC",
       "p1": "emirhan",
@@ -61,6 +77,6 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-24T04:20:40.182Z",
+  "updatedAt": "2026-10-24T04:20:42.901Z",
   "deletedRoomCodes": []
 }
