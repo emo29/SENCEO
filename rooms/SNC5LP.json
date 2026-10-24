@@ -14,7 +14,7 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-1265"
   },
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "currentRound": 1,
   "p1": "B4ris",
   "p2": "emirhan",
@@ -39,8 +39,96 @@
   ],
   "cat": "cift",
   "thm": "brutal26",
-  "qIds": [],
+  "qIds": [
+    60,
+    34,
+    4,
+    46,
+    24
+  ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:29:18.456Z"
+  "updatedAt": "2026-10-24T11:29:21.710Z",
+  "liveMatchState": {
+    "qIds": [
+      60,
+      34,
+      4,
+      46,
+      24
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-1265",
+        "name": "B4ris",
+        "team": "blue"
+      },
+      {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "team": "common"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-1265",
+    "activeAnswererName": "B4ris",
+    "activeGuesserCode": "SNC-7224",
+    "activeGuesserName": "emirhan",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-1265": {
+        "code": "SNC-1265",
+        "name": "B4ris",
+        "team": "blue",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-7224": {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-1265": {
+        "code": "SNC-1265",
+        "name": "B4ris",
+        "team": "blue",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-7224": {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1792841361710,
+    "updatedAt": 1792841361710
+  }
 }
