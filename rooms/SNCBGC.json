@@ -47,7 +47,7 @@
     62
   ],
   "createdAt": "2026-10-24T12:43:52.867Z",
-  "updatedAt": "2026-10-24T12:45:11.388Z",
+  "updatedAt": "2026-10-24T12:45:14.241Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -94,19 +94,31 @@
     "activeAnswererName": "Mert",
     "activeGuesserCode": "SNC-6189",
     "activeGuesserName": "Hakan",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 2,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-6189": {
+        "code": "SNC-6189",
+        "name": "Hakan",
+        "guessIndex": 2,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "submittedAt": 1792845914241
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -216,9 +228,9 @@
         "code": "SNC-6189",
         "name": "Hakan",
         "team": "common",
-        "correct": 1,
-        "total": 1,
-        "points": 100
+        "correct": 2,
+        "total": 2,
+        "points": 200
       },
       "SNC-2119": {
         "code": "SNC-2119",
@@ -234,9 +246,9 @@
         "code": "SNC-6189",
         "name": "Hakan",
         "team": "common",
-        "correct": 1,
-        "total": 1,
-        "points": 100
+        "correct": 2,
+        "total": 2,
+        "points": 200
       },
       "SNC-2119": {
         "code": "SNC-2119",
@@ -247,8 +259,8 @@
         "points": 200
       }
     },
-    "phaseStartedAt": 1792845911388,
-    "updatedAt": 1792845911388
+    "phaseStartedAt": 1792845914241,
+    "updatedAt": 1792845914241
   },
   "lastMatchPercentage": 80,
   "lastCorrectCount": 4,
