@@ -1,15 +1,33 @@
 {
   "friendCode": "SNC-3675",
-  "username": "aaa1",
+  "username": "deneme1",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
   "provider": "guest",
   "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
   "lastXpActivityAt": 1792803650524,
-  "latestRoomCode": "SNCCDV",
+  "latestRoomCode": "SNCWYX",
   "activeRooms": [
+    {
+      "code": "SNCWYX",
+      "p1": "deneme1",
+      "p2": "aaa1",
+      "p1FriendCode": "SNC-3675",
+      "p2FriendCode": "SNC-3675",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T02:25:40.290Z"
+    },
     {
       "code": "SNCCDV",
       "p1": "aaa1",
@@ -83,6 +101,19 @@
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-24T01:14:56.548Z"
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCWYX_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "aaa1 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCWYX)",
+      "fromCode": "SNC-3675",
+      "fromName": "aaa1",
+      "roomCode": "SNCWYX",
+      "read": false,
+      "createdAt": "2026-10-24T02:25:40.290Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T02:25:40.290Z",
+  "deletedRoomCodes": []
 }
