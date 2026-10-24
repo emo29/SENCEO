@@ -15,18 +15,18 @@
     {
       "code": "SNCJPC",
       "p1": "emirhan",
-      "p2": "",
+      "p2": "salihcan",
       "p1FriendCode": "SNC-7224",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-6206",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-24T04:03:19.623Z"
+      "updatedAt": "2026-10-24T04:08:29.688Z"
     },
     {
       "code": "SNC5MG",
@@ -47,7 +47,19 @@
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-24T04:03:19.623Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCJPC_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "salihcan 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCJPC)",
+      "fromCode": "SNC-6206",
+      "fromName": "salihcan",
+      "roomCode": "SNCJPC",
+      "read": false,
+      "createdAt": "2026-10-24T04:08:29.689Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T04:08:29.689Z",
   "deletedRoomCodes": []
 }
