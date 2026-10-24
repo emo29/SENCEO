@@ -1,0 +1,37 @@
+{
+  "friendCode": "SNC-8029",
+  "username": "sıradana",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792846340348,
+  "latestRoomCode": "SNCZGZ",
+  "activeRooms": [
+    {
+      "code": "SNCZGZ",
+      "p1": "sıradana",
+      "p2": "",
+      "p1FriendCode": "SNC-8029",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:52:20.348Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-24T12:52:20.348Z",
+  "deletedRoomCodes": []
+}
