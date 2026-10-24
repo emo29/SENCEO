@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T11:27:35.459Z",
+  "updatedAt": "2026-10-24T11:42:38.880Z",
   "players": [
     {
       "friendCode": "SNC-3375",
@@ -128,7 +128,7 @@
     },
     {
       "friendCode": "SNC-1265",
-      "username": "B4ris",
+      "username": "ZZerban",
       "avatar": "😎",
       "level": 1,
       "xp": 0,
@@ -138,7 +138,7 @@
       "isPermanentMember": false,
       "passwordProtected": false,
       "lastXpActivityAt": 1792808341590,
-      "updatedAt": "2026-10-24T11:27:35.459Z"
+      "updatedAt": "2026-10-24T11:42:38.880Z"
     },
     {
       "friendCode": "SNC-9189",
