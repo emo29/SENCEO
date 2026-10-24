@@ -10,11 +10,29 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792845373951,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCLUQ",
+  "activeRooms": [
+    {
+      "code": "SNCLUQ",
+      "p1": "Hakan",
+      "p2": "",
+      "p1FriendCode": "SNC-3180",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:36:16.874Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:36:13.951Z",
-  "lastPropagatedName": "Hakan"
+  "updatedAt": "2026-10-24T12:36:16.874Z",
+  "lastPropagatedName": "Hakan",
+  "deletedRoomCodes": []
 }
