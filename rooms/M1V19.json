@@ -2,7 +2,7 @@
   "code": "M1V19",
   "roomType": "live_arena",
   "arenaFormat": "1v1",
-  "status": "live_in_progress",
+  "status": "live_lobby",
   "hostCode": "SNC-1001",
   "hostName": "Oyuncu_A",
   "p1": "Oyuncu_A",
@@ -24,109 +24,7 @@
     }
   ],
   "liveSettings": {},
-  "p1Id": "USR_1X4X9II",
-  "p2FriendCode": "SNC-9999",
-  "updatedAt": "2026-10-24T03:56:54.304Z",
-  "cat": "genel",
-  "qIds": [
-    1,
-    2,
-    3,
-    4,
-    5
-  ],
-  "liveMatchState": {
-    "qIds": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "qIndex": 0,
-    "currentQIndex": 0,
-    "turnStep": 1,
-    "stepProgressInTurn": 0,
-    "turnOrder": [
-      {
-        "code": "SNC-1001",
-        "name": "Oyuncu_A",
-        "team": "A"
-      },
-      {
-        "code": "SNC-1002",
-        "name": "Oyuncu_B",
-        "team": "B"
-      }
-    ],
-    "activeTurnOrderIdx": 0,
-    "activeAnswererCode": "SNC-1001",
-    "activeAnswererName": "Oyuncu_A",
-    "activeGuesserCode": "SNC-1002",
-    "activeGuesserName": "Oyuncu_B",
-    "subPhase": "reveal",
-    "currentAnswer": 2,
-    "currentAnswerComment": {
-      "emoji": "🔥",
-      "text": "Oyuncu_A cevabı"
-    },
-    "currentCustomOption": "",
-    "currentGuess": 2,
-    "currentGuessComment": {
-      "emoji": "🎯",
-      "text": "Oyuncu_B tahmini"
-    },
-    "guessesByPlayer": {
-      "SNC-1002": {
-        "code": "SNC-1002",
-        "name": "Oyuncu",
-        "guessIndex": 2,
-        "comment": {
-          "emoji": "🎯",
-          "text": "Oyuncu_B tahmini"
-        },
-        "isCorrect": true,
-        "submittedAt": 1792814214304
-      }
-    },
-    "history": [],
-    "scores": {
-      "SNC-1001": {
-        "code": "SNC-1001",
-        "name": "Oyuncu_A",
-        "team": "A",
-        "correct": 0,
-        "total": 0,
-        "points": 0
-      },
-      "SNC-1002": {
-        "code": "SNC-1002",
-        "name": "Oyuncu_B",
-        "team": "B",
-        "correct": 1,
-        "total": 1,
-        "points": 100
-      }
-    },
-    "scoresByPlayer": {
-      "SNC-1001": {
-        "code": "SNC-1001",
-        "name": "Oyuncu_A",
-        "team": "A",
-        "correct": 0,
-        "total": 0,
-        "points": 0
-      },
-      "SNC-1002": {
-        "code": "SNC-1002",
-        "name": "Oyuncu_B",
-        "team": "B",
-        "correct": 1,
-        "total": 1,
-        "points": 100
-      }
-    },
-    "phaseStartedAt": 1792814214304,
-    "updatedAt": 1792814214304
-  }
+  "p1Id": "USR_LEUVH3I",
+  "p2FriendCode": "SNC-7788",
+  "updatedAt": "2026-10-24T03:59:34.923Z"
 }
