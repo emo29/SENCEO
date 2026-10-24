@@ -71,7 +71,7 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-1100"
   },
-  "updatedAt": "2026-10-24T11:36:26.157Z",
+  "updatedAt": "2026-10-24T11:36:27.338Z",
   "cat": "genel",
   "currentRound": 1,
   "liveLeaderboard": null,
@@ -90,8 +90,8 @@
       4,
       5
     ],
-    "qIndex": 3,
-    "currentQIndex": 3,
+    "qIndex": 4,
+    "currentQIndex": 4,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -136,36 +136,24 @@
         "team": "red"
       }
     ],
-    "activeTurnOrderIdx": 3,
-    "activeAnswererCode": "SNC-1103",
-    "activeAnswererName": "Oyuncu_D",
-    "activeGuesserCode": "SNC-1104",
-    "activeGuesserName": "Oyuncu_E",
-    "subPhase": "reveal",
-    "currentAnswer": 2,
+    "activeTurnOrderIdx": 4,
+    "activeAnswererCode": "SNC-1104",
+    "activeAnswererName": "Oyuncu_E",
+    "activeGuesserCode": "SNC-1105",
+    "activeGuesserName": "Oyuncu_F",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
-      "emoji": "🔥",
-      "text": "Oyuncu_D lock_answer"
+      "emoji": "",
+      "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 2,
+    "currentGuess": null,
     "currentGuessComment": {
-      "emoji": "🔥",
-      "text": "Oyuncu_E lock_guess"
+      "emoji": "",
+      "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-1104": {
-        "code": "SNC-1104",
-        "name": "Oyuncu_E",
-        "guessIndex": 2,
-        "comment": {
-          "emoji": "🔥",
-          "text": "Oyuncu_E lock_guess"
-        },
-        "isCorrect": true,
-        "submittedAt": 1792841786157
-      }
-    },
+    "guessesByPlayer": {},
     "history": [
       {
         "qIndex": 0,
@@ -266,6 +254,40 @@
             },
             "isCorrect": true,
             "submittedAt": 1792841782630
+          }
+        }
+      },
+      {
+        "qIndex": 3,
+        "qId": 4,
+        "answererCode": "SNC-1103",
+        "answererName": "Oyuncu_D",
+        "guesserCode": "SNC-1104",
+        "guesserName": "Oyuncu_E",
+        "answerIdx": 2,
+        "guessIdx": 2,
+        "answerIndex": 2,
+        "answerComment": {
+          "emoji": "🔥",
+          "text": "Oyuncu_D lock_answer"
+        },
+        "guessComment": {
+          "emoji": "🔥",
+          "text": "Oyuncu_E lock_guess"
+        },
+        "isCorrect": true,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-1104": {
+            "code": "SNC-1104",
+            "name": "Oyuncu_E",
+            "guessIndex": 2,
+            "comment": {
+              "emoji": "🔥",
+              "text": "Oyuncu_E lock_guess"
+            },
+            "isCorrect": true,
+            "submittedAt": 1792841786157
           }
         }
       }
@@ -402,7 +424,7 @@
         "points": 0
       }
     },
-    "phaseStartedAt": 1792841786157,
-    "updatedAt": 1792841786157
+    "phaseStartedAt": 1792841787338,
+    "updatedAt": 1792841787338
   }
 }
