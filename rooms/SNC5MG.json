@@ -1,0 +1,68 @@
+{
+  "code": "SNC5MG",
+  "p1Id": "USR_FW6OPX9",
+  "p1FriendCode": "SNC-7224",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "emirhan",
+  "p2": "",
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [
+    31,
+    30,
+    1,
+    27,
+    9
+  ],
+  "usedQuestionIds": [
+    31,
+    30,
+    1,
+    27,
+    9
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    2,
+    0,
+    1,
+    0,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "🤔",
+      "text": "zaten her gün patates kızartması yiyorum :D"
+    },
+    {
+      "emoji": "😂",
+      "text": "muhakkak"
+    },
+    {
+      "emoji": "🔥",
+      "text": "ak47 fena olmaz"
+    },
+    {
+      "emoji": "😎",
+      "text": "green card lazım"
+    },
+    {
+      "emoji": "💀",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-24T02:08:54.165Z"
+}
