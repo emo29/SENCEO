@@ -28,7 +28,7 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-1100"
   },
-  "updatedAt": "2026-10-24T11:32:46.800Z",
+  "updatedAt": "2026-10-24T11:32:50.192Z",
   "cat": "genel",
   "currentRound": 1,
   "liveLeaderboard": null,
@@ -68,11 +68,11 @@
     "activeAnswererName": "Oyuncu_B",
     "activeGuesserCode": "SNC-1100",
     "activeGuesserName": "Oyuncu_A",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 2,
     "currentAnswerComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "🔥",
+      "text": "Oyuncu_B lock_answer"
     },
     "currentCustomOption": "",
     "currentGuess": null,
@@ -153,7 +153,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792841566800,
-    "updatedAt": 1792841566800
+    "phaseStartedAt": 1792841570192,
+    "updatedAt": 1792841570192
   }
 }
