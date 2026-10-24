@@ -10,7 +10,7 @@
     "ffaSubMode": "ebeli",
     "teamSubMode": "",
     "turnStep": 1,
-    "timerSeconds": 0,
+    "timerSeconds": 30,
     "starterMode": "manual",
     "selectedStarterCode": "SNC-1265"
   },
@@ -42,5 +42,5 @@
   "qIds": [],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:28:02.763Z"
+  "updatedAt": "2026-10-24T11:28:14.010Z"
 }
