@@ -63,7 +63,13 @@
     }
   ],
   "incomingRequests": [],
-  "acceptedFriends": [],
+  "acceptedFriends": [
+    {
+      "code": "SNC-1265",
+      "name": "ZZerban",
+      "acceptedAt": "2026-10-24T17:55:00.220Z"
+    }
+  ],
   "notifications": [
     {
       "id": "TURN_P1_SNCJPC_R1",
@@ -77,7 +83,7 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-24T14:28:19.493Z",
+  "updatedAt": "2026-10-24T17:55:00.220Z",
   "deletedRoomCodes": [],
   "isPasswordProtected": true
 }
