@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792841554614,
-  "latestRoomCode": "TQODTZ",
+  "latestRoomCode": "TSCDSL",
   "activeRooms": [
+    {
+      "code": "TSCDSL",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1100",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "2v2",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T11:34:48.119Z"
+    },
     {
       "code": "TQODTZ",
       "p1": "Oyuncu_A",
@@ -64,6 +80,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T11:33:57.551Z",
+  "updatedAt": "2026-10-24T11:34:48.119Z",
   "deletedRoomCodes": []
 }
