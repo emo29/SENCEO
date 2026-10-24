@@ -1,0 +1,49 @@
+{
+  "friendCode": "SNC-6283",
+  "username": "denea",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792809513334,
+  "latestRoomCode": "SNCMYN",
+  "activeRooms": [
+    {
+      "code": "SNCMYN",
+      "p1": "denea",
+      "p2": "deneb",
+      "p1FriendCode": "SNC-6283",
+      "p2FriendCode": "SNC-6283",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T02:38:33.335Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCMYN_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "deneb 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCMYN)",
+      "fromCode": "SNC-6283",
+      "fromName": "deneb",
+      "roomCode": "SNCMYN",
+      "read": false,
+      "createdAt": "2026-10-24T02:38:33.335Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T02:38:33.335Z",
+  "deletedRoomCodes": []
+}
