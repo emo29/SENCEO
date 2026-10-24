@@ -10,11 +10,29 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792845740496,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCUZT",
+  "activeRooms": [
+    {
+      "code": "SNCUZT",
+      "p1": "Hakan",
+      "p2": "",
+      "p1FriendCode": "SNC-4396",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:42:23.409Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:42:20.496Z",
-  "lastPropagatedName": "Hakan"
+  "updatedAt": "2026-10-24T12:42:23.409Z",
+  "lastPropagatedName": "Hakan",
+  "deletedRoomCodes": []
 }
