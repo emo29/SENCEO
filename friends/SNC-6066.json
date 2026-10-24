@@ -1,0 +1,44 @@
+{
+  "friendCode": "SNC-6066",
+  "username": "aaa1",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "lastXpActivityAt": 1792804954138,
+  "latestRoomCode": "SNCCDV",
+  "activeRooms": [
+    {
+      "code": "SNCCDV",
+      "p1": "aaa1",
+      "p2": "sağdakipc1",
+      "p1FriendCode": "SNC-6066",
+      "p2FriendCode": "SNC-6066",
+      "roomType": "live_arena",
+      "arenaFormat": "ffa",
+      "status": "waiting_p1_half2",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T01:22:34.138Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCCDV_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "sağdakipc1 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCCDV)",
+      "fromCode": "SNC-6066",
+      "fromName": "sağdakipc1",
+      "roomCode": "SNCCDV",
+      "read": false,
+      "createdAt": "2026-10-24T01:22:34.138Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T01:22:34.138Z"
+}
