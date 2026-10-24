@@ -1,0 +1,37 @@
+{
+  "friendCode": "SNC-5838",
+  "username": "sıradana",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792814195125,
+  "latestRoomCode": "SNC9C7",
+  "activeRooms": [
+    {
+      "code": "SNC9C7",
+      "p1": "sıradana",
+      "p2": "",
+      "p1FriendCode": "SNC-5838",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T03:56:35.125Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-24T03:56:35.125Z",
+  "deletedRoomCodes": []
+}
