@@ -48,7 +48,7 @@
   ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:30:54.642Z",
+  "updatedAt": "2026-10-24T11:31:02.156Z",
   "liveMatchState": {
     "qIds": [
       60,
@@ -57,8 +57,8 @@
       46,
       24
     ],
-    "qIndex": 1,
-    "currentQIndex": 1,
+    "qIndex": 2,
+    "currentQIndex": 2,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -73,36 +73,24 @@
         "team": "common"
       }
     ],
-    "activeTurnOrderIdx": 1,
-    "activeAnswererCode": "SNC-7224",
-    "activeAnswererName": "emirhan",
-    "activeGuesserCode": "SNC-1265",
-    "activeGuesserName": "B4ris",
-    "subPhase": "reveal",
-    "currentAnswer": 2,
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-1265",
+    "activeAnswererName": "B4ris",
+    "activeGuesserCode": "SNC-7224",
+    "activeGuesserName": "emirhan",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
-      "emoji": "💀",
-      "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
+      "emoji": "",
+      "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 3,
+    "currentGuess": null,
     "currentGuessComment": {
-      "emoji": "💀",
-      "text": "obaaaaa"
+      "emoji": "",
+      "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-1265": {
-        "code": "SNC-1265",
-        "name": "B4ris",
-        "guessIndex": 3,
-        "comment": {
-          "emoji": "💀",
-          "text": "obaaaaa"
-        },
-        "isCorrect": false,
-        "submittedAt": 1792841454642
-      }
-    },
+    "guessesByPlayer": {},
     "history": [
       {
         "qIndex": 0,
@@ -135,6 +123,40 @@
             },
             "isCorrect": true,
             "submittedAt": 1792841399075
+          }
+        }
+      },
+      {
+        "qIndex": 1,
+        "qId": 34,
+        "answererCode": "SNC-7224",
+        "answererName": "emirhan",
+        "guesserCode": "SNC-1265",
+        "guesserName": "B4ris",
+        "answerIdx": 2,
+        "guessIdx": 3,
+        "answerIndex": 2,
+        "answerComment": {
+          "emoji": "💀",
+          "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
+        },
+        "guessComment": {
+          "emoji": "💀",
+          "text": "obaaaaa"
+        },
+        "isCorrect": false,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-1265": {
+            "code": "SNC-1265",
+            "name": "B4ris",
+            "guessIndex": 3,
+            "comment": {
+              "emoji": "💀",
+              "text": "obaaaaa"
+            },
+            "isCorrect": false,
+            "submittedAt": 1792841454642
           }
         }
       }
@@ -175,7 +197,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792841454642,
-    "updatedAt": 1792841454642
+    "phaseStartedAt": 1792841462156,
+    "updatedAt": 1792841462156
   }
 }
