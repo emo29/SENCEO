@@ -180,6 +180,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "NUDGE_SNCZGZ_1792846348472",
+      "type": "next_round_nudge",
+      "title": "🔥 2. Raund Çağrısı! (İlk Sıra Sende)",
+      "message": "sıradana #SNCZGZ odasında 2. Raunda geçmen için sana bildirim gönderdi! İlk sıra sende, hemen başlat!",
+      "fromCode": "SNC-8029",
+      "fromName": "sıradana",
+      "roomCode": "SNCZGZ",
+      "read": false,
+      "createdAt": "2026-10-24T12:52:28.472Z"
+    },
+    {
       "id": "DONE_P2_SNCZGZ_R1",
       "type": "completed",
       "title": "🏆 sıradana Tahminlerini Tamamladı!",
@@ -235,6 +246,6 @@
       "createdAt": "2026-10-24T03:56:42.937Z"
     }
   ],
-  "updatedAt": "2026-10-24T12:52:26.145Z",
+  "updatedAt": "2026-10-24T12:52:28.472Z",
   "deletedRoomCodes": []
 }
