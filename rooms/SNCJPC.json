@@ -164,7 +164,11 @@
   "lastCorrectCount": 7,
   "lastTotalQuestions": 10,
   "completedAt": "2026-10-24T04:10:04.823Z",
-  "updatedAt": "2026-10-24T04:10:04.546Z",
+  "updatedAt": "2026-10-24T04:14:30.311Z",
   "nextRoundSecondCode": "SNC-7224",
-  "nextRoundSecondName": "emirhan"
+  "nextRoundSecondName": "emirhan",
+  "round2NudgeAt": 1792815270311,
+  "round2NudgeFrom": "emirhan",
+  "round2NudgeFromCode": "SNC-7224",
+  "round2NudgeTargetRound": 2
 }
