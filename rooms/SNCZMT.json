@@ -47,7 +47,7 @@
     66
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T19:02:18.542Z",
+  "updatedAt": "2026-10-24T19:02:30.642Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -94,19 +94,31 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-2002",
     "activeGuesserName": "komnenos",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 0,
     "currentAnswerComment": {
       "emoji": "",
       "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 3,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-2002": {
+        "code": "SNC-2002",
+        "name": "komnenos",
+        "guessIndex": 3,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "submittedAt": 1792868550642
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -259,7 +271,7 @@
         "name": "komnenos",
         "team": "common",
         "correct": 2,
-        "total": 2,
+        "total": 3,
         "points": 200
       }
     },
@@ -277,12 +289,12 @@
         "name": "komnenos",
         "team": "common",
         "correct": 2,
-        "total": 2,
+        "total": 3,
         "points": 200
       }
     },
-    "phaseStartedAt": 1792868538542,
-    "updatedAt": 1792868538542
+    "phaseStartedAt": 1792868550642,
+    "updatedAt": 1792868550642
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
