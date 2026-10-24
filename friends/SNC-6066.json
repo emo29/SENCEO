@@ -43,6 +43,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "NUDGE_SNCCFJ_1792806818021",
+      "type": "nudge",
+      "title": "⏰ Düello Hatırlatması!",
+      "message": "sağdakipc1 seni #SNCCFJ kodlu düelloda bekliyor! Hadi 5 soruyu tahmin et!",
+      "fromCode": "SNC-6066",
+      "fromName": "sağdakipc1",
+      "roomCode": "SNCCFJ",
+      "read": false,
+      "createdAt": "2026-10-24T01:53:38.022Z"
+    },
+    {
       "id": "TURN_P1_SNCCDV_R1",
       "type": "turn",
       "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
@@ -54,5 +65,5 @@
       "createdAt": "2026-10-24T01:22:34.138Z"
     }
   ],
-  "updatedAt": "2026-10-24T01:22:51.242Z"
+  "updatedAt": "2026-10-24T01:53:38.022Z"
 }
