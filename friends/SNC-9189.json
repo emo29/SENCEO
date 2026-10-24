@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792808675406,
-  "latestRoomCode": "SNC763",
+  "latestRoomCode": "SNCWYX",
   "activeRooms": [
+    {
+      "code": "SNCWYX",
+      "p1": "deneme1",
+      "p2": "",
+      "p1FriendCode": "SNC-9189",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T02:24:56.978Z"
+    },
     {
       "code": "SNC763",
       "p1": "deneme1",
@@ -32,6 +48,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T02:24:41.846Z",
+  "updatedAt": "2026-10-24T02:24:56.978Z",
   "deletedRoomCodes": []
 }
