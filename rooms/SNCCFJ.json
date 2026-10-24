@@ -5,7 +5,7 @@
   "p1FriendCode": "SNC-3675",
   "p2FriendCode": "SNC-6066",
   "roomType": "live_arena",
-  "arenaFormat": "ffa",
+  "arenaFormat": "3v3",
   "liveSettings": {},
   "status": "lobby_open",
   "currentRound": 1,
@@ -33,5 +33,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T01:01:03.299Z",
-  "updatedAt": "2026-10-24T01:03:43.717Z"
+  "updatedAt": "2026-10-24T01:03:46.820Z"
 }
