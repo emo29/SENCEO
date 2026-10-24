@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792841554614,
-  "latestRoomCode": "TZKTMY",
+  "latestRoomCode": "TANZUU",
   "activeRooms": [
+    {
+      "code": "TANZUU",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1100",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:34:23.864Z"
+    },
     {
       "code": "TZKTMY",
       "p1": "Oyuncu_A",
@@ -144,6 +160,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T11:36:58.122Z",
+  "updatedAt": "2026-10-24T12:34:23.864Z",
   "deletedRoomCodes": []
 }
