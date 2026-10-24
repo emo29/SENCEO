@@ -47,7 +47,7 @@
     11
   ],
   "createdAt": "2026-10-24T12:46:38.015Z",
-  "updatedAt": "2026-10-24T12:48:01.592Z",
+  "updatedAt": "2026-10-24T12:48:03.337Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -73,8 +73,8 @@
       66,
       11
     ],
-    "qIndex": 3,
-    "currentQIndex": 3,
+    "qIndex": 4,
+    "currentQIndex": 4,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -89,36 +89,24 @@
         "team": "common"
       }
     ],
-    "activeTurnOrderIdx": 1,
-    "activeAnswererCode": "SNC-1865",
-    "activeAnswererName": "Mert",
-    "activeGuesserCode": "SNC-5480",
-    "activeGuesserName": "Hakan",
-    "subPhase": "reveal",
-    "currentAnswer": 2,
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-5480",
+    "activeAnswererName": "Hakan",
+    "activeGuesserCode": "SNC-1865",
+    "activeGuesserName": "Mert",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 2,
+    "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-5480": {
-        "code": "SNC-5480",
-        "name": "Hakan",
-        "guessIndex": 2,
-        "comment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "submittedAt": 1792846081592
-      }
-    },
+    "guessesByPlayer": {},
     "history": [
       {
         "qIndex": 0,
@@ -221,6 +209,40 @@
             "submittedAt": 1792846074455
           }
         }
+      },
+      {
+        "qIndex": 3,
+        "qId": 66,
+        "answererCode": "SNC-1865",
+        "answererName": "Mert",
+        "guesserCode": "SNC-5480",
+        "guesserName": "Hakan",
+        "answerIdx": 2,
+        "guessIdx": 2,
+        "answerIndex": 2,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-5480": {
+            "code": "SNC-5480",
+            "name": "Hakan",
+            "guessIndex": 2,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": true,
+            "submittedAt": 1792846081592
+          }
+        }
       }
     ],
     "scores": {
@@ -259,8 +281,8 @@
         "points": 200
       }
     },
-    "phaseStartedAt": 1792846081592,
-    "updatedAt": 1792846081592
+    "phaseStartedAt": 1792846083337,
+    "updatedAt": 1792846083337
   },
   "lastMatchPercentage": 80,
   "lastCorrectCount": 4,
