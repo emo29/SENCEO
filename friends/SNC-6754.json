@@ -10,11 +10,29 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792845320837,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCNG7",
+  "activeRooms": [
+    {
+      "code": "SNCNG7",
+      "p1": "Ayşe",
+      "p2": "Burak",
+      "p1FriendCode": "SNC-6252",
+      "p2FriendCode": "SNC-6754",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:35:31.354Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:35:20.837Z",
-  "lastPropagatedName": "Burak"
+  "updatedAt": "2026-10-24T12:35:31.354Z",
+  "lastPropagatedName": "Burak",
+  "deletedRoomCodes": []
 }
