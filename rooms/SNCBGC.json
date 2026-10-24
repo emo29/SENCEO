@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "currentRound": 1,
   "p1": "Hakan",
   "p2": "Mert",
@@ -39,7 +39,107 @@
   ],
   "cat": "genel",
   "thm": "luminous",
-  "qIds": [],
+  "qIds": [
+    30,
+    70,
+    11,
+    31,
+    9
+  ],
   "createdAt": "2026-10-24T12:43:52.867Z",
-  "updatedAt": "2026-10-24T12:43:57.655Z"
+  "updatedAt": "2026-10-24T12:43:59.326Z",
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
+  "usedQuestionIds": [
+    30,
+    70,
+    11,
+    31,
+    9
+  ],
+  "liveMatchState": {
+    "qIds": [
+      30,
+      70,
+      11,
+      31,
+      9
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-2119",
+        "name": "Mert",
+        "team": "common"
+      },
+      {
+        "code": "SNC-6189",
+        "name": "Hakan",
+        "team": "common"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-2119",
+    "activeAnswererName": "Mert",
+    "activeGuesserCode": "SNC-6189",
+    "activeGuesserName": "Hakan",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-2119": {
+        "code": "SNC-2119",
+        "name": "Mert",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-6189": {
+        "code": "SNC-6189",
+        "name": "Hakan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-2119": {
+        "code": "SNC-2119",
+        "name": "Mert",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-6189": {
+        "code": "SNC-6189",
+        "name": "Hakan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1792845839326,
+    "updatedAt": 1792845839326
+  }
 }
