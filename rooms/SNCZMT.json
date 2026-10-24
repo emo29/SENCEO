@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "live_in_progress",
+  "status": "completed",
   "currentRound": 2,
   "p1": "emirhan",
   "p2": "komnenos",
@@ -47,12 +47,83 @@
     66
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T19:02:30.642Z",
-  "liveLeaderboard": null,
-  "p1Answers": [],
-  "p2Guesses": [],
-  "p1Comments": [],
-  "p2Comments": [],
+  "updatedAt": "2026-10-24T19:02:36.859Z",
+  "liveLeaderboard": [
+    {
+      "code": "SNC-2002",
+      "name": "komnenos",
+      "team": "common",
+      "correct": 2,
+      "total": 3,
+      "points": 200
+    },
+    {
+      "code": "SNC-7224",
+      "name": "emirhan",
+      "team": "common",
+      "correct": 0,
+      "total": 2,
+      "points": 0
+    }
+  ],
+  "p1Answers": [
+    0,
+    2,
+    0,
+    1,
+    0
+  ],
+  "p2Guesses": [
+    0,
+    0,
+    0,
+    0,
+    3
+  ],
+  "p1Comments": [
+    {
+      "emoji": "😎",
+      "text": "amerikanya"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "🔥",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
+    }
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "😱",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
   "usedQuestionIds": [
     31,
     58,
@@ -94,7 +165,7 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-2002",
     "activeGuesserName": "komnenos",
-    "subPhase": "reveal",
+    "subPhase": "completed",
     "currentAnswer": 0,
     "currentAnswerComment": {
       "emoji": "",
@@ -255,6 +326,40 @@
             "submittedAt": 1792868514976
           }
         }
+      },
+      {
+        "qIndex": 4,
+        "qId": 66,
+        "answererCode": "SNC-7224",
+        "answererName": "emirhan",
+        "guesserCode": "SNC-2002",
+        "guesserName": "komnenos",
+        "answerIdx": 0,
+        "guessIdx": 3,
+        "answerIndex": 0,
+        "answerComment": {
+          "emoji": "",
+          "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-2002": {
+            "code": "SNC-2002",
+            "name": "komnenos",
+            "guessIndex": 3,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": false,
+            "submittedAt": 1792868550642
+          }
+        }
       }
     ],
     "scores": {
@@ -294,7 +399,7 @@
       }
     },
     "phaseStartedAt": 1792868550642,
-    "updatedAt": 1792868550642
+    "updatedAt": 1792868556859
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
