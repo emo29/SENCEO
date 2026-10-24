@@ -1,0 +1,33 @@
+{
+  "code": "TMMPSY",
+  "roomType": "live_arena",
+  "arenaFormat": "ffa",
+  "status": "lobby_open",
+  "hostCode": "SNC-1100",
+  "hostName": "Oyuncu_A",
+  "p1": "Oyuncu_A",
+  "p1FriendCode": "SNC-1100",
+  "participants": [
+    {
+      "name": "Oyuncu_A",
+      "code": "SNC-1100",
+      "isHost": true,
+      "role": "host",
+      "team": "common"
+    },
+    {
+      "name": "Oyuncu_B",
+      "code": "SNC-1101",
+      "isHost": false,
+      "role": "member",
+      "team": "common"
+    }
+  ],
+  "liveSettings": {
+    "turnStep": 5,
+    "ffaSubMode": "packet",
+    "starterMode": "manual",
+    "selectedStarterCode": "SNC-1100"
+  },
+  "updatedAt": "2026-10-24T12:37:54.134Z"
+}
