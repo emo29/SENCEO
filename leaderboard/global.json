@@ -433,20 +433,6 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792845997877,
       "updatedAt": "2026-10-24T12:46:37.877Z"
-    },
-    {
-      "friendCode": "SNC-9999",
-      "username": "TestUser999",
-      "avatar": "😎",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "guest",
-      "isPermanentMember": true,
-      "passwordProtected": true,
-      "lastXpActivityAt": 1792811578022,
-      "updatedAt": "2026-10-24T14:11:50.255Z"
     }
   ]
 }
