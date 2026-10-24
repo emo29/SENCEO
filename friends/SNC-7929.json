@@ -1,0 +1,37 @@
+{
+  "friendCode": "SNC-7929",
+  "username": "sıradanb",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792811779398,
+  "latestRoomCode": "SNCTM6",
+  "activeRooms": [
+    {
+      "code": "SNCTM6",
+      "p1": "sıradana",
+      "p2": "sıradanb",
+      "p1FriendCode": "SNC-3375",
+      "p2FriendCode": "SNC-7929",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T03:16:19.398Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-24T03:16:19.398Z",
+  "deletedRoomCodes": []
+}
