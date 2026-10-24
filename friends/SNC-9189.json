@@ -1,0 +1,37 @@
+{
+  "friendCode": "SNC-9189",
+  "username": "deneme1",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792808675406,
+  "latestRoomCode": "SNC763",
+  "activeRooms": [
+    {
+      "code": "SNC763",
+      "p1": "deneme1",
+      "p2": "",
+      "p1FriendCode": "SNC-9189",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T02:24:35.406Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-24T02:24:35.406Z",
+  "deletedRoomCodes": []
+}
