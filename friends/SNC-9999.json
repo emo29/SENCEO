@@ -1,14 +1,14 @@
 {
   "friendCode": "SNC-9999",
-  "username": "denemeb",
+  "username": "TestUser999",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
   "provider": "guest",
   "isPermanentMember": false,
-  "passwordProtected": false,
-  "passwordHash": "",
+  "passwordProtected": true,
+  "passwordHash": "MTIz",
   "lastXpActivityAt": 1792811578022,
   "latestRoomCode": "SNCZGZ",
   "activeRooms": [
@@ -246,6 +246,6 @@
       "createdAt": "2026-10-24T03:56:42.937Z"
     }
   ],
-  "updatedAt": "2026-10-24T12:52:28.472Z",
+  "updatedAt": "2026-10-24T14:07:27.080Z",
   "deletedRoomCodes": []
 }
