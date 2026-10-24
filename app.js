@@ -1567,7 +1567,9 @@ async function renderLeaderboardPage() {
     });
     if (res.ok) {
       const data = await res.json();
-      if (Array.isArray(data.leaderboard)) {
+      if (Array.isArray(data.players)) {
+        cloudPlayers = data.players;
+      } else if (Array.isArray(data.leaderboard)) {
         cloudPlayers = data.leaderboard;
       }
     }
@@ -1585,11 +1587,13 @@ async function renderLeaderboardPage() {
   });
 
   cloudPlayers.forEach((cp) => {
-    if (!cp || !cp.friendCode) return;
-    const isMe = cp.friendCode === userProfile.friendCode;
-    mergedMap.set(cp.friendCode, {
-      code: cp.friendCode,
-      name: `${cp.username || 'Oyuncu'} (${cp.friendCode})`,
+    const fCode = cp ? (cp.code || cp.friendCode) : '';
+    if (!fCode) return;
+    const isMe = fCode === userProfile.friendCode;
+    const rawName = cp.name || cp.username || 'Oyuncu';
+    mergedMap.set(fCode, {
+      code: fCode,
+      name: rawName.includes(fCode) ? rawName : `${rawName} (${fCode})`,
       lvl: isMe ? Math.max(myLvl, cp.level || 1) : (cp.level || 1),
       xp: isMe ? Math.max(myXp, cp.xp || 0) : (cp.xp || 0),
       correct: isMe ? Math.max(myCorrect, cp.questionsCorrect || 0) : (cp.questionsCorrect || 0),
