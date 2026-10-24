@@ -57,10 +57,10 @@
       "fromCode": "SNC-6206",
       "fromName": "salihcan",
       "roomCode": "SNCJPC",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-24T04:10:07.494Z",
+  "updatedAt": "2026-10-24T04:14:06.721Z",
   "deletedRoomCodes": []
 }
