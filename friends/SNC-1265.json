@@ -48,7 +48,19 @@
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-24T11:50:59.861Z",
+  "notifications": [
+    {
+      "id": "NUDGE_SNC5LP_1792844475870",
+      "type": "next_round_nudge",
+      "title": "🔥 2. Raund Çağrısı! (İlk Sıra Sende)",
+      "message": "emirhan #SNC5LP odasında 2. Raunda geçmen için sana bildirim gönderdi! İlk sıra sende, hemen başlat!",
+      "fromCode": "SNC-7224",
+      "fromName": "emirhan",
+      "roomCode": "SNC5LP",
+      "read": false,
+      "createdAt": "2026-10-24T12:21:15.870Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T12:21:15.870Z",
   "deletedRoomCodes": []
 }
