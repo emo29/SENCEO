@@ -1,0 +1,34 @@
+{
+  "code": "SNC2LG",
+  "p1Id": "USR_9I6XA8U",
+  "hostCode": "SNC-3675",
+  "p1FriendCode": "SNC-3675",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "ffa",
+  "liveSettings": {
+    "timerSeconds": 10,
+    "turnStep": 1,
+    "starterMode": "random",
+    "selectedStarterCode": "",
+    "ffaSubMode": "ebe"
+  },
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "soldakipc1",
+  "p2": "",
+  "participants": [
+    {
+      "name": "soldakipc1",
+      "code": "SNC-3675",
+      "role": "host",
+      "team": "common",
+      "isHost": true
+    }
+  ],
+  "cat": "genel",
+  "thm": "obsidian",
+  "qIds": [],
+  "createdAt": "2026-10-24T01:06:43.934Z",
+  "updatedAt": "2026-10-24T01:06:43.508Z"
+}
