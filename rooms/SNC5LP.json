@@ -48,7 +48,7 @@
   ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:33:55.727Z",
+  "updatedAt": "2026-10-24T11:37:54.643Z",
   "liveMatchState": {
     "qIds": [
       60,
@@ -78,13 +78,13 @@
     "activeAnswererName": "B4ris",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
-    "currentCustomOption": "",
+    "currentCustomOption": "direk babamı arayıp ağlarım",
     "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
@@ -265,7 +265,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792841635727,
-    "updatedAt": 1792841635727
+    "phaseStartedAt": 1792841874643,
+    "updatedAt": 1792841874643
   }
 }
