@@ -41,7 +41,7 @@
       "fromCode": "SNC-7929",
       "fromName": "sıradanb",
       "roomCode": "SNCTM6",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T03:17:35.331Z"
     },
     {
@@ -52,10 +52,10 @@
       "fromCode": "SNC-7929",
       "fromName": "sıradanb",
       "roomCode": "SNCTM6",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T03:16:18.254Z"
     }
   ],
-  "updatedAt": "2026-10-24T03:17:37.119Z",
+  "updatedAt": "2026-10-24T03:18:54.132Z",
   "deletedRoomCodes": []
 }
