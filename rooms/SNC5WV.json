@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "live_in_progress",
+  "status": "completed",
   "currentRound": 1,
   "p1": "emirhan",
   "p2": "salihcan",
@@ -47,7 +47,7 @@
     1
   ],
   "createdAt": "2026-10-24T04:20:40.448Z",
-  "updatedAt": "2026-10-24T04:26:49.969Z",
+  "updatedAt": "2026-10-24T04:26:56.214Z",
   "kickedCodes": [
     "SNC-3224"
   ],
@@ -80,7 +80,7 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-6206",
     "activeGuesserName": "salihcan",
-    "subPhase": "reveal",
+    "subPhase": "completed",
     "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "😱",
@@ -241,6 +241,40 @@
             "submittedAt": 1792815939847
           }
         }
+      },
+      {
+        "qIndex": 4,
+        "qId": 1,
+        "answererCode": "SNC-7224",
+        "answererName": "emirhan",
+        "guesserCode": "SNC-6206",
+        "guesserName": "salihcan",
+        "answerIdx": 2,
+        "guessIdx": 1,
+        "answerIndex": 2,
+        "answerComment": {
+          "emoji": "😱",
+          "text": "uykusuzum o yüzden böyle olur şu an"
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": "Eee değiştiremiyorum şıkkı"
+        },
+        "isCorrect": false,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-6206": {
+            "code": "SNC-6206",
+            "name": "salihcan",
+            "guessIndex": 1,
+            "comment": {
+              "emoji": "",
+              "text": "Eee değiştiremiyorum şıkkı"
+            },
+            "isCorrect": false,
+            "submittedAt": 1792816009969
+          }
+        }
       }
     ],
     "scores": {
@@ -280,6 +314,85 @@
       }
     },
     "phaseStartedAt": 1792816009969,
-    "updatedAt": 1792816009969
-  }
+    "updatedAt": 1792816016214
+  },
+  "liveLeaderboard": [
+    {
+      "code": "SNC-7224",
+      "name": "emirhan",
+      "team": "common",
+      "correct": 0,
+      "total": 2,
+      "points": 0
+    },
+    {
+      "code": "SNC-6206",
+      "name": "salihcan",
+      "team": "common",
+      "correct": 0,
+      "total": 3,
+      "points": 0
+    }
+  ],
+  "lastMatchPercentage": 0,
+  "lastCorrectCount": 0,
+  "lastTotalQuestions": 5,
+  "p1Answers": [
+    2,
+    1,
+    3,
+    2,
+    2
+  ],
+  "p2Guesses": [
+    1,
+    0,
+    2,
+    1,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "🤔",
+      "text": "bariz belli"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "💀",
+      "text": "en rahatı"
+    },
+    {
+      "emoji": "😎",
+      "text": ""
+    },
+    {
+      "emoji": "😱",
+      "text": "uykusuzum o yüzden böyle olur şu an"
+    }
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "🔥",
+      "text": "tost ne yenir ama gece gece"
+    },
+    {
+      "emoji": "🤔",
+      "text": "Sadece haklısın demesi de olabilir"
+    },
+    {
+      "emoji": "🤔",
+      "text": "3 saniye deme yalan olur"
+    },
+    {
+      "emoji": "",
+      "text": "Eee değiştiremiyorum şıkkı"
+    }
+  ]
 }
