@@ -47,8 +47,25 @@
     }
   ],
   "incomingRequests": [],
-  "acceptedFriends": [],
+  "acceptedFriends": [
+    {
+      "code": "SNC-7224",
+      "name": "emirhan",
+      "acceptedAt": "2026-10-24T17:54:59.442Z"
+    }
+  ],
   "notifications": [
+    {
+      "id": "FINVITE_SNC-7224_TO_SNC-1265",
+      "type": "friend_accepted",
+      "title": "🎉 Davet Linkinle Yeni Bağ Kuruldu!",
+      "message": "emirhan (SNC-7224) davet linkine tıkladı ve karşılıklı arkadaş bağlarınıza eklendi!",
+      "fromCode": "SNC-7224",
+      "fromName": "emirhan",
+      "roomCode": "",
+      "read": false,
+      "createdAt": "2026-10-24T17:54:59.442Z"
+    },
     {
       "id": "NUDGE_SNC5LP_1792844475870",
       "type": "next_round_nudge",
@@ -61,6 +78,6 @@
       "createdAt": "2026-10-24T12:21:15.870Z"
     }
   ],
-  "updatedAt": "2026-10-24T12:21:15.870Z",
+  "updatedAt": "2026-10-24T17:54:59.442Z",
   "deletedRoomCodes": []
 }
