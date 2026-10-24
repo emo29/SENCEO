@@ -1,0 +1,73 @@
+{
+  "code": "SNCWYX",
+  "p1Id": "USR_CG0AFWW",
+  "p1FriendCode": "SNC-9189",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "deneme1",
+  "p2": "",
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [
+    32,
+    70,
+    53,
+    26,
+    2
+  ],
+  "usedQuestionIds": [
+    62,
+    66,
+    9,
+    28,
+    30,
+    32,
+    70,
+    53,
+    26,
+    2
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p1Comments": [
+    {
+      "emoji": "😂",
+      "text": "a"
+    },
+    {
+      "emoji": "😱",
+      "text": "a"
+    },
+    {
+      "emoji": "😎",
+      "text": "a"
+    },
+    {
+      "emoji": "💀",
+      "text": "b"
+    },
+    {
+      "emoji": "😱",
+      "text": "c"
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-24T02:24:55.905Z"
+}
