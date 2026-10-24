@@ -47,7 +47,7 @@
     1
   ],
   "createdAt": "2026-10-24T04:20:40.448Z",
-  "updatedAt": "2026-10-24T04:22:57.953Z",
+  "updatedAt": "2026-10-24T04:23:12.570Z",
   "kickedCodes": [
     "SNC-3224"
   ],
@@ -80,11 +80,11 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-6206",
     "activeGuesserName": "salihcan",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 2,
     "currentAnswerComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "🤔",
+      "text": "bariz belli"
     },
     "currentCustomOption": "",
     "currentGuess": null,
@@ -130,7 +130,7 @@
         "points": 0
       }
     },
-    "phaseStartedAt": 1792815777953,
-    "updatedAt": 1792815777953
+    "phaseStartedAt": 1792815792570,
+    "updatedAt": 1792815792570
   }
 }
