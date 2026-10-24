@@ -34,6 +34,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "NUDGE_SNCJPC_1792815557595",
+      "type": "next_round_nudge",
+      "title": "🔥 2. Raund Çağrısı! (İlk Sıra Sende)",
+      "message": "emirhan #SNCJPC odasında 2. Raunda geçmen için sana bildirim gönderdi! İlk sıra sende, hemen başlat!",
+      "fromCode": "SNC-7224",
+      "fromName": "emirhan",
+      "roomCode": "SNCJPC",
+      "read": false,
+      "createdAt": "2026-10-24T04:19:17.595Z"
+    },
+    {
       "id": "NUDGE_SNCJPC_1792815480286",
       "type": "next_round_nudge",
       "title": "🔥 2. Raund Çağrısı! (İlk Sıra Sende)",
@@ -111,6 +122,6 @@
       "createdAt": "2026-10-24T04:10:06.380Z"
     }
   ],
-  "updatedAt": "2026-10-24T04:18:00.286Z",
+  "updatedAt": "2026-10-24T04:19:17.595Z",
   "deletedRoomCodes": []
 }
