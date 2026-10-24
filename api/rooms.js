@@ -82,7 +82,7 @@ async function getJsonFromCloudPath(relPath) {
   return { data: JSON.parse(content), sha: data.sha };
 }
 
-async function putJsonToCloudPath(relPath, payloadOrUpdater, commitMessage, maxRetries = 4) {
+async function putJsonToCloudPath(relPath, payloadOrUpdater, commitMessage, maxRetries = 7) {
   if (!GH_TOKEN) {
     return typeof payloadOrUpdater === "function" ? payloadOrUpdater(null) : payloadOrUpdater;
   }
@@ -125,7 +125,7 @@ async function putJsonToCloudPath(relPath, payloadOrUpdater, commitMessage, maxR
     }
 
     if (res.status === 409 || res.status === 422) {
-      await new Promise((r) => setTimeout(r, 120 * (attempt + 1)));
+      await new Promise((r) => setTimeout(r, 200 * (attempt + 1) + Math.floor(Math.random() * 140)));
       continue;
     }
 
@@ -298,9 +298,10 @@ async function removePlayerFromLiveRoom(roomCode, leavingCode, leavingName = "")
 async function upsertGlobalLeaderboardEntry(profileObj) {
   if (!profileObj || !profileObj.friendCode || !/^SNC-\d{4}$/i.test(profileObj.friendCode)) return;
   const cleanCode = profileObj.friendCode.toUpperCase();
+  const isProt = Boolean(profileObj.passwordProtected || profileObj.isPasswordProtected);
   const isMember =
     Boolean(profileObj.isPermanentMember) ||
-    Boolean(profileObj.passwordProtected) ||
+    isProt ||
     (profileObj.provider && !["guest", "Misafir"].includes(profileObj.provider) && Boolean(profileObj.email));
 
   try {
@@ -347,7 +348,7 @@ async function upsertGlobalLeaderboardEntry(profileObj) {
           questionsCorrect: Math.max(Number(profileObj.questionsCorrect) || 0, Number(prev?.questionsCorrect) || 0),
           provider: profileObj.provider || prev?.provider || "guest",
           isPermanentMember: isMember || Boolean(prev?.isPermanentMember),
-          passwordProtected: Boolean(profileObj.passwordProtected || prev?.passwordProtected),
+          passwordProtected: Boolean(isProt || prev?.passwordProtected),
           lastXpActivityAt: xpIncreased
             ? now
             : Number(profileObj.lastXpActivityAt) || Number(prev?.lastXpActivityAt) || now,
@@ -1697,11 +1698,14 @@ export default async function handler(req, res) {
         const username = String(body.username || "").trim();
         const password = String(body.password || "").trim();
 
-        if (!/^SNC-\d{4}$/.test(friendCode) || !username || password.length < 3) {
-          return res.status(400).json({ error: "Geçerli bir isim ve en az 3 karakterli şifre girin." });
+        if (!/^SNC-\d{4}$/.test(friendCode) || !username || username.length < 2 || password.length < 3) {
+          const msg = "Geçerli bir oyuncu adı (en az 2 harf) ve en az 3 karakterli şifre girin.";
+          return res.status(400).json({ error: msg, message: msg });
         }
 
-        // Başka bir SNC kodu bu ismi zaten şifreyle korumuş mu kontrol et
+        const encodedPass = Buffer.from(password, "utf-8").toString("base64");
+
+        // Başka bir SNC kodu bu ismi gerçekten şifreyle korumuş mu kontrol et
         const lb = await getJsonFromCloudPath("leaderboard/global.json");
         const existingOwner = (lb?.data?.players || []).find(
           (p) =>
@@ -1710,19 +1714,43 @@ export default async function handler(req, res) {
             String(p.username || "").trim().toLowerCase() === username.toLowerCase()
         );
         if (existingOwner) {
-          return res.status(409).json({
-            error: `"${username}" ismi başka bir oyuncu (${existingOwner.friendCode}) tarafından şifreyle korunmaktadır!`
-          });
+          const ownerFile = await getJsonFromCloudPath(`friends/${existingOwner.friendCode}.json`);
+          const ownerRec = ownerFile?.data;
+          if (ownerRec && ownerRec.passwordProtected && ownerRec.passwordHash) {
+            // Eğer kullanıcı kendi şifreli hesabının şifresini doğru girdiyse, hata vermek yerine o hesabı geri yükle!
+            if (ownerRec.passwordHash === encodedPass) {
+              const safeOwner = { ...ownerRec };
+              delete safeOwner.passwordHash;
+              return res.status(200).json({
+                ok: true,
+                restoredExisting: true,
+                friend: safeOwner
+              });
+            }
+            const conflictMsg = `"${username}" ismi başka bir oyuncu (${existingOwner.friendCode}) tarafından şifreyle korunmaktadır! Eğer bu hesap seninse alttaki "Daha Önce Şifrelediğin Misafir Hesabına Giriş Yap" bölümünden giriş yapabilirsin.`;
+            return res.status(409).json({
+              error: conflictMsg,
+              message: conflictMsg
+            });
+          }
         }
 
-        const encodedPass = Buffer.from(password, "utf-8").toString("base64");
+        const incomingProfile = body.profile && typeof body.profile === "object" ? body.profile : {};
         const updatedFriend = await putJsonToCloudPath(
           `friends/${friendCode}.json`,
           (existing) => {
             const rec = Object.assign(createDefaultFriendRecord(friendCode, username), existing || {});
             rec.username = username;
             rec.passwordProtected = true;
+            rec.isPasswordProtected = true;
             rec.passwordHash = encodedPass;
+            rec.xp = Math.max(Number(rec.xp) || 0, Number(incomingProfile.xp) || 0);
+            rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
+            rec.gamesPlayed = Math.max(Number(rec.gamesPlayed) || 0, Number(incomingProfile.gamesPlayed) || 0);
+            rec.questionsCorrect = Math.max(
+              Number(rec.questionsCorrect) || 0,
+              Number(incomingProfile.questionsCorrect) || 0
+            );
             rec.updatedAt = new Date().toISOString();
             return rec;
           },
@@ -1731,7 +1759,8 @@ export default async function handler(req, res) {
 
         await upsertGlobalLeaderboardEntry({
           ...updatedFriend,
-          passwordProtected: true
+          passwordProtected: true,
+          isPasswordProtected: true
         });
 
         const safeFriend = { ...updatedFriend };
@@ -1749,23 +1778,34 @@ export default async function handler(req, res) {
           targetCode = identifier.toUpperCase();
         } else {
           const lb = await getJsonFromCloudPath("leaderboard/global.json");
-          const match = (lb?.data?.players || []).find(
+          const playersList = lb?.data?.players || [];
+          // Önce şifre korumalı olan eşleşmeyi ara (aynı isimde eski şifresiz misafir kaydı varsa onu atla!)
+          const protectedMatch = playersList.find(
+            (p) =>
+              p.passwordProtected &&
+              String(p.username || "").trim().toLowerCase() === identifier.toLowerCase()
+          );
+          const anyMatch = playersList.find(
             (p) => String(p.username || "").trim().toLowerCase() === identifier.toLowerCase()
           );
+          const match = protectedMatch || anyMatch;
           if (match) targetCode = match.friendCode;
         }
 
         if (!targetCode) {
-          return res.status(404).json({ error: "Bu isim veya arkadaş koduna ait şifreli hesap bulunamadı." });
+          const msg = "Bu isim veya arkadaş koduna ait şifreli hesap bulunamadı.";
+          return res.status(404).json({ error: msg, message: msg });
         }
 
         const fFound = await getJsonFromCloudPath(`friends/${targetCode}.json`);
         if (!fFound || !fFound.data || !fFound.data.passwordProtected) {
-          return res.status(404).json({ error: "Bu hesapta şifre koruması bulunmuyor." });
+          const msg = "Bu hesapta henüz şifre koruması bulunmuyor.";
+          return res.status(404).json({ error: msg, message: msg });
         }
 
         if (fFound.data.passwordHash !== encodedPass) {
-          return res.status(401).json({ error: "Girdiğiniz şifre hatalı!" });
+          const msg = "Girdiğiniz şifre hatalı!";
+          return res.status(401).json({ error: msg, message: msg });
         }
 
         const safeFriend = { ...fFound.data };
@@ -1827,8 +1867,9 @@ export default async function handler(req, res) {
                 rec.questionsCorrect = Math.max(Number(p.questionsCorrect) || 0, Number(rec.questionsCorrect) || 0);
                 rec.provider = p.provider || rec.provider || "guest";
                 rec.isPermanentMember = isMember || Boolean(rec.isPermanentMember);
-                if (p.passwordProtected !== undefined) {
-                  rec.passwordProtected = Boolean(p.passwordProtected || rec.passwordProtected);
+                if (p.passwordProtected !== undefined || p.isPasswordProtected !== undefined) {
+                  rec.passwordProtected = Boolean(p.passwordProtected || p.isPasswordProtected || rec.passwordProtected);
+                  rec.isPasswordProtected = rec.passwordProtected;
                 }
                 rec.updatedAt = new Date().toISOString();
                 return rec;
@@ -1867,7 +1908,9 @@ export default async function handler(req, res) {
 
           await upsertGlobalLeaderboardEntry({
             ...p,
-            passwordProtected: Boolean(p.passwordProtected || syncedFriendRecord?.passwordProtected)
+            passwordProtected: Boolean(
+              p.passwordProtected || p.isPasswordProtected || syncedFriendRecord?.passwordProtected
+            )
           });
         }
 

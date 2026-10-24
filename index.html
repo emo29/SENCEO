@@ -2514,7 +2514,7 @@
         <button type="button" onclick="openInfoGuideModal('privacy')" class="hover:text-primary-theme transition-colors">Gizlilik</button>
       </div>
       <p>
-        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.11</span>
+        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.12</span>
       </p>
     </div>
   </footer>
@@ -2720,21 +2720,30 @@
           İsmini (örn. <strong>Emirhan</strong>) ve <strong>SNC-XXXX</strong> kodunu şifreyle kilitle! Böylece başka bilgisayardan kimse senin ismini alamaz ve çıkış yapsan bile şifrenle hesabına geri dönebilirsin.
         </p>
 
-        <div class="flex gap-2">
+        <div class="space-y-2">
           <input
-            id="input-guest-protect-password"
-            type="password"
-            maxlength="24"
-            placeholder="Hesap şifresi belirle (en az 3 krk)..."
-            class="stitch-input flex-1 px-3 py-2 text-xs font-bold"
+            id="input-guest-protect-username"
+            type="text"
+            maxlength="18"
+            placeholder="Korumak istediğin oyuncu adın..."
+            class="stitch-input w-full px-3 py-2 text-xs font-bold"
           />
-          <button
-            type="button"
-            onclick="saveGuestPasswordProtection()"
-            class="theme-btn-primary px-3.5 py-2 text-xs font-extrabold shrink-0"
-          >
-            🔒 Şifreyle Koru
-          </button>
+          <div class="flex gap-2">
+            <input
+              id="input-guest-protect-password"
+              type="password"
+              maxlength="24"
+              placeholder="Hesap şifresi belirle (en az 3 krk)..."
+              class="stitch-input flex-1 px-3 py-2 text-xs font-bold"
+            />
+            <button
+              type="button"
+              onclick="saveGuestPasswordProtection()"
+              class="theme-btn-primary px-3.5 py-2 text-xs font-extrabold shrink-0"
+            >
+              🔒 Şifreyle Koru
+            </button>
+          </div>
         </div>
         <p id="guest-password-feedback" class="hidden text-[11px] font-bold"></p>
 

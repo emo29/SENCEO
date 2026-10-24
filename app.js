@@ -2,7 +2,7 @@
 // 4 Tam Kapsamlı Tema (1. Luminous Beyaz Varsayılan, 2. Obsidian Koyu, 3. Cosmic Neon Eski Varsayılan, 4. Neo-Brutal Acid)
 // v0.10: Player 2 Tahmin Slaytı İzleme Butonu, Player 1 Rapor Ekranında Canlı "X Tahminlerini İzliyor" Animasyonu, Raund Bazlı Rol Kilidi ve Tüm Modlar E2E Doğrulaması
 
-const APP_VERSION = 'v0.11';
+const APP_VERSION = 'v0.12';
 const DEFAULT_SUPABASE_URL = 'https://kypzuqnksnlinkfuxvnl.supabase.co';
 const TOTAL_QUESTIONS = 5;
 const CIRCLE_CIRCUMFERENCE = 414.69;
@@ -467,8 +467,9 @@ async function syncCloudFriendState(showFeedbackToast = false) {
 
     let changed = false;
 
-    if (f.isPasswordProtected && !userProfile.isPasswordProtected) {
+    if ((f.isPasswordProtected || f.passwordProtected) && !userProfile.isPasswordProtected) {
       userProfile.isPasswordProtected = true;
+      userProfile.passwordProtected = true;
       changed = true;
     }
 
@@ -1092,9 +1093,11 @@ function logoutUserAccount() {
 
 // Misafir Üyeliğini Şifreyle Koru (İsim + SNC-XXXX Kodunu Kilitleme)
 async function saveGuestPasswordProtection() {
+  const nameInp = document.getElementById('input-guest-protect-username');
   const passInp = document.getElementById('input-guest-protect-password');
   const feedbackEl = document.getElementById('guest-password-feedback');
   const p1Input = document.getElementById('input-p1-name');
+  const mWelcomeInput = document.getElementById('m-welcome-name');
 
   const showMsg = (txt, isErr) => {
     if (!feedbackEl) return;
@@ -1103,22 +1106,41 @@ async function saveGuestPasswordProtection() {
     feedbackEl.classList.remove('hidden');
   };
 
-  const currentName =
-    (userProfile.username && userProfile.username !== 'Misafir Oyuncu' ? userProfile.username.trim() : '') ||
-    (p1Input && p1Input.value.trim() ? p1Input.value.trim() : '');
+  const typedModalName = nameInp && nameInp.value.trim() ? nameInp.value.trim() : '';
+  const typedHomeName = p1Input && p1Input.value.trim() ? p1Input.value.trim() : '';
+  const typedMobileName = mWelcomeInput && mWelcomeInput.value.trim() ? mWelcomeInput.value.trim() : '';
+  const storedName =
+    userProfile.username && userProfile.username !== 'Misafir Oyuncu' && userProfile.username !== 'Oyuncu'
+      ? userProfile.username.trim()
+      : '';
 
-  if (!currentName || currentName.length < 2) {
-    showMsg('⚠️ Şifre koymadan önce lütfen ana sayfada veya profilde kendi oyuncu adını belirle!', true);
+  const currentName = typedModalName || typedHomeName || typedMobileName || storedName;
+
+  if (!currentName || currentName.length < 2 || currentName === 'Misafir Oyuncu') {
+    showMsg('⚠️ Şifre koymadan önce lütfen kutuya kendi oyuncu adını (en az 2 harf) yaz!', true);
+    if (nameInp) nameInp.focus();
     return;
   }
 
   const rawPass = passInp ? passInp.value.trim() : '';
   if (!rawPass || rawPass.length < 3) {
     showMsg('⚠️ Lütfen en az 3 karakterli bir koruma şifresi girin.', true);
+    if (passInp) passInp.focus();
     return;
   }
 
+  if (!userProfile.friendCode || !/^SNC-\d{4}$/i.test(userProfile.friendCode)) {
+    userProfile.friendCode = generatePersonalFriendCode();
+  }
+
   userProfile.username = currentName;
+  userProfile.isPasswordProtected = true;
+  userProfile.passwordProtected = true;
+  if (nameInp) nameInp.value = currentName;
+  if (p1Input) p1Input.value = currentName;
+  if (mWelcomeInput) mWelcomeInput.value = currentName;
+  gameState.player1Name = currentName;
+
   showMsg('⏳ Hesabın ve kullanıcı adın şifreyle kilitleniyor...', false);
 
   try {
@@ -1130,22 +1152,45 @@ async function saveGuestPasswordProtection() {
         friendCode: userProfile.friendCode,
         username: currentName,
         password: rawPass,
-        profile: userProfile
+        profile: {
+          ...userProfile,
+          username: currentName,
+          isPasswordProtected: true,
+          passwordProtected: true
+        }
       })
     });
     const data = await res.json();
     if (!res.ok || data.error) {
-      showMsg(`❌ ${data.message || 'Bu kullanıcı adı başka bir oyuncu tarafından şifreyle korunuyor!'}`, true);
+      userProfile.isPasswordProtected = false;
+      userProfile.passwordProtected = false;
+      showMsg(`❌ ${data.error || data.message || 'Şifre kaydedilirken bir hata oluştu, lütfen tekrar dene.'}`, true);
       return;
     }
 
+    if (data.friend && data.friend.friendCode) {
+      userProfile.friendCode = data.friend.friendCode;
+      if (data.restoredExisting) {
+        userProfile.xp = Math.max(Number(userProfile.xp) || 0, Number(data.friend.xp) || 0);
+        userProfile.level = Math.max(1, Math.floor(userProfile.xp / 100) + 1);
+        userProfile.gamesPlayed = Math.max(Number(userProfile.gamesPlayed) || 0, Number(data.friend.gamesPlayed) || 0);
+        userProfile.questionsCorrect = Math.max(
+          Number(userProfile.questionsCorrect) || 0,
+          Number(data.friend.questionsCorrect) || 0
+        );
+      }
+    }
+
     userProfile.isPasswordProtected = true;
+    userProfile.passwordProtected = true;
     userProfile.isLoggedIn = true;
     if (passInp) passInp.value = '';
     saveUserProfile(true);
     spawnFloatingEmojiBurst('🔐');
     showMsg(
-      `✅ Harika! "${currentName}" (${userProfile.friendCode}) hesabın şifreyle koruma altına alındı. Artık kimse senin ismini alamaz!`,
+      data.restoredExisting
+        ? `✅ "${currentName}" (${userProfile.friendCode}) şifreli hesabın doğrulandı ve mevcut oturumuna bağlandı!`
+        : `✅ Harika! "${currentName}" (${userProfile.friendCode}) hesabın şifreyle koruma altına alındı. Artık kimse senin ismini alamaz!`,
       false
     );
   } catch (e) {
@@ -1197,7 +1242,7 @@ async function loginWithGuestPassword() {
     });
     const data = await res.json();
     if (!res.ok || data.error || !data.friend) {
-      showMsg(`❌ ${data.message || 'Kullanıcı adı/kod veya şifre hatalı!'}`, true);
+      showMsg(`❌ ${data.error || data.message || 'Kullanıcı adı/kod veya şifre hatalı!'}`, true);
       return;
     }
 
@@ -1209,11 +1254,16 @@ async function loginWithGuestPassword() {
     userProfile.gamesPlayed = Number(f.gamesPlayed) || 0;
     userProfile.questionsCorrect = Number(f.questionsCorrect) || 0;
     userProfile.isPasswordProtected = true;
+    userProfile.passwordProtected = true;
     userProfile.isLoggedIn = true;
     userProfile.lastXpActivityAt = Date.now();
 
     const p1Input = document.getElementById('input-p1-name');
     if (p1Input) p1Input.value = userProfile.username;
+    const protectNameInp = document.getElementById('input-guest-protect-username');
+    if (protectNameInp) protectNameInp.value = userProfile.username;
+    const mWelcomeInput = document.getElementById('m-welcome-name');
+    if (mWelcomeInput) mWelcomeInput.value = userProfile.username;
     gameState.player1Name = userProfile.username;
 
     if (idInp) idInp.value = '';
@@ -1891,6 +1941,17 @@ function renderProfileUI() {
       guestPassBadge.textContent = 'Şifresiz Misafir';
       guestPassBadge.className = 'px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 text-[10px] font-bold';
     }
+  }
+
+  const protectNameInp = document.getElementById('input-guest-protect-username');
+  if (
+    protectNameInp &&
+    document.activeElement !== protectNameInp &&
+    displayName &&
+    displayName !== 'Misafir Oyuncu' &&
+    displayName !== 'Oyuncu'
+  ) {
+    protectNameInp.value = displayName;
   }
 
   if (mName) mName.textContent = displayName;
