@@ -15,18 +15,18 @@
     {
       "code": "SNCCMC",
       "p1": "sıradana",
-      "p2": "",
+      "p2": "sıradanb",
       "p1FriendCode": "SNC-3375",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-7929",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-24T03:19:13.596Z"
+      "updatedAt": "2026-10-24T03:19:31.967Z"
     },
     {
       "code": "SNCTM6",
@@ -50,6 +50,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "TURN_P1_SNCCMC_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "sıradanb 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCCMC)",
+      "fromCode": "SNC-7929",
+      "fromName": "sıradanb",
+      "roomCode": "SNCCMC",
+      "read": false,
+      "createdAt": "2026-10-24T03:19:31.967Z"
+    },
+    {
       "id": "DONE_P1_SNCTM6_R1",
       "type": "completed",
       "title": "🏆 Düello Tamamlandı! (%70 Uyum)",
@@ -72,6 +83,6 @@
       "createdAt": "2026-10-24T03:16:18.254Z"
     }
   ],
-  "updatedAt": "2026-10-24T03:19:13.596Z",
+  "updatedAt": "2026-10-24T03:19:31.967Z",
   "deletedRoomCodes": []
 }
