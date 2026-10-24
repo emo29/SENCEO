@@ -1,12 +1,36 @@
 {
   "friendCode": "SNC-3394",
-  "username": "sağdaki sekme",
+  "username": "SOLDAKİ SEKME",
   "level": 1,
   "xp": 0,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCZZR",
+  "activeRooms": [
+    {
+      "code": "SNCZZR",
+      "p1": "SOLDAKİ SEKME",
+      "p2": "sağdaki sekme",
+      "p1FriendCode": "SNC-3394",
+      "p2FriendCode": "SNC-3394",
+      "status": "waiting_p1_half2",
+      "currentRound": 1,
+      "cat": "genel",
+      "updatedAt": "2026-10-24T00:02:29.600Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-23T23:59:15.536Z"
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCZZR_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "sağdaki sekme 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCZZR)",
+      "fromCode": "SNC-3394",
+      "fromName": "sağdaki sekme",
+      "roomCode": "SNCZZR",
+      "read": false,
+      "createdAt": "2026-10-24T00:02:29.600Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T00:02:29.600Z"
 }
