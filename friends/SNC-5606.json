@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-5606",
   "username": "ibo",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "level": 2,
+  "xp": 150,
+  "gamesPlayed": 1,
+  "questionsCorrect": 5,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792860600495,
+  "lastXpActivityAt": 1792860866483,
   "latestRoomCode": "SNCD9M",
   "activeRooms": [
     {
@@ -33,7 +33,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T16:54:25.256Z",
+  "updatedAt": "2026-10-24T16:54:26.483Z",
   "lastPropagatedName": "ibo",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
