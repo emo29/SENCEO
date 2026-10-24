@@ -47,7 +47,7 @@
     66
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T19:01:59.953Z",
+  "updatedAt": "2026-10-24T19:02:18.542Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -94,11 +94,11 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-2002",
     "activeGuesserName": "komnenos",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 0,
     "currentAnswerComment": {
       "emoji": "",
-      "text": ""
+      "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
     },
     "currentCustomOption": "",
     "currentGuess": null,
@@ -281,8 +281,8 @@
         "points": 200
       }
     },
-    "phaseStartedAt": 1792868519953,
-    "updatedAt": 1792868519953
+    "phaseStartedAt": 1792868538542,
+    "updatedAt": 1792868538542
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
