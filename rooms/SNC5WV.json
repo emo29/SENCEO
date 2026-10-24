@@ -35,21 +35,14 @@
       "score": 0,
       "correct": 0,
       "joinedAt": "2026-10-24T04:22:16.542Z"
-    },
-    {
-      "name": "Oyuncu (SNC-3224)",
-      "code": "SNC-3224",
-      "role": "member",
-      "isHost": false,
-      "team": "common",
-      "score": 0,
-      "correct": 0,
-      "joinedAt": "2026-10-24T04:22:18.456Z"
     }
   ],
   "cat": "genel",
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T04:20:40.448Z",
-  "updatedAt": "2026-10-24T04:22:18.456Z"
+  "updatedAt": "2026-10-24T04:22:42.482Z",
+  "kickedCodes": [
+    "SNC-3224"
+  ]
 }
