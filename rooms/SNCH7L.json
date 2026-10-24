@@ -47,7 +47,7 @@
     11
   ],
   "createdAt": "2026-10-24T12:46:38.015Z",
-  "updatedAt": "2026-10-24T12:47:38.824Z",
+  "updatedAt": "2026-10-24T12:47:41.241Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -94,19 +94,31 @@
     "activeAnswererName": "Hakan",
     "activeGuesserCode": "SNC-1865",
     "activeGuesserName": "Mert",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 2,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-1865": {
+        "code": "SNC-1865",
+        "name": "Mert",
+        "guessIndex": 2,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "submittedAt": 1792846061241
+      }
+    },
     "history": [],
     "scores": {
       "SNC-5480": {
@@ -121,9 +133,9 @@
         "code": "SNC-1865",
         "name": "Mert",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       }
     },
     "scoresByPlayer": {
@@ -139,13 +151,13 @@
         "code": "SNC-1865",
         "name": "Mert",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       }
     },
-    "phaseStartedAt": 1792846058824,
-    "updatedAt": 1792846058824
+    "phaseStartedAt": 1792846061241,
+    "updatedAt": 1792846061241
   },
   "lastMatchPercentage": 80,
   "lastCorrectCount": 4,
