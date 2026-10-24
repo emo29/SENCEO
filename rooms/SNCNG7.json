@@ -4,11 +4,12 @@
   "p1FriendCode": "SNC-6252",
   "p2Id": "USR_IG09I67",
   "p2FriendCode": "SNC-6754",
+  "nextRoundStarterCode": "SNC-6754",
+  "nextRoundStarterName": "Burak",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "Ayşe",
   "p2": "Burak",
   "cat": "genel",
@@ -128,7 +129,42 @@
       "text": ""
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T12:35:29.643Z"
+  "p1Half2Guesses": [
+    2,
+    0,
+    1,
+    2,
+    0
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "😂",
+      "text": "A2 tahmin yorumu"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 0,
+  "lastCorrectCount": 0,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-24T12:35:43.911Z",
+  "updatedAt": "2026-10-24T12:35:42.810Z",
+  "nextRoundSecondCode": "SNC-6252",
+  "nextRoundSecondName": "Ayşe"
 }
