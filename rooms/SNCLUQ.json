@@ -10,11 +10,11 @@
     "ffaSubMode": "ebe",
     "teamSubMode": "",
     "turnStep": 1,
-    "timerSeconds": 6,
+    "timerSeconds": 0,
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "currentRound": 1,
   "p1": "Hakan",
   "p2": "",
@@ -29,7 +29,86 @@
   ],
   "cat": "genel",
   "thm": "luminous",
-  "qIds": [],
+  "qIds": [
+    9,
+    28,
+    58,
+    27,
+    2
+  ],
   "createdAt": "2026-10-24T12:36:14.960Z",
-  "updatedAt": "2026-10-24T12:37:13.014Z"
+  "updatedAt": "2026-10-24T12:37:13.990Z",
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
+  "usedQuestionIds": [
+    9,
+    28,
+    58,
+    27,
+    2
+  ],
+  "liveMatchState": {
+    "qIds": [
+      9,
+      28,
+      58,
+      27,
+      2
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-3180",
+        "name": "Hakan",
+        "team": "common"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-3180",
+    "activeAnswererName": "Hakan",
+    "activeGuesserCode": "SNC-3180",
+    "activeGuesserName": "Hakan",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-3180": {
+        "code": "SNC-3180",
+        "name": "Hakan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-3180": {
+        "code": "SNC-3180",
+        "name": "Hakan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1792845433990,
+    "updatedAt": 1792845433990
+  }
 }
