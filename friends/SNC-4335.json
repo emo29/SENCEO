@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792811572308,
-  "latestRoomCode": "SNC7K6",
+  "latestRoomCode": "SNCXNM",
   "activeRooms": [
+    {
+      "code": "SNCXNM",
+      "p1": "EmirhanTest",
+      "p2": "",
+      "p1FriendCode": "SNC-4335",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T03:13:01.058Z"
+    },
     {
       "code": "SNC7K6",
       "p1": "denemea",
@@ -44,6 +60,6 @@
       "createdAt": "2026-10-24T03:12:57.294Z"
     }
   ],
-  "updatedAt": "2026-10-24T03:12:59.418Z",
+  "updatedAt": "2026-10-24T03:13:01.058Z",
   "deletedRoomCodes": []
 }
