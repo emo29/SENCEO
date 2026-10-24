@@ -1,22 +1,23 @@
 {
   "code": "SNCZZR",
-  "p1Id": "USR_YWUWGE2",
-  "p1FriendCode": "SNC-3394",
+  "p1Id": "USR_P9BCT29",
+  "p1FriendCode": "SNC-4616",
   "p2FriendCode": "SNC-3394",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "completed",
-  "currentRound": 1,
+  "status": "waiting_p2",
+  "currentRound": 2,
+  "whoseTurn": "p2",
   "p1": "SOLDAKİ SEKME",
   "p2": "sağdaki sekme",
   "cat": "genel",
   "thm": "luminous",
   "qIds": [
-    3,
-    58,
-    62,
-    26,
-    1
+    11,
+    66,
+    27,
+    55,
+    2
   ],
   "usedQuestionIds": [
     3,
@@ -28,17 +29,20 @@
     7,
     70,
     32,
-    74
+    74,
+    11,
+    66,
+    27,
+    55,
+    2
   ],
-  "customOptionsMap": {
-    "1": "AAAAAAAA"
-  },
+  "customOptionsMap": {},
   "p1Answers": [
     0,
-    2,
     0,
     0,
-    0
+    0,
+    3
   ],
   "p1Comments": [
     {
@@ -46,36 +50,7 @@
       "text": ""
     },
     {
-      "emoji": "",
-      "text": "AAAAAAAAAA"
-    },
-    {
       "emoji": "❤️",
-      "text": "AAAAAAAAAAAAA"
-    },
-    {
-      "emoji": "❤️",
-      "text": "AAAAAAAAAAAAA"
-    },
-    {
-      "emoji": "😱",
-      "text": "AAAAAAAAAAAA"
-    }
-  ],
-  "p2Guesses": [
-    0,
-    0,
-    1,
-    0,
-    0
-  ],
-  "p2Comments": [
-    {
-      "emoji": "",
-      "text": "lol"
-    },
-    {
-      "emoji": "",
       "text": ""
     },
     {
@@ -91,75 +66,13 @@
       "text": ""
     }
   ],
-  "p2Half2QIds": [
-    25,
-    7,
-    70,
-    32,
-    74
-  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
   "p2Half2CustomMap": {},
-  "p2Half2Answers": [
-    0,
-    0,
-    1,
-    1,
-    0
-  ],
-  "p2Half2Comments": [
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "😂",
-      "text": "233232323"
-    },
-    {
-      "emoji": "😂",
-      "text": "333333333333"
-    },
-    {
-      "emoji": "🤔",
-      "text": "333333333333333333"
-    },
-    {
-      "emoji": "",
-      "text": "1111111111111111"
-    }
-  ],
-  "p1Half2Guesses": [
-    0,
-    0,
-    0,
-    0,
-    0
-  ],
-  "p1Half2Comments": [
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    }
-  ],
-  "lastMatchPercentage": 60,
-  "lastCorrectCount": 6,
-  "lastTotalQuestions": 10,
-  "completedAt": "2026-10-24T00:05:24.134Z",
-  "updatedAt": "2026-10-24T00:05:23.680Z"
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-24T00:06:18.702Z"
 }
