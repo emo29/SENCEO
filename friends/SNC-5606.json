@@ -10,12 +10,31 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792860600495,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCD9M",
+  "activeRooms": [
+    {
+      "code": "SNCD9M",
+      "p1": "ibo",
+      "p2": "semih",
+      "p1FriendCode": "SNC-5606",
+      "p2FriendCode": "",
+      "roomType": "pass",
+      "arenaFormat": "1v1",
+      "status": "completed",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "lastMatchPercentage": 50,
+      "updatedAt": "2026-10-24T16:54:25.256Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T16:50:00.495Z",
+  "updatedAt": "2026-10-24T16:54:25.256Z",
   "lastPropagatedName": "ibo",
-  "isPasswordProtected": false
+  "isPasswordProtected": false,
+  "deletedRoomCodes": []
 }
