@@ -2,15 +2,15 @@
   "code": "SNCNG7",
   "p1Id": "USR_NBH1GY1",
   "p1FriendCode": "SNC-6252",
-  "p2Id": "",
-  "p2FriendCode": "",
+  "p2Id": "USR_IG09I67",
+  "p2FriendCode": "SNC-6754",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
-  "whoseTurn": "p2",
+  "whoseTurn": "p1",
   "p1": "Ayşe",
-  "p2": "",
+  "p2": "Burak",
   "cat": "genel",
   "thm": "luminous",
   "qIds": [
@@ -25,7 +25,12 @@
     27,
     11,
     29,
-    26
+    26,
+    66,
+    55,
+    28,
+    1,
+    62
   ],
   "customOptionsMap": {},
   "p1Answers": [
@@ -57,13 +62,73 @@
       "text": ""
     }
   ],
-  "p2Guesses": [],
-  "p2Comments": [],
-  "p2Half2QIds": [],
+  "p2Guesses": [
+    1,
+    2,
+    0,
+    1,
+    2
+  ],
+  "p2Comments": [
+    {
+      "emoji": "😂",
+      "text": "B1 tahmin yorumu"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Half2QIds": [
+    66,
+    55,
+    28,
+    1,
+    62
+  ],
   "p2Half2CustomMap": {},
-  "p2Half2Answers": [],
-  "p2Half2Comments": [],
+  "p2Half2Answers": [
+    0,
+    1,
+    2,
+    0,
+    1
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "😂",
+      "text": "B2 cevap yorumu"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T12:35:19.366Z"
+  "updatedAt": "2026-10-24T12:35:29.643Z"
 }
