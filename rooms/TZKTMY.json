@@ -1,0 +1,89 @@
+{
+  "code": "TZKTMY",
+  "roomType": "live_arena",
+  "arenaFormat": "ffa",
+  "status": "lobby_open",
+  "hostCode": "SNC-1100",
+  "hostName": "Oyuncu_A",
+  "p1": "Oyuncu_A",
+  "p1FriendCode": "SNC-1100",
+  "participants": [
+    {
+      "name": "Oyuncu_A",
+      "code": "SNC-1100",
+      "isHost": true,
+      "role": "host",
+      "team": "common"
+    },
+    {
+      "name": "Oyuncu_B",
+      "code": "SNC-1101",
+      "isHost": false,
+      "role": "member",
+      "team": "common"
+    },
+    {
+      "name": "Oyuncu_C",
+      "code": "SNC-1102",
+      "isHost": false,
+      "role": "member",
+      "team": "common"
+    },
+    {
+      "name": "Oyuncu_D",
+      "code": "SNC-1103",
+      "isHost": false,
+      "role": "member",
+      "team": "common"
+    },
+    {
+      "name": "Oyuncu_E",
+      "code": "SNC-1104",
+      "isHost": false,
+      "role": "member",
+      "team": "common"
+    },
+    {
+      "name": "Oyuncu_F",
+      "code": "SNC-1105",
+      "isHost": false,
+      "role": "member",
+      "team": "common"
+    },
+    {
+      "name": "Oyuncu_G",
+      "code": "SNC-1106",
+      "isHost": false,
+      "role": "member",
+      "team": "common"
+    },
+    {
+      "name": "Oyuncu_H",
+      "code": "SNC-1107",
+      "isHost": false,
+      "role": "member",
+      "team": "common"
+    },
+    {
+      "name": "Oyuncu_J",
+      "code": "SNC-1108",
+      "isHost": false,
+      "role": "member",
+      "team": "common"
+    },
+    {
+      "name": "Oyuncu_K",
+      "code": "SNC-1109",
+      "isHost": false,
+      "role": "member",
+      "team": "common"
+    }
+  ],
+  "liveSettings": {
+    "turnStep": 1,
+    "ffaSubMode": "ebeli",
+    "starterMode": "manual",
+    "selectedStarterCode": "SNC-1100"
+  },
+  "updatedAt": "2026-10-24T11:36:57.194Z"
+}
