@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792811578022,
-  "latestRoomCode": "MFFA9",
+  "latestRoomCode": "SNC8U4",
   "activeRooms": [
+    {
+      "code": "SNC8U4",
+      "p1": "sıradana",
+      "p2": "sıradanb",
+      "p1FriendCode": "SNC-7788",
+      "p2FriendCode": "SNC-9999",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T03:59:24.968Z"
+    },
     {
       "code": "MFFA9",
       "p1": "Oyuncu_A",
@@ -168,6 +184,6 @@
       "createdAt": "2026-10-24T03:56:42.937Z"
     }
   ],
-  "updatedAt": "2026-10-24T03:57:20.387Z",
+  "updatedAt": "2026-10-24T03:59:24.968Z",
   "deletedRoomCodes": []
 }
