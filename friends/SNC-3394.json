@@ -1,8 +1,8 @@
 {
   "friendCode": "SNC-3394",
-  "username": "SOLDAKİ SEKME",
-  "level": 1,
-  "xp": 0,
+  "username": "sağdaki sekme",
+  "level": 2,
+  "xp": 180,
   "latestRoomCode": "SNCZZR",
   "activeRooms": [
     {
@@ -55,5 +55,5 @@
       "createdAt": "2026-10-24T00:02:29.600Z"
     }
   ],
-  "updatedAt": "2026-10-24T00:05:24.634Z"
+  "updatedAt": "2026-10-24T00:05:25.877Z"
 }
