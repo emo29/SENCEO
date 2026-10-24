@@ -47,7 +47,7 @@
     1
   ],
   "createdAt": "2026-10-24T04:20:40.448Z",
-  "updatedAt": "2026-10-24T04:23:48.394Z",
+  "updatedAt": "2026-10-24T04:23:54.756Z",
   "kickedCodes": [
     "SNC-3224"
   ],
@@ -59,8 +59,8 @@
       74,
       1
     ],
-    "qIndex": 0,
-    "currentQIndex": 0,
+    "qIndex": 1,
+    "currentQIndex": 1,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -75,37 +75,60 @@
         "team": "common"
       }
     ],
-    "activeTurnOrderIdx": 0,
-    "activeAnswererCode": "SNC-7224",
-    "activeAnswererName": "emirhan",
-    "activeGuesserCode": "SNC-6206",
-    "activeGuesserName": "salihcan",
-    "subPhase": "reveal",
-    "currentAnswer": 2,
+    "activeTurnOrderIdx": 1,
+    "activeAnswererCode": "SNC-6206",
+    "activeAnswererName": "salihcan",
+    "activeGuesserCode": "SNC-7224",
+    "activeGuesserName": "emirhan",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
-      "emoji": "🤔",
-      "text": "bariz belli"
+      "emoji": "",
+      "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 1,
+    "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-6206": {
-        "code": "SNC-6206",
-        "name": "salihcan",
-        "guessIndex": 1,
-        "comment": {
+    "guessesByPlayer": {},
+    "history": [
+      {
+        "qIndex": 0,
+        "qId": 2,
+        "answererCode": "SNC-7224",
+        "answererName": "emirhan",
+        "guesserCode": "SNC-6206",
+        "guesserName": "salihcan",
+        "answerIdx": 2,
+        "guessIdx": 1,
+        "answerIndex": 2,
+        "answerComment": {
+          "emoji": "🤔",
+          "text": "bariz belli"
+        },
+        "guessComment": {
           "emoji": "",
           "text": ""
         },
         "isCorrect": false,
-        "submittedAt": 1792815828394
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-6206": {
+            "code": "SNC-6206",
+            "name": "salihcan",
+            "guessIndex": 1,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": false,
+            "submittedAt": 1792815828394
+          }
+        }
       }
-    },
-    "history": [],
+    ],
     "scores": {
       "SNC-7224": {
         "code": "SNC-7224",
@@ -142,7 +165,7 @@
         "points": 0
       }
     },
-    "phaseStartedAt": 1792815828394,
-    "updatedAt": 1792815828394
+    "phaseStartedAt": 1792815834756,
+    "updatedAt": 1792815834756
   }
 }
