@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-6754",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-6754",
       "cat": "genel",
-      "updatedAt": "2026-10-24T12:35:30.561Z"
+      "lastMatchPercentage": 0,
+      "updatedAt": "2026-10-24T12:35:43.664Z"
     }
   ],
   "incomingRequests": [],
@@ -44,7 +45,7 @@
       "createdAt": "2026-10-24T12:35:30.561Z"
     }
   ],
-  "updatedAt": "2026-10-24T12:35:30.561Z",
+  "updatedAt": "2026-10-24T12:35:43.664Z",
   "lastPropagatedName": "Ayşe",
   "deletedRoomCodes": []
 }
