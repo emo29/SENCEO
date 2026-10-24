@@ -1,0 +1,68 @@
+{
+  "code": "SNCMYN",
+  "p1Id": "USR_RADB20O",
+  "p1FriendCode": "SNC-9442",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "denea",
+  "p2": "",
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [
+    32,
+    9,
+    11,
+    28,
+    53
+  ],
+  "usedQuestionIds": [
+    32,
+    9,
+    11,
+    28,
+    53
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p1Comments": [
+    {
+      "emoji": "😱",
+      "text": "a"
+    },
+    {
+      "emoji": "",
+      "text": "a"
+    },
+    {
+      "emoji": "🔥",
+      "text": "a"
+    },
+    {
+      "emoji": "😎",
+      "text": "a"
+    },
+    {
+      "emoji": "😎",
+      "text": "a"
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-24T02:37:28.003Z"
+}
