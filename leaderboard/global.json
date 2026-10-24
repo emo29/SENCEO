@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T12:53:09.981Z",
+  "updatedAt": "2026-10-24T12:53:11.402Z",
   "players": [
     {
       "friendCode": "SNC-3375",
@@ -17,7 +17,7 @@
     },
     {
       "friendCode": "SNC-8029",
-      "username": "YanyanaA",
+      "username": "EmirhanTest",
       "avatar": "😎",
       "level": 4,
       "xp": 390,
@@ -26,8 +26,8 @@
       "provider": "guest",
       "isPermanentMember": false,
       "passwordProtected": false,
-      "lastXpActivityAt": 1792846348177,
-      "updatedAt": "2026-10-24T12:53:09.981Z"
+      "lastXpActivityAt": 1792846389207,
+      "updatedAt": "2026-10-24T12:53:11.402Z"
     },
     {
       "friendCode": "SNC-3675",
