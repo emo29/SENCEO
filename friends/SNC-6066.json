@@ -68,7 +68,7 @@
       "fromCode": "SNC-3675",
       "fromName": "aaa1",
       "roomCode": "SNCCFJ",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-24T02:03:54.987Z"
     },
     {
@@ -149,6 +149,6 @@
       "createdAt": "2026-10-24T01:22:34.138Z"
     }
   ],
-  "updatedAt": "2026-10-24T02:03:54.987Z",
+  "updatedAt": "2026-10-24T02:04:03.497Z",
   "deletedRoomCodes": []
 }
