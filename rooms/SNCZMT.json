@@ -47,7 +47,7 @@
     11
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T18:57:39.768Z",
+  "updatedAt": "2026-10-24T18:57:59.463Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,19 +89,31 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-2002",
     "activeGuesserName": "komnenos",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 1,
     "currentAnswerComment": {
       "emoji": "😎",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 1,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-2002": {
+        "code": "SNC-2002",
+        "name": "komnenos",
+        "guessIndex": 1,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "submittedAt": 1792868279463
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -211,9 +223,9 @@
         "code": "SNC-2002",
         "name": "komnenos",
         "team": "common",
-        "correct": 1,
-        "total": 1,
-        "points": 100
+        "correct": 2,
+        "total": 2,
+        "points": 200
       },
       "SNC-7224": {
         "code": "SNC-7224",
@@ -229,9 +241,9 @@
         "code": "SNC-2002",
         "name": "komnenos",
         "team": "common",
-        "correct": 1,
-        "total": 1,
-        "points": 100
+        "correct": 2,
+        "total": 2,
+        "points": 200
       },
       "SNC-7224": {
         "code": "SNC-7224",
@@ -242,7 +254,7 @@
         "points": 0
       }
     },
-    "phaseStartedAt": 1792868259768,
-    "updatedAt": 1792868259768
+    "phaseStartedAt": 1792868279463,
+    "updatedAt": 1792868279463
   }
 }
