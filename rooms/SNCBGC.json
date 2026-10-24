@@ -14,8 +14,8 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "completed",
-  "currentRound": 1,
+  "status": "live_in_progress",
+  "currentRound": 2,
   "p1": "Hakan",
   "p2": "Mert",
   "participants": [
@@ -40,361 +40,112 @@
   "cat": "genel",
   "thm": "luminous",
   "qIds": [
-    30,
-    70,
-    11,
-    31,
-    9
+    32,
+    53,
+    55,
+    1,
+    62
   ],
   "createdAt": "2026-10-24T12:43:52.867Z",
-  "updatedAt": "2026-10-24T12:44:44.314Z",
-  "liveLeaderboard": [
-    {
-      "code": "SNC-6189",
-      "name": "Hakan",
-      "team": "common",
-      "correct": 3,
-      "total": 3,
-      "points": 300
-    },
-    {
-      "code": "SNC-2119",
-      "name": "Mert",
-      "team": "common",
-      "correct": 1,
-      "total": 2,
-      "points": 100
-    }
-  ],
-  "p1Answers": [
-    3,
-    3,
-    1,
-    1,
-    1
-  ],
-  "p2Guesses": [
-    3,
-    3,
-    1,
-    2,
-    1
-  ],
-  "p1Comments": [
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    }
-  ],
-  "p2Comments": [
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    },
-    {
-      "emoji": "",
-      "text": ""
-    }
-  ],
+  "updatedAt": "2026-10-24T12:44:47.114Z",
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
   "usedQuestionIds": [
     30,
     70,
     11,
     31,
-    9
+    9,
+    32,
+    53,
+    55,
+    1,
+    62
   ],
   "liveMatchState": {
     "qIds": [
-      30,
-      70,
-      11,
-      31,
-      9
+      32,
+      53,
+      55,
+      1,
+      62
     ],
-    "qIndex": 4,
-    "currentQIndex": 4,
+    "qIndex": 0,
+    "currentQIndex": 0,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
       {
-        "code": "SNC-2119",
-        "name": "Mert",
+        "code": "SNC-6189",
+        "name": "Hakan",
         "team": "common"
       },
       {
-        "code": "SNC-6189",
-        "name": "Hakan",
+        "code": "SNC-2119",
+        "name": "Mert",
         "team": "common"
       }
     ],
     "activeTurnOrderIdx": 0,
-    "activeAnswererCode": "SNC-2119",
-    "activeAnswererName": "Mert",
-    "activeGuesserCode": "SNC-6189",
-    "activeGuesserName": "Hakan",
-    "subPhase": "completed",
-    "currentAnswer": 1,
+    "activeAnswererCode": "SNC-6189",
+    "activeAnswererName": "Hakan",
+    "activeGuesserCode": "SNC-2119",
+    "activeGuesserName": "Mert",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 1,
+    "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
       "SNC-6189": {
         "code": "SNC-6189",
         "name": "Hakan",
-        "guessIndex": 1,
-        "comment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "submittedAt": 1792845883005
-      }
-    },
-    "history": [
-      {
-        "qIndex": 0,
-        "qId": 30,
-        "answererCode": "SNC-2119",
-        "answererName": "Mert",
-        "guesserCode": "SNC-6189",
-        "guesserName": "Hakan",
-        "answerIdx": 3,
-        "guessIdx": 3,
-        "answerIndex": 3,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "customOption": "Süre Bitimi Özel Şık A",
-        "guessesByPlayer": {
-          "SNC-6189": {
-            "code": "SNC-6189",
-            "name": "Hakan",
-            "guessIndex": 3,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": true,
-            "submittedAt": 1792845850442
-          }
-        }
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
       },
-      {
-        "qIndex": 1,
-        "qId": 70,
-        "answererCode": "SNC-6189",
-        "answererName": "Hakan",
-        "guesserCode": "SNC-2119",
-        "guesserName": "Mert",
-        "answerIdx": 3,
-        "guessIdx": 3,
-        "answerIndex": 3,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "customOption": "Süre Bitimi Özel Şık B",
-        "guessesByPlayer": {
-          "SNC-2119": {
-            "code": "SNC-2119",
-            "name": "Mert",
-            "guessIndex": 3,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": true,
-            "submittedAt": 1792845861894
-          }
-        }
-      },
-      {
-        "qIndex": 2,
-        "qId": 11,
-        "answererCode": "SNC-2119",
-        "answererName": "Mert",
-        "guesserCode": "SNC-6189",
-        "guesserName": "Hakan",
-        "answerIdx": 1,
-        "guessIdx": 1,
-        "answerIndex": 1,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-6189": {
-            "code": "SNC-6189",
-            "name": "Hakan",
-            "guessIndex": 1,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": true,
-            "submittedAt": 1792845868618
-          }
-        }
-      },
-      {
-        "qIndex": 3,
-        "qId": 31,
-        "answererCode": "SNC-6189",
-        "answererName": "Hakan",
-        "guesserCode": "SNC-2119",
-        "guesserName": "Mert",
-        "answerIdx": 1,
-        "guessIdx": 2,
-        "answerIndex": 1,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-2119": {
-            "code": "SNC-2119",
-            "name": "Mert",
-            "guessIndex": 2,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": false,
-            "submittedAt": 1792845876100
-          }
-        }
-      },
-      {
-        "qIndex": 4,
-        "qId": 9,
-        "answererCode": "SNC-2119",
-        "answererName": "Mert",
-        "guesserCode": "SNC-6189",
-        "guesserName": "Hakan",
-        "answerIdx": 1,
-        "guessIdx": 1,
-        "answerIndex": 1,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-6189": {
-            "code": "SNC-6189",
-            "name": "Hakan",
-            "guessIndex": 1,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": true,
-            "submittedAt": 1792845883005
-          }
-        }
-      }
-    ],
-    "scores": {
       "SNC-2119": {
         "code": "SNC-2119",
         "name": "Mert",
         "team": "common",
-        "correct": 1,
-        "total": 2,
-        "points": 100
-      },
-      "SNC-6189": {
-        "code": "SNC-6189",
-        "name": "Hakan",
-        "team": "common",
-        "correct": 3,
-        "total": 3,
-        "points": 300
+        "correct": 0,
+        "total": 0,
+        "points": 0
       }
     },
     "scoresByPlayer": {
-      "SNC-2119": {
-        "code": "SNC-2119",
-        "name": "Mert",
-        "team": "common",
-        "correct": 1,
-        "total": 2,
-        "points": 100
-      },
       "SNC-6189": {
         "code": "SNC-6189",
         "name": "Hakan",
         "team": "common",
-        "correct": 3,
-        "total": 3,
-        "points": 300
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-2119": {
+        "code": "SNC-2119",
+        "name": "Mert",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
       }
     },
-    "phaseStartedAt": 1792845883005,
-    "updatedAt": 1792845884314
+    "phaseStartedAt": 1792845887114,
+    "updatedAt": 1792845887114
   },
   "lastMatchPercentage": 80,
   "lastCorrectCount": 4,
