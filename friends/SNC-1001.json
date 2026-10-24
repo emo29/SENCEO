@@ -10,7 +10,7 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792814210626,
-  "latestRoomCode": "M3V39",
+  "latestRoomCode": "M4V49",
   "activeRooms": [
     {
       "code": "MFFA9",
@@ -49,7 +49,7 @@
       "p1": "Oyuncu_A",
       "p2": "",
       "p1FriendCode": "SNC-1001",
-      "p2FriendCode": "SNC-9999",
+      "p2FriendCode": "SNC-7788",
       "roomType": "live_arena",
       "arenaFormat": "4v4",
       "status": "live_lobby",
@@ -58,7 +58,7 @@
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-24T03:57:07.471Z"
+      "updatedAt": "2026-10-24T03:59:53.115Z"
     },
     {
       "code": "M3V39",
@@ -112,6 +112,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T03:59:47.113Z",
+  "updatedAt": "2026-10-24T03:59:53.115Z",
   "deletedRoomCodes": []
 }
