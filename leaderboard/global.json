@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T12:52:29.794Z",
+  "updatedAt": "2026-10-24T12:53:09.166Z",
   "players": [
     {
       "friendCode": "SNC-3375",
@@ -14,6 +14,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792812023896,
       "updatedAt": "2026-10-24T03:20:23.896Z"
+    },
+    {
+      "friendCode": "SNC-8029",
+      "username": "YanyanaA",
+      "avatar": "😎",
+      "level": 4,
+      "xp": 390,
+      "gamesPlayed": 2,
+      "questionsCorrect": 13,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792846389166,
+      "updatedAt": "2026-10-24T12:53:09.166Z"
     },
     {
       "friendCode": "SNC-3675",
@@ -84,20 +98,6 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792814359830,
       "updatedAt": "2026-10-24T04:00:15.897Z"
-    },
-    {
-      "friendCode": "SNC-8029",
-      "username": "sıradana",
-      "avatar": "😎",
-      "level": 2,
-      "xp": 180,
-      "gamesPlayed": 1,
-      "questionsCorrect": 6,
-      "provider": "guest",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1792846349794,
-      "updatedAt": "2026-10-24T12:52:29.794Z"
     },
     {
       "friendCode": "SNC-6283",
