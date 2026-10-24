@@ -1,28 +1,28 @@
 {
   "code": "SNCCFJ",
   "p1Id": "USR_9I6XA8U",
-  "hostCode": "SNC-3675",
-  "p1FriendCode": "SNC-3675",
+  "hostCode": "SNC-6066",
+  "p1FriendCode": "SNC-6066",
   "p2FriendCode": "SNC-6066",
   "roomType": "live_arena",
   "arenaFormat": "5v5",
   "liveSettings": {},
   "status": "lobby_open",
   "currentRound": 1,
-  "p1": "soldakipc1",
+  "p1": "sağdakipc1",
   "p2": "sağdakipc1",
   "participants": [
     {
       "name": "soldakipc1",
       "code": "SNC-3675",
-      "role": "host",
+      "role": "member",
       "team": "red",
       "isHost": true
     },
     {
       "name": "sağdakipc1",
       "code": "SNC-6066",
-      "role": "member",
+      "role": "host",
       "team": "blue",
       "score": 0,
       "correct": 0,
@@ -33,5 +33,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T01:01:03.299Z",
-  "updatedAt": "2026-10-24T01:04:51.549Z"
+  "updatedAt": "2026-10-24T01:04:58.526Z"
 }
