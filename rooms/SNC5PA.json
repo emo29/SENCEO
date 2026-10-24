@@ -5,7 +5,7 @@
   "p1FriendCode": "SNC-7224",
   "p2FriendCode": "",
   "roomType": "live_arena",
-  "arenaFormat": "2v2",
+  "arenaFormat": "3v3",
   "liveSettings": {
     "ffaSubMode": "ebe",
     "teamSubMode": "",
@@ -31,5 +31,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T19:08:37.300Z",
-  "updatedAt": "2026-10-24T19:08:40.685Z"
+  "updatedAt": "2026-10-24T19:08:43.180Z"
 }
