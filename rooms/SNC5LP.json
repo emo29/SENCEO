@@ -11,8 +11,8 @@
     "teamSubMode": "",
     "turnStep": 1,
     "timerSeconds": 0,
-    "starterMode": "random",
-    "selectedStarterCode": ""
+    "starterMode": "manual",
+    "selectedStarterCode": "SNC-1265"
   },
   "status": "lobby_open",
   "currentRound": 1,
@@ -42,5 +42,5 @@
   "qIds": [],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:27:45.260Z"
+  "updatedAt": "2026-10-24T11:28:02.763Z"
 }
