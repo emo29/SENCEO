@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792841554614,
-  "latestRoomCode": "TIUGPJ",
+  "latestRoomCode": "TQODTZ",
   "activeRooms": [
+    {
+      "code": "TQODTZ",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1100",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "ffa",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T11:33:57.551Z"
+    },
     {
       "code": "TIUGPJ",
       "p1": "Oyuncu_A",
@@ -48,6 +64,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T11:33:32.453Z",
+  "updatedAt": "2026-10-24T11:33:57.551Z",
   "deletedRoomCodes": []
 }
