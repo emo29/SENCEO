@@ -111,16 +111,18 @@
     {}
   ],
   "p2WatchingSlides": false,
-  "p2WatchedSlides": false,
+  "p2WatchedSlides": true,
   "lastMatchPercentage": 60,
   "lastCorrectCount": 6,
   "lastTotalQuestions": 10,
   "completedAt": "2026-10-24T12:52:25.299Z",
-  "updatedAt": "2026-10-24T12:52:27.759Z",
+  "updatedAt": "2026-10-24T12:52:29.115Z",
   "nextRoundSecondCode": "SNC-8029",
   "nextRoundSecondName": "sıradana",
   "round2NudgeAt": 1792846347759,
   "round2NudgeFrom": "sıradana",
   "round2NudgeFromCode": "SNC-8029",
-  "round2NudgeTargetRound": 2
+  "round2NudgeTargetRound": 2,
+  "p2WatchingBy": "sıradanb",
+  "slideStatusUpdatedAt": 1792846349115
 }
