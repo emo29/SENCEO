@@ -47,7 +47,7 @@
     9
   ],
   "createdAt": "2026-10-24T12:43:52.867Z",
-  "updatedAt": "2026-10-24T12:44:33.255Z",
+  "updatedAt": "2026-10-24T12:44:36.100Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,19 +89,31 @@
     "activeAnswererName": "Hakan",
     "activeGuesserCode": "SNC-2119",
     "activeGuesserName": "Mert",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 1,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 2,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-2119": {
+        "code": "SNC-2119",
+        "name": "Mert",
+        "guessIndex": 2,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "submittedAt": 1792845876100
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -212,7 +224,7 @@
         "name": "Mert",
         "team": "common",
         "correct": 1,
-        "total": 1,
+        "total": 2,
         "points": 100
       },
       "SNC-6189": {
@@ -230,7 +242,7 @@
         "name": "Mert",
         "team": "common",
         "correct": 1,
-        "total": 1,
+        "total": 2,
         "points": 100
       },
       "SNC-6189": {
@@ -242,7 +254,7 @@
         "points": 200
       }
     },
-    "phaseStartedAt": 1792845873255,
-    "updatedAt": 1792845873255
+    "phaseStartedAt": 1792845876100,
+    "updatedAt": 1792845876100
   }
 }
