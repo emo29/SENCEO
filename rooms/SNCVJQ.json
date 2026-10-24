@@ -1,0 +1,71 @@
+{
+  "code": "SNCVJQ",
+  "p1Id": "USR_FW6OPX9",
+  "p1FriendCode": "SNC-7224",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "emirhan",
+  "p2": "",
+  "cat": "ekstrem",
+  "thm": "luminous",
+  "qIds": [
+    19,
+    52,
+    22,
+    5,
+    49
+  ],
+  "usedQuestionIds": [
+    19,
+    52,
+    22,
+    5,
+    49
+  ],
+  "customOptionsMap": {
+    "3": "Amerikanya uçağına"
+  },
+  "p1Answers": [
+    0,
+    2,
+    1,
+    3,
+    2
+  ],
+  "p1Comments": [
+    {
+      "emoji": "🔥",
+      "text": "1 yıl nedirkine"
+    },
+    {
+      "emoji": "🔥",
+      "text": "hawking"
+    },
+    {
+      "emoji": "🤔",
+      "text": ""
+    },
+    {
+      "emoji": "🔥",
+      "text": ""
+    },
+    {
+      "emoji": "😎",
+      "text": "e yani"
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-24T17:58:23.316Z"
+}
