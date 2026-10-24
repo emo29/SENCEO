@@ -1,17 +1,17 @@
 {
   "code": "SNCWYX",
-  "p1Id": "USR_CG0AFWW",
-  "p1FriendCode": "SNC-9189",
-  "p2FriendCode": "",
+  "p1Id": "USR_9I6XA8U",
+  "p1FriendCode": "SNC-3675",
+  "p2FriendCode": "SNC-3675",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
-  "whoseTurn": "p2",
+  "whoseTurn": "p1",
   "p1": "deneme1",
-  "p2": "",
+  "p2": "aaa1",
   "cat": "genel",
-  "thm": "luminous",
+  "thm": "obsidian",
   "qIds": [
     32,
     70,
@@ -29,7 +29,12 @@
     70,
     53,
     26,
-    2
+    2,
+    3,
+    25,
+    7,
+    58,
+    55
   ],
   "customOptionsMap": {},
   "p1Answers": [
@@ -61,13 +66,73 @@
       "text": "c"
     }
   ],
-  "p2Guesses": [],
-  "p2Comments": [],
-  "p2Half2QIds": [],
+  "p2Guesses": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Half2QIds": [
+    3,
+    25,
+    7,
+    58,
+    55
+  ],
   "p2Half2CustomMap": {},
-  "p2Half2Answers": [],
-  "p2Half2Comments": [],
+  "p2Half2Answers": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "🤔",
+      "text": "v"
+    },
+    {
+      "emoji": "",
+      "text": "v"
+    },
+    {
+      "emoji": "",
+      "text": "a"
+    },
+    {
+      "emoji": "",
+      "text": "r"
+    },
+    {
+      "emoji": "",
+      "text": "w"
+    }
+  ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T02:24:55.905Z"
+  "updatedAt": "2026-10-24T02:25:39.380Z"
 }
