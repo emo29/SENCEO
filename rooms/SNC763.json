@@ -1,0 +1,26 @@
+{
+  "code": "SNC763",
+  "p1Id": "USR_CG0AFWW",
+  "p1FriendCode": "SNC-9189",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "deneme1",
+  "p2": "",
+  "participants": [
+    {
+      "name": "deneme1",
+      "code": "SNC-9189",
+      "role": "host",
+      "isHost": true
+    }
+  ],
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [],
+  "createdAt": "2026-10-24T02:24:34.742Z",
+  "updatedAt": "2026-10-24T02:24:34.343Z",
+  "hostCode": "SNC-9189"
+}
