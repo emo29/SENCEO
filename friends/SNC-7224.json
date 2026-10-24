@@ -83,7 +83,8 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-24T17:55:00.220Z",
+  "updatedAt": "2026-10-24T17:55:30.266Z",
   "deletedRoomCodes": [],
-  "isPasswordProtected": true
+  "isPasswordProtected": true,
+  "lastPropagatedName": "emirhan"
 }
