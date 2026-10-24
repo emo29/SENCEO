@@ -8,10 +8,25 @@
   "provider": "guest",
   "isPermanentMember": false,
   "lastXpActivityAt": 1792803556722,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCTUQ",
+  "activeRooms": [
+    {
+      "code": "SNCTUQ",
+      "p1": "EmirhanTest",
+      "p2": "",
+      "p1FriendCode": "SNC-1813",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T00:59:20.750Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T00:59:18.662Z"
+  "updatedAt": "2026-10-24T00:59:20.750Z"
 }
