@@ -7,7 +7,7 @@
   "roomType": "live_arena",
   "arenaFormat": "ffa",
   "liveSettings": {},
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "currentRound": 1,
   "p1": "sağdakipc1",
   "p2": "sağdakipc1",
@@ -33,5 +33,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T01:01:03.299Z",
-  "updatedAt": "2026-10-24T01:05:59.698Z"
+  "updatedAt": "2026-10-24T01:14:11.226Z"
 }
