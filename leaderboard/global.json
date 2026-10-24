@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T03:55:50.075Z",
+  "updatedAt": "2026-10-24T03:56:37.090Z",
   "players": [
     {
       "friendCode": "SNC-3375",
@@ -167,6 +167,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792814150074,
       "updatedAt": "2026-10-24T03:55:50.074Z"
+    },
+    {
+      "friendCode": "SNC-5838",
+      "username": "sıradana",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792814197090,
+      "updatedAt": "2026-10-24T03:56:37.090Z"
     }
   ]
 }
