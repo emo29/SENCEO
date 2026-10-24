@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-7788",
-  "username": "sıradana",
+  "username": "EmirhanTest",
   "level": 2,
   "xp": 180,
   "gamesPlayed": 1,
@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792814370887,
-  "latestRoomCode": "MFFA9",
+  "latestRoomCode": "SNC7TH",
   "activeRooms": [
+    {
+      "code": "SNC7TH",
+      "p1": "EmirhanTest",
+      "p2": "",
+      "p1FriendCode": "SNC-7788",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T04:00:12.388Z"
+    },
     {
       "code": "MFFA9",
       "p1": "Oyuncu_A",
@@ -141,6 +157,6 @@
       "createdAt": "2026-10-24T03:59:24.026Z"
     }
   ],
-  "updatedAt": "2026-10-24T04:00:06.151Z",
+  "updatedAt": "2026-10-24T04:00:12.388Z",
   "deletedRoomCodes": []
 }
