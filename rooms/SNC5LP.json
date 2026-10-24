@@ -48,7 +48,7 @@
   ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:29:47.420Z",
+  "updatedAt": "2026-10-24T11:29:59.075Z",
   "liveMatchState": {
     "qIds": [
       60,
@@ -78,19 +78,31 @@
     "activeAnswererName": "B4ris",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 1,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 1,
     "currentGuessComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "❤️",
+      "text": "qolaydı"
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-7224": {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "guessIndex": 1,
+        "comment": {
+          "emoji": "❤️",
+          "text": "qolaydı"
+        },
+        "isCorrect": true,
+        "submittedAt": 1792841399075
+      }
+    },
     "history": [],
     "scores": {
       "SNC-1265": {
@@ -105,9 +117,9 @@
         "code": "SNC-7224",
         "name": "emirhan",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       }
     },
     "scoresByPlayer": {
@@ -123,12 +135,12 @@
         "code": "SNC-7224",
         "name": "emirhan",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       }
     },
-    "phaseStartedAt": 1792841387420,
-    "updatedAt": 1792841387420
+    "phaseStartedAt": 1792841399075,
+    "updatedAt": 1792841399075
   }
 }
