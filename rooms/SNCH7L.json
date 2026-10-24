@@ -47,7 +47,7 @@
     27
   ],
   "createdAt": "2026-10-24T12:46:38.015Z",
-  "updatedAt": "2026-10-24T12:47:09.190Z",
+  "updatedAt": "2026-10-24T12:47:11.780Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,19 +89,31 @@
     "activeAnswererName": "Hakan",
     "activeGuesserCode": "SNC-1865",
     "activeGuesserName": "Mert",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "Süre Bitimi Özel Şık B",
-    "currentGuess": null,
+    "currentGuess": 3,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-1865": {
+        "code": "SNC-1865",
+        "name": "Mert",
+        "guessIndex": 3,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "submittedAt": 1792846031780
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -143,9 +155,9 @@
         "code": "SNC-1865",
         "name": "Mert",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       },
       "SNC-5480": {
         "code": "SNC-5480",
@@ -161,9 +173,9 @@
         "code": "SNC-1865",
         "name": "Mert",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       },
       "SNC-5480": {
         "code": "SNC-5480",
@@ -174,7 +186,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792846029190,
-    "updatedAt": 1792846029190
+    "phaseStartedAt": 1792846031780,
+    "updatedAt": 1792846031780
   }
 }
