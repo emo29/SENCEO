@@ -1,0 +1,230 @@
+/* ==========================================================================
+   senceo v0.11 — MOBİL GÖRÜNÜM (stitch_remix_of_friendship_quiz_app_design)
+   Yalnızca mobil tarayıcılarda (iOS Safari, Android Chrome, Vivaldi, Samsung...)
+   <html class="is-mobile"> eklendiğinde devreye girer. Masaüstü görünüm etkilenmez.
+   Tüm renkler tema değişkenlerinden gelir → 4 temanın 4'ünde de uyumludur.
+   ========================================================================== */
+
+/* Görünürlük yardımcıları */
+html:not(.is-mobile) .m-only { display: none !important; }
+html.is-mobile .d-only { display: none !important; }
+
+html.is-mobile body {
+  overscroll-behavior-y: none;
+  -webkit-text-size-adjust: 100%;
+}
+html.is-mobile ::-webkit-scrollbar { display: none; }
+
+/* iOS'ta inputa dokununca otomatik zoom olmasın */
+html.is-mobile input,
+html.is-mobile textarea,
+html.is-mobile select { font-size: 16px !important; }
+
+/* ---------------- ÜST BAR (Kompakt) ---------------- */
+html.is-mobile header.stitch-header { padding-top: env(safe-area-inset-top, 0px); }
+html.is-mobile header.stitch-header > div { height: 64px; padding-left: 14px; padding-right: 10px; gap: 6px; }
+html.is-mobile #btn-open-profile { padding: 0; border-radius: 9999px; box-shadow: none; }
+html.is-mobile #btn-open-profile #nav-profile-avatar { width: 34px; height: 34px; }
+html.is-mobile .m-brand-sub {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.02em; color: var(--on-surface-variant);
+  display: inline-flex; align-items: center; gap: 4px; line-height: 1;
+}
+html.is-mobile .m-brand-sub .m-dot { width: 6px; height: 6px; border-radius: 9999px; background: var(--secondary); }
+html.is-mobile .m-header-icon-btn {
+  min-width: 38px; height: 38px; padding: 0 8px; border-radius: 10px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 3px;
+}
+html.is-mobile #top-notification-banner {
+  position: fixed; left: 12px; right: 12px;
+  top: calc(64px + env(safe-area-inset-top, 0px) + 8px);
+  justify-content: center; z-index: 45;
+}
+html.is-mobile #top-notification-text { max-width: none; }
+
+/* ---------------- ANA İÇERİK BOŞLUKLARI ---------------- */
+html.is-mobile main {
+  padding-top: calc(76px + env(safe-area-inset-top, 0px)) !important;
+  padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)) !important;
+}
+html.is-mobile #main-layout-container { padding-left: 14px; padding-right: 14px; }
+html.is-mobile #site-footer { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+html.is-mobile body[data-view="view-question"] #site-footer,
+html.is-mobile body[data-view="view-challenge-welcome"] #site-footer { padding-bottom: 20px; }
+
+/* ---------------- ALT SEKME ÇUBUĞU ---------------- */
+#mobile-bottom-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  background: var(--header-bg);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border-top: 1px solid var(--outline-variant);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
+}
+#mobile-bottom-nav .m-nav-row { height: 64px; display: flex; align-items: center; justify-content: space-around; padding: 0 4px; }
+#mobile-bottom-nav .m-nav-btn {
+  flex: 1; min-width: 64px; height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; color: var(--on-surface-variant); font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
+  background: transparent; border: none; border-radius: 12px; position: relative;
+  -webkit-tap-highlight-color: transparent; transition: color .15s ease, transform .15s ease;
+}
+#mobile-bottom-nav .m-nav-btn:active { transform: scale(0.94); }
+#mobile-bottom-nav .m-nav-btn .material-symbols-outlined { font-size: 24px; font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
+#mobile-bottom-nav .m-nav-btn.is-active { color: var(--primary); font-weight: 800; }
+#mobile-bottom-nav .m-nav-btn.is-active .material-symbols-outlined { font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24; }
+#mobile-bottom-nav .m-nav-btn.is-active::before {
+  content: ''; position: absolute; top: 2px; width: 34px; height: 3px; border-radius: 9999px; background: var(--primary);
+}
+#mobile-bottom-nav .m-nav-badge {
+  position: absolute; top: 2px; left: calc(50% + 6px); min-width: 17px; height: 17px; padding: 0 4px;
+  border-radius: 9999px; font-size: 10px; font-weight: 800; line-height: 17px; text-align: center;
+  background: var(--primary); color: var(--on-primary);
+}
+#mobile-bottom-nav .m-nav-badge.is-alert { background: #e11d48; color: #fff; }
+html[data-theme="brutal26"] #mobile-bottom-nav { border-top: 2px solid #ccff00; }
+
+/* Oyun oynanırken alt bar gizlenir (soru ekranı tüm alanı kullansın) */
+html.is-mobile body[data-view="view-question"] #mobile-bottom-nav,
+html.is-mobile body[data-view="view-challenge-welcome"] #mobile-bottom-nav,
+html.is-mobile body[data-view="view-halftime-reversal"] #mobile-bottom-nav { display: none !important; }
+
+/* ---------------- ORTAK MOBİL KART/BAŞLIK ---------------- */
+html.is-mobile .m-card {
+  background: var(--surface-lowest); border: var(--card-border); border-radius: var(--radius-card);
+  box-shadow: var(--card-shadow);
+}
+html.is-mobile .m-soft-card { background: var(--surface-low); border: 1px solid var(--outline-variant); border-radius: var(--radius-card); }
+html.is-mobile .m-section-title { font-family: var(--font-display); font-weight: 700; font-size: 20px; line-height: 28px; letter-spacing: -0.015em; }
+html.is-mobile .m-step-dot {
+  width: 24px; height: 24px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; background: var(--primary-container); color: #fff;
+}
+html[data-theme="brutal26"].is-mobile .m-step-dot { background: #ccff00; color: #090a0c; }
+html[data-theme="cosmic"].is-mobile .m-step-dot { color: #fff; }
+
+/* ---------------- YENİ OYUN (Ana Sayfa) ---------------- */
+html.is-mobile #m-stepper-card { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
+html.is-mobile #m-stepper-card .h-px { margin: 18px 0 !important; opacity: 0.6; }
+html.is-mobile #m-stepper-card .step-badge { width: 24px; height: 24px; }
+html.is-mobile #m-stepper-card h2 { font-size: 20px; line-height: 28px; }
+html.is-mobile #m-stepper-card .stitch-input { height: 48px; background: var(--surface-lowest); }
+
+/* Oyun formatı — dikey liste kartları */
+html.is-mobile .m-mode-card {
+  width: 100%; text-align: left; padding: 16px; display: flex; align-items: flex-start; gap: 14px; position: relative;
+  background: var(--surface-lowest); border: 2px solid transparent; border-radius: var(--radius-card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); color: var(--on-surface); transition: all .18s ease;
+}
+html.is-mobile .m-mode-card:active { transform: scale(0.985); }
+html.is-mobile .m-mode-card .m-mode-icon {
+  width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--surface-container); color: var(--on-surface-variant);
+}
+html.is-mobile .m-mode-card .m-mode-tag {
+  display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; padding: 2px 8px; border-radius: 6px;
+  font-size: 11px; font-weight: 700; background: var(--surface-container); color: var(--on-surface-variant);
+}
+html.is-mobile .m-mode-card .m-check { position: absolute; top: 16px; right: 16px; color: var(--outline); font-size: 22px; }
+html.is-mobile .m-mode-card .m-check-on { display: none; color: var(--primary); }
+html.is-mobile .m-mode-card.is-active {
+  border-color: var(--primary); box-shadow: 0 4px 14px -2px var(--primary-fixed);
+}
+html.is-mobile .m-mode-card.is-active .m-mode-icon { background: var(--primary-fixed); color: var(--primary); }
+html.is-mobile .m-mode-card.is-active .m-check-off { display: none; }
+html.is-mobile .m-mode-card.is-active .m-check-on { display: inline-block; }
+html[data-theme="brutal26"].is-mobile .m-mode-card { border: 2px solid rgba(204, 255, 0, 0.35); }
+html[data-theme="brutal26"].is-mobile .m-mode-card.is-active { border-color: #ccff00; box-shadow: 4px 4px 0 #ff4d00; }
+
+/* Kategori — 2x2 sol hizalı kartlar */
+html.is-mobile #category-grid { gap: 10px; }
+html.is-mobile #category-grid .cat-btn {
+  align-items: flex-start; text-align: left; justify-content: space-between; min-height: 118px; padding: 14px;
+  background: var(--surface-lowest); border-radius: var(--radius-card); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+html.is-mobile #category-grid .cat-btn > div:first-child { width: 36px; height: 36px; border-radius: 10px; box-shadow: none; }
+html.is-mobile #category-grid .cat-btn > div:nth-child(2) { font-size: 16px; }
+
+/* Başlat butonları — önce ana buton, sonra kod ile katıl */
+html.is-mobile #home-action-bar { flex-direction: column-reverse !important; border-top: none; padding-top: 6px; gap: 10px; }
+html.is-mobile #btn-start-game { height: 56px; border-radius: 14px; font-size: 16px; }
+html.is-mobile #home-action-bar > button:last-child { width: 100%; }
+
+/* ---------------- AKTİF OYUNLAR ---------------- */
+html.is-mobile #view-active-games { gap: 18px; }
+html.is-mobile #view-active-games.space-y-8 > * + * { margin-top: 18px; }
+html.is-mobile #urgent-turn-banner {
+  background: var(--btn-primary-bg) !important; color: var(--btn-primary-text) !important;
+  border: var(--btn-primary-border) !important; box-shadow: var(--btn-primary-shadow) !important; padding: 18px !important;
+}
+html.is-mobile #urgent-turn-banner .text-muted-theme,
+html.is-mobile #urgent-turn-banner h2,
+html.is-mobile #urgent-turn-banner span { color: inherit !important; }
+html.is-mobile #urgent-turn-banner .text-muted-theme { opacity: 0.85; }
+html.is-mobile #urgent-turn-banner #urgent-banner-badge { background: rgba(255, 255, 255, 0.2) !important; }
+html.is-mobile #urgent-turn-banner .bg-primary-theme { background: rgba(255, 255, 255, 0.2) !important; color: inherit !important; box-shadow: none !important; }
+html.is-mobile #urgent-banner-btn {
+  background: var(--surface-lowest) !important; color: var(--primary) !important; box-shadow: none !important; border: none !important;
+}
+html[data-theme="brutal26"].is-mobile #urgent-banner-btn { background: #090a0c !important; color: #ccff00 !important; }
+html.is-mobile #lobby-filter-tabs { width: 100%; }
+html.is-mobile #lobby-filter-tabs .lobby-filter-btn { flex: 1; text-align: center; padding-top: 9px; padding-bottom: 9px; }
+
+/* Hızlı Odaya Katıl — 6 kutulu kod girişi */
+html.is-mobile .m-otp-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+html.is-mobile .m-otp-box {
+  width: 100%; aspect-ratio: 1 / 1.1; max-height: 58px; text-align: center; text-transform: uppercase;
+  font-family: var(--font-mono); font-weight: 800; font-size: 20px !important; color: var(--primary);
+  background: var(--surface-lowest); border: 1.5px solid var(--outline-variant); border-radius: 12px; outline: none; padding: 0;
+}
+html.is-mobile .m-otp-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-fixed); }
+
+/* ---------------- BAĞLARIM (sıralama: kimlik → kod gir → istekler → bağlar) ---------------- */
+html.is-mobile #view-bonds:not(.hidden) { display: flex; flex-direction: column; gap: 16px; }
+html.is-mobile #view-bonds.space-y-6 > * + * { margin-top: 0; }
+html.is-mobile #view-bonds .m-contents { display: contents; }
+html.is-mobile #view-bonds .m-contents > .space-y-5 > * + * { margin-top: 0; }
+html.is-mobile #bonds-header-row { order: 0; }
+html.is-mobile #bonds-my-code-card { order: 1; }
+html.is-mobile #bonds-add-card { order: 2; }
+html.is-mobile #incoming-friend-requests-card { order: 3; }
+html.is-mobile #bonds-list-card { order: 4; }
+html.is-mobile #bonds-my-code-card {
+  background: linear-gradient(160deg, var(--surface-lowest) 55%, var(--secondary-fixed) 160%);
+}
+html.is-mobile #dashboard-my-friend-code { font-size: 36px; line-height: 44px; letter-spacing: 0.02em; }
+html.is-mobile #bonds-header-row h1 { font-size: 22px; }
+
+/* ---------------- LİDERLİK ---------------- */
+html.is-mobile .m-seg {
+  display: flex; padding: 4px; gap: 4px; border-radius: 14px; background: var(--surface-low); border: 1px solid var(--outline-variant);
+}
+html.is-mobile .m-seg button {
+  flex: 1; padding: 10px 8px; border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--on-surface-variant);
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: transparent; border: none;
+}
+html.is-mobile .m-seg button.is-active { background: var(--surface-lowest); color: var(--primary); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); }
+html[data-theme="brutal26"].is-mobile .m-seg button.is-active { background: #ccff00; color: #090a0c; }
+html.is-mobile .m-lb-hidden { display: none !important; }
+html.is-mobile #m-lb-podium { display: grid; grid-template-columns: 1fr 1.12fr 1fr; gap: 8px; align-items: end; }
+html.is-mobile .m-podium-col { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; min-width: 0; }
+html.is-mobile .m-podium-avatar {
+  width: 64px; height: 64px; border-radius: 9999px; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 20px; background: var(--surface-container); color: var(--primary);
+  border: 4px solid var(--surface-lowest); box-shadow: var(--card-shadow);
+}
+html.is-mobile .m-podium-col.is-first .m-podium-avatar {
+  width: 80px; height: 80px; font-size: 24px; background: var(--primary-container); color: #fff; border-color: #f59e0b;
+}
+html.is-mobile .m-podium-box { width: 100%; padding: 10px 6px; border-radius: 14px; background: var(--surface-lowest); border: var(--card-border); }
+html.is-mobile .m-podium-col.is-first .m-podium-box { padding-top: 16px; padding-bottom: 16px; }
+html.is-mobile .m-podium-name { font-weight: 700; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html.is-mobile #view-leaderboard .grid { gap: 14px; }
+
+/* ---------------- SORU / SONUÇ / LOBİ / MODALLAR ---------------- */
+html.is-mobile #view-question .option-btn { min-height: 60px; }
+html.is-mobile #duel-vs-header { margin-bottom: 12px; }
+html.is-mobile #duel-vs-header .stitch-card { padding: 12px; }
+html.is-mobile .fixed.inset-0 > .stitch-card {
+  max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+html.is-mobile .fixed.inset-0.p-4 { padding: 12px; }

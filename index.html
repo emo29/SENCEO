@@ -2,7 +2,31 @@
 <html lang="tr" data-theme="luminous">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#4648d4" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <!-- v0.11: MOBİL TARAYICI ALGILAMA (iOS Safari, Android Chrome, Vivaldi, Samsung Internet, Firefox Mobile...)
+       İlk boyamadan ÖNCE çalışır; yalnızca mobil cihazlarda <html class="is-mobile"> eklenir.
+       Test için: ?mobile=1 (zorla mobil), ?mobile=0 (zorla masaüstü), ?mobile=auto (otomatik) -->
+  <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get('mobile');
+        if (q === '1' || q === '0') localStorage.setItem('senceo_force_mobile', q);
+        if (q === 'auto') localStorage.removeItem('senceo_force_mobile');
+        var forced = localStorage.getItem('senceo_force_mobile');
+        var ua = navigator.userAgent || '';
+        var isMobile =
+          (navigator.userAgentData && navigator.userAgentData.mobile) ||
+          /Android|iPhone|iPod|iPad|Mobile|Opera Mini|IEMobile|SamsungBrowser|Vivaldi.*Mobile/i.test(ua) ||
+          (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+        if (forced === '1') isMobile = true;
+        if (forced === '0') isMobile = false;
+        if (isMobile) document.documentElement.classList.add('is-mobile');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="mobile.css?v=0.11" />
   <title>senceo — Sosyal Uyum &amp; Tahmin Düellosu</title>
   <meta name="description" content="senceo: Arkadaşınla ne kadar uyumlu olduğunu test et! Klasik Oyun düellosu ve Canlı Oda Lobi arenası." />
 
@@ -507,11 +531,14 @@
           <div class="w-9 h-9 rounded-xl bg-primary-theme flex items-center justify-center shadow-sm">
             <span class="material-symbols-outlined text-[20px]">psychology</span>
           </div>
-          <span class="font-display-theme font-extrabold text-xl sm:text-2xl tracking-tight text-primary-theme">senceo</span>
+          <span class="flex flex-col items-start leading-none">
+            <span class="font-display-theme font-extrabold text-xl sm:text-2xl tracking-tight text-primary-theme">senceo</span>
+            <span class="m-only m-brand-sub mt-1"><span class="m-dot"></span><span id="m-header-level">LVL 1 • 0 XP</span></span>
+          </span>
         </button>
 
-        <!-- Desktop & Mobile Multi-Page Navigation Tabs (Yeni Oyun / Aktif Oyunlar / Bağlarım / Liderlik) -->
-        <nav class="flex items-center gap-1">
+        <!-- Desktop Multi-Page Navigation Tabs (Mobilde alt sekme çubuğu kullanılır) -->
+        <nav class="d-only flex items-center gap-1">
           <button
             type="button"
             id="nav-tab-setup"
@@ -565,11 +592,12 @@
         <button
           type="button"
           onclick="toggleCloudJoinModal(true)"
-          class="theme-btn-secondary px-2.5 sm:px-3 py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold shadow-sm"
+          class="theme-btn-secondary m-header-icon-btn px-2.5 sm:px-3 py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold shadow-sm"
           title="Oda Kodu ile Odaya Katıl"
         >
           <span class="material-symbols-outlined text-primary-theme text-[18px]">pin</span>
-          <span class="hidden sm:inline">Odaya Katıl</span>
+          <span class="hidden sm:inline d-only">Odaya Katıl</span>
+          <span class="m-only font-bold text-xs">PIN</span>
         </button>
 
         <!-- Stitch Notification Bell Button ("🔔 Bildirimler") -->
@@ -591,7 +619,7 @@
           type="button"
           id="btn-open-settings"
           onclick="toggleSettingsModal(true)"
-          class="theme-btn-secondary px-2.5 sm:px-3 py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold shadow-sm"
+          class="theme-btn-secondary m-header-icon-btn px-2.5 sm:px-3 py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold shadow-sm"
           title="Ayarlar & Tema Seçimi"
         >
           <span class="material-symbols-outlined text-primary-theme text-[18px]">settings</span>
@@ -609,7 +637,7 @@
           <div id="nav-profile-avatar" class="w-8 h-8 rounded-full bg-primary-theme flex items-center justify-center text-sm font-bold shrink-0">
             <span class="material-symbols-outlined text-[18px]">person</span>
           </div>
-          <div class="hidden sm:flex flex-col text-left leading-tight">
+          <div class="d-only hidden sm:flex flex-col text-left leading-tight">
             <div class="flex items-center gap-1.5">
               <span id="nav-profile-name" class="font-bold text-xs truncate max-w-[115px]">Misafir Oyuncu</span>
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -624,6 +652,30 @@
       </div>
     </div>
   </header>
+
+  <!-- ================= v0.11 MOBİL ALT SEKME ÇUBUĞU (yalnızca mobil tarayıcılarda) ================= -->
+  <nav id="mobile-bottom-nav" class="m-only" aria-label="Mobil Gezinme">
+    <div class="m-nav-row">
+      <button type="button" class="m-nav-btn is-active" data-tab="setup" onclick="mobileNavTo('setup')">
+        <span class="material-symbols-outlined">sports_esports</span>
+        <span>Yeni Oyun</span>
+      </button>
+      <button type="button" class="m-nav-btn" data-tab="duels" onclick="mobileNavTo('duels')">
+        <span class="material-symbols-outlined">local_fire_department</span>
+        <span id="m-nav-duels-count" class="m-nav-badge hidden">0</span>
+        <span>Aktif Oyunlar</span>
+      </button>
+      <button type="button" class="m-nav-btn" data-tab="bonds" onclick="mobileNavTo('bonds')">
+        <span class="material-symbols-outlined">diversity_1</span>
+        <span id="m-nav-bonds-count" class="m-nav-badge is-alert hidden">0</span>
+        <span>Bağlarım</span>
+      </button>
+      <button type="button" class="m-nav-btn" data-tab="leaderboard" onclick="mobileNavTo('leaderboard')">
+        <span class="material-symbols-outlined">emoji_events</span>
+        <span>Liderlik</span>
+      </button>
+    </div>
+  </nav>
 
   <!-- ================= MAIN CONTENT AREA ================= -->
   <main class="w-full pt-20 sm:pt-24 pb-10 flex-1">
@@ -679,8 +731,31 @@
 
       <!-- ================= PAGE 1: YENİ OYUN BAŞLAT (Exact Stitch yeni_oyun_ba_lat_light/dark Page #2 & #4) ================= -->
       <section id="view-home" class="animate-view max-w-3xl mx-auto">
+        <!-- v0.11 MOBİL: Hoş geldin / Misafir şeridi (stitch_remix mobil tasarımı) -->
+        <section id="m-home-welcome" class="m-only m-soft-card p-4 mb-5 flex flex-col gap-1.5">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5 min-w-0">
+              <span class="material-symbols-outlined text-primary-theme text-[20px] shrink-0">verified_user</span>
+              <span class="font-bold text-[15px] truncate">Hoş geldin, <span id="m-welcome-name">Oyuncu</span></span>
+              <span id="m-welcome-badge" class="px-2 py-0.5 rounded-full bg-[var(--surface-high)] text-muted-theme text-[11px] font-bold shrink-0">Misafir</span>
+            </div>
+            <button
+              type="button"
+              id="m-welcome-link-btn"
+              onclick="openSocialLoginModal('Google')"
+              class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[var(--surface-container)] text-primary-theme text-xs font-bold shrink-0"
+            >
+              <span class="material-symbols-outlined text-[16px]">link</span>
+              <span>Hesabını Bağla</span>
+            </button>
+          </div>
+          <p id="m-welcome-desc" class="text-[13px] text-muted-theme leading-relaxed">
+            İlerlemeni, arkadaş bağlarını ve rozetlerini kalıcı kılmak için oturumunu güvenle eşleştirebilirsin.
+          </p>
+        </section>
+
         <!-- Hero Header -->
-        <div class="text-center mb-6 sm:mb-8">
+        <div class="d-only text-center mb-6 sm:mb-8">
           <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full stitch-subcard mb-3">
             <span class="material-symbols-outlined text-primary-theme text-[16px]">bolt</span>
             <span class="font-bold text-[11px] text-primary-theme tracking-wider uppercase">75 SORU • YENİ SEZON</span>
@@ -694,7 +769,7 @@
         </div>
 
         <!-- Compact Auth / Guest Bar -->
-        <div id="home-auth-card" class="stitch-card p-4 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div id="home-auth-card" class="d-only stitch-card p-4 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div class="flex items-center gap-2.5">
             <div class="w-9 h-9 rounded-lg bg-[var(--primary-fixed)] text-primary-theme flex items-center justify-center shrink-0">
               <span class="material-symbols-outlined text-[20px]">shield_person</span>
@@ -741,7 +816,7 @@
         </div>
 
         <!-- Logged-in Welcome Strip -->
-        <div id="home-logged-strip" class="hidden stitch-card px-4 py-2.5 mb-5 flex items-center justify-between text-xs">
+        <div id="home-logged-strip" class="d-only hidden stitch-card px-4 py-2.5 mb-5 flex items-center justify-between text-xs">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-emerald-500 text-[18px]">verified_user</span>
             <span>Hoş geldin, <strong id="strip-user-name" class="text-primary-theme">Oyuncu</strong> (<span id="strip-user-provider">Misafir</span>)</span>
@@ -752,7 +827,7 @@
         </div>
 
         <!-- MAIN STITCH STEPPER CARD -->
-        <div class="stitch-card p-5 sm:p-8">
+        <div id="m-stepper-card" class="stitch-card p-5 sm:p-8">
           <!-- Step 1: Oyuncu Bilgileri -->
           <div class="mb-7">
             <div class="flex items-center gap-2.5 mb-4">
@@ -811,7 +886,44 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <!-- v0.11 MOBİL: Dikey format kartları -->
+            <div class="m-only flex flex-col gap-2.5">
+              <button type="button" id="m-mode-btn-link" onclick="selectGameMode('link')" class="m-mode-card is-active">
+                <div class="m-mode-icon"><span class="material-symbols-outlined text-[24px]">link</span></div>
+                <div class="flex-1 min-w-0 pr-7">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="font-bold text-[16px]">Klasik Oyun</span>
+                    <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 font-extrabold text-[10px] tracking-wider">POPÜLER</span>
+                  </div>
+                  <p class="text-[13px] text-muted-theme leading-snug">Kısa davet linki gönder, karşılıklı 2 yarıda uyumu ölç.</p>
+                  <span class="m-mode-tag"><span class="material-symbols-outlined text-[14px] text-primary-theme">swords</span>1v1 Düello</span>
+                </div>
+                <span class="material-symbols-outlined m-check m-check-off">radio_button_unchecked</span>
+                <span class="material-symbols-outlined m-check m-check-on">check_circle</span>
+              </button>
+              <button type="button" id="m-mode-btn-pass" onclick="selectGameMode('pass')" class="m-mode-card">
+                <div class="m-mode-icon"><span class="material-symbols-outlined text-[24px]">devices</span></div>
+                <div class="flex-1 min-w-0 pr-7">
+                  <div class="font-bold text-[16px] mb-1">Yan Yana</div>
+                  <p class="text-[13px] text-muted-theme leading-snug">Aynı cihazı elden ele devrederek sırayla oynayın.</p>
+                  <span class="m-mode-tag"><span class="material-symbols-outlined text-[14px]">smartphone</span>Tek Cihaz</span>
+                </div>
+                <span class="material-symbols-outlined m-check m-check-off">radio_button_unchecked</span>
+                <span class="material-symbols-outlined m-check m-check-on">check_circle</span>
+              </button>
+              <button type="button" id="m-mode-btn-arena" onclick="selectGameMode('arena')" class="m-mode-card">
+                <div class="m-mode-icon"><span class="material-symbols-outlined text-[24px]">groups</span></div>
+                <div class="flex-1 min-w-0 pr-7">
+                  <div class="font-bold text-[16px] mb-1">Canlı Oda Kur</div>
+                  <p class="text-[13px] text-muted-theme leading-snug">Lobi kodu al; 1v1, 2v2..5v5 veya Herkes Tek canlı yarış!</p>
+                  <span class="m-mode-tag"><span class="material-symbols-outlined text-[14px]">hub</span>Çok Oyunculu</span>
+                </div>
+                <span class="material-symbols-outlined m-check m-check-off">radio_button_unchecked</span>
+                <span class="material-symbols-outlined m-check m-check-on">check_circle</span>
+              </button>
+            </div>
+
+            <div class="d-only grid grid-cols-1 sm:grid-cols-3 gap-3.5">
               <!-- Mode 1: Klasik Oyun (#4) -->
               <button
                 type="button"
@@ -935,7 +1047,7 @@
           </div>
 
           <!-- Bottom Action Bar -->
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-[var(--outline-variant)]">
+          <div id="home-action-bar" class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-[var(--outline-variant)]">
             <button
               type="button"
               onclick="toggleCloudJoinModal(true)"
@@ -957,8 +1069,30 @@
           </div>
         </div>
 
+        <!-- v0.11 MOBİL: Kompakt 3 Adım Kartı -->
+        <section class="m-only m-card p-4 mt-5 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-muted-theme">Nasıl İşler?</span>
+            <span class="text-[11px] font-bold text-emerald-600 dark:text-emerald-300">3 Adımda Kolay</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="flex flex-col items-center text-center gap-1.5 p-2 rounded-lg bg-[var(--surface-low)]">
+              <div class="w-7 h-7 rounded-full bg-[var(--primary-fixed)] text-primary-theme font-bold text-xs flex items-center justify-center">1</div>
+              <span class="text-[11px] font-bold leading-tight">Soruları Cevapla</span>
+            </div>
+            <div class="flex flex-col items-center text-center gap-1.5 p-2 rounded-lg bg-[var(--surface-low)]">
+              <div class="w-7 h-7 rounded-full bg-[var(--secondary-fixed)] text-[var(--on-secondary-fixed)] font-bold text-xs flex items-center justify-center">2</div>
+              <span class="text-[11px] font-bold leading-tight">Kodu Paylaş</span>
+            </div>
+            <div class="flex flex-col items-center text-center gap-1.5 p-2 rounded-lg bg-[var(--surface-low)]">
+              <div class="w-7 h-7 rounded-full bg-[var(--surface-high)] font-bold text-xs flex items-center justify-center">3</div>
+              <span class="text-[11px] font-bold leading-tight">Uyumunu Gör</span>
+            </div>
+          </div>
+        </section>
+
         <!-- Stitch Bottom Helper Note: 3-Step Micro Guide (yeni_oyun_ba_lat_light/code.html) -->
-        <div class="w-full mt-6 rounded-xl p-4 sm:p-5 stitch-subcard flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="d-only w-full mt-6 rounded-xl p-4 sm:p-5 stitch-subcard flex flex-col sm:flex-row items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <div class="w-6 h-6 rounded-full bg-[var(--surface-high)] text-primary-theme text-xs flex items-center justify-center font-bold">1</div>
             <span class="text-xs sm:text-sm font-semibold">Soruları Cevapla</span>
@@ -1062,7 +1196,7 @@
           <!-- Right Column: Bağlarım & Profil Özeti (5 Cols — Exact Stitch Layout) -->
           <aside class="lg:col-span-5 space-y-6">
             <!-- 1. Player Level & Account Saving Card (Stitch Design) -->
-            <div class="stitch-card p-6 space-y-4">
+            <div class="d-only stitch-card p-6 space-y-4">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
                   <div class="w-10 h-10 rounded-full bg-primary-theme flex items-center justify-center">
@@ -1122,7 +1256,7 @@
             </div>
 
             <!-- 2. Friendship Bonds List Card (Stitch Design) -->
-            <div class="stitch-card p-6 space-y-4">
+            <div class="d-only stitch-card p-6 space-y-4">
               <div class="flex items-center justify-between">
                 <div>
                   <span class="text-[11px] font-bold uppercase tracking-wider text-primary-theme">İLİŞKİ AĞI</span>
@@ -1158,7 +1292,21 @@
               <p class="text-xs text-muted-theme">
                 Arkadaşının gönderdiği 6 haneli lobi kodunu gir ve hemen eşleş.
               </p>
-              <form class="flex flex-col sm:flex-row gap-2" onsubmit="handleDashboardQuickJoin(event)">
+              <div class="m-only flex-col gap-3" style="display:flex">
+                <div class="m-otp-row">
+                  <input class="m-otp-box" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Kod 1" />
+                  <input class="m-otp-box" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Kod 2" />
+                  <input class="m-otp-box" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Kod 3" />
+                  <input class="m-otp-box" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Kod 4" />
+                  <input class="m-otp-box" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Kod 5" />
+                  <input class="m-otp-box" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Kod 6" />
+                </div>
+                <button type="button" onclick="submitMobileOtpJoin()" class="theme-btn-primary w-full py-3.5 text-sm flex items-center justify-center gap-2">
+                  <span>Odaya Bağlan</span>
+                  <span class="material-symbols-outlined text-[18px]">login</span>
+                </button>
+              </div>
+              <form class="d-only flex flex-col sm:flex-row gap-2" onsubmit="handleDashboardQuickJoin(event)">
                 <input
                   id="dashboard-quick-room-input"
                   type="text"
@@ -1179,11 +1327,11 @@
 
       <!-- ================= PAGE 3: BAĞLARIM (DEDICATED SEPARATE PAGE WITH TWO-WAY FRIEND REQUESTS) ================= -->
       <section id="view-bonds" class="hidden animate-view max-w-4xl mx-auto space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div id="bonds-header-row" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <span class="text-[11px] font-bold uppercase tracking-wider text-primary-theme">ARKADAŞLIK &amp; BAĞ SEVİYELERİ</span>
             <h1 class="font-display-theme text-2xl sm:text-3xl font-extrabold">Bağlarım &amp; Arkadaş Kodu</h1>
-            <p class="text-xs sm:text-sm text-muted-theme">
+            <p class="d-only text-xs sm:text-sm text-muted-theme">
               Arkadaşının <strong>SNC-XXXX</strong> kodunu eklediğinde karşı tarafa anında <strong>Arkadaşlık Bağı İsteği</strong> ve bildirim gider; kabul ettiğinde veya düello başlattığında doğrudan eşleşirsiniz!
             </p>
           </div>
@@ -1207,6 +1355,70 @@
           </div>
         </div>
 
+        <!-- v0.11 DAVET LİNKİYLE (?friend=SNC-XXXX&fname=...) GELİNDİĞİNDE GÖSTERİLEN KARŞILIKLI BAĞ ONAY KARTI -->
+        <div id="friend-invite-accepted-banner" class="hidden stitch-card p-5 border-2 border-emerald-500 bg-emerald-500/10 space-y-3">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-xl shadow shrink-0">
+                🤝
+              </div>
+              <div>
+                <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-extrabold text-[10px] uppercase tracking-wider mb-0.5">
+                  ÇİFT YÖNLÜ ARKADAŞLIK BAĞI KURULDU
+                </span>
+                <h3 id="friend-invite-banner-title" class="font-display-theme font-extrabold text-base sm:text-lg">
+                  Arkadaşın ile Bağ Ağına Eklendiniz!
+                </h3>
+                <p id="friend-invite-banner-desc" class="text-xs text-muted-theme">
+                  Artık ikinizin de Kayıtlı Arkadaş Bağlarım listesinde birbirinizi görebilir ve tek tıkla düello başlatabilirsiniz.
+                </p>
+              </div>
+            </div>
+            <button type="button" onclick="dismissFriendInviteBanner()" class="w-8 h-8 rounded-full stitch-subcard flex items-center justify-center text-xs font-bold shrink-0" title="Kapat">✕</button>
+          </div>
+
+          <div id="friend-invite-name-row" class="hidden pt-1">
+            <label for="input-friend-invite-my-name" class="block text-xs font-bold mb-1 text-primary-theme">
+              ✏️ Arkadaşının ekranında görünecek adın:
+            </label>
+            <div class="flex gap-2">
+              <input
+                id="input-friend-invite-my-name"
+                type="text"
+                maxlength="18"
+                placeholder="Örn: emirhan"
+                class="stitch-input flex-1 px-3.5 py-2 text-xs sm:text-sm font-bold"
+              />
+              <button
+                type="button"
+                onclick="saveNameFromFriendInviteBanner()"
+                class="theme-btn-secondary px-4 py-2 text-xs font-extrabold shrink-0"
+              >
+                İsmimi Kaydet ✓
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5 pt-1">
+            <button
+              type="button"
+              id="btn-friend-invite-start-duel"
+              onclick="confirmFriendInviteAndStartDuel()"
+              class="theme-btn-primary px-5 py-2.5 text-xs sm:text-sm font-extrabold flex items-center gap-1.5"
+            >
+              <span>⚡</span>
+              <span id="btn-friend-invite-start-duel-label">Arkadaşınla Hemen Düello Başlat</span>
+            </button>
+            <button
+              type="button"
+              onclick="dismissFriendInviteBanner()"
+              class="theme-btn-secondary px-4 py-2.5 text-xs font-bold"
+            >
+              Bağlarımda Kal
+            </button>
+          </div>
+        </div>
+
         <!-- GELEN ARKADAŞLIK & BAĞ İSTEKLERİ KUTUSU (Kabul Et / Reddet) -->
         <div id="incoming-friend-requests-card" class="hidden stitch-card p-5 border-2 border-[var(--primary)] space-y-3">
           <div class="flex items-center justify-between">
@@ -1223,10 +1435,16 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+        <div class="m-contents grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
           <!-- Left 5 Cols: My Friend Code & Add Friend by Code -->
-          <div class="md:col-span-5 space-y-5">
-            <div class="stitch-card p-6 space-y-3">
+          <div class="m-contents md:col-span-5 space-y-5">
+            <div id="bonds-my-code-card" class="stitch-card p-6 space-y-3">
+              <div class="m-only items-center justify-between" style="display:flex">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--surface-high)] text-primary-theme text-[11px] font-extrabold tracking-wider">
+                  <span class="material-symbols-outlined text-[16px]">fingerprint</span>ÖZEL KİMLİK
+                </span>
+                <span class="inline-flex items-center gap-1.5 text-[11px] font-bold"><span class="w-2 h-2 rounded-full bg-emerald-500"></span>Canlı Bağlantı</span>
+              </div>
               <div class="text-xs font-bold uppercase tracking-wider text-muted-theme">Senin Benzersiz Arkadaş Kodun</div>
               <div id="dashboard-my-friend-code" class="font-mono-theme font-extrabold text-2xl text-primary-theme tracking-wider">
                 SNC-0000
@@ -1234,10 +1452,18 @@
               <p class="text-xs text-muted-theme">
                 Arkadaşın bu kodu girdiğinde sana bildirim gelir ve 5 soruluk düellolarınız otomatik olarak birbirinizin ekranına düşer!
               </p>
+              <div class="m-only grid-cols-2 gap-2" style="display:grid">
+                <button type="button" onclick="mobileCopyFriendCode()" class="theme-btn-primary py-3 text-xs flex items-center justify-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px]">content_copy</span><span>Kodu Kopyala</span>
+                </button>
+                <button type="button" onclick="mobileShareInvite()" class="theme-btn-secondary py-3 text-xs flex items-center justify-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px]">share</span><span>Davet Linki Paylaş</span>
+                </button>
+              </div>
               <button
                 type="button"
                 onclick="copyMyFriendInviteLink()"
-                class="w-full py-2.5 theme-btn-primary text-xs sm:text-sm flex items-center justify-center gap-1.5"
+                class="d-only w-full py-2.5 theme-btn-primary text-xs sm:text-sm flex items-center justify-center gap-1.5"
               >
                 <span class="material-symbols-outlined text-[16px]">share</span>
                 <span>Arkadaş Kodu &amp; Davet Linkini Kopyala</span>
@@ -1247,7 +1473,7 @@
               </div>
             </div>
 
-            <div class="stitch-card p-6 space-y-3">
+            <div id="bonds-add-card" class="stitch-card p-6 space-y-3">
               <h3 class="font-display-theme font-bold text-base">Arkadaş Kodu veya Oda Kodu ile Bağ Ekle</h3>
               <p class="text-xs text-muted-theme">
                 Arkadaşının <strong>SNC-XXXX</strong> kodunu girdiğinde karşı tarafa <strong>Arkadaşlık Bağı İsteği</strong> gönderilir ve aktif düellosu varsa anında bulunur!
@@ -1273,7 +1499,7 @@
           </div>
 
           <!-- Right 7 Cols: Full Bonds List -->
-          <div class="md:col-span-7 stitch-card p-6 space-y-4">
+          <div id="bonds-list-card" class="md:col-span-7 stitch-card p-6 space-y-4">
             <div class="flex items-center justify-between">
               <h3 class="font-display-theme font-bold text-lg">Kayıtlı Arkadaş Bağlarım</h3>
               <button
@@ -1295,7 +1521,7 @@
 
       <!-- ================= PAGE 4: LİDERLİK TABLOSU (STITCH "Liderlik" NAV PAGE) ================= -->
       <section id="view-leaderboard" class="hidden animate-view max-w-5xl mx-auto space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="d-only flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <span class="text-[11px] font-bold uppercase tracking-wider text-primary-theme">SENCEO ARENA SIRALAMASI</span>
             <h1 class="font-display-theme text-2xl sm:text-3xl font-extrabold">Liderlik &amp; En Yüksek Uyum İkilileri</h1>
@@ -1313,9 +1539,29 @@
           </button>
         </div>
 
+        <!-- v0.11 MOBİL: Bireysel / İkililer sekmesi + Sıram kartı + Kürsü -->
+        <div class="m-only flex-col gap-4" style="display:flex">
+          <div class="m-seg">
+            <button type="button" id="m-lb-tab-players" class="is-active" onclick="setMobileLeaderboardTab('players')">
+              <span class="material-symbols-outlined text-[18px]">person</span>En Yüksek TP (Bireysel)
+            </button>
+            <button type="button" id="m-lb-tab-bonds" onclick="setMobileLeaderboardTab('bonds')">
+              <span class="material-symbols-outlined text-[18px]">favorite</span>Ruh İkizi (İkililer)
+            </button>
+          </div>
+          <div id="m-lb-my-rank" class="m-soft-card p-3 flex items-center gap-3"></div>
+          <div id="m-lb-podium-wrap" class="flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <span class="m-section-title flex items-center gap-2"><span class="material-symbols-outlined text-primary-theme">emoji_events</span>Liderlik Kürsüsü</span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--surface-high)] text-[11px] font-bold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Sezon 1 • Canlı</span>
+            </div>
+            <div id="m-lb-podium"></div>
+          </div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           <!-- Left: Top Players by senceo Seviyen -->
-          <div class="stitch-card p-6 space-y-4">
+          <div id="lb-card-players" class="stitch-card p-6 space-y-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary-theme">emoji_events</span>
@@ -1328,7 +1574,7 @@
           </div>
 
           <!-- Right: Top Friendship Bonds -->
-          <div class="stitch-card p-6 space-y-4">
+          <div id="lb-card-bonds" class="stitch-card p-6 space-y-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-rose-500">favorite</span>
@@ -1768,6 +2014,17 @@
               <span>⏭️</span>
               <span id="btn-pass-label">Pas (1/1)</span>
             </button>
+
+            <button
+              type="button"
+              id="btn-replay-half1-slides-inline"
+              onclick="replayHalf1SlidesDuringHalf2()"
+              class="hidden px-3 py-1.5 rounded-full stitch-subcard border border-[var(--primary)] text-primary-theme font-bold text-xs hover:opacity-90 transition items-center gap-1"
+              title="Az önce izlediğin 1. Yarı Tahmin Slaytını 1. sorudan tekrar izle"
+            >
+              <span>🔄</span>
+              <span>Slaytı Tekrar İzle</span>
+            </button>
           </div>
         </div>
 
@@ -1891,8 +2148,8 @@
           </div>
         </div>
 
-        <!-- Canlı Odada İki Oyuncu da Sonucu ve Baloncuğu Gördükten Sonra Sıradaki Soruya Geçiş Kutusu -->
-        <div id="live-reveal-next-box" class="hidden pt-1">
+        <!-- Canlı Odada İki Oyuncu da Sonucu ve Baloncuğu Gördükten Sonra Sıradaki Soruya Geçiş Kutusu + Slayt Tekrar İzle -->
+        <div id="live-reveal-next-box" class="hidden pt-1 space-y-2">
           <button
             type="button"
             id="btn-live-reveal-next"
@@ -1901,6 +2158,16 @@
           >
             <span id="btn-live-reveal-next-text">SONRAKİ SORUYA GEÇ (SIRA DEĞİŞİYOR)</span>
             <span>➔</span>
+          </button>
+
+          <button
+            type="button"
+            id="btn-replay-current-slides"
+            onclick="replayActiveSlideshowFromStart()"
+            class="hidden theme-btn-secondary w-full py-2.5 px-4 font-bold text-xs sm:text-sm items-center justify-center gap-1.5"
+          >
+            <span>🔄</span>
+            <span>Slaytı Baştan Tekrar İzle (1. Sorudan)</span>
           </button>
         </div>
       </section>
@@ -2144,7 +2411,23 @@
             </div>
           </div>
 
-          <!-- SADECE PLAYER 2'DE GÖRÜNEN: "Tahminleri Kontrol Et (Player 1'in Tahmin Slaytını İzle)" Kutusu -->
+          <!-- v0.11 SLAYTI TEKRAR İZLEME OPSİYONU: 1. Yarı Tahmin Slaytı (Player 1 & Yan Yana Modu İçin) -->
+          <div id="p1-replay-slides-box" class="hidden stitch-subcard border border-[var(--primary)] p-4 space-y-2.5 text-center">
+            <div id="p1-replay-slides-desc" class="text-xs sm:text-sm font-bold text-primary-theme">
+              🔄 1. Yarıdaki tahmin slaytını (5 sn Cevap + Yorum Balonları) istediğin zaman tekrar izleyebilirsin:
+            </div>
+            <button
+              type="button"
+              id="btn-p1-replay-slides"
+              onclick="startReplayHalf1SlidesFromResult()"
+              class="theme-btn-secondary w-full py-3 px-5 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2"
+            >
+              <span>🔄</span>
+              <span id="btn-p1-replay-slides-label">1. YARI SLAYTINI TEKRAR İZLE</span>
+            </button>
+          </div>
+
+          <!-- SADECE PLAYER 2'DE (veya YAN YANA MODDA) GÖRÜNEN: "Tahminleri Kontrol Et / Tekrar İzle" Kutusu -->
           <div id="p2-watch-slides-box" class="hidden stitch-subcard border-2 border-emerald-500 bg-emerald-500/10 p-4 space-y-2.5 text-center">
             <div id="p2-watch-slides-desc" class="text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-300">
               🎬 Bakalım arkadaşın senin hazırladığın 5 soruya ne cevap vermiş? (5 sn Cevap + 4 sn Balon Slaytı)
@@ -2219,7 +2502,7 @@
   </main>
 
   <!-- ================= FOOTER (Stitch Footer Links + Mandatory Version Label v0.10) ================= -->
-  <footer class="w-full border-t border-[var(--outline-variant)] bg-[var(--surface-low)] py-5 text-center text-xs text-muted-theme font-semibold">
+  <footer id="site-footer" class="w-full border-t border-[var(--outline-variant)] bg-[var(--surface-low)] py-5 text-center text-xs text-muted-theme font-semibold">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3">
       <div class="flex items-center gap-2">
         <span class="font-display-theme font-extrabold text-primary-theme">senceo</span>
@@ -2231,7 +2514,7 @@
         <button type="button" onclick="openInfoGuideModal('privacy')" class="hover:text-primary-theme transition-colors">Gizlilik</button>
       </div>
       <p>
-        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.10</span>
+        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.11</span>
       </p>
     </div>
   </footer>
@@ -3008,6 +3291,7 @@
   <!-- Scripts -->
   <script src="questions.js"></script>
   <script src="app.js"></script>
+  <script src="mobile.js?v=0.11"></script>
 </body>
 </html>
 

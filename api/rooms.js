@@ -1,6 +1,6 @@
-// Vercel Serverless Function (/api/rooms) — v0.10
+// Vercel Serverless Function (/api/rooms) — v0.11
 // Varsayılan Supabase: https://kypzuqnksnlinkfuxvnl.supabase.co
-// Özellikler (v0.10):
+// Özellikler (v0.11):
 // 1. 409 Conflict korumalı (Optimistic Retry) Bulut JSON Okuma/Yazma
 // 2. Çift Yönlü Arkadaşlık Bağı İstekleri (send_friend_request, respond_friend_request)
 // 3. Gerçek Zamanlı Bildirim Merkezi & Hatırlatma (send_nudge, clear_notifications, set_slide_watch_status)
@@ -402,17 +402,17 @@ function computeActiveAnswererAndGuesser(turnOrder, activeTurnOrderIdx, arenaFor
   const teamRule = String((liveSettings && liveSettings.teamSubMode) || "partner").toLowerCase();
 
   if (isTeamFmt && answerer.team && answerer.team !== "common") {
-    if (teamRule === "partner") {
+    if (teamRule === "partner" || teamRule === "coop_pair") {
       // Eşli Uyum: Aynı takımdaki takım arkadaşını bul
       const partner = safeOrder.find(
         (p, idx) => idx !== ansIdx && p.team === answerer.team
       );
       if (partner) return { answerer, guesser: partner };
-    } else if (teamRule === "rival") {
+    } else if (teamRule === "rival" || teamRule === "cross_team") {
       // Karşı Takımı Tahmin: Rakip takımdan sıradaki oyuncuyu bul
       for (let offset = 1; offset < safeOrder.length; offset++) {
         const candidate = safeOrder[(ansIdx + offset) % safeOrder.length];
-        if (candidate && candidate.team && candidate.team !== answerer.team) {
+        if (candidate && candidate.team && candidate.team !== "common" && candidate.team !== answerer.team) {
           return { answerer, guesser: candidate };
         }
       }
@@ -791,6 +791,127 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, decision, friend: updatedMe });
       }
 
+      // 2B. AKSİYON: Davet Linkiyle (?friend=SNC-XXXX&fname=...) Çift Yönlü Anında Arkadaşlık Bağı Kurma (accept_friend_invite_link)
+      if (body.action === "accept_friend_invite_link") {
+        const inviterCode = String(body.inviterCode || "").trim().toUpperCase();
+        const rawInviterName = String(body.inviterName || "").trim();
+        const accepterCode = String(body.accepterCode || "").trim().toUpperCase();
+        const rawAccepterName = String(body.accepterName || "").trim();
+
+        if (!/^SNC-\d{4}$/.test(inviterCode) || !/^SNC-\d{4}$/.test(accepterCode) || inviterCode === accepterCode) {
+          return res.status(400).json({ error: "Geçersiz arkadaş kodu." });
+        }
+
+        const isCleanRealName = (n, code) =>
+          Boolean(n && n !== "Misafir Oyuncu" && n !== "Arkadaşın" && n !== "Oyuncu" && n.toUpperCase() !== code);
+
+        // 1. Önce davet linkini paylaşan (örn: ZZerban SNC-1265) kullanıcının kaydını güncelle ve karşı tarafı (örn: emirhan SNC-7224) ekle!
+        let resolvedInviterName = isCleanRealName(rawInviterName, inviterCode) ? rawInviterName : "";
+        const accepterDisplayForInviter = isCleanRealName(rawAccepterName, accepterCode)
+          ? rawAccepterName
+          : `Oyuncu (${accepterCode})`;
+
+        const updatedInviter = await putJsonToCloudPath(
+          `friends/${inviterCode}.json`,
+          (existing) => {
+            const rec = Object.assign(
+              createDefaultFriendRecord(inviterCode, resolvedInviterName || "Oyuncu"),
+              existing || {}
+            );
+            if (isCleanRealName(rec.username, inviterCode)) {
+              resolvedInviterName = rec.username;
+            } else if (resolvedInviterName) {
+              rec.username = resolvedInviterName;
+            }
+            rec.incomingRequests = (rec.incomingRequests || []).filter((r) => r.fromCode !== accepterCode);
+            if (!Array.isArray(rec.acceptedFriends)) rec.acceptedFriends = [];
+
+            const existingFriendIdx = rec.acceptedFriends.findIndex((f) => f && f.code === accepterCode);
+            if (existingFriendIdx >= 0) {
+              if (isCleanRealName(rawAccepterName, accepterCode)) {
+                rec.acceptedFriends[existingFriendIdx].name = rawAccepterName;
+              }
+            } else {
+              rec.acceptedFriends.push({
+                code: accepterCode,
+                name: accepterDisplayForInviter,
+                acceptedAt: new Date().toISOString()
+              });
+            }
+
+            pushNotification(rec, {
+              id: `FINVITE_${accepterCode}_TO_${inviterCode}`,
+              type: "friend_accepted",
+              title: "🎉 Davet Linkinle Yeni Bağ Kuruldu!",
+              message: `${accepterDisplayForInviter}${
+                accepterDisplayForInviter.includes(accepterCode) ? "" : ` (${accepterCode})`
+              } davet linkine tıkladı ve karşılıklı arkadaş bağlarınıza eklendi!`,
+              fromCode: accepterCode,
+              fromName: accepterDisplayForInviter
+            });
+            rec.updatedAt = new Date().toISOString();
+            return rec;
+          },
+          `Mutual friend invite link ${inviterCode} <-> ${accepterCode} (inviter side)`
+        );
+
+        const finalInviterName =
+          resolvedInviterName ||
+          (updatedInviter && isCleanRealName(updatedInviter.username, inviterCode) ? updatedInviter.username : "") ||
+          `Oyuncu (${inviterCode})`;
+
+        // 2. Linke tıklayan (örn: emirhan SNC-7224) kullanıcının bulut kaydına da davet edeni (ZZerban SNC-1265) ekle!
+        const updatedAccepter = await putJsonToCloudPath(
+          `friends/${accepterCode}.json`,
+          (existing) => {
+            const rec = Object.assign(
+              createDefaultFriendRecord(accepterCode, isCleanRealName(rawAccepterName, accepterCode) ? rawAccepterName : "Oyuncu"),
+              existing || {}
+            );
+            if (isCleanRealName(rawAccepterName, accepterCode)) {
+              rec.username = rawAccepterName;
+            }
+            rec.incomingRequests = (rec.incomingRequests || []).filter((r) => r.fromCode !== inviterCode);
+            if (!Array.isArray(rec.acceptedFriends)) rec.acceptedFriends = [];
+
+            const existingFriendIdx = rec.acceptedFriends.findIndex((f) => f && f.code === inviterCode);
+            if (existingFriendIdx >= 0) {
+              if (isCleanRealName(finalInviterName, inviterCode)) {
+                rec.acceptedFriends[existingFriendIdx].name = finalInviterName;
+              }
+            } else {
+              rec.acceptedFriends.push({
+                code: inviterCode,
+                name: finalInviterName,
+                acceptedAt: new Date().toISOString()
+              });
+            }
+            rec.updatedAt = new Date().toISOString();
+            return rec;
+          },
+          `Mutual friend invite link ${inviterCode} <-> ${accepterCode} (accepter side)`
+        );
+
+        let activeRoom = null;
+        if (updatedInviter && updatedInviter.latestRoomCode) {
+          const rFound = await getRoomFromCloud(updatedInviter.latestRoomCode);
+          if (rFound) activeRoom = rFound.room;
+        }
+
+        const safeInviter = updatedInviter ? { ...updatedInviter } : null;
+        const safeAccepter = updatedAccepter ? { ...updatedAccepter } : null;
+        if (safeInviter) delete safeInviter.passwordHash;
+        if (safeAccepter) delete safeAccepter.passwordHash;
+
+        return res.status(200).json({
+          ok: true,
+          inviterName: finalInviterName,
+          inviterFriend: safeInviter,
+          accepterFriend: safeAccepter,
+          room: activeRoom
+        });
+      }
+
       // 3. AKSİYON: Hatırlatma (Nudge) ve 2. Raunda Geçiş Çağrısı Gönderme (send_nudge)
       if (body.action === "send_nudge") {
         const fromCode = String(body.fromCode || "").trim().toUpperCase();
@@ -1129,8 +1250,25 @@ export default async function handler(req, res) {
           (existing) => {
             if (!existing) return null;
             normalizeSingleHostInRoom(existing);
+
+            // Maç zaten sürüyorsa (çift tıklama veya iki oyuncunun aynı anda Yeni Raund'a basması) mevcut raundu koru!
+            if (existing.status === "live_in_progress" && existing.liveMatchState && !body.forceRestart) {
+              return existing;
+            }
+
             const currentHostCode = String(existing.hostCode || existing.p1FriendCode || "").toUpperCase();
-            if (currentHostCode && callerCode && currentHostCode !== callerCode) {
+            const isRoundTransition = existing.status === "completed";
+            const isRoomParticipant =
+              (callerCode && currentHostCode === callerCode) ||
+              (callerCode && String(existing.p2FriendCode || "").toUpperCase() === callerCode) ||
+              (Array.isArray(existing.participants) &&
+                existing.participants.some((p) => String(p.code || "").toUpperCase() === callerCode));
+
+            if (!isRoundTransition) {
+              if (currentHostCode && callerCode && currentHostCode !== callerCode) {
+                return existing;
+              }
+            } else if (callerCode && !isRoomParticipant) {
               return existing;
             }
 
@@ -1138,30 +1276,69 @@ export default async function handler(req, res) {
             if (body.cat) existing.cat = body.cat;
             existing.liveSettings = { ...(existing.liveSettings || {}), ...liveSettings };
 
+            // v0.11: Biten canlı maçtan sonra "Yeni Raund" = aynı oda, raund +1, tüm kurallar korunur, sırayı önceki raundun 2. oyuncusu başlatır!
+            const prevOrder =
+              isRoundTransition && existing.liveMatchState && Array.isArray(existing.liveMatchState.turnOrder)
+                ? existing.liveMatchState.turnOrder
+                : null;
+            existing.currentRound = prevOrder ? (Number(existing.currentRound) || 1) + 1 : Number(existing.currentRound) || 1;
+            existing.liveLeaderboard = null;
+            existing.p1Answers = [];
+            existing.p2Guesses = [];
+            existing.p1Comments = [];
+            existing.p2Comments = [];
+
             const participants =
               Array.isArray(existing.participants) && existing.participants.length > 0
                 ? existing.participants
                 : [{ name: existing.p1 || "Oyuncu 1", code: existing.p1FriendCode || callerCode, team: "common" }];
 
-            let starterIdx = 0;
-            const wantedStarter = String(existing.liveSettings.selectedStarterCode || "").trim().toUpperCase();
-            if (existing.liveSettings.starterMode === "manual" && wantedStarter) {
-              const foundIdx = participants.findIndex(
-                (p) => String(p.code || "").toUpperCase() === wantedStarter || p.name === wantedStarter
+            let turnOrder = [];
+            if (prevOrder && prevOrder.length > 0) {
+              const rotatedPrev = prevOrder.length > 1 ? [...prevOrder.slice(1), prevOrder[0]] : [...prevOrder];
+              const activeMap = new Map(
+                participants.map((p) => [String(p.code || "").toUpperCase(), p])
               );
-              if (foundIdx >= 0) starterIdx = foundIdx;
-            } else {
-              starterIdx = Math.floor(Math.random() * participants.length);
+              rotatedPrev.forEach((po) => {
+                const cUpper = String(po.code || "").toUpperCase();
+                const liveP = activeMap.get(cUpper);
+                if (liveP || activeMap.size === 0) {
+                  turnOrder.push({
+                    code: cUpper,
+                    name: (liveP && liveP.name) || po.name || "Oyuncu",
+                    team: (liveP && liveP.team) || po.team || "common"
+                  });
+                  activeMap.delete(cUpper);
+                }
+              });
+              activeMap.forEach((p, cUpper) => {
+                turnOrder.push({
+                  code: cUpper,
+                  name: p.name || "Oyuncu",
+                  team: p.team || "common"
+                });
+              });
             }
 
-            const turnOrder = [];
-            for (let i = 0; i < participants.length; i++) {
-              const p = participants[(starterIdx + i) % participants.length];
-              turnOrder.push({
-                code: String(p.code || "").toUpperCase(),
-                name: p.name || `Oyuncu ${i + 1}`,
-                team: p.team || "common"
-              });
+            if (turnOrder.length === 0) {
+              let starterIdx = 0;
+              const wantedStarter = String(existing.liveSettings.selectedStarterCode || "").trim().toUpperCase();
+              if (existing.liveSettings.starterMode === "manual" && wantedStarter) {
+                const foundIdx = participants.findIndex(
+                  (p) => String(p.code || "").toUpperCase() === wantedStarter || p.name === wantedStarter
+                );
+                if (foundIdx >= 0) starterIdx = foundIdx;
+              } else {
+                starterIdx = Math.floor(Math.random() * participants.length);
+              }
+              for (let i = 0; i < participants.length; i++) {
+                const p = participants[(starterIdx + i) % participants.length];
+                turnOrder.push({
+                  code: String(p.code || "").toUpperCase(),
+                  name: p.name || `Oyuncu ${i + 1}`,
+                  team: p.team || "common"
+                });
+              }
             }
 
             const turnStep = Math.max(1, Number(existing.liveSettings.turnStep) || 1);
@@ -1186,6 +1363,7 @@ export default async function handler(req, res) {
             });
 
             existing.qIds = qIds;
+            existing.usedQuestionIds = Array.from(new Set([...(existing.usedQuestionIds || []), ...qIds]));
             existing.status = "live_in_progress";
             existing.liveMatchState = {
               qIds,
@@ -1257,6 +1435,8 @@ export default async function handler(req, res) {
                   }));
 
             if (stepAction === "lock_answer") {
+              // v0.11 SIRA KORUMASI: Sadece 'answering' aşamasında ve SADECE aktif cevaplayan kilitleyebilir
+              if (lms.subPhase !== "answering") return existing;
               if (
                 lms.activeAnswererCode &&
                 playerCode &&
@@ -1274,8 +1454,17 @@ export default async function handler(req, res) {
               lms.phaseStartedAt = Date.now();
               lms.updatedAt = Date.now();
             } else if (stepAction === "lock_guess") {
+              // v0.11 SIRA KORUMASI: Sadece 'guessing' aşamasında; cevaplayan kendi cevabını tahmin edemez;
+              // FFA dışındaki modlarda SADECE belirlenen tahminci (activeGuesserCode) tahmin edebilir.
+              if (lms.subPhase !== "guessing") return existing;
+              const fmtGuard = String(existing.arenaFormat || "1v1").toLowerCase();
+              const answererUpper = String(lms.activeAnswererCode || "").toUpperCase();
+              const guesserUpper = String(lms.activeGuesserCode || "").toUpperCase();
+              if (playerCode && answererUpper && playerCode === answererUpper) return existing;
+              if (fmtGuard !== "ffa" && guesserUpper && playerCode && playerCode !== guesserUpper) return existing;
               if (!lms.guessesByPlayer) lms.guessesByPlayer = {};
               const pKey = playerCode || playerName;
+              if (lms.guessesByPlayer[pKey]) return existing;
               const isCorrect =
                 lms.currentAnswer === -1 || choiceIdx === Number(lms.currentAnswer);
 
@@ -1340,6 +1529,14 @@ export default async function handler(req, res) {
               lms.updatedAt = Date.now();
             } else if (stepAction === "next_question") {
               if (lms.subPhase !== "reveal") return existing;
+              // v0.11: Yavaş cihazdan gelen eski "Sonraki Soru" tıklaması bir soruyu atlatamaz
+              if (
+                body.expectedQIndex !== undefined &&
+                body.expectedQIndex !== null &&
+                Number(body.expectedQIndex) !== (Number(lms.qIndex ?? lms.currentQIndex) || 0)
+              ) {
+                return existing;
+              }
 
               if (!Array.isArray(lms.history)) lms.history = [];
               const curQ = Number(lms.qIndex ?? lms.currentQIndex) || 0;
@@ -1603,13 +1800,21 @@ export default async function handler(req, res) {
             Boolean(p.isPermanentMember) ||
             (p.provider && !["guest", "Misafir"].includes(p.provider) && Boolean(p.email));
 
+          let shouldPropagateName = false;
+          const cleanRealUsername =
+            p.username && p.username !== "Misafir Oyuncu" && p.username !== "Oyuncu" ? String(p.username).trim() : "";
+
           try {
             syncedFriendRecord = await putJsonToCloudPath(
               `friends/${cleanFCode}.json`,
               (existing) => {
                 const rec = Object.assign(createDefaultFriendRecord(cleanFCode, p.username), existing || {});
-                if (p.username && p.username !== "Misafir Oyuncu") {
-                  rec.username = p.username;
+                if (cleanRealUsername) {
+                  rec.username = cleanRealUsername;
+                  if (rec.lastPropagatedName !== cleanRealUsername) {
+                    shouldPropagateName = true;
+                    rec.lastPropagatedName = cleanRealUsername;
+                  }
                 }
                 const prevXp = Number(rec.xp) || 0;
                 const nextXp = Math.max(Number(p.xp) || 0, prevXp);
@@ -1631,6 +1836,34 @@ export default async function handler(req, res) {
               `Update friend profile ${cleanFCode}`
             );
           } catch (e) {}
+
+          if (
+            shouldPropagateName &&
+            cleanRealUsername &&
+            syncedFriendRecord &&
+            Array.isArray(syncedFriendRecord.acceptedFriends) &&
+            syncedFriendRecord.acceptedFriends.length > 0
+          ) {
+            for (const fItem of syncedFriendRecord.acceptedFriends.slice(0, 20)) {
+              const targetFriendCode = String((fItem && fItem.code) || "").trim().toUpperCase();
+              if (!/^SNC-\d{4}$/.test(targetFriendCode) || targetFriendCode === cleanFCode) continue;
+              try {
+                await putJsonToCloudPath(
+                  `friends/${targetFriendCode}.json`,
+                  (existing) => {
+                    if (!existing || !Array.isArray(existing.acceptedFriends)) return existing;
+                    const idx = existing.acceptedFriends.findIndex((x) => x && x.code === cleanFCode);
+                    if (idx >= 0) {
+                      existing.acceptedFriends[idx].name = cleanRealUsername;
+                      existing.updatedAt = new Date().toISOString();
+                    }
+                    return existing;
+                  },
+                  `Propagate name ${cleanRealUsername} (${cleanFCode}) to ${targetFriendCode}`
+                );
+              } catch (e) {}
+            }
+          }
 
           await upsertGlobalLeaderboardEntry({
             ...p,
