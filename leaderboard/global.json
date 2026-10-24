@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T02:37:12.271Z",
+  "updatedAt": "2026-10-24T02:43:11.457Z",
   "players": [
     {
       "friendCode": "SNC-3675",
@@ -14,6 +14,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792808835472,
       "updatedAt": "2026-10-24T02:28:22.402Z"
+    },
+    {
+      "friendCode": "SNC-6283",
+      "username": "deneb",
+      "avatar": "😎",
+      "level": 2,
+      "xp": 150,
+      "gamesPlayed": 1,
+      "questionsCorrect": 5,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792809791457,
+      "updatedAt": "2026-10-24T02:43:11.457Z"
     },
     {
       "friendCode": "SNC-1813",
