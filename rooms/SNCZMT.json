@@ -47,7 +47,7 @@
     66
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T19:01:12.904Z",
+  "updatedAt": "2026-10-24T19:01:19.364Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -94,19 +94,31 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-2002",
     "activeGuesserName": "komnenos",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 0,
     "currentAnswerComment": {
       "emoji": "🔥",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 0,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-2002": {
+        "code": "SNC-2002",
+        "name": "komnenos",
+        "guessIndex": 0,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "submittedAt": 1792868479364
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -190,9 +202,9 @@
         "code": "SNC-2002",
         "name": "komnenos",
         "team": "common",
-        "correct": 1,
-        "total": 1,
-        "points": 100
+        "correct": 2,
+        "total": 2,
+        "points": 200
       }
     },
     "scoresByPlayer": {
@@ -208,13 +220,13 @@
         "code": "SNC-2002",
         "name": "komnenos",
         "team": "common",
-        "correct": 1,
-        "total": 1,
-        "points": 100
+        "correct": 2,
+        "total": 2,
+        "points": 200
       }
     },
-    "phaseStartedAt": 1792868472904,
-    "updatedAt": 1792868472904
+    "phaseStartedAt": 1792868479364,
+    "updatedAt": 1792868479364
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
