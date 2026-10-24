@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-7929",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-7929",
       "cat": "genel",
-      "updatedAt": "2026-10-24T03:19:31.967Z"
+      "lastMatchPercentage": 70,
+      "updatedAt": "2026-10-24T03:20:20.899Z"
     },
     {
       "code": "SNCTM6",
@@ -49,6 +50,17 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [
+    {
+      "id": "DONE_P1_SNCCMC_R1",
+      "type": "completed",
+      "title": "🏆 Düello Tamamlandı! (%70 Uyum)",
+      "message": "sıradanb ile #SNCCMC düellosunun sonuç karnesi hazır!",
+      "fromCode": "SNC-7929",
+      "fromName": "sıradanb",
+      "roomCode": "SNCCMC",
+      "read": false,
+      "createdAt": "2026-10-24T03:20:20.899Z"
+    },
     {
       "id": "TURN_P1_SNCCMC_R1",
       "type": "turn",
@@ -83,6 +95,6 @@
       "createdAt": "2026-10-24T03:16:18.254Z"
     }
   ],
-  "updatedAt": "2026-10-24T03:19:31.967Z",
+  "updatedAt": "2026-10-24T03:20:20.899Z",
   "deletedRoomCodes": []
 }
