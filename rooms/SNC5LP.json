@@ -48,7 +48,7 @@
   ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:29:21.710Z",
+  "updatedAt": "2026-10-24T11:29:47.420Z",
   "liveMatchState": {
     "qIds": [
       60,
@@ -78,8 +78,8 @@
     "activeAnswererName": "B4ris",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 1,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
@@ -128,7 +128,7 @@
         "points": 0
       }
     },
-    "phaseStartedAt": 1792841361710,
-    "updatedAt": 1792841361710
+    "phaseStartedAt": 1792841387420,
+    "updatedAt": 1792841387420
   }
 }
