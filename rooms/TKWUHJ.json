@@ -2,7 +2,7 @@
   "code": "TKWUHJ",
   "roomType": "live_arena",
   "arenaFormat": "3v3",
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "hostCode": "SNC-1100",
   "hostName": "Oyuncu_A",
   "p1": "Oyuncu_A",
@@ -57,5 +57,181 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-1100"
   },
-  "updatedAt": "2026-10-24T11:35:44.580Z"
+  "updatedAt": "2026-10-24T11:35:47.657Z",
+  "cat": "genel",
+  "currentRound": 1,
+  "liveLeaderboard": null,
+  "qIds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "liveMatchState": {
+    "qIds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-1100",
+        "name": "Oyuncu_A",
+        "team": "blue"
+      },
+      {
+        "code": "SNC-1101",
+        "name": "Oyuncu_B",
+        "team": "blue"
+      },
+      {
+        "code": "SNC-1102",
+        "name": "Oyuncu_C",
+        "team": "blue"
+      },
+      {
+        "code": "SNC-1103",
+        "name": "Oyuncu_D",
+        "team": "red"
+      },
+      {
+        "code": "SNC-1104",
+        "name": "Oyuncu_E",
+        "team": "red"
+      },
+      {
+        "code": "SNC-1105",
+        "name": "Oyuncu_F",
+        "team": "red"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-1100",
+    "activeAnswererName": "Oyuncu_A",
+    "activeGuesserCode": "SNC-1101",
+    "activeGuesserName": "Oyuncu_B",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-1100": {
+        "code": "SNC-1100",
+        "name": "Oyuncu_A",
+        "team": "blue",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1101": {
+        "code": "SNC-1101",
+        "name": "Oyuncu_B",
+        "team": "blue",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1102": {
+        "code": "SNC-1102",
+        "name": "Oyuncu_C",
+        "team": "blue",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1103": {
+        "code": "SNC-1103",
+        "name": "Oyuncu_D",
+        "team": "red",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1104": {
+        "code": "SNC-1104",
+        "name": "Oyuncu_E",
+        "team": "red",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1105": {
+        "code": "SNC-1105",
+        "name": "Oyuncu_F",
+        "team": "red",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-1100": {
+        "code": "SNC-1100",
+        "name": "Oyuncu_A",
+        "team": "blue",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1101": {
+        "code": "SNC-1101",
+        "name": "Oyuncu_B",
+        "team": "blue",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1102": {
+        "code": "SNC-1102",
+        "name": "Oyuncu_C",
+        "team": "blue",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1103": {
+        "code": "SNC-1103",
+        "name": "Oyuncu_D",
+        "team": "red",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1104": {
+        "code": "SNC-1104",
+        "name": "Oyuncu_E",
+        "team": "red",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1105": {
+        "code": "SNC-1105",
+        "name": "Oyuncu_F",
+        "team": "red",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1792841747657,
+    "updatedAt": 1792841747657
+  }
 }
