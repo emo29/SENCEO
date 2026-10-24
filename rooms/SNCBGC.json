@@ -47,7 +47,7 @@
     9
   ],
   "createdAt": "2026-10-24T12:43:52.867Z",
-  "updatedAt": "2026-10-24T12:43:59.326Z",
+  "updatedAt": "2026-10-24T12:44:07.116Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,13 +89,13 @@
     "activeAnswererName": "Mert",
     "activeGuesserCode": "SNC-6189",
     "activeGuesserName": "Hakan",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
-    "currentCustomOption": "",
+    "currentCustomOption": "Süre Bitimi Özel Şık A",
     "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
@@ -139,7 +139,7 @@
         "points": 0
       }
     },
-    "phaseStartedAt": 1792845839326,
-    "updatedAt": 1792845839326
+    "phaseStartedAt": 1792845847116,
+    "updatedAt": 1792845847116
   }
 }
