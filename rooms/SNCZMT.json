@@ -47,7 +47,7 @@
     74
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T19:05:09.512Z",
+  "updatedAt": "2026-10-24T19:05:58.954Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -99,19 +99,31 @@
     "activeAnswererName": "komnenos",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "memelerime dokunurum",
-    "currentGuess": null,
+    "currentGuess": 0,
     "currentGuessComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "😱",
+      "text": "D"
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-7224": {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "guessIndex": 0,
+        "comment": {
+          "emoji": "😱",
+          "text": "D"
+        },
+        "isCorrect": false,
+        "submittedAt": 1792868758954
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -196,7 +208,7 @@
         "name": "emirhan",
         "team": "common",
         "correct": 1,
-        "total": 1,
+        "total": 2,
         "points": 100
       }
     },
@@ -214,12 +226,12 @@
         "name": "emirhan",
         "team": "common",
         "correct": 1,
-        "total": 1,
+        "total": 2,
         "points": 100
       }
     },
-    "phaseStartedAt": 1792868709512,
-    "updatedAt": 1792868709512
+    "phaseStartedAt": 1792868758954,
+    "updatedAt": 1792868758954
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
