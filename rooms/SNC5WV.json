@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "currentRound": 1,
   "p1": "emirhan",
   "p2": "salihcan",
@@ -39,10 +39,98 @@
   ],
   "cat": "genel",
   "thm": "luminous",
-  "qIds": [],
+  "qIds": [
+    2,
+    53,
+    70,
+    74,
+    1
+  ],
   "createdAt": "2026-10-24T04:20:40.448Z",
-  "updatedAt": "2026-10-24T04:22:42.482Z",
+  "updatedAt": "2026-10-24T04:22:57.953Z",
   "kickedCodes": [
     "SNC-3224"
-  ]
+  ],
+  "liveMatchState": {
+    "qIds": [
+      2,
+      53,
+      70,
+      74,
+      1
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "team": "common"
+      },
+      {
+        "code": "SNC-6206",
+        "name": "salihcan",
+        "team": "common"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-7224",
+    "activeAnswererName": "emirhan",
+    "activeGuesserCode": "SNC-6206",
+    "activeGuesserName": "salihcan",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-7224": {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-6206": {
+        "code": "SNC-6206",
+        "name": "salihcan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-7224": {
+        "code": "SNC-7224",
+        "name": "emirhan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-6206": {
+        "code": "SNC-6206",
+        "name": "salihcan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1792815777953,
+    "updatedAt": 1792815777953
+  }
 }
