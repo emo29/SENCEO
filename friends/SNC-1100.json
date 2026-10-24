@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792841554614,
-  "latestRoomCode": "TANZUU",
+  "latestRoomCode": "TYCJEI",
   "activeRooms": [
+    {
+      "code": "TYCJEI",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1100",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:35:46.361Z"
+    },
     {
       "code": "TANZUU",
       "p1": "Oyuncu_A",
@@ -160,6 +176,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:34:23.864Z",
+  "updatedAt": "2026-10-24T12:35:46.361Z",
   "deletedRoomCodes": []
 }
