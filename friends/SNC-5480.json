@@ -10,11 +10,29 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792845997017,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCH7L",
+  "activeRooms": [
+    {
+      "code": "SNCH7L",
+      "p1": "Hakan",
+      "p2": "",
+      "p1FriendCode": "SNC-5480",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-24T12:46:39.789Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:46:37.017Z",
-  "lastPropagatedName": "Hakan"
+  "updatedAt": "2026-10-24T12:46:39.789Z",
+  "lastPropagatedName": "Hakan",
+  "deletedRoomCodes": []
 }
