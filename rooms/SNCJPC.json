@@ -4,11 +4,12 @@
   "p1FriendCode": "SNC-7224",
   "p2Id": "USR_367PT4B",
   "p2FriendCode": "SNC-6206",
+  "nextRoundStarterCode": "SNC-6206",
+  "nextRoundStarterName": "salihcan",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "emirhan",
   "p2": "salihcan",
   "cat": "genel",
@@ -128,7 +129,42 @@
       "text": ""
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T04:08:28.675Z"
+  "p1Half2Guesses": [
+    0,
+    2,
+    1,
+    2,
+    0
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "😱",
+      "text": "qolaydı da bunu görebilecek misin acaba"
+    },
+    {
+      "emoji": "🔥",
+      "text": "aynn"
+    },
+    {
+      "emoji": "🤔",
+      "text": "qolaydı"
+    },
+    {
+      "emoji": "😂",
+      "text": ""
+    },
+    {
+      "emoji": "😎",
+      "text": "alttaki seçenek daha ii"
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 70,
+  "lastCorrectCount": 7,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-24T04:10:04.823Z",
+  "updatedAt": "2026-10-24T04:10:04.546Z",
+  "nextRoundSecondCode": "SNC-7224",
+  "nextRoundSecondName": "emirhan"
 }
