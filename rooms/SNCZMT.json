@@ -47,7 +47,7 @@
     74
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T19:03:54.611Z",
+  "updatedAt": "2026-10-24T19:04:17.012Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -99,11 +99,11 @@
     "activeAnswererName": "emirhan",
     "activeGuesserCode": "SNC-2002",
     "activeGuesserName": "komnenos",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 0,
     "currentAnswerComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "🤔",
+      "text": "ADHD BONUS GECELERI YAVRU KURTLAR DEĞİL AVCI KURTLAR GEZERMIS"
     },
     "currentCustomOption": "",
     "currentGuess": null,
@@ -184,8 +184,8 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1792868634611,
-    "updatedAt": 1792868634611
+    "phaseStartedAt": 1792868657012,
+    "updatedAt": 1792868657012
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
