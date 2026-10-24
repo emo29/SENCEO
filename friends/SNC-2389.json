@@ -10,11 +10,30 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792845348181,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNC4WP",
+  "activeRooms": [
+    {
+      "code": "SNC4WP",
+      "p1": "Selin",
+      "p2": "Kerem",
+      "p1FriendCode": "SNC-2389",
+      "p2FriendCode": "",
+      "roomType": "pass",
+      "arenaFormat": "1v1",
+      "status": "completed",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "lastMatchPercentage": 100,
+      "updatedAt": "2026-10-24T12:36:09.649Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T12:35:48.181Z",
-  "lastPropagatedName": "Selin"
+  "updatedAt": "2026-10-24T12:36:09.649Z",
+  "lastPropagatedName": "Selin",
+  "deletedRoomCodes": []
 }
