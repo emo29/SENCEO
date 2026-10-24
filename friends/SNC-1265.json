@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-1265",
-  "username": "B4ris",
+  "username": "emirhan",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
@@ -14,24 +14,24 @@
   "activeRooms": [
     {
       "code": "SNC5LP",
-      "p1": "B4ris",
-      "p2": "",
+      "p1": "emirhan",
+      "p2": "B4ris",
       "p1FriendCode": "SNC-1265",
       "p2FriendCode": "SNC-1265",
       "roomType": "live_arena",
       "arenaFormat": "1v1",
-      "status": "lobby_open",
+      "status": "waiting_p2",
       "abandonedByCode": "",
       "abandonedByName": "",
-      "currentRound": 1,
+      "currentRound": 2,
       "nextRoundStarterCode": "",
       "cat": "cift",
-      "updatedAt": "2026-10-24T11:27:37.401Z"
+      "updatedAt": "2026-10-24T11:40:56.669Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T11:27:37.401Z",
+  "updatedAt": "2026-10-24T11:40:56.669Z",
   "deletedRoomCodes": []
 }
