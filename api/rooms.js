@@ -387,23 +387,52 @@ async function getRoomFromCloud(roomCode) {
 async function saveRoomToCloud(roomCode, roomObj) {
   const cleanCode = String(roomCode).toUpperCase().replace(/[^A-Z0-9_-]/g, "");
 
-  if (roomObj.roomType === "live_arena" && Array.isArray(roomObj.participants)) {
-    normalizeSingleHostInRoom(roomObj);
-  }
-
-  // Raund tamamlandığında (completed), bir sonraki raundda (Raund N+1) İLK BAŞLAYACAK KİŞİYİ (2. başlayan = p2) kilitle!
-  if (roomObj.status === "completed") {
-    roomObj.nextRoundStarterCode = roomObj.p2FriendCode || "";
-    roomObj.nextRoundStarterName = roomObj.p2 || "2. Oyuncu";
-    roomObj.nextRoundSecondCode = roomObj.p1FriendCode || "";
-    roomObj.nextRoundSecondName = roomObj.p1 || "1. Oyuncu";
-  }
-
-  await putJsonToCloudPath(
+  const mergedRoom = await putJsonToCloudPath(
     `rooms/${cleanCode}.json`,
-    roomObj,
+    (existing) => {
+      if (
+        existing &&
+        (Number(roomObj.currentRound) || 1) === (Number(existing.currentRound) || 1) &&
+        (roomObj.status === "waiting_p1_half2" || roomObj.status === "completed")
+      ) {
+        // KRİTİK KORUMA: 2. Oyuncu (denemeb) karşı saldırı sorularını kaydettiğinde (waiting_p1_half2)
+        // 1. Oyuncunun (denemea) p1FriendCode ve p1Id kimliği ASLA ezilemez!
+        if (
+          roomObj.status === "waiting_p1_half2" &&
+          existing.p1FriendCode &&
+          roomObj.p1FriendCode &&
+          roomObj.p1FriendCode.toUpperCase() !== existing.p1FriendCode.toUpperCase() &&
+          !roomObj.p2FriendCode
+        ) {
+          roomObj.p2FriendCode = roomObj.p1FriendCode;
+        }
+        if (existing.p1FriendCode) roomObj.p1FriendCode = existing.p1FriendCode;
+        if (existing.p1Id) roomObj.p1Id = existing.p1Id;
+        if (existing.p1) roomObj.p1 = existing.p1;
+        if (!roomObj.p2FriendCode && existing.p2FriendCode) roomObj.p2FriendCode = existing.p2FriendCode;
+        if (!roomObj.p2Id && existing.p2Id) roomObj.p2Id = existing.p2Id;
+      }
+
+      if (roomObj.roomType === "live_arena" && Array.isArray(roomObj.participants)) {
+        normalizeSingleHostInRoom(roomObj);
+      }
+
+      // Raund tamamlandığında (completed), bir sonraki raundda (Raund N+1) İLK BAŞLAYACAK KİŞİYİ (2. başlayan = p2) kilitle!
+      if (roomObj.status === "completed") {
+        roomObj.nextRoundStarterCode = roomObj.p2FriendCode || "";
+        roomObj.nextRoundStarterName = roomObj.p2 || "2. Oyuncu";
+        roomObj.nextRoundSecondCode = roomObj.p1FriendCode || "";
+        roomObj.nextRoundSecondName = roomObj.p1 || "1. Oyuncu";
+      }
+
+      return roomObj;
+    },
     `Sync room ${cleanCode} (${roomObj.status || "active"})`
   );
+
+  if (mergedRoom) {
+    Object.assign(roomObj, mergedRoom);
+  }
 
   // 1. P1'in (Odayı kuranın) arkadaş kodu indeksini güncelle
   if (roomObj.p1FriendCode && /^SNC-\d{4}$/i.test(roomObj.p1FriendCode)) {
@@ -727,12 +756,35 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, decision, friend: updatedMe });
       }
 
-      // 3. AKSİYON: Hatırlatma (Nudge) Gönderme (send_nudge)
+      // 3. AKSİYON: Hatırlatma (Nudge) ve 2. Raunda Geçiş Çağrısı Gönderme (send_nudge)
       if (body.action === "send_nudge") {
         const fromCode = String(body.fromCode || "").trim().toUpperCase();
         const fromName = String(body.fromName || "Arkadaşın").trim();
-        const toCode = String(body.toCode || "").trim().toUpperCase();
+        let toCode = String(body.toCode || "").trim().toUpperCase();
         const roomCode = String(body.roomCode || "").trim().toUpperCase();
+        const isNextRound = body.nudgeType === "next_round";
+        const roundNum = Number(body.roundNum) || 2;
+
+        if (roomCode) {
+          try {
+            const updatedR = await putJsonToCloudPath(
+              `rooms/${roomCode}.json`,
+              (existing) => {
+                if (!existing) return null;
+                existing.round2NudgeAt = Date.now();
+                existing.round2NudgeFrom = fromName;
+                existing.round2NudgeFromCode = fromCode;
+                existing.round2NudgeTargetRound = roundNum;
+                existing.updatedAt = new Date().toISOString();
+                return existing;
+              },
+              `Round ${roundNum} nudge on ${roomCode}`
+            );
+            if (!toCode && updatedR) {
+              toCode = String(updatedR.nextRoundStarterCode || updatedR.p2FriendCode || "").trim().toUpperCase();
+            }
+          } catch (e) {}
+        }
 
         if (/^SNC-\d{4}$/.test(toCode)) {
           await putJsonToCloudPath(
@@ -741,9 +793,11 @@ export default async function handler(req, res) {
               const rec = Object.assign(createDefaultFriendRecord(toCode, "Oyuncu"), existing || {});
               pushNotification(rec, {
                 id: `NUDGE_${roomCode}_${Date.now()}`,
-                type: "nudge",
-                title: "⏰ Düello Hatırlatması!",
-                message: `${fromName} seni #${roomCode} kodlu düelloda bekliyor! Hadi 5 soruyu tahmin et!`,
+                type: isNextRound ? "next_round_nudge" : "nudge",
+                title: isNextRound ? `🔥 ${roundNum}. Raund Çağrısı! (İlk Sıra Sende)` : "⏰ Düello Hatırlatması!",
+                message: isNextRound
+                  ? `${fromName} #${roomCode} odasında ${roundNum}. Raunda geçmen için sana bildirim gönderdi! İlk sıra sende, hemen başlat!`
+                  : `${fromName} seni #${roomCode} kodlu düelloda bekliyor! Hadi 5 soruyu tahmin et!`,
                 fromCode,
                 fromName,
                 roomCode
@@ -754,7 +808,7 @@ export default async function handler(req, res) {
             `Nudge ${fromCode} -> ${toCode} for ${roomCode}`
           );
         }
-        return res.status(200).json({ ok: true });
+        return res.status(200).json({ ok: true, toCode });
       }
 
       // 4. AKSİYON: Bildirimleri Okundu İşaretleme / Temizleme (clear_notifications)
