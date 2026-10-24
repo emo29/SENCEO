@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-6206",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-6206",
       "cat": "genel",
-      "updatedAt": "2026-10-24T04:08:29.688Z"
+      "lastMatchPercentage": 70,
+      "updatedAt": "2026-10-24T04:10:05.410Z"
     },
     {
       "code": "SNC5MG",
@@ -60,6 +61,6 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-24T04:08:29.689Z",
+  "updatedAt": "2026-10-24T04:10:05.411Z",
   "deletedRoomCodes": []
 }
