@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "live_in_progress",
+  "status": "completed",
   "currentRound": 3,
   "p1": "emirhan",
   "p2": "komnenos",
@@ -47,12 +47,83 @@
     74
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T19:08:05.944Z",
-  "liveLeaderboard": null,
-  "p1Answers": [],
-  "p2Guesses": [],
-  "p1Comments": [],
-  "p2Comments": [],
+  "updatedAt": "2026-10-24T19:08:09.998Z",
+  "liveLeaderboard": [
+    {
+      "code": "SNC-2002",
+      "name": "komnenos",
+      "team": "common",
+      "correct": 2,
+      "total": 2,
+      "points": 200
+    },
+    {
+      "code": "SNC-7224",
+      "name": "emirhan",
+      "team": "common",
+      "correct": 1,
+      "total": 3,
+      "points": 100
+    }
+  ],
+  "p1Answers": [
+    1,
+    0,
+    3,
+    0,
+    1
+  ],
+  "p2Guesses": [
+    1,
+    0,
+    0,
+    0,
+    2
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "🤔",
+      "text": "ADHD BONUS GECELERI YAVRU KURTLAR DEĞİL AVCI KURTLAR GEZERMIS"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "😂",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": "zaaxd"
+    }
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "😱",
+      "text": "D"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "💀",
+      "text": ""
+    }
+  ],
   "usedQuestionIds": [
     31,
     58,
@@ -99,7 +170,7 @@
     "activeAnswererName": "komnenos",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "reveal",
+    "subPhase": "completed",
     "currentAnswer": 1,
     "currentAnswerComment": {
       "emoji": "",
@@ -260,6 +331,40 @@
             "submittedAt": 1792868823927
           }
         }
+      },
+      {
+        "qIndex": 4,
+        "qId": 74,
+        "answererCode": "SNC-2002",
+        "answererName": "komnenos",
+        "guesserCode": "SNC-7224",
+        "guesserName": "emirhan",
+        "answerIdx": 1,
+        "guessIdx": 2,
+        "answerIndex": 1,
+        "answerComment": {
+          "emoji": "",
+          "text": "zaaxd"
+        },
+        "guessComment": {
+          "emoji": "💀",
+          "text": ""
+        },
+        "isCorrect": false,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-7224": {
+            "code": "SNC-7224",
+            "name": "emirhan",
+            "guessIndex": 2,
+            "comment": {
+              "emoji": "💀",
+              "text": ""
+            },
+            "isCorrect": false,
+            "submittedAt": 1792868885944
+          }
+        }
       }
     ],
     "scores": {
@@ -299,9 +404,9 @@
       }
     },
     "phaseStartedAt": 1792868885944,
-    "updatedAt": 1792868885944
+    "updatedAt": 1792868889998
   },
-  "lastMatchPercentage": 40,
-  "lastCorrectCount": 2,
+  "lastMatchPercentage": 60,
+  "lastCorrectCount": 3,
   "lastTotalQuestions": 5
 }
