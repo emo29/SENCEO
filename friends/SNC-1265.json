@@ -10,8 +10,25 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792808354167,
-  "latestRoomCode": "SNC5LP",
+  "latestRoomCode": "SNCQD8",
   "activeRooms": [
+    {
+      "code": "SNCQD8",
+      "p1": "ZZerban",
+      "p2": "Yaren",
+      "p1FriendCode": "SNC-1265",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "completed",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "cift",
+      "lastMatchPercentage": 50,
+      "updatedAt": "2026-10-24T11:50:58.928Z"
+    },
     {
       "code": "SNC5LP",
       "p1": "emirhan",
@@ -32,6 +49,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T11:42:38.034Z",
+  "updatedAt": "2026-10-24T11:50:58.928Z",
   "deletedRoomCodes": []
 }
