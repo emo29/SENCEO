@@ -1,353 +1,39 @@
 {
   "code": "SNC5LP",
   "p1Id": "USR_6YKNHJG",
-  "hostCode": "SNC-1265",
   "p1FriendCode": "SNC-1265",
+  "p2Id": "USR_6YKNHJG",
   "p2FriendCode": "SNC-1265",
   "roomType": "live_arena",
   "arenaFormat": "1v1",
-  "liveSettings": {
-    "ffaSubMode": "ebeli",
-    "teamSubMode": "coop_pair",
-    "turnStep": 1,
-    "timerSeconds": 30,
-    "starterMode": "manual",
-    "selectedStarterCode": "SNC-1265"
-  },
-  "status": "completed",
-  "currentRound": 1,
-  "p1": "B4ris",
-  "p2": "emirhan",
-  "participants": [
-    {
-      "name": "B4ris",
-      "code": "SNC-1265",
-      "role": "host",
-      "team": "blue",
-      "isHost": true
-    },
-    {
-      "name": "emirhan",
-      "code": "SNC-7224",
-      "role": "member",
-      "isHost": false,
-      "team": "common",
-      "score": 0,
-      "correct": 0,
-      "joinedAt": "2026-10-24T11:27:45.260Z"
-    }
-  ],
+  "status": "waiting_p2",
+  "currentRound": 2,
+  "whoseTurn": "p2",
+  "p1": "emirhan",
+  "p2": "B4ris",
   "cat": "cift",
-  "thm": "brutal26",
+  "thm": "cosmic",
   "qIds": [
-    60,
-    34,
+    75,
+    33,
+    40,
     4,
-    46,
-    24
+    57
   ],
-  "createdAt": "2026-10-24T11:27:31.466Z",
-  "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:38:39.706Z",
-  "liveMatchState": {
-    "qIds": [
-      60,
-      34,
-      4,
-      46,
-      24
-    ],
-    "qIndex": 4,
-    "currentQIndex": 4,
-    "turnStep": 1,
-    "stepProgressInTurn": 0,
-    "turnOrder": [
-      {
-        "code": "SNC-1265",
-        "name": "B4ris",
-        "team": "blue"
-      },
-      {
-        "code": "SNC-7224",
-        "name": "emirhan",
-        "team": "common"
-      }
-    ],
-    "activeTurnOrderIdx": 0,
-    "activeAnswererCode": "SNC-1265",
-    "activeAnswererName": "B4ris",
-    "activeGuesserCode": "SNC-7224",
-    "activeGuesserName": "emirhan",
-    "subPhase": "completed",
-    "currentAnswer": 3,
-    "currentAnswerComment": {
-      "emoji": "",
-      "text": ""
-    },
-    "currentCustomOption": "direk babamı arayıp ağlarım",
-    "currentGuess": 0,
-    "currentGuessComment": {
-      "emoji": "",
-      "text": ""
-    },
-    "guessesByPlayer": {
-      "SNC-7224": {
-        "code": "SNC-7224",
-        "name": "emirhan",
-        "guessIndex": 0,
-        "comment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": false,
-        "submittedAt": 1792841912418
-      }
-    },
-    "history": [
-      {
-        "qIndex": 0,
-        "qId": 60,
-        "answererCode": "SNC-1265",
-        "answererName": "B4ris",
-        "guesserCode": "SNC-7224",
-        "guesserName": "emirhan",
-        "answerIdx": 1,
-        "guessIdx": 1,
-        "answerIndex": 1,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "❤️",
-          "text": "qolaydı"
-        },
-        "isCorrect": true,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-7224": {
-            "code": "SNC-7224",
-            "name": "emirhan",
-            "guessIndex": 1,
-            "comment": {
-              "emoji": "❤️",
-              "text": "qolaydı"
-            },
-            "isCorrect": true,
-            "submittedAt": 1792841399075
-          }
-        }
-      },
-      {
-        "qIndex": 1,
-        "qId": 34,
-        "answererCode": "SNC-7224",
-        "answererName": "emirhan",
-        "guesserCode": "SNC-1265",
-        "guesserName": "B4ris",
-        "answerIdx": 2,
-        "guessIdx": 3,
-        "answerIndex": 2,
-        "answerComment": {
-          "emoji": "💀",
-          "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
-        },
-        "guessComment": {
-          "emoji": "💀",
-          "text": "obaaaaa"
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-1265": {
-            "code": "SNC-1265",
-            "name": "B4ris",
-            "guessIndex": 3,
-            "comment": {
-              "emoji": "💀",
-              "text": "obaaaaa"
-            },
-            "isCorrect": false,
-            "submittedAt": 1792841454642
-          }
-        }
-      },
-      {
-        "qIndex": 2,
-        "qId": 4,
-        "answererCode": "SNC-1265",
-        "answererName": "B4ris",
-        "guesserCode": "SNC-7224",
-        "guesserName": "emirhan",
-        "answerIdx": 2,
-        "guessIdx": 0,
-        "answerIndex": 2,
-        "answerComment": {
-          "emoji": "",
-          "text": "bozuk kısımları fixle oyun iyi"
-        },
-        "guessComment": {
-          "emoji": "🔥",
-          "text": "affetmez"
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-7224": {
-            "code": "SNC-7224",
-            "name": "emirhan",
-            "guessIndex": 0,
-            "comment": {
-              "emoji": "🔥",
-              "text": "affetmez"
-            },
-            "isCorrect": false,
-            "submittedAt": 1792841538566
-          }
-        }
-      },
-      {
-        "qIndex": 3,
-        "qId": 46,
-        "answererCode": "SNC-7224",
-        "answererName": "emirhan",
-        "guesserCode": "SNC-1265",
-        "guesserName": "B4ris",
-        "answerIdx": 3,
-        "guessIdx": 0,
-        "answerIndex": 3,
-        "answerComment": {
-          "emoji": "😎",
-          "text": "keisnlikle bu"
-        },
-        "guessComment": {
-          "emoji": "😱",
-          "text": "bastın kahkahayı yadaaaa cimere verdik mustafayı"
-        },
-        "isCorrect": false,
-        "customOption": "",
-        "guessesByPlayer": {
-          "SNC-1265": {
-            "code": "SNC-1265",
-            "name": "B4ris",
-            "guessIndex": 0,
-            "comment": {
-              "emoji": "😱",
-              "text": "bastın kahkahayı yadaaaa cimere verdik mustafayı"
-            },
-            "isCorrect": false,
-            "submittedAt": 1792841614390
-          }
-        }
-      },
-      {
-        "qIndex": 4,
-        "qId": 24,
-        "answererCode": "SNC-1265",
-        "answererName": "B4ris",
-        "guesserCode": "SNC-7224",
-        "guesserName": "emirhan",
-        "answerIdx": 3,
-        "guessIdx": 0,
-        "answerIndex": 3,
-        "answerComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "guessComment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": false,
-        "customOption": "direk babamı arayıp ağlarım",
-        "guessesByPlayer": {
-          "SNC-7224": {
-            "code": "SNC-7224",
-            "name": "emirhan",
-            "guessIndex": 0,
-            "comment": {
-              "emoji": "",
-              "text": ""
-            },
-            "isCorrect": false,
-            "submittedAt": 1792841912418
-          }
-        }
-      }
-    ],
-    "scores": {
-      "SNC-1265": {
-        "code": "SNC-1265",
-        "name": "B4ris",
-        "team": "blue",
-        "correct": 0,
-        "total": 2,
-        "points": 0
-      },
-      "SNC-7224": {
-        "code": "SNC-7224",
-        "name": "emirhan",
-        "team": "common",
-        "correct": 1,
-        "total": 3,
-        "points": 100
-      }
-    },
-    "scoresByPlayer": {
-      "SNC-1265": {
-        "code": "SNC-1265",
-        "name": "B4ris",
-        "team": "blue",
-        "correct": 0,
-        "total": 2,
-        "points": 0
-      },
-      "SNC-7224": {
-        "code": "SNC-7224",
-        "name": "emirhan",
-        "team": "common",
-        "correct": 1,
-        "total": 3,
-        "points": 100
-      }
-    },
-    "phaseStartedAt": 1792841912418,
-    "updatedAt": 1792841919706
-  },
-  "liveLeaderboard": [
-    {
-      "code": "SNC-7224",
-      "name": "emirhan",
-      "team": "common",
-      "correct": 1,
-      "total": 3,
-      "points": 100
-    },
-    {
-      "code": "SNC-1265",
-      "name": "B4ris",
-      "team": "blue",
-      "correct": 0,
-      "total": 2,
-      "points": 0
-    }
+  "usedQuestionIds": [
+    75,
+    33,
+    40,
+    4,
+    57
   ],
-  "lastMatchPercentage": 20,
-  "lastCorrectCount": 1,
-  "lastTotalQuestions": 5,
+  "customOptionsMap": {},
   "p1Answers": [
-    1,
-    2,
-    2,
-    3,
-    3
-  ],
-  "p2Guesses": [
-    1,
-    3,
     0,
     0,
-    0
+    1,
+    2,
+    2
   ],
   "p1Comments": [
     {
@@ -355,42 +41,29 @@
       "text": ""
     },
     {
-      "emoji": "💀",
-      "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
+      "emoji": "",
+      "text": ""
     },
     {
       "emoji": "",
-      "text": "bozuk kısımları fixle oyun iyi"
+      "text": ""
     },
     {
-      "emoji": "😎",
-      "text": "keisnlikle bu"
+      "emoji": "😱",
+      "text": ""
     },
     {
       "emoji": "",
       "text": ""
     }
   ],
-  "p2Comments": [
-    {
-      "emoji": "❤️",
-      "text": "qolaydı"
-    },
-    {
-      "emoji": "💀",
-      "text": "obaaaaa"
-    },
-    {
-      "emoji": "🔥",
-      "text": "affetmez"
-    },
-    {
-      "emoji": "😱",
-      "text": "bastın kahkahayı yadaaaa cimere verdik mustafayı"
-    },
-    {
-      "emoji": "",
-      "text": ""
-    }
-  ]
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-24T11:40:55.791Z"
 }
