@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-7224",
   "username": "emirhan",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "level": 3,
+  "xp": 210,
+  "gamesPlayed": 1,
+  "questionsCorrect": 7,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792807614832,
+  "lastXpActivityAt": 1792815007494,
   "latestRoomCode": "SNCJPC",
   "activeRooms": [
     {
@@ -61,6 +61,6 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-24T04:10:05.411Z",
+  "updatedAt": "2026-10-24T04:10:07.494Z",
   "deletedRoomCodes": []
 }
