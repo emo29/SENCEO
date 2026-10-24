@@ -1,6 +1,20 @@
 {
-  "updatedAt": "2026-10-24T02:24:42.720Z",
+  "updatedAt": "2026-10-24T02:27:16.315Z",
   "players": [
+    {
+      "friendCode": "SNC-3675",
+      "username": "aaa1",
+      "avatar": "😎",
+      "level": 4,
+      "xp": 300,
+      "gamesPlayed": 1,
+      "questionsCorrect": 10,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792808836315,
+      "updatedAt": "2026-10-24T02:27:16.315Z"
+    },
     {
       "friendCode": "SNC-1813",
       "username": "EmirhanTest",
@@ -13,19 +27,6 @@
       "isPermanentMember": false,
       "lastXpActivityAt": 1792803556825,
       "updatedAt": "2026-10-24T00:59:21.752Z"
-    },
-    {
-      "friendCode": "SNC-3675",
-      "username": "aaa1",
-      "avatar": "😎",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "guest",
-      "isPermanentMember": false,
-      "lastXpActivityAt": 1792804288138,
-      "updatedAt": "2026-10-24T01:14:57.278Z"
     },
     {
       "friendCode": "SNC-6066",
