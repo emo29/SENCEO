@@ -11,15 +11,27 @@
       "p2": "sağdaki sekme",
       "p1FriendCode": "SNC-3394",
       "p2FriendCode": "SNC-3394",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "currentRound": 1,
       "cat": "genel",
-      "updatedAt": "2026-10-24T00:02:29.600Z"
+      "lastMatchPercentage": 60,
+      "updatedAt": "2026-10-24T00:05:24.633Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [
+    {
+      "id": "DONE_P1_SNCZZR_R1",
+      "type": "completed",
+      "title": "🏆 Düello Tamamlandı! (%60 Uyum)",
+      "message": "sağdaki sekme ile #SNCZZR düellosunun sonuç karnesi hazır!",
+      "fromCode": "SNC-3394",
+      "fromName": "sağdaki sekme",
+      "roomCode": "SNCZZR",
+      "read": false,
+      "createdAt": "2026-10-24T00:05:24.634Z"
+    },
     {
       "id": "NUDGE_SNCZZR_1792800213673",
       "type": "nudge",
@@ -43,5 +55,5 @@
       "createdAt": "2026-10-24T00:02:29.600Z"
     }
   ],
-  "updatedAt": "2026-10-24T00:03:33.673Z"
+  "updatedAt": "2026-10-24T00:05:24.634Z"
 }
