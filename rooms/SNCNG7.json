@@ -159,12 +159,14 @@
     }
   ],
   "p2WatchingSlides": false,
-  "p2WatchedSlides": false,
+  "p2WatchedSlides": true,
   "lastMatchPercentage": 0,
   "lastCorrectCount": 0,
   "lastTotalQuestions": 10,
   "completedAt": "2026-10-24T12:35:43.911Z",
-  "updatedAt": "2026-10-24T12:35:42.810Z",
+  "updatedAt": "2026-10-24T12:35:46.933Z",
   "nextRoundSecondCode": "SNC-6252",
-  "nextRoundSecondName": "Ayşe"
+  "nextRoundSecondName": "Ayşe",
+  "p2WatchingBy": "Burak",
+  "slideStatusUpdatedAt": 1792845346933
 }
