@@ -1,7 +1,10 @@
-# Gizli Şifre ve Ortam Değişkenleri (Kesinlikle GitHub'a Yüklenmez!)
+# Gizli Şifre ve Ortam Değişkenleri & Yerel Kayıt Dosyaları (Kesinlikle GitHub'a Yüklenmez!)
 SIFRELERIM_GIZLI.txt
+tüm konuşmalar.md
+sürümler.md
 .env
 .env.*
 *.local
 __pycache__/
 .DS_Store
+

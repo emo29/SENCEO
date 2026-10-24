@@ -1,14 +1,28 @@
 // senceo — Stitch Çok Sayfalı Arayüz (Yeni Oyun / Aktif Oyunlar / Bağlarım / Liderlik) + Canlı Oda & Klasik Oyun Motoru
 // 4 Tam Kapsamlı Tema (1. Luminous Beyaz Varsayılan, 2. Obsidian Koyu, 3. Cosmic Neon Eski Varsayılan, 4. Neo-Brutal Acid)
-// v0.07: Kalıcı/7-Günlük Misafir Kimlik Koruma, Tek Seferlik İsim, 3sn Kum Saati + 4sn Bekleme Modalı, 1.5sn Balon Gecikmesi, Tam Senkronize Canlı Oda & Takım/Ebe Sistemi
+// v0.08: Anında Canlı Oda (0ms), Kurucu Otomatik Devir, Gerçek Zamanlı 1v1 Sıralı Canlı Maç, 10 Kaçış Mesajı, Oda Kodu Blurlama, Misafir Şifre Koruma
 
-const APP_VERSION = 'v0.07';
+const APP_VERSION = 'v0.08';
 const DEFAULT_SUPABASE_URL = 'https://kypzuqnksnlinkfuxvnl.supabase.co';
 const TOTAL_QUESTIONS = 5;
 const CIRCLE_CIRCUMFERENCE = 414.69;
 const PASS_ANSWER_VALUE = -1;
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 const GUEST_INACTIVITY_LIMIT_MS = SEVEN_DAYS_MS;
+
+// %10 Eşit İhtimalli 10 Adet "Rakibin Düellodan Kaçtı / Teslim Oldu" Mesajı
+const OPPONENT_FLED_MESSAGES = [
+  '🏃‍♂️ Rakibin korkup arkasına bile bakmadan kaçtı!',
+  '🏳️ Rakibin beyaz bayrağı çekti ve teslim oldu!',
+  '⚡ Rakibin senin cesaretinin altında ezildi ve gitti!',
+  '🐔 Rakibin soruları görünce soğuk terler döküp masadan tüydü!',
+  '🌪️ Rakibin bu düellonun ağırlığını kaldıramayıp sırra kadem bastı!',
+  '🛡️ Rakibin seninle yüzleşmeye cesaret edemedi ve düelloyu terk etti!',
+  '🔥 Rakibin yenilgiyi önceden sezdi ve pılısını pırtısını toplayıp kaçtı!',
+  '👻 Rakibin meydan okumandan korkup hayalet gibi ortadan kayboldu!',
+  '🚨 Rakibin panik butonuna bastı ve arenadan çekildi!',
+  '👑 Rakibin senin üstünlüğünü kabul edip düellodan çekildi!'
+];
 
 // 4 Tam Kapsamlı Tema Tanımları
 const THEMES = {
@@ -39,6 +53,7 @@ const userProfile = {
   provider: 'guest',
   isLoggedIn: false,
   isPermanentMember: false, // Google / Facebook / iCloud / Mail ile bağlandığında true olur (Kalıcı)
+  isPasswordProtected: false, // Misafir hesabını şifreyle koruma durumu
   lastXpActivityAt: 0, // Misafirler için 7 gün puan artmazsa sıfırlama takibi
   createdAt: '',
   avatar: '😎',
@@ -57,17 +72,23 @@ const gameState = {
   theme: 'luminous',
   mode: 'link', // 'link' (Klasik Oyun) | 'pass' (Yan Yana) | 'arena' (Canlı Oda Kur)
   arenaFormat: '1v1',
-  ffaSubMode: 'ebe', // 'ebe' (Kahoot tarzı 1 kişi çözer herkes bilir) | 'packet' (Paket tarzı)
-  teamSubMode: 'coop_pair', // 'coop_pair' (Eşli Takım İçi Uyum) | 'cross_team' (Karşı Takımı Tahmin)
-  turnStepMode: 1, // Canlı Odada kaçar soru çözüleceği: 1, 2, 3, 4, 5, 10
-  questionTimerSec: 0, // Canlı Odada soru süresi: 0 (Süresiz), 10, 30, 90
-  starterSelectionMode: 'random', // 'random' | 'manual' (Kurucu Ebe/Başlayan atar)
-  designatedStarterCode: '',
+  liveSettings: {
+    ffaSubMode: 'ebeli',
+    teamSubMode: '',
+    turnStep: 1,
+    timerSeconds: 0,
+    starterMode: 'random',
+    selectedStarterCode: ''
+  },
   category: 'genel',
   activeLobbyFilter: 'all', // 'all' | 'turn' | 'waiting'
   urgentRoomCode: '',
   pendingOAuthProvider: null,
   isSandboxTest: false, // "Bu Cihazda Test Et" simülasyon modu bayrağı (Gerçek düelloya etkisi 0, karşı saldırı kapalı)
+  blurRoomCodes: false,
+  fledInspectRoom: null,
+  isInspectingFledMatch: false,
+  fledAutoDeleteTimeoutId: null,
   currentRound: 1,
   half: 1,
   phase: 'p1_answer',
@@ -100,14 +121,17 @@ const gameState = {
   generatedChallengeUrl: '',
   pollingIntervalId: null,
   liveLobbyPollingId: null,
-  liveTurnWaitPollingId: null,
+  liveTurnPollingId: null,
+  livePlayPollingId: null,
   cloudSyncIntervalId: null,
   questionTimerIntervalId: null,
   secretBubbleTimeoutId: null,
   completedRoomDataFromCloud: null,
   readyModalRoomData: null,
   liveRoomData: null,
-  hostManageTarget: null
+  liveMatchState: null,
+  lastRenderedLiveStepKey: '',
+  selectedParticipantForHostAction: null
 };
 
 // Yüzdelik Uyum Yorumları
@@ -213,6 +237,54 @@ function generatePersonalFriendCode() {
   return `SNC-${digits}`;
 }
 
+function getDeletedRoomCodesSet() {
+  try {
+    const arr = JSON.parse(localStorage.getItem('senceo_deleted_room_codes_v8') || '[]');
+    if (Array.isArray(arr)) {
+      return new Set(arr.map((c) => String(c || '').trim().toUpperCase()).filter(Boolean));
+    }
+  } catch (e) {}
+  return new Set();
+}
+
+function markRoomCodePermanentlyDeleted(roomCode) {
+  const clean = String(roomCode || '').trim().toUpperCase();
+  if (!clean) return;
+  try {
+    const delSet = getDeletedRoomCodesSet();
+    delSet.add(clean);
+    localStorage.setItem('senceo_deleted_room_codes_v8', JSON.stringify(Array.from(delSet).slice(-120)));
+    localStorage.removeItem(`senceo_room_${clean}`);
+    const listRaw = localStorage.getItem('senceo_my_rooms_index') || '[]';
+    const codes = JSON.parse(listRaw).filter((c) => String(c || '').toUpperCase() !== clean);
+    localStorage.setItem('senceo_my_rooms_index', JSON.stringify(codes));
+  } catch (e) {}
+
+  if (userProfile.bonds) {
+    Object.keys(userProfile.bonds).forEach((k) => {
+      if (userProfile.bonds[k] && String(userProfile.bonds[k].activeRoomCode || '').toUpperCase() === clean) {
+        userProfile.bonds[k].activeRoomCode = '';
+      }
+    });
+  }
+}
+
+function toggleRoomCodeBlur(ev) {
+  if (ev) ev.stopPropagation();
+  gameState.blurRoomCodes = !gameState.blurRoomCodes;
+  try {
+    localStorage.setItem('senceo_blur_room_codes', gameState.blurRoomCodes ? '1' : '0');
+  } catch (e) {}
+  applyRoomCodeBlurState();
+}
+
+function applyRoomCodeBlurState() {
+  document.body.classList.toggle('blur-room-codes', Boolean(gameState.blurRoomCodes));
+  document.querySelectorAll('.room-code-eye-icon').forEach((icon) => {
+    icon.textContent = gameState.blurRoomCodes ? 'visibility_off' : 'visibility';
+  });
+}
+
 function persistIdentityToStorage() {
   userProfile.level = Math.max(1, Math.floor((userProfile.xp || 0) / 100) + 1);
   if (!userProfile.lastXpActivityAt) {
@@ -229,7 +301,7 @@ function persistIdentityToStorage() {
   } catch (e) {}
 
   // 2. Hafif (<260 byte) çekirdek kimlik çerezini kaydet (4KB tarayıcı çerez sınırına ASLA takılmaz!)
-  // Misafirler için 7 gün, Kalıcı Üyeler için 365 gün saklanır!
+  // Misafirler için 7 gün (şifre korumalıysa 365 gün), Kalıcı Üyeler için 365 gün saklanır!
   const compactIdentity = {
     id: userProfile.id,
     friendCode: userProfile.friendCode,
@@ -238,6 +310,7 @@ function persistIdentityToStorage() {
     provider: userProfile.provider,
     isLoggedIn: userProfile.isLoggedIn,
     isPermanentMember: userProfile.isPermanentMember,
+    isPasswordProtected: Boolean(userProfile.isPasswordProtected),
     avatar: userProfile.avatar,
     xp: userProfile.xp,
     level: userProfile.level,
@@ -245,7 +318,7 @@ function persistIdentityToStorage() {
     questionsCorrect: userProfile.questionsCorrect,
     lastXpActivityAt: userProfile.lastXpActivityAt
   };
-  const cookieDays = userProfile.isPermanentMember ? 365 : 7;
+  const cookieDays = userProfile.isPermanentMember || userProfile.isPasswordProtected ? 365 : 7;
   setCookie('senceo_identity_v7', JSON.stringify(compactIdentity), cookieDays);
   setCookie('senceo_user_session', JSON.stringify(compactIdentity), cookieDays);
 
@@ -256,6 +329,11 @@ function persistIdentityToStorage() {
 }
 
 function loadUserProfile() {
+  try {
+    gameState.blurRoomCodes = localStorage.getItem('senceo_blur_room_codes') === '1';
+    applyRoomCodeBlurState();
+  } catch (e) {}
+
   let loadedObj = null;
 
   // 1. Önce tam localStorage verisini oku
@@ -272,7 +350,6 @@ function loadUserProfile() {
     if (idCookie) {
       const parsedCookie = JSON.parse(idCookie);
       loadedObj = Object.assign({}, parsedCookie, loadedObj || {});
-      // Eğer çerezde geçerli friendCode veya username varsa onu koru
       if (parsedCookie.friendCode && !loadedObj.friendCode) loadedObj.friendCode = parsedCookie.friendCode;
       if (parsedCookie.username && (!loadedObj.username || loadedObj.username === 'Misafir Oyuncu')) {
         loadedObj.username = parsedCookie.username;
@@ -290,10 +367,11 @@ function loadUserProfile() {
     } catch (e) {}
   }
 
-  // 4. 7 GÜNLÜK MİSAFİR TAKİBİ: Eğer kullanıcı kalıcı üye değilse (Misafir) ve 7 gün boyunca hiç puanı artmadıysa verilerini sıfırla!
+  // 4. 7 GÜNLÜK MİSAFİR TAKİBİ: Eğer kullanıcı kalıcı üye veya şifre korumalı değilse ve 7 gün boyunca hiç puanı artmadıysa verilerini sıfırla!
   if (loadedObj) {
     const isMember =
       Boolean(loadedObj.isPermanentMember) ||
+      Boolean(loadedObj.isPasswordProtected) ||
       (loadedObj.provider && !['guest', 'Misafir'].includes(loadedObj.provider) && Boolean(loadedObj.email));
     const lastAct = Number(loadedObj.lastXpActivityAt) || Date.now();
     if (!isMember && Date.now() - lastAct > SEVEN_DAYS_MS) {
@@ -341,8 +419,6 @@ function loadUserProfile() {
     userProfile.bonds = {};
   }
 
-  // KRİTİK DÜZELTME: Sayfa ilk açıldığında üretilen SNC-XXXX kodu ANINDA localStorage ve Çereze kaydedilir!
-  // Böylece SNC-2112 olan bir misafir başka bir davet linkine tıkladığında ASLA SNC-3394'e dönüşmez!
   persistIdentityToStorage();
   renderProfileUI();
 }
@@ -375,6 +451,19 @@ async function syncCloudFriendState(showFeedbackToast = false) {
 
     let changed = false;
 
+    if (f.isPasswordProtected && !userProfile.isPasswordProtected) {
+      userProfile.isPasswordProtected = true;
+      changed = true;
+    }
+
+    // 0. Buluttaki silinmiş oda listesini yerel silinenler listesiyle birleştir (Silinen odalar ASLA geri gelmesin!)
+    const deletedSet = getDeletedRoomCodesSet();
+    if (Array.isArray(f.deletedRoomCodes)) {
+      f.deletedRoomCodes.forEach((dc) => {
+        if (dc) markRoomCodePermanentlyDeleted(dc);
+      });
+    }
+
     // 1. Gelen arkadaşlık bağı isteklerini senkronize et
     if (Array.isArray(f.incomingRequests)) {
       userProfile.incomingRequests = f.incomingRequests.filter((r) => r.status === 'pending');
@@ -386,7 +475,6 @@ async function syncCloudFriendState(showFeedbackToast = false) {
       f.acceptedFriends.forEach((acc) => {
         if (!acc || !acc.code) return;
         const codeUpper = acc.code.toUpperCase();
-        // Mevcut bond kaydını bul veya yeni oluştur
         let targetKey = Object.keys(userProfile.bonds).find(
           (k) => userProfile.bonds[k] && userProfile.bonds[k].code === codeUpper
         );
@@ -416,14 +504,19 @@ async function syncCloudFriendState(showFeedbackToast = false) {
     }
 
     // 3. Bulutta benim için açılmış aktif odaları (activeRooms) yerel listeme ve bağlarıma ekle!
+    const refreshedDeletedSet = getDeletedRoomCodesSet();
     if (Array.isArray(f.activeRooms)) {
       for (const summary of f.activeRooms) {
         if (!summary || !summary.code) continue;
-        // Eğer yerel listede yoksa veya güncellenmişse buluttan tam odayı çek
-        const localRaw = localStorage.getItem(`senceo_room_${summary.code}`);
+        const codeUpper = String(summary.code).trim().toUpperCase();
+        if (refreshedDeletedSet.has(codeUpper)) {
+          continue; // Kullanıcının sildiği düello ASLA tekrar listeye eklenmez!
+        }
+
+        const localRaw = localStorage.getItem(`senceo_room_${codeUpper}`);
         const localRoom = localRaw ? JSON.parse(localRaw) : null;
         if (!localRoom || localRoom.status !== summary.status || localRoom.currentRound !== summary.currentRound) {
-          const fullRoom = await fetchRoomFromDatabase(summary.code);
+          const fullRoom = await fetchRoomFromDatabase(codeUpper);
           if (fullRoom) {
             changed = true;
           }
@@ -431,7 +524,6 @@ async function syncCloudFriendState(showFeedbackToast = false) {
           saveRoomToLocalLobbyList(localRoom);
         }
 
-        // Eğer karşı tarafın arkadaş kodu bağlarımızda varsa activeRoomCode güncelle
         const partnerCode =
           summary.p1FriendCode && summary.p1FriendCode.toUpperCase() !== userProfile.friendCode.toUpperCase()
             ? summary.p1FriendCode.toUpperCase()
@@ -444,7 +536,7 @@ async function syncCloudFriendState(showFeedbackToast = false) {
             (k) => userProfile.bonds[k] && userProfile.bonds[k].code === partnerCode
           );
           if (bondKey && userProfile.bonds[bondKey]) {
-            userProfile.bonds[bondKey].activeRoomCode = summary.code;
+            userProfile.bonds[bondKey].activeRoomCode = codeUpper;
             if (summary.p1 && summary.p1FriendCode === partnerCode && summary.p1 !== 'Arkadaşın') {
               userProfile.bonds[bondKey].realName = summary.p1;
             }
@@ -928,23 +1020,183 @@ function continueWithoutRegistration() {
   saveUserProfile();
 }
 
+// KULLANICI İSTEĞİ: Misafirken "Çıkış Yap / Sıfırla" dendiğinde eski SNC-3675 hesabının adı liderlik tablosunda ezilmesin!
+// Çıkış yapıldığında yerel oturum tamamen temizlenir ve yeni misafir için YENİ bir SNC-XXXX kodu üretilir.
+// Eski hesabına şifre koyan kullanıcı ise istediği zaman "Şifreli Misafir Hesabına Giriş Yap" ile eski SNC-3675 hesabına dönebilir!
 function logoutUserAccount() {
+  deleteCookie('senceo_identity_v7');
   deleteCookie('senceo_user_session');
   try {
     localStorage.removeItem('senceo_user_profile');
+    localStorage.removeItem('senceo_my_rooms_index');
+    window.name = '';
   } catch (e) {}
 
+  userProfile.id = 'USR_' + Math.random().toString(36).substring(2, 9).toUpperCase();
+  userProfile.friendCode = generatePersonalFriendCode();
   userProfile.username = '';
   userProfile.email = '';
   userProfile.provider = 'guest';
   userProfile.isLoggedIn = false;
   userProfile.isPermanentMember = false;
+  userProfile.isPasswordProtected = false;
   userProfile.xp = 0;
   userProfile.level = 1;
+  userProfile.gamesPlayed = 0;
+  userProfile.questionsCorrect = 0;
+  userProfile.bonds = {};
+  userProfile.incomingRequests = [];
+  userProfile.notifications = [];
   userProfile.lastXpActivityAt = Date.now();
+
+  gameState.player1Name = '';
+  const p1Input = document.getElementById('input-p1-name');
+  if (p1Input) p1Input.value = '';
+
   persistIdentityToStorage();
   renderProfileUI();
+  refreshActiveGamesLobby();
   toggleProfileModal(false);
+}
+
+// Misafir Üyeliğini Şifreyle Koru (İsim + SNC-XXXX Kodunu Kilitleme)
+async function saveGuestPasswordProtection() {
+  const passInp = document.getElementById('input-guest-protect-password');
+  const feedbackEl = document.getElementById('guest-password-feedback');
+  const p1Input = document.getElementById('input-p1-name');
+
+  const showMsg = (txt, isErr) => {
+    if (!feedbackEl) return;
+    feedbackEl.textContent = txt;
+    feedbackEl.className = `text-xs font-bold ${isErr ? 'text-red-500' : 'text-emerald-600 dark:text-emerald-400'}`;
+    feedbackEl.classList.remove('hidden');
+  };
+
+  const currentName =
+    (userProfile.username && userProfile.username !== 'Misafir Oyuncu' ? userProfile.username.trim() : '') ||
+    (p1Input && p1Input.value.trim() ? p1Input.value.trim() : '');
+
+  if (!currentName || currentName.length < 2) {
+    showMsg('⚠️ Şifre koymadan önce lütfen ana sayfada veya profilde kendi oyuncu adını belirle!', true);
+    return;
+  }
+
+  const rawPass = passInp ? passInp.value.trim() : '';
+  if (!rawPass || rawPass.length < 3) {
+    showMsg('⚠️ Lütfen en az 3 karakterli bir koruma şifresi girin.', true);
+    return;
+  }
+
+  userProfile.username = currentName;
+  showMsg('⏳ Hesabın ve kullanıcı adın şifreyle kilitleniyor...', false);
+
+  try {
+    const res = await fetch('/api/rooms', {
+      method: 'POST',
+      headers: getSupabaseHeaders(),
+      body: JSON.stringify({
+        action: 'set_guest_password',
+        friendCode: userProfile.friendCode,
+        username: currentName,
+        password: rawPass,
+        profile: userProfile
+      })
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      showMsg(`❌ ${data.message || 'Bu kullanıcı adı başka bir oyuncu tarafından şifreyle korunuyor!'}`, true);
+      return;
+    }
+
+    userProfile.isPasswordProtected = true;
+    userProfile.isLoggedIn = true;
+    if (passInp) passInp.value = '';
+    saveUserProfile(true);
+    spawnFloatingEmojiBurst('🔐');
+    showMsg(
+      `✅ Harika! "${currentName}" (${userProfile.friendCode}) hesabın şifreyle koruma altına alındı. Artık kimse senin ismini alamaz!`,
+      false
+    );
+  } catch (e) {
+    showMsg('⚠️ Sunucu bağlantısı kurulamadı, lütfen tekrar dene.', true);
+  }
+}
+
+function toggleGuestPasswordLoginBox() {
+  const box = document.getElementById('guest-password-login-box');
+  if (!box) return;
+  box.classList.toggle('hidden');
+  if (!box.classList.contains('hidden')) {
+    const idInp = document.getElementById('input-guest-login-id');
+    if (idInp) idInp.focus();
+  }
+}
+
+async function loginWithGuestPassword() {
+  const idInp = document.getElementById('input-guest-login-id');
+  const passInp = document.getElementById('input-guest-login-pass');
+  const feedbackEl = document.getElementById('guest-password-feedback');
+
+  const showMsg = (txt, isErr) => {
+    if (!feedbackEl) return;
+    feedbackEl.textContent = txt;
+    feedbackEl.className = `text-xs font-bold ${isErr ? 'text-red-500' : 'text-emerald-600 dark:text-emerald-400'}`;
+    feedbackEl.classList.remove('hidden');
+  };
+
+  const identifier = idInp ? idInp.value.trim() : '';
+  const password = passInp ? passInp.value.trim() : '';
+
+  if (!identifier || !password) {
+    showMsg('⚠️ Lütfen kullanıcı adını (veya SNC-XXXX kodunu) ve şifreni gir.', true);
+    return;
+  }
+
+  showMsg('⏳ Şifreli misafir hesabı doğrulanıyor...', false);
+
+  try {
+    const res = await fetch('/api/rooms', {
+      method: 'POST',
+      headers: getSupabaseHeaders(),
+      body: JSON.stringify({
+        action: 'login_guest_password',
+        identifier,
+        password
+      })
+    });
+    const data = await res.json();
+    if (!res.ok || data.error || !data.friend) {
+      showMsg(`❌ ${data.message || 'Kullanıcı adı/kod veya şifre hatalı!'}`, true);
+      return;
+    }
+
+    const f = data.friend;
+    userProfile.friendCode = f.friendCode || userProfile.friendCode;
+    userProfile.username = f.username || identifier;
+    userProfile.xp = Number(f.xp) || 0;
+    userProfile.level = Math.max(1, Number(f.level) || 1);
+    userProfile.gamesPlayed = Number(f.gamesPlayed) || 0;
+    userProfile.questionsCorrect = Number(f.questionsCorrect) || 0;
+    userProfile.isPasswordProtected = true;
+    userProfile.isLoggedIn = true;
+    userProfile.lastXpActivityAt = Date.now();
+
+    const p1Input = document.getElementById('input-p1-name');
+    if (p1Input) p1Input.value = userProfile.username;
+    gameState.player1Name = userProfile.username;
+
+    if (idInp) idInp.value = '';
+    if (passInp) passInp.value = '';
+    const loginBox = document.getElementById('guest-password-login-box');
+    if (loginBox) loginBox.classList.add('hidden');
+
+    saveUserProfile(true);
+    await syncCloudFriendState(false);
+    spawnFloatingEmojiBurst('🔑');
+    showMsg(`✅ Hoş geldin ${userProfile.username} (${userProfile.friendCode})! Hesabın ve seviyen geri yüklendi.`, false);
+  } catch (e) {
+    showMsg('⚠️ Giriş yapılırken bağlantı hatası oluştu.', true);
+  }
 }
 
 // ---------------- ÇİFT YÖNLÜ ARKADAŞ KODU İLE BAĞ EKLEME & AKTİF DÜELLO BULMA ----------------
@@ -1351,7 +1603,11 @@ function renderProfileUI() {
   if (dName) dName.textContent = displayName;
   if (dSub) {
     dSub.textContent = `senceo Seviyen • LVL ${lvl} (${
-      userProfile.isPermanentMember ? `Kalıcı Üye: ${userProfile.provider}` : 'Misafir • 7 Gün Korumalı'
+      userProfile.isPermanentMember
+        ? `Kalıcı Üye: ${userProfile.provider}`
+        : userProfile.isPasswordProtected
+        ? 'Şifre Korumalı Misafir'
+        : 'Misafir • 7 Gün Korumalı'
     })`;
   }
   if (dLvl) dLvl.textContent = `LVL ${lvl}`;
@@ -1374,14 +1630,20 @@ function renderProfileUI() {
       const sName = document.getElementById('strip-user-name');
       const sProv = document.getElementById('strip-user-provider');
       if (sName) sName.textContent = displayName;
-      if (sProv) sProv.textContent = userProfile.isPermanentMember ? `${userProfile.provider} (Kalıcı)` : 'Misafir (7 Gün)';
+      if (sProv) {
+        sProv.textContent = userProfile.isPermanentMember
+          ? `${userProfile.provider} (Kalıcı)`
+          : userProfile.isPasswordProtected
+          ? 'Misafir (Şifre Korumalı 🔐)'
+          : 'Misafir (7 Gün)';
+      }
     } else {
       authCard.classList.remove('hidden');
       loggedStrip.classList.add('hidden');
     }
   }
 
-  // Profil Modalı İçeriği + Misafir Puanını Kalıcı Üyeliğe Aktar Kartı
+  // Profil Modalı İçeriği + Misafir Şifre Koruma Kartı + Pasif Hesaba Aktarma Kartı
   const mName = document.getElementById('modal-profile-name');
   const mProv = document.getElementById('modal-profile-provider');
   const mLvl = document.getElementById('modal-personal-level');
@@ -1389,6 +1651,8 @@ function renderProfileUI() {
   const mXpText = document.getElementById('modal-personal-xp-text');
   const mStats = document.getElementById('modal-personal-stats');
   const guestTransferCard = document.getElementById('guest-transfer-membership-card');
+  const guestPassCard = document.getElementById('guest-password-protect-card');
+  const guestPassBadge = document.getElementById('guest-password-status-badge');
   const retentionBadge = document.getElementById('guest-retention-badge');
 
   const elapsedMs = Date.now() - Number(userProfile.lastXpActivityAt || Date.now());
@@ -1398,11 +1662,25 @@ function renderProfileUI() {
   if (guestTransferCard) {
     guestTransferCard.classList.toggle('hidden', Boolean(userProfile.isPermanentMember));
   }
+  if (guestPassCard) {
+    guestPassCard.classList.toggle('hidden', Boolean(userProfile.isPermanentMember));
+  }
+  if (guestPassBadge) {
+    if (userProfile.isPasswordProtected) {
+      guestPassBadge.textContent = '🔒 Şifre Korumalı';
+      guestPassBadge.className = 'px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 text-[10px] font-bold';
+    } else {
+      guestPassBadge.textContent = 'Şifresiz Misafir';
+      guestPassBadge.className = 'px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 text-[10px] font-bold';
+    }
+  }
 
   if (mName) mName.textContent = displayName;
   if (mProv) {
     mProv.textContent = userProfile.isPermanentMember
       ? `${userProfile.provider}${userProfile.email ? ` (${userProfile.email})` : ''} • Kalıcı Üye`
+      : userProfile.isPasswordProtected
+      ? `Misafir Oturumu (🔐 Şifre Korumalı • ${userProfile.friendCode})`
       : `Misafir Oturumu (${daysLeft} gün XP hareketsizlik süresi)`;
   }
   if (mLvl) mLvl.textContent = `LVL ${lvl}`;
@@ -1413,6 +1691,7 @@ function renderProfileUI() {
   updateHeaderNotificationBadges();
   renderIncomingFriendRequestsUI();
   renderBondsLists();
+  applyRoomCodeBlurState();
 }
 
 function renderIncomingFriendRequestsUI() {
@@ -1848,12 +2127,16 @@ function isUserPlayer1OfRoom(room) {
 
 function saveRoomToLocalLobbyList(roomPayload) {
   if (!roomPayload || !roomPayload.code) return;
+  const cleanCode = String(roomPayload.code).trim().toUpperCase();
+  if (getDeletedRoomCodesSet().has(cleanCode)) {
+    return; // Silinmiş oda tekrar yerel listeye eklenmez!
+  }
   try {
-    localStorage.setItem(`senceo_room_${roomPayload.code}`, JSON.stringify(roomPayload));
+    localStorage.setItem(`senceo_room_${cleanCode}`, JSON.stringify(roomPayload));
     const listRaw = localStorage.getItem('senceo_my_rooms_index') || '[]';
     const codes = JSON.parse(listRaw);
-    if (!codes.includes(roomPayload.code)) {
-      codes.unshift(roomPayload.code);
+    if (!codes.includes(cleanCode)) {
+      codes.unshift(cleanCode);
       localStorage.setItem('senceo_my_rooms_index', JSON.stringify(codes.slice(0, 20)));
     }
   } catch (e) {}
@@ -1865,41 +2148,132 @@ function deleteDuelFromLobby(roomCode, ev) {
   const cleanCode = String(roomCode || '').trim().toUpperCase();
   if (!cleanCode) return;
 
-  try {
-    localStorage.removeItem(`senceo_room_${cleanCode}`);
-    const listRaw = localStorage.getItem('senceo_my_rooms_index') || '[]';
-    const codes = JSON.parse(listRaw).filter((c) => c !== cleanCode);
-    localStorage.setItem('senceo_my_rooms_index', JSON.stringify(codes));
-  } catch (e) {}
-
-  if (userProfile.bonds) {
-    Object.keys(userProfile.bonds).forEach((k) => {
-      if (userProfile.bonds[k] && userProfile.bonds[k].activeRoomCode === cleanCode) {
-        userProfile.bonds[k].activeRoomCode = '';
-      }
-    });
-  }
-
+  markRoomCodePermanentlyDeleted(cleanCode);
+  saveUserProfile(true);
   updateNavActiveDuelsCount();
   refreshActiveGamesLobby();
+
+  // Bulutta da bu düelloyu sildiğimizi / terk ettiğimizi işaretle (Karşı oyuncu girerse %10 eşit ihtimalli 10 kaçış mesajından biri çıksın ve bizde bir daha geri gelmesin!)
+  fetch('/api/rooms', {
+    method: 'POST',
+    headers: getSupabaseHeaders(),
+    body: JSON.stringify({
+      action: 'forfeit_or_delete_room',
+      code: cleanCode,
+      requesterCode: userProfile.friendCode,
+      requesterName: userProfile.username || gameState.player1Name || 'Rakibin'
+    })
+  }).catch(() => {});
 }
 
 function clearAllActiveDuels() {
+  let codes = [];
   try {
-    const listRaw = localStorage.getItem('senceo_my_rooms_index') || '[]';
-    const codes = JSON.parse(listRaw);
-    codes.forEach((c) => localStorage.removeItem(`senceo_room_${c}`));
+    codes = JSON.parse(localStorage.getItem('senceo_my_rooms_index') || '[]');
+  } catch (e) {}
+
+  codes.forEach((c) => markRoomCodePermanentlyDeleted(c));
+  try {
     localStorage.setItem('senceo_my_rooms_index', '[]');
   } catch (e) {}
+
+  saveUserProfile(true);
   updateNavActiveDuelsCount();
   refreshActiveGamesLobby();
+
+  if (codes.length > 0) {
+    fetch('/api/rooms', {
+      method: 'POST',
+      headers: getSupabaseHeaders(),
+      body: JSON.stringify({
+        action: 'forfeit_or_delete_room',
+        codes,
+        requesterCode: userProfile.friendCode,
+        requesterName: userProfile.username || gameState.player1Name || 'Rakibin'
+      })
+    }).catch(() => {});
+  }
+}
+
+function openOpponentFledModal(room) {
+  if (!room) return;
+  gameState.fledInspectRoom = room;
+  const modal = document.getElementById('opponent-fled-modal');
+  const titleEl = document.getElementById('opponent-fled-title');
+  const descEl = document.getElementById('opponent-fled-desc');
+  if (!modal) return;
+
+  // 10 Adet %10 Eşit İhtimalli Mesajdan Rastgele Seç
+  const randomIdx = Math.floor(Math.random() * OPPONENT_FLED_MESSAGES.length);
+  const chosenMsg = OPPONENT_FLED_MESSAGES[randomIdx] || OPPONENT_FLED_MESSAGES[0];
+  const fledWho = room.fledByName || room.p2 || room.p1 || 'Rakibin';
+
+  if (titleEl) titleEl.textContent = chosenMsg;
+  if (descEl) {
+    descEl.innerHTML = `<strong>${escapeHtml(fledWho)}</strong> bu düelloyu sonlandırıp masadan ayrıldı (Oda: <strong class="font-mono-theme room-code-blurrable">#${escapeHtml(
+      room.code || ''
+    )}</strong>). İstersen önceki soruları ve yanıtları inceleyebilir veya doğrudan ana sayfaya dönebilirsin. İncelemeden çıktığında bu maç otomatik olarak listeden kaldırılacak.`;
+  }
+
+  modal.classList.remove('hidden');
+  applyRoomCodeBlurState();
+  playSoundEffect('wrong');
+}
+
+function inspectFledMatch() {
+  const modal = document.getElementById('opponent-fled-modal');
+  if (modal) modal.classList.add('hidden');
+  const room = gameState.fledInspectRoom;
+  if (!room) {
+    resetToHome();
+    return;
+  }
+
+  // Maçı inceledikten sonra çıktığında veya 45 sn sonra otomatik silinmesi için kalıcı silinenlere ekle
+  if (room.code) {
+    markRoomCodePermanentlyDeleted(room.code);
+  }
+  gameState.isInspectingFledMatch = true;
+  loadRoomIntoGameState(room, true);
+
+  const verdictTitle = document.getElementById('result-verdict-title');
+  const verdictDesc = document.getElementById('result-verdict-desc');
+  if (verdictTitle) verdictTitle.textContent = '🏳️ Rakibin Düellodan Çekildi (Maç İncelemesi)';
+  if (verdictDesc) {
+    verdictDesc.textContent =
+      'Bu düello karşı tarafça sonlandırıldı. Şimdiye kadar verilen yanıtları aşağıdan inceleyebilirsin. Bu ekrandan çıktığında maç otomatik olarak silinir.';
+  }
+
+  if (gameState.fledAutoDeleteTimeoutId) clearTimeout(gameState.fledAutoDeleteTimeoutId);
+  gameState.fledAutoDeleteTimeoutId = setTimeout(() => {
+    if (gameState.isInspectingFledMatch) {
+      gameState.isInspectingFledMatch = false;
+      refreshActiveGamesLobby();
+    }
+  }, 45000);
+}
+
+function dismissFledMatchAndGoHome() {
+  const modal = document.getElementById('opponent-fled-modal');
+  if (modal) modal.classList.add('hidden');
+  const room = gameState.fledInspectRoom;
+  if (room && room.code) {
+    markRoomCodePermanentlyDeleted(room.code);
+  }
+  gameState.fledInspectRoom = null;
+  gameState.isInspectingFledMatch = false;
+  refreshActiveGamesLobby();
+  resetToHome();
 }
 
 function updateNavActiveDuelsCount() {
   const badge = document.getElementById('nav-active-duels-count');
   if (!badge) return;
   try {
-    const codes = JSON.parse(localStorage.getItem('senceo_my_rooms_index') || '[]');
+    const delSet = getDeletedRoomCodesSet();
+    const codes = JSON.parse(localStorage.getItem('senceo_my_rooms_index') || '[]').filter(
+      (c) => !delSet.has(String(c || '').toUpperCase())
+    );
     if (codes.length > 0) {
       badge.textContent = String(codes.length);
       badge.classList.remove('hidden');
@@ -1945,7 +2319,9 @@ async function fetchRoomFromDatabase(roomCode) {
     if (res.ok) {
       const data = await res.json();
       if (data && data.room) {
-        saveRoomToLocalLobbyList(data.room);
+        if (!getDeletedRoomCodesSet().has(cleanCode)) {
+          saveRoomToLocalLobbyList(data.room);
+        }
         return data.room;
       }
     }
@@ -2010,9 +2386,12 @@ async function refreshActiveGamesLobby() {
   const container = document.getElementById('active-games-lobby-list');
   if (!container) return;
 
+  const delSet = getDeletedRoomCodesSet();
   let codes = [];
   try {
-    codes = JSON.parse(localStorage.getItem('senceo_my_rooms_index') || '[]');
+    codes = JSON.parse(localStorage.getItem('senceo_my_rooms_index') || '[]').filter(
+      (c) => !delSet.has(String(c || '').toUpperCase())
+    );
   } catch (e) {}
 
   updateNavActiveDuelsCount();
@@ -2037,6 +2416,7 @@ async function refreshActiveGamesLobby() {
 
     const isP1 = isUserPlayer1OfRoom(room);
     const isMyTurn =
+      room.status === 'opponent_fled' ||
       (room.status === 'waiting_p1_half2' && isP1) ||
       (room.status === 'waiting_p2' && !isP1);
 
@@ -2080,6 +2460,7 @@ async function refreshActiveGamesLobby() {
 
   container.innerHTML = '';
   let renderedCount = 0;
+  const eyeIconName = gameState.blurRoomCodes ? 'visibility_off' : 'visibility';
 
   for (const item of allRooms) {
     const { room, isP1, isMyTurn } = item;
@@ -2088,9 +2469,9 @@ async function refreshActiveGamesLobby() {
       gameState.urgentRoomCode = room.code;
       const opp = isP1 ? (room.p2 || room.p2FriendCode || 'Arkadaşın') : (room.p1 || 'Oyuncu 1');
       if (urgentTitle) urgentTitle.textContent = `${opp} senin 5 tahminini bekliyor!`;
-      if (urgentDesc) urgentDesc.textContent = `${(room.cat || 'Genel').toUpperCase()} serisinde (#${room.code}) son hamle sende. Uyum oranını yükseltme şansını kaçırma.`;
+      if (urgentDesc) urgentDesc.textContent = `${(room.cat || 'Genel').toUpperCase()} serisinde son hamle sende. Uyum oranını yükseltme şansını kaçırma.`;
       if (urgentBtnText) urgentBtnText.textContent = 'Hamleni Yap';
-      if (urgentTimeText) urgentTimeText.textContent = `Oda #${room.code} • Aktif Sıra`;
+      if (urgentTimeText) urgentTimeText.textContent = `Aktif Sıra`;
     }
 
     if (gameState.activeLobbyFilter === 'turn' && !isMyTurn) continue;
@@ -2111,7 +2492,7 @@ async function refreshActiveGamesLobby() {
             </div>
             <div>
               <div class="flex items-center gap-2 flex-wrap">
-                <h3 class="font-display-theme font-bold text-sm sm:text-base">Canlı Parti (${escapeHtml(room.code)})</h3>
+                <h3 class="font-display-theme font-bold text-sm sm:text-base">Canlı Parti (<span class="room-code-blurrable">${escapeHtml(room.code)}</span>)</h3>
                 <span class="px-2.5 py-0.5 rounded-full stitch-subcard text-xs font-bold">${escapeHtml((room.arenaFormat || '1v1').toUpperCase())} Lobi</span>
               </div>
               <p class="text-xs text-muted-theme">
@@ -2137,9 +2518,12 @@ async function refreshActiveGamesLobby() {
           </div>
         </div>
         <div class="flex items-center justify-between pt-1">
-          <span class="text-xs text-muted-theme flex items-center gap-1">
+          <span class="text-xs text-muted-theme flex items-center gap-1.5">
             <span class="material-symbols-outlined text-[15px]">lock_open</span>
-            <span>Oda Kodu: <strong class="font-mono-theme text-primary-theme">${escapeHtml(room.code)}</strong></span>
+            <span>Oda Kodu: <strong class="font-mono-theme text-primary-theme room-code-blurrable">${escapeHtml(room.code)}</strong></span>
+            <button type="button" onclick="toggleRoomCodeBlur(event)" class="w-6 h-6 rounded-md stitch-subcard inline-flex items-center justify-center hover:border-[var(--primary)]" title="Oda Kodlarını Gizle / Göster">
+              <span class="material-symbols-outlined text-[14px] room-code-eye-icon">${eyeIconName}</span>
+            </button>
           </span>
           <button
             type="button"
@@ -2159,7 +2543,11 @@ async function refreshActiveGamesLobby() {
     let progressPct = 50;
     let actionLabel = 'Odayı Aç';
 
-    if (room.status === 'completed') {
+    if (room.status === 'opponent_fled') {
+      statusPill = `<span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-500 font-bold text-[11px]">🏳️ Rakip Çekildi / Kaçtı</span>`;
+      progressPct = 100;
+      actionLabel = 'Durumu Gör';
+    } else if (room.status === 'completed') {
       const pct = typeof room.lastMatchPercentage === 'number' ? `%${room.lastMatchPercentage}` : 'Bitti';
       statusPill = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 font-bold text-[11px]">🏆 ${room.currentRound || 1}. Raunt Tamamlandı (${pct})</span>`;
       progressPct = 100;
@@ -2181,22 +2569,21 @@ async function refreshActiveGamesLobby() {
       : room.p1 || room.p1FriendCode || 'Oyuncu 1';
     const initials = rawOpponent.replace(/[^a-zA-ZğüşıöçĞÜŞİÖÇ0-9]/g, '').slice(0, 2).toUpperCase() || 'OY';
 
-    // Stitch Card 2 "Senin yanıtların kilitlendi" bilgi kutusu + "🔔 Hatırlatma Gönder" butonu
     const lockedTimelineHtml =
-      !isMyTurn && room.status !== 'completed'
+      !isMyTurn && room.status !== 'completed' && room.status !== 'opponent_fled'
         ? `
           <div class="p-2.5 rounded-xl stitch-subcard flex items-center justify-between text-xs text-muted-theme">
             <div class="flex items-center gap-1.5 font-semibold">
               <span class="material-symbols-outlined text-[17px] text-emerald-500">check_circle</span>
               <span>Senin 5 yanıtın kilitlendi • Rakibin tahmini bekleniyor</span>
             </div>
-            <span class="font-mono-theme text-[11px]">#${escapeHtml(room.code)}</span>
+            <span class="font-mono-theme text-[11px] room-code-blurrable">#${escapeHtml(room.code)}</span>
           </div>
         `
         : '';
 
     const nudgeButtonHtml =
-      !isMyTurn && room.status !== 'completed'
+      !isMyTurn && room.status !== 'completed' && room.status !== 'opponent_fled'
         ? `
           <button
             type="button"
@@ -2227,7 +2614,7 @@ async function refreshActiveGamesLobby() {
               ${statusPill}
             </div>
             <p class="text-xs text-muted-theme">
-              ${escapeHtml((room.cat || 'genel').toUpperCase())} • Raunt ${room.currentRound || 1} • 5/5 Soru • Oda: <strong class="font-mono-theme text-primary-theme">#${escapeHtml(room.code)}</strong>
+              ${escapeHtml((room.cat || 'genel').toUpperCase())} • Raunt ${room.currentRound || 1} • 5/5 Soru • Oda: <strong class="font-mono-theme text-primary-theme room-code-blurrable">#${escapeHtml(room.code)}</strong>
             </p>
           </div>
         </div>
@@ -2262,9 +2649,12 @@ async function refreshActiveGamesLobby() {
       </div>
 
       <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
-        <span class="text-xs text-muted-theme flex items-center gap-1">
+        <span class="text-xs text-muted-theme flex items-center gap-1.5">
           <span class="material-symbols-outlined text-[15px]">lock_open</span>
-          <span>Oda Kodu: <strong class="font-mono-theme">${escapeHtml(room.code)}</strong></span>
+          <span>Oda Kodu: <strong class="font-mono-theme room-code-blurrable">${escapeHtml(room.code)}</strong></span>
+          <button type="button" onclick="toggleRoomCodeBlur(event)" class="w-6 h-6 rounded-md stitch-subcard inline-flex items-center justify-center hover:border-[var(--primary)]" title="Oda Kodlarını Gizle / Göster">
+            <span class="material-symbols-outlined text-[14px] room-code-eye-icon">${eyeIconName}</span>
+          </button>
         </span>
         <div class="flex items-center gap-2">
           ${nudgeButtonHtml}
@@ -2296,11 +2686,16 @@ async function refreshActiveGamesLobby() {
       </div>
     `;
   }
+  applyRoomCodeBlurState();
 }
 
 async function openRoomFromLobbyCard(code) {
   const latest = await fetchRoomFromDatabase(code);
   if (latest) {
+    if (latest.status === 'opponent_fled') {
+      openOpponentFledModal(latest);
+      return;
+    }
     loadRoomIntoGameState(latest, false);
   }
 }
@@ -2421,11 +2816,43 @@ function returnHomeFromTurnReadyModal() {
 // ---------------- CANLI ODA LOBİSİ & EŞZAMANLI TURN ENGINE ----------------
 function isCurrentUserHostOfLiveRoom(room) {
   if (!room) return true;
-  const hostCode = (room.hostCode || room.p1FriendCode || '').toUpperCase();
-  if (hostCode && userProfile.friendCode && hostCode === userProfile.friendCode.toUpperCase()) {
-    return true;
+  const myCode = (userProfile.friendCode || '').toUpperCase();
+  const explicitHostCode = (room.hostCode || '').toUpperCase();
+  if (explicitHostCode) {
+    return Boolean(myCode && explicitHostCode === myCode);
+  }
+  if (Array.isArray(room.participants) && room.participants.length > 0) {
+    const explicitHost = room.participants.find((p) => p && (p.isHost || p.role === 'host'));
+    if (explicitHost && explicitHost.code) {
+      return Boolean(myCode && explicitHost.code.toUpperCase() === myCode);
+    }
   }
   return isUserPlayer1OfRoom(room);
+}
+
+// Canlı Odadan Çıkış: Oyuncuyu eski odadan siler ve eğer çıkan kişi Kurucu ise kuruculuğu odadaki rastgele birine (veya son kalan kişiye) otomatik devreder!
+function leaveLiveRoomLobby() {
+  stopLiveLobbyParticipantPolling();
+  const leavingCode = (gameState.roomCode || localStorage.getItem('senceo_active_live_room_code') || '').trim().toUpperCase();
+  try {
+    localStorage.removeItem('senceo_active_live_room_code');
+  } catch (e) {}
+
+  if (leavingCode) {
+    markRoomCodePermanentlyDeleted(leavingCode);
+    fetch('/api/rooms', {
+      method: 'POST',
+      headers: getSupabaseHeaders(),
+      body: JSON.stringify({
+        action: 'leave_live_lobby',
+        code: leavingCode,
+        friendCode: userProfile.friendCode
+      })
+    }).catch(() => {});
+  }
+
+  gameState.roomCode = '';
+  resetToHome();
 }
 
 function pushLiveLobbySettingsToCloud() {
@@ -2459,6 +2886,8 @@ function selectLiveFfaSubMode(sub) {
   document.querySelectorAll('.ffa-sub-btn').forEach((b) => {
     b.classList.toggle('is-active', b.getAttribute('data-ffasub') === sub);
   });
+  const ruleErr = document.getElementById('live-lobby-rule-error');
+  if (ruleErr) ruleErr.classList.add('hidden');
   pushLiveLobbySettingsToCloud();
 }
 
@@ -2467,6 +2896,8 @@ function selectLiveTeamSubMode(sub) {
   document.querySelectorAll('.team-sub-btn').forEach((b) => {
     b.classList.toggle('is-active', b.getAttribute('data-teamsub') === sub);
   });
+  const ruleErr = document.getElementById('live-lobby-rule-error');
+  if (ruleErr) ruleErr.classList.add('hidden');
   pushLiveLobbySettingsToCloud();
 }
 
@@ -2572,6 +3003,7 @@ async function executeHostParticipantAction(subAction, targetTeam = '') {
 
 function renderLiveLobbyState(room) {
   if (!room) return;
+  gameState.liveRoomData = room;
   const isHost = isCurrentUserHostOfLiveRoom(room);
   const participants = Array.isArray(room.participants) && room.participants.length > 0
     ? room.participants
@@ -2609,7 +3041,7 @@ function renderLiveLobbyState(room) {
     b.classList.toggle('is-active', b.getAttribute('data-ffasub') === ls.ffaSubMode);
   });
   document.querySelectorAll('.team-sub-btn').forEach((b) => {
-    b.classList.toggle('is-active', b.getAttribute('data-teamsub') === ls.teamSubMode);
+    b.classList.toggle('is-active', Boolean(ls.teamSubMode) && b.getAttribute('data-teamsub') === ls.teamSubMode);
   });
   document.querySelectorAll('.step-mode-btn').forEach((b) => {
     b.classList.toggle('is-active', Number(b.getAttribute('data-step')) === Number(ls.turnStep || 1));
@@ -2625,18 +3057,20 @@ function renderLiveLobbyState(room) {
     starterSel.innerHTML =
       `<option value="random">🎲 Sistem Rastgele Seçsin</option>` +
       participants
-        .map((p) => `<option value="${escapeHtml(p.code)}">🎯 İlk Ebe: ${escapeHtml(p.name)} (${escapeHtml(p.code)})</option>`)
+        .map((p) => `<option value="${escapeHtml(p.code)}">🎯 İlk Başlayan: ${escapeHtml(p.name)} (${escapeHtml(p.code)})</option>`)
         .join('');
     starterSel.value = currentVal;
   }
 
-  // Takımlı mod (2v2, 3v3, 4v4, 5v5) vs Tekli/FFA görünümü
+  // KULLANICI İSTEĞİ: "Ebe Modu / Paket Modu" SADECE "🌪️ Herkes Tek (ffa)" seçiliyken gözüksün!
+  // Takımlı mod (2v2, 3v3, 4v4, 5v5) kutuları ise sadece takımlı formatlarda gözüksün!
   const isTeamFormat = ['2v2', '3v3', '4v4', '5v5'].includes(gameState.arenaFormat);
+  const isFfaFormat = gameState.arenaFormat === 'ffa';
   const teamZones = document.getElementById('live-lobby-teams-section');
   const ffaSubBox = document.getElementById('live-ffa-submode-box');
   const teamSubBox = document.getElementById('live-team-submode-box');
   if (teamZones) teamZones.classList.toggle('hidden', !isTeamFormat);
-  if (ffaSubBox) ffaSubBox.classList.toggle('hidden', isTeamFormat);
+  if (ffaSubBox) ffaSubBox.classList.toggle('hidden', !isFfaFormat);
   if (teamSubBox) teamSubBox.classList.toggle('hidden', !isTeamFormat);
 
   // Üst rol etiketi & Kurucu Kilit Kontrolü (Diğer kullanıcılarda ayarlar soluk ve kilitli!)
@@ -2666,15 +3100,24 @@ function renderLiveLobbyState(room) {
   const countBadge = document.getElementById('live-lobby-player-count');
   if (countBadge) countBadge.textContent = String(participants.length);
 
-  // Oyuncu Kartları (Kurucu ALTIN SARISI ve KALIN BOLD!)
+  // Oyuncu Kartları — KULLANICI İSTEĞİ: Odada HER ZAMAN SADECE 1 TANE ODA KURUCUSU olur!
+  // Kuruculuk devredildiğinde eski kurucu normal katılımcı olur, sadece yeni hostCode altın sarısı görünür!
   const cardsGrid = document.getElementById('live-lobby-participants-grid');
+  const explicitHostObj = participants.find((p) => p && (p.isHost || p.role === 'host'));
+  const singleHostCodeUpper = (
+    room.hostCode ||
+    (explicitHostObj && explicitHostObj.code) ||
+    room.p1FriendCode ||
+    (participants[0] && participants[0].code) ||
+    ''
+  ).toUpperCase();
+
   if (cardsGrid) {
     cardsGrid.innerHTML = '';
-    const hostCodeUpper = (room.hostCode || room.p1FriendCode || '').toUpperCase();
 
-    participants.forEach((p, idx) => {
+    participants.forEach((p) => {
       const pCodeUpper = (p.code || '').toUpperCase();
-      const isThisHost = Boolean(p.isHost || p.role === 'host' || (hostCodeUpper && pCodeUpper === hostCodeUpper) || idx === 0);
+      const isThisHost = Boolean(singleHostCodeUpper && pCodeUpper === singleHostCodeUpper);
       const isSelectedEbe = ls.selectedStarterCode && ls.selectedStarterCode.toUpperCase() === pCodeUpper;
       const teamBadge =
         p.team === 'blue'
@@ -2702,7 +3145,7 @@ function renderLiveLobbyState(room) {
             <div class="text-[10px] text-muted-theme flex items-center gap-1.5 flex-wrap">
               <span class="font-mono-theme">${escapeHtml(p.code || '')}</span>
               ${isThisHost ? '<span class="text-amber-500 font-extrabold">• ODA KURUCUSU</span>' : ''}
-              ${isSelectedEbe ? '<span class="text-emerald-500 font-extrabold">• 🎯 EBE / İLK BAŞLAYAN</span>' : ''}
+              ${isSelectedEbe ? '<span class="text-emerald-500 font-extrabold">• 🎯 İLK BAŞLAYAN</span>' : ''}
             </div>
           </div>
         </div>
@@ -2732,7 +3175,7 @@ function renderLiveLobbyState(room) {
       if (list.length === 0) return '<div class="text-[11px] text-muted-theme italic">Henüz bu takımda oyuncu yok</div>';
       return list
         .map((p) => {
-          const isH = (p.code || '').toUpperCase() === (room.hostCode || room.p1FriendCode || '').toUpperCase();
+          const isH = (p.code || '').toUpperCase() === singleHostCodeUpper;
           return `<div class="px-2.5 py-1 rounded-lg ${
             isH ? 'bg-amber-400/25 text-amber-500 font-black border border-amber-400' : 'stitch-card font-bold'
           }">${isH ? '👑 ' : '⚡ '}${escapeHtml(p.name)} <span class="text-[10px] font-mono-theme opacity-75">(${escapeHtml(p.code)})</span></div>`;
@@ -2745,8 +3188,11 @@ function renderLiveLobbyState(room) {
 
   const listEl = document.getElementById('live-lobby-players-list');
   if (listEl) {
-    listEl.textContent = participants.map((p, i) => `${i === 0 ? '👑' : '⚡'} ${p.name}`).join(' • ');
+    listEl.textContent = participants
+      .map((p) => `${(p.code || '').toUpperCase() === singleHostCodeUpper ? '👑' : '⚡'} ${p.name}`)
+      .join(' • ');
   }
+  applyRoomCodeBlurState();
 }
 
 // Canlı Oda Lobisinde katılımcıları ve kurucu ayarlarını gerçek zamanlı (1.5 sn) dinleme
@@ -2824,6 +3270,7 @@ function showView(viewId) {
   }
   if (viewId !== 'view-question') {
     stopQuestionCountdownTimer();
+    stopLiveMatchPlayPolling();
   }
 
   ALL_VIEWS.forEach((id) => {
@@ -2863,6 +3310,7 @@ function showView(viewId) {
   }
 
   updateDuelHeaderUI();
+  applyRoomCodeBlurState();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -2892,6 +3340,8 @@ function updateDuelHeaderUI() {
   if (roundBadge) {
     roundBadge.textContent = gameState.isSandboxTest
       ? 'SİMÜLASYON TESTİ • ETKİ: 0'
+      : gameState.mode === 'arena' && gameState.liveMatchState
+      ? `CANLI ARENA • SORU ${(Number(gameState.liveMatchState.qIndex) || 0) + 1}/${TOTAL_QUESTIONS}`
       : `RAUND ${gameState.currentRound} • YARI ${gameState.half}/2`;
   }
 
@@ -2986,8 +3436,19 @@ function selectArenaFormat(fmt) {
     btn.classList.toggle('is-active', btn.getAttribute('data-fmt') === fmt);
   });
 
+  const isTeamFormat = ['2v2', '3v3', '4v4', '5v5'].includes(fmt);
+  const isFfaFormat = fmt === 'ffa';
+  const teamZones = document.getElementById('live-lobby-teams-section');
+  const ffaSubBox = document.getElementById('live-ffa-submode-box');
+  const teamSubBox = document.getElementById('live-team-submode-box');
+  const ruleErr = document.getElementById('live-lobby-rule-error');
+  if (teamZones) teamZones.classList.toggle('hidden', !isTeamFormat);
+  if (ffaSubBox) ffaSubBox.classList.toggle('hidden', !isFfaFormat);
+  if (teamSubBox) teamSubBox.classList.toggle('hidden', !isTeamFormat);
+  if (ruleErr) ruleErr.classList.add('hidden');
+
   const descMap = {
-    '1v1': '1v1 Düello: İki oyuncu birbirini ne kadar tanıdığını canlı test eder.',
+    '1v1': '1v1 Düello: İki oyuncu birbirini ne kadar tanıdığını canlı ve eşzamanlı test eder.',
     '2v2': '2v2 Takım Düellosu: İkişer kişilik takımlar eşlerinin cevaplarını tahmin ederek yarışır!',
     '3v3': '3v3 Ekip Savaşı: 3 kişilik iki takım en yüksek uyum puanı için kapışır!',
     '4v4': '4v4 Grup Arenası: 4v4 arkadaş grubu uyumu!',
@@ -3066,9 +3527,22 @@ async function handlePrimaryStartAction() {
   userProfile.username = p1Name;
   saveUserProfile();
 
+  // KULLANICI İSTEĞİ: "Canlı Oda Kur" butonuna basıldığı anda 4 saniye beklemeden ANINDA (0ms) açılsın!
+  // Bulut senkronizasyonu arka planda dönerken üstte zarif bir kum saati rozeti (#live-lobby-cloud-sync-pill) gösterilir.
+  // Ayrıca oyuncu daha önce başka bir canlı odadaysa eski odadan otomatik çıkarılır!
   if (gameState.mode === 'arena') {
+    let previousLiveRoomCode = '';
+    try {
+      previousLiveRoomCode = (localStorage.getItem('senceo_active_live_room_code') || '').trim().toUpperCase();
+    } catch (e) {}
+
     gameState.roomCode = generateRoomCode();
-    document.getElementById('live-lobby-room-code').textContent = gameState.roomCode;
+    try {
+      localStorage.setItem('senceo_active_live_room_code', gameState.roomCode);
+    } catch (e) {}
+
+    const codeEl = document.getElementById('live-lobby-room-code');
+    if (codeEl) codeEl.textContent = gameState.roomCode;
     const catSelect = document.getElementById('live-lobby-cat-select');
     if (catSelect) catSelect.value = gameState.category;
 
@@ -3092,10 +3566,44 @@ async function handlePrimaryStartAction() {
       createdAt: new Date().toISOString()
     };
 
-    await saveRoomToDatabase(initialRoom);
+    // 1. 0ms Gecikmeyle Anında Lobi Ekranını Aç!
+    saveRoomToLocalLobbyList(initialRoom);
     renderLiveLobbyState(initialRoom);
     showView('view-live-room-lobby');
-    startLiveLobbyParticipantPolling(gameState.roomCode);
+
+    const syncPill = document.getElementById('live-lobby-cloud-sync-pill');
+    const syncText = document.getElementById('live-lobby-cloud-sync-text');
+    if (syncPill && syncText) {
+      syncText.textContent = 'Bulut Oda Senkronize Ediliyor...';
+      syncPill.classList.remove('hidden');
+      syncPill.classList.add('inline-flex');
+    }
+
+    // 2. Eğer oyuncu eski bir canlı odadan çıkıp yeni oda kurduysa eski odadan otomatik düşür ve kuruculuğu devret
+    if (previousLiveRoomCode && previousLiveRoomCode !== gameState.roomCode) {
+      markRoomCodePermanentlyDeleted(previousLiveRoomCode);
+      fetch('/api/rooms', {
+        method: 'POST',
+        headers: getSupabaseHeaders(),
+        body: JSON.stringify({
+          action: 'leave_live_lobby',
+          code: previousLiveRoomCode,
+          friendCode: userProfile.friendCode
+        })
+      }).catch(() => {});
+    }
+
+    // 3. Arka planda veritabanına kaydet ve tamamlandığında kum saati rozetini kapatıp canlı dinlemeyi başlat
+    saveRoomToDatabase(initialRoom).finally(() => {
+      if (syncPill && syncText) {
+        syncText.textContent = '✓ Bulut Oda Hazır!';
+        setTimeout(() => {
+          syncPill.classList.add('hidden');
+          syncPill.classList.remove('inline-flex');
+        }, 900);
+      }
+      startLiveLobbyParticipantPolling(gameState.roomCode);
+    });
     return;
   }
 
@@ -3136,6 +3644,29 @@ async function confirmSwitchToFfaAndStart() {
 }
 
 async function startMatchFromLiveLobby() {
+  const ruleErr = document.getElementById('live-lobby-rule-error');
+  if (ruleErr) ruleErr.classList.add('hidden');
+
+  // KULLANICI İSTEĞİ: Takımlı modlarda (2v2, 3v3, 4v4, 5v5) "Takımlı Mod Yarışma Kuralı" seçilmesi ZORUNLU!
+  const isTeamFormat = ['2v2', '3v3', '4v4', '5v5'].includes(gameState.arenaFormat);
+  if (isTeamFormat && !gameState.liveSettings.teamSubMode) {
+    if (ruleErr) {
+      ruleErr.textContent = '⚠️ Lütfen maçı başlatmadan önce "Takımlı Mod Yarışma Kuralı" (Eşli Uyum veya Karşı Takımı Tahmin) seçin!';
+      ruleErr.classList.remove('hidden');
+    }
+    const teamSubBox = document.getElementById('live-team-submode-box');
+    if (teamSubBox) teamSubBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  if (gameState.arenaFormat === 'ffa' && !gameState.liveSettings.ffaSubMode) {
+    if (ruleErr) {
+      ruleErr.textContent = '⚠️ Lütfen "Herkes Tek Alt Modu" (Ebe Modu veya Paket Modu) seçin!';
+      ruleErr.classList.remove('hidden');
+    }
+    return;
+  }
+
   const room = await fetchRoomFromDatabase(gameState.roomCode);
   if (room && !isCurrentUserHostOfLiveRoom(room)) {
     return;
@@ -3293,6 +3824,18 @@ function startQuestionCountdownTimer() {
 }
 
 function renderCurrentQuestion() {
+  // Eğer Canlı Oda Eşzamanlı Maç (live_in_progress) modundaysak 3 aşamalı canlı motoru çalıştır!
+  if (
+    gameState.mode === 'arena' &&
+    gameState.liveRoomData &&
+    gameState.liveRoomData.status === 'live_in_progress' &&
+    gameState.liveMatchState &&
+    !gameState.isSandboxTest
+  ) {
+    renderLiveArenaQuestionState(gameState.liveRoomData);
+    return;
+  }
+
   const qIndex = gameState.currentQuestionIndex;
   const qList = getActiveQuestionList();
   const questionObj = qList[qIndex];
@@ -3312,6 +3855,11 @@ function renderCurrentQuestion() {
     : gameState.player1Name;
 
   document.getElementById('header-question-counter').textContent = `SORU ${qIndex + 1} / ${TOTAL_QUESTIONS}`;
+
+  const specBanner = document.getElementById('live-spectator-banner');
+  if (specBanner) specBanner.classList.add('hidden');
+  const revNextBox = document.getElementById('live-reveal-next-box');
+  if (revNextBox) revNextBox.classList.add('hidden');
 
   const typingInd = document.getElementById('messenger-typing-indicator');
   if (typingInd) typingInd.classList.add('hidden');
@@ -3389,6 +3937,7 @@ function renderCurrentQuestion() {
   }
 
   const optionsContainer = document.getElementById('options-container');
+  optionsContainer.classList.remove('live-options-spectator-locked');
   optionsContainer.innerHTML = '';
 
   const activeCustomMap = gameState.half === 1 ? gameState.customOptionsMap : gameState.p2Half2CustomMap;
@@ -3424,6 +3973,366 @@ function renderCurrentQuestion() {
   gameState.isLocked = false;
   startQuestionCountdownTimer();
   updateDuelHeaderUI();
+}
+
+// ---------------- CANLI ODA (1v1 / 1'er 1'er) 3 AŞAMALI EŞZAMANLI SORU MOTORU ----------------
+// 1. Aşama ('answering'): Sıradaki oyuncu (Örn: B) soruyu kendi adına cevaplar ve isterse yorum yazar -> İlerle der. A oyuncusu aynı ekranda B'yi canlı izler.
+// 2. Aşama ('guessing'): Sıra A'ya geçer. A oyuncusu B'nin cevabını veya yorumunu GÖRMEZ! Kendi tahminini seçer, isterse yorum yazar -> İlerle der.
+// 3. Aşama ('reveal'): İki oyuncunun ekranında da aynı anda Doğru (Yeşil) / Yanlış (Kırmızı) açılır ve 1.5 sn sonra yorum baloncuğu patlar! Sonraki soruda roller değişir!
+function renderLiveArenaQuestionState(room) {
+  if (!room || !room.liveMatchState) return;
+  const ms = room.liveMatchState;
+  gameState.liveRoomData = room;
+  gameState.liveMatchState = ms;
+
+  const qIndex = Math.min(Number(ms.qIndex) || 0, TOTAL_QUESTIONS - 1);
+  gameState.currentQuestionIndex = qIndex;
+  const questionObj = gameState.selectedQuestions[qIndex] || QUESTIONS_DB[qIndex % QUESTIONS_DB.length];
+  if (!questionObj) return;
+
+  if (gameState.secretBubbleTimeoutId) {
+    clearTimeout(gameState.secretBubbleTimeoutId);
+    gameState.secretBubbleTimeoutId = null;
+  }
+
+  const myCode = (userProfile.friendCode || '').toUpperCase();
+  const answererCode = (ms.activeAnswererCode || '').toUpperCase();
+  const isAnswerer = Boolean(myCode && answererCode === myCode);
+  const answererName = ms.activeAnswererName || room.p1 || '1. Oyuncu';
+  const guesserName = ms.activeGuesserName || room.p2 || '2. Oyuncu';
+
+  gameState.player1Name = answererName;
+  gameState.player2Name = guesserName;
+
+  // İlerleme noktalarını (progressDots) ortak geçmişten senkronize et
+  gameState.progressDots = [];
+  if (Array.isArray(ms.history)) {
+    ms.history.forEach((h) => {
+      if (h && typeof h.qIndex === 'number') {
+        gameState.progressDots[h.qIndex] = h.isCorrect ? 'correct' : 'wrong';
+      }
+    });
+  }
+  if (ms.subPhase === 'reveal') {
+    const revCorrect = ms.currentAnswer === PASS_ANSWER_VALUE || ms.currentAnswer === ms.currentGuess;
+    gameState.progressDots[qIndex] = revCorrect ? 'correct' : 'wrong';
+  } else if (ms.subPhase === 'guessing') {
+    gameState.progressDots[qIndex] = 'answered';
+  }
+
+  document.getElementById('header-question-counter').textContent = `SORU ${qIndex + 1} / ${TOTAL_QUESTIONS}`;
+
+  const typingInd = document.getElementById('messenger-typing-indicator');
+  if (typingInd) typingInd.classList.add('hidden');
+  const bubbleEl = document.getElementById('messenger-secret-bubble');
+  if (bubbleEl) bubbleEl.classList.add('hidden');
+  const feedbackBanner = document.getElementById('guess-feedback-banner');
+  if (feedbackBanner) feedbackBanner.classList.add('hidden');
+  const commentDrawer = document.getElementById('post-answer-comment-box');
+  if (commentDrawer) commentDrawer.classList.add('hidden');
+  const specBanner = document.getElementById('live-spectator-banner');
+  const specTitle = document.getElementById('live-spectator-title');
+  const specDesc = document.getElementById('live-spectator-desc');
+  const revNextBox = document.getElementById('live-reveal-next-box');
+  const revNextText = document.getElementById('btn-live-reveal-next-text');
+  toggleCustomAnswerBox(false);
+
+  const commentInput = document.getElementById('input-question-comment');
+  if (commentInput) commentInput.value = '';
+  gameState.pendingChoiceIndex = null;
+  gameState.pendingEmoji = '';
+  resetEmojiPickButtons();
+
+  const canActivelyAnswer = ms.subPhase === 'answering' && isAnswerer;
+  const canActivelyGuess = ms.subPhase === 'guessing' && !isAnswerer;
+
+  // Değiştir / Pas / Özel Şık kontrolleri sadece aktif cevaplayan oyuncuda açık
+  const shuffleBtn = document.getElementById('btn-shuffle-question');
+  const passBtn = document.getElementById('btn-use-pass');
+  const passLabel = document.getElementById('btn-pass-label');
+  const customWrapper = document.getElementById('custom-answer-wrapper');
+  const customBtn = document.getElementById('btn-open-custom-answer');
+  const customLabel = document.getElementById('btn-custom-answer-label');
+
+  if (shuffleBtn) shuffleBtn.classList.add('hidden'); // Canlı senkron maçta iki ekranda aynı soru kalması için soru değiştirme kapalı
+  if (passBtn && passLabel) {
+    if (canActivelyAnswer) {
+      passBtn.classList.remove('hidden');
+      passBtn.disabled = gameState.passUsedThisTurn;
+      passLabel.textContent = gameState.passUsedThisTurn ? "Pas Bitti (0/1)" : "Pas (1/1)";
+    } else {
+      passBtn.classList.add('hidden');
+    }
+  }
+  if (customWrapper && customBtn && customLabel) {
+    if (canActivelyAnswer) {
+      customWrapper.classList.remove('hidden');
+      customBtn.disabled = gameState.customAnswerUsedThisTurn;
+      customLabel.textContent = gameState.customAnswerUsedThisTurn
+        ? "Özel Şık Hakkı Kullanıldı (0/1)"
+        : "Kendi Cevabını Yaz (Özel Şık Ekle • 1/1 Hak)";
+    } else {
+      customWrapper.classList.add('hidden');
+    }
+  }
+
+  const turnBadge = document.getElementById('question-turn-badge');
+  const stepLabel = document.getElementById('question-step-label');
+  const questionTextEl = document.getElementById('question-text');
+
+  if (ms.subPhase === 'answering') {
+    if (revNextBox) revNextBox.classList.add('hidden');
+    if (isAnswerer) {
+      gameState.phase = 'p1_answer';
+      gameState.isLocked = false;
+      if (specBanner) specBanner.classList.add('hidden');
+      turnBadge.innerHTML = `<span>😎</span> <span>Sıra Sende: ${escapeHtml(answererName)} Cevaplıyor</span>`;
+      stepLabel.textContent = `KENDİ ADINA CEVAPLA (${guesserName.toUpperCase()} SENİ CANLI İZLİYOR)`;
+      questionTextEl.textContent = questionObj.q1;
+    } else {
+      gameState.phase = 'live_spectate';
+      gameState.isLocked = true;
+      if (specBanner && specTitle && specDesc) {
+        specTitle.textContent = `👀 Şu An ${answererName} Soruyu Cevaplandırıyor...`;
+        specDesc.textContent = `${answererName} cevabını ve gizli yorumunu kilitlediğinde sıra anında sana geçecek!`;
+        specBanner.classList.remove('hidden');
+      }
+      turnBadge.innerHTML = `<span>⏳</span> <span>${escapeHtml(answererName)} Cevaplıyor (Canlı İzliyorsun)</span>`;
+      stepLabel.textContent = `BİRAZDAN BU SORUDA ${answererName.toUpperCase()} İÇİN TAHMİN YAPACAKSIN`;
+      questionTextEl.textContent = questionObj.q2.replace('{p1}', answererName);
+    }
+  } else if (ms.subPhase === 'guessing') {
+    if (revNextBox) revNextBox.classList.add('hidden');
+    if (!isAnswerer) {
+      // Tahmin sırası bu oyuncuda! Karşı tarafın cevabını veya yorumunu GÖRMEZ!
+      gameState.phase = 'live_guess';
+      gameState.isLocked = false;
+      if (specBanner) specBanner.classList.add('hidden');
+      turnBadge.innerHTML = `<span>🕵️</span> <span>Sıra Sende: ${escapeHtml(guesserName)} Tahmin Ediyor!</span>`;
+      stepLabel.textContent = `SENCE ${answererName.toUpperCase()} HANGİ ŞIKKI SEÇMİŞTİR?`;
+      questionTextEl.textContent = questionObj.q2.replace('{p1}', answererName);
+    } else {
+      // Cevaplayan oyuncu şimdi tahmin eden arkadaşını canlı izliyor
+      gameState.phase = 'live_spectate';
+      gameState.isLocked = true;
+      if (specBanner && specTitle && specDesc) {
+        specTitle.textContent = `🕵️ Şu An ${guesserName} Senin Cevabını Tahmin Ediyor...`;
+        specDesc.textContent = `${guesserName} tahminini ve yorumunu onayladığında doğru/yanlış sonucu ve yorum balonları ikinizde aynı anda patlayacak!`;
+        specBanner.classList.remove('hidden');
+      }
+      turnBadge.innerHTML = `<span>👀</span> <span>${escapeHtml(guesserName)} Seni Tahmin Ediyor (Canlı İzliyorsun)</span>`;
+      stepLabel.textContent = `SENİN CEVABIN KİLİTLENDİ • ${guesserName.toUpperCase()} TAHMİN YAPIYOR`;
+      questionTextEl.textContent = questionObj.q2.replace('{p1}', answererName);
+    }
+  } else {
+    // ms.subPhase === 'reveal': Her iki oyuncuda da aynı anda Doğru/Yanlış ve 1.5sn sonra Yorum Balonu patlar!
+    gameState.phase = 'live_reveal';
+    gameState.isLocked = true;
+    if (specBanner) specBanner.classList.add('hidden');
+    turnBadge.innerHTML = `<span>⚡</span> <span>Canlı Karşılaştırma: ${escapeHtml(answererName)} &amp; ${escapeHtml(guesserName)}</span>`;
+    stepLabel.textContent = `SORU ${qIndex + 1} SONUCU VE GİZLİ YORUM BALONLARI`;
+    questionTextEl.textContent = questionObj.q2.replace('{p1}', answererName);
+  }
+
+  // Şıkları Oluştur
+  const optionsContainer = document.getElementById('options-container');
+  optionsContainer.innerHTML = '';
+  const isSpectatorOrReveal = !canActivelyAnswer && !canActivelyGuess;
+  optionsContainer.classList.toggle('live-options-spectator-locked', isSpectatorOrReveal);
+
+  const customTextForThisQ =
+    ms.currentCustomOption || (gameState.customOptionsMap && gameState.customOptionsMap[qIndex]) || '';
+  const displayOptions = questionObj.options.map((o) => ({ ...o }));
+  if (customTextForThisQ) {
+    if (displayOptions.length >= 4) {
+      displayOptions[3] = { icon: "✏️", text: customTextForThisQ };
+    } else {
+      displayOptions.push({ icon: "✏️", text: customTextForThisQ });
+    }
+  }
+
+  displayOptions.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.disabled = isSpectatorOrReveal;
+    btn.className = "option-btn w-full p-3.5 sm:p-4 text-left flex items-center gap-3.5 focus:outline-none";
+    btn.innerHTML = `
+      <div class="w-11 h-11 rounded-xl stitch-subcard flex items-center justify-center text-2xl shrink-0">
+        ${opt.icon}
+      </div>
+      <div class="flex-1 text-sm sm:text-base font-bold leading-snug">
+        ${escapeHtml(opt.text)}
+      </div>
+      <div class="option-status-icon w-6 h-6 rounded-full border border-[var(--outline-variant)] flex items-center justify-center text-xs shrink-0">
+      </div>
+    `;
+    if (!isSpectatorOrReveal) {
+      btn.addEventListener('click', (ev) => handleOptionSelect(idx, btn, ev));
+    }
+    optionsContainer.appendChild(btn);
+  });
+
+  const allBtns = document.querySelectorAll('#options-container .option-btn');
+
+  // Eğer cevaplayan kişi karşı tarafın tahminini izliyorsa kendi seçtiği şıkkı mor işaretli görsün
+  if (ms.subPhase === 'guessing' && isAnswerer && typeof ms.currentAnswer === 'number' && allBtns[ms.currentAnswer]) {
+    allBtns[ms.currentAnswer].classList.add('option-selected-p1');
+    const st = allBtns[ms.currentAnswer].querySelector('.option-status-icon');
+    if (st) {
+      st.innerHTML = '✓';
+      st.className = 'option-status-icon w-6 h-6 rounded-full bg-primary-theme font-extrabold flex items-center justify-center text-xs shrink-0';
+    }
+  }
+
+  // Eğer 'reveal' aşamasındaysak: İKİ OYUNCUDA DA AYNI ANDA yeşil/kırmızı şıkları ve 1.5 sn sonra yorum balonunu patlat!
+  if (ms.subPhase === 'reveal') {
+    const correctIndex = ms.currentAnswer;
+    const guessedIndex = ms.currentGuess;
+    const isHit = correctIndex === PASS_ANSWER_VALUE || correctIndex === guessedIndex;
+
+    if (feedbackBanner) {
+      feedbackBanner.classList.remove('hidden');
+      if (correctIndex === PASS_ANSWER_VALUE) {
+        feedbackBanner.className = "rounded-xl px-4 py-3 text-center font-bold text-xs sm:text-sm bg-emerald-500/20 border border-emerald-500/50 text-emerald-700 dark:text-emerald-200";
+        feedbackBanner.textContent = `⏭️ ${answererName} bu soruyu Pas geçmişti!`;
+      } else if (isHit) {
+        feedbackBanner.className = "rounded-xl px-4 py-3 text-center font-bold text-xs sm:text-sm bg-emerald-500/20 border border-emerald-500/50 text-emerald-700 dark:text-emerald-200";
+        feedbackBanner.textContent = `🎯 Tam İsabet! ${guesserName}, ${answererName}'in cevabını doğru bildi! (+1 Puan)`;
+      } else {
+        feedbackBanner.className = "rounded-xl px-4 py-3 text-center font-bold text-xs sm:text-sm bg-red-500/20 border border-red-500/50 text-red-700 dark:text-red-200";
+        feedbackBanner.textContent = `❌ Yanlış Tahmin! ${guesserName} kırmızı şıkkı seçti, ${answererName} ise yeşil şıkkı seçmişti.`;
+      }
+    }
+
+    if (typeof correctIndex === 'number' && allBtns[correctIndex]) {
+      allBtns[correctIndex].classList.add('option-correct');
+      const rightIcon = allBtns[correctIndex].querySelector('.option-status-icon');
+      if (rightIcon) {
+        rightIcon.innerHTML = '✓';
+        rightIcon.className = 'option-status-icon w-6 h-6 rounded-full bg-emerald-500 text-white font-extrabold flex items-center justify-center text-xs shrink-0';
+      }
+    }
+    if (!isHit && typeof guessedIndex === 'number' && allBtns[guessedIndex]) {
+      allBtns[guessedIndex].classList.add('option-wrong');
+      const wrongIcon = allBtns[guessedIndex].querySelector('.option-status-icon');
+      if (wrongIcon) {
+        wrongIcon.innerHTML = '✕';
+        wrongIcon.className = 'option-status-icon w-6 h-6 rounded-full bg-red-500 text-white font-extrabold flex items-center justify-center text-xs shrink-0';
+      }
+    }
+
+    playSoundEffect(isHit ? 'correct' : 'wrong');
+
+    // İki oyuncunun bıraktığı yorumları birleştirip 1.5 saniye sonra baloncuk olarak patlat!
+    const ansC = ms.currentAnswerComment || {};
+    const guessC = ms.currentGuessComment || {};
+    const combinedLines = [];
+    if ((ansC.emoji && ansC.emoji.trim()) || (ansC.text && ansC.text.trim())) {
+      combinedLines.push(`${answererName}: ${ansC.emoji || ''} ${ansC.text || ''}`.trim());
+    }
+    if ((guessC.emoji && guessC.emoji.trim()) || (guessC.text && guessC.text.trim())) {
+      combinedLines.push(`${guesserName}: ${guessC.emoji || ''} ${guessC.text || ''}`.trim());
+    }
+
+    if (combinedLines.length > 0) {
+      const senderEl = document.getElementById('messenger-bubble-sender');
+      const textEl = document.getElementById('messenger-bubble-text');
+      if (typingInd) {
+        typingInd.classList.remove('hidden');
+        typingInd.classList.add('flex');
+      }
+      gameState.secretBubbleTimeoutId = setTimeout(() => {
+        if (typingInd) {
+          typingInd.classList.add('hidden');
+          typingInd.classList.remove('flex');
+        }
+        if (bubbleEl && senderEl && textEl) {
+          senderEl.textContent = '💬 Canlı Sohbet Balonu Patladı:';
+          textEl.textContent = combinedLines.join('  •  ');
+          bubbleEl.classList.remove('hidden');
+          playSoundEffect('pop');
+          spawnFloatingEmojiBurst(ansC.emoji || guessC.emoji || '💬');
+        }
+      }, 1500);
+    }
+
+    if (revNextBox && revNextText) {
+      const isLastQ = qIndex >= TOTAL_QUESTIONS - 1;
+      const nextStepInfo =
+        !isLastQ && Number(ms.turnStep || 1) === 1
+          ? ` (Sıra ${guesserName}'e Geçecek)`
+          : '';
+      revNextText.textContent = isLastQ
+        ? 'MAÇI BİTİR & SONUÇ KARNELERİNİ GÖR 🏆'
+        : `SONRAKİ SORUYA GEÇ${nextStepInfo}`;
+      revNextBox.classList.remove('hidden');
+    }
+  } else if (canActivelyAnswer || canActivelyGuess) {
+    startQuestionCountdownTimer();
+  }
+
+  updateDuelHeaderUI();
+}
+
+async function advanceLiveArenaToNextQuestion() {
+  if (!gameState.roomCode) return;
+  const btn = document.getElementById('btn-live-reveal-next');
+  if (btn) btn.disabled = true;
+  try {
+    const res = await fetch('/api/rooms', {
+      method: 'POST',
+      headers: getSupabaseHeaders(),
+      body: JSON.stringify({
+        action: 'submit_live_step',
+        subAction: 'next_question',
+        code: gameState.roomCode,
+        friendCode: userProfile.friendCode
+      })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.room) {
+        loadRoomIntoGameState(data.room, false);
+      }
+    }
+  } catch (e) {} finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+function startLiveMatchPlayPolling(roomCode) {
+  stopLiveMatchPlayPolling();
+  if (!roomCode) return;
+
+  gameState.livePlayPollingId = setInterval(async () => {
+    const room = await fetchRoomFromDatabase(roomCode);
+    if (!room) return;
+    if (room.status === 'opponent_fled') {
+      stopLiveMatchPlayPolling();
+      openOpponentFledModal(room);
+      return;
+    }
+    if (room.status === 'completed') {
+      stopLiveMatchPlayPolling();
+      loadRoomIntoGameState(room, true);
+      return;
+    }
+    if (room.status === 'live_in_progress' && room.liveMatchState) {
+      const ms = room.liveMatchState;
+      const stepKey = `${ms.qIndex}:${ms.subPhase}:${ms.activeAnswererCode}:${ms.activeGuesserCode}`;
+      if (stepKey !== gameState.lastRenderedLiveStepKey) {
+        gameState.lastRenderedLiveStepKey = stepKey;
+        loadRoomIntoGameState(room, false);
+      }
+    }
+  }, 1200);
+}
+
+function stopLiveMatchPlayPolling() {
+  if (gameState.livePlayPollingId) {
+    clearInterval(gameState.livePlayPollingId);
+    gameState.livePlayPollingId = null;
+  }
 }
 
 // ISSUE #3 Çözümü: Soru değiştirildiğinde o soruya yazılmış özel şık varsa temizlenir ve özel şık hakkı iade edilir!
@@ -3518,7 +4427,8 @@ function handlePassQuestion() {
   openPostAnswerCommentDrawer(PASS_ANSWER_VALUE);
 }
 
-// KULLANICI İSTEĞİ: Cevap seçildiğinde doğru/yanlış ANINDA açılır, karşı tarafın bıraktığı yorum baloncuğu ise 1.5 SANİYE (1500ms) SONRA fırlar!
+// KULLANICI İSTEĞİ: Klasik oyunda cevap seçildiğinde doğru/yanlış ANINDA açılır, karşı tarafın bıraktığı yorum baloncuğu ise 1.5 SANİYE (1500ms) SONRA fırlar!
+// Canlı Oda ('live_guess') modunda ise tahmin eden oyuncu önce şıkkını seçip isterse yorumunu yazar, İLERLE dediğinde sonuç İKİSİNDE DE AYNI ANDA açılır!
 function handleOptionSelect(selectedIndex, clickedBtn, clickEvent) {
   if (gameState.isLocked) return;
   gameState.isLocked = true;
@@ -3533,9 +4443,10 @@ function handleOptionSelect(selectedIndex, clickedBtn, clickEvent) {
   spawnFloatingEmojiBurst(chosenEmoji, clickEvent);
 
   const isAnswering = isCurrentPhaseAnswering();
+  const isLiveGuessPhase = gameState.phase === 'live_guess';
   const answererName = gameState.half === 1 ? gameState.player1Name : (gameState.player2Name || '2. Oyuncu');
 
-  if (isAnswering) {
+  if (isAnswering || isLiveGuessPhase) {
     clickedBtn.classList.add('option-selected-p1');
     const statusIcon = clickedBtn.querySelector('.option-status-icon');
     if (statusIcon) {
@@ -3631,7 +4542,14 @@ function openPostAnswerCommentDrawer(choiceIdx) {
   const isLastQuestion = gameState.currentQuestionIndex >= TOTAL_QUESTIONS - 1;
 
   if (confirmBtnText) {
-    confirmBtnText.textContent = isLastQuestion ? 'TURU BİTİR' : 'İLERLE';
+    if (gameState.mode === 'arena' && gameState.liveMatchState && !gameState.isSandboxTest) {
+      confirmBtnText.textContent =
+        gameState.liveMatchState.subPhase === 'answering'
+          ? 'CEVABI KİLİTLE & SIRA DEVRET'
+          : 'TAHMİNİ KİLİTLE & SONUCU GÖR';
+    } else {
+      confirmBtnText.textContent = isLastQuestion ? 'TURU BİTİR' : 'İLERLE';
+    }
   }
   drawer.classList.remove('hidden');
 }
@@ -3663,6 +4581,49 @@ async function confirmStepAndAdvance() {
   const commentText = commentInput ? commentInput.value.trim() : '';
   const emoji = gameState.pendingEmoji || '';
   const choice = gameState.pendingChoiceIndex;
+  const qIndex = gameState.currentQuestionIndex;
+
+  // Eğer Canlı Oda Eşzamanlı Moddaysa (answering -> guessing -> reveal):
+  if (
+    gameState.mode === 'arena' &&
+    gameState.liveRoomData &&
+    gameState.liveRoomData.status === 'live_in_progress' &&
+    gameState.liveMatchState &&
+    gameState.roomCode &&
+    !gameState.isSandboxTest
+  ) {
+    const ms = gameState.liveMatchState;
+    const subAction = ms.subPhase === 'answering' ? 'lock_answer' : 'lock_guess';
+    const customOptionText = (gameState.customOptionsMap && gameState.customOptionsMap[qIndex]) || '';
+
+    gameState.pendingChoiceIndex = null;
+    gameState.pendingEmoji = '';
+
+    try {
+      const res = await fetch('/api/rooms', {
+        method: 'POST',
+        headers: getSupabaseHeaders(),
+        body: JSON.stringify({
+          action: 'submit_live_step',
+          subAction,
+          code: gameState.roomCode,
+          friendCode: userProfile.friendCode,
+          playerName: userProfile.username || gameState.player1Name || 'Oyuncu',
+          choiceIndex: choice,
+          comment: { emoji, text: commentText },
+          customOption: customOptionText
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.room) {
+          loadRoomIntoGameState(data.room, false);
+          return;
+        }
+      }
+    } catch (e) {}
+    return;
+  }
 
   if (gameState.phase === 'p1_answer') {
     gameState.p1Answers.push(choice);
@@ -3680,38 +4641,6 @@ async function confirmStepAndAdvance() {
 
   gameState.pendingChoiceIndex = null;
   gameState.pendingEmoji = '';
-
-  // Eğer Canlı Oda Eşzamanlı Moddaysa (1'er 1'er, 2'şer 2'şer vb. adım kontrolü):
-  if (gameState.mode === 'arena' && gameState.liveMatchState && gameState.roomCode && !gameState.isSandboxTest) {
-    const stepSize = Number((gameState.liveSettings && gameState.liveSettings.turnStep) || 1);
-    const currentStepAnswers = gameState.phase === 'p1_answer' ? gameState.p1Answers : gameState.p2Guesses;
-
-    if (currentStepAnswers.length % stepSize === 0 || gameState.currentQuestionIndex >= TOTAL_QUESTIONS - 1) {
-      try {
-        const res = await fetch('/api/rooms', {
-          method: 'POST',
-          headers: getSupabaseHeaders(),
-          body: JSON.stringify({
-            action: 'submit_live_step',
-            code: gameState.roomCode,
-            friendCode: userProfile.friendCode,
-            playerName: userProfile.username || gameState.player1Name || 'Oyuncu',
-            answers: gameState.phase === 'p1_answer' ? gameState.p1Answers.slice(-stepSize) : [],
-            guesses: gameState.phase === 'p2_guess' ? gameState.p2Guesses.slice(-stepSize) : [],
-            comments: (gameState.phase === 'p1_answer' ? gameState.p1Comments : gameState.p2Comments).slice(-stepSize),
-            customOptionsMap: gameState.customOptionsMap
-          })
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.room) {
-            loadRoomIntoGameState(data.room, false);
-            return;
-          }
-        }
-      } catch (e) {}
-    }
-  }
 
   if (gameState.currentQuestionIndex < TOTAL_QUESTIONS - 1) {
     gameState.currentQuestionIndex++;
@@ -4129,6 +5058,14 @@ function showLiveTurnWaitScreen(activePlayerName, customSubtitle = '', roundNum 
 }
 
 function loadRoomIntoGameState(room, forceResultView = false) {
+  if (!room) return false;
+
+  // Eğer rakip bu düelloyu sildiyse / teslim olup kaçtıysa ve şu an inceleme modunda değilsek:
+  if (room.status === 'opponent_fled' && !gameState.isInspectingFledMatch && !forceResultView) {
+    openOpponentFledModal(room);
+    return true;
+  }
+
   gameState.isSandboxTest = false;
   gameState.roomCode = room.code || '';
   gameState.mode = room.roomType === 'live_arena' ? 'arena' : 'link';
@@ -4149,6 +5086,7 @@ function loadRoomIntoGameState(room, forceResultView = false) {
   gameState.p2Half2Comments = room.p2Half2Comments || [];
   gameState.p1Half2Guesses = room.p1Half2Guesses || [];
   gameState.p1Half2Comments = room.p1Half2Comments || [];
+  gameState.liveRoomData = room;
   gameState.liveMatchState = room.liveMatchState || null;
   if (room.liveSettings) {
     gameState.liveSettings = { ...gameState.liveSettings, ...room.liveSettings };
@@ -4164,7 +5102,24 @@ function loadRoomIntoGameState(room, forceResultView = false) {
 
   // Canlı Oda Lobisi henüz başlamamışsa:
   if (room.status === 'lobby_open' && (!room.qIds || room.qIds.length === 0)) {
-    document.getElementById('live-lobby-room-code').textContent = gameState.roomCode;
+    try {
+      const prevLiveCode = localStorage.getItem('senceo_active_live_room_code');
+      if (prevLiveCode && prevLiveCode !== gameState.roomCode) {
+        fetch('/api/rooms', {
+          method: 'POST',
+          headers: getSupabaseHeaders(),
+          body: JSON.stringify({
+            action: 'leave_live_lobby',
+            code: prevLiveCode,
+            friendCode: userProfile.friendCode
+          })
+        }).catch(() => {});
+      }
+      localStorage.setItem('senceo_active_live_room_code', gameState.roomCode);
+    } catch (e) {}
+
+    const codeEl = document.getElementById('live-lobby-room-code');
+    if (codeEl) codeEl.textContent = gameState.roomCode;
     renderLiveLobbyState(room);
     if (!isCurrentUserHostOfLiveRoom(room)) {
       const myJoinName =
@@ -4192,8 +5147,20 @@ function loadRoomIntoGameState(room, forceResultView = false) {
     return true;
   }
 
-  // Oyun tamamlandıysa sonuç ekranını aç
-  if (forceResultView || room.status === 'completed') {
+  // Oyun tamamlandıysa veya kaçan rakibin maçını inceliyorsak sonuç ekranını aç
+  if (forceResultView || room.status === 'completed' || gameState.isInspectingFledMatch) {
+    stopLiveMatchPlayPolling();
+    if (
+      room.liveMatchState &&
+      Array.isArray(room.liveMatchState.history) &&
+      room.liveMatchState.history.length > 0 &&
+      (!gameState.p1Answers || gameState.p1Answers.length === 0)
+    ) {
+      gameState.p1Answers = room.liveMatchState.history.map((h) => h.answerIdx);
+      gameState.p2Guesses = room.liveMatchState.history.map((h) => h.guessIdx);
+      gameState.p1Comments = room.liveMatchState.history.map((h) => h.answerComment || { emoji: '', text: '' });
+      gameState.p2Comments = room.liveMatchState.history.map((h) => h.guessComment || { emoji: '', text: '' });
+    }
     showResultScreen(false);
     return true;
   }
@@ -4201,6 +5168,19 @@ function loadRoomIntoGameState(room, forceResultView = false) {
   // Canlı Oda Eşzamanlı Maç Devam Ediyorsa (live_in_progress):
   if (room.status === 'live_in_progress' && room.liveMatchState) {
     const ms = room.liveMatchState;
+    stopLiveLobbyParticipantPolling();
+
+    // v0.08 Gerçek Eşzamanlı 3 Aşamalı Canlı Maç Motoru (answering -> guessing -> reveal)
+    if (ms.subPhase) {
+      gameState.liveRoomData = room;
+      gameState.liveMatchState = ms;
+      gameState.lastRenderedLiveStepKey = `${ms.qIndex}:${ms.subPhase}:${ms.activeAnswererCode}:${ms.activeGuesserCode}`;
+      showView('view-question');
+      renderLiveArenaQuestionState(room);
+      startLiveMatchPlayPolling(gameState.roomCode);
+      return true;
+    }
+
     const myCode = (userProfile.friendCode || '').toUpperCase();
     const activeCode = (ms.activeTurnCode || '').toUpperCase();
     gameState.player1Name = ms.activeTurnName || room.p1 || 'Ebe Oyuncu';
@@ -4742,10 +5722,15 @@ function resetToHome() {
   stopPollingForPartnerCompletion();
   stopLiveLobbyParticipantPolling();
   stopLiveTurnWaitPolling();
+  stopLiveMatchPlayPolling();
   stopQuestionCountdownTimer();
   if (window.location.search) {
     window.history.replaceState({}, document.title, window.location.pathname);
   }
+  if (gameState.isInspectingFledMatch && gameState.roomCode) {
+    markRoomCodePermanentlyDeleted(gameState.roomCode);
+  }
+  gameState.isInspectingFledMatch = false;
   gameState.isSandboxTest = false;
   gameState.half = 1;
   gameState.phase = 'p1_answer';
@@ -4770,6 +5755,7 @@ function escapeHtml(str) {
 window.addEventListener('DOMContentLoaded', async () => {
   initSavedTheme();
   loadUserProfile();
+  applyRoomCodeBlurState();
   checkIncomingFriendInvite();
 
   const fv = document.getElementById('footer-version-label');
@@ -4798,12 +5784,13 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 async function runAutomatedE2EVerification() {
   try {
-    // 1. Profil modalını açma testi
+    // 1. Profil modalını açma & Misafir şifre koruma kartı kontrolü
     toggleProfileModal(true);
     const profModal = document.getElementById('profile-modal');
     const profOpen = profModal && !profModal.classList.contains('hidden');
     const codeText = (document.getElementById('modal-my-friend-code') || {}).textContent || '';
-    console.log(`E2E_VERIFY [1/4] Profile Modal Open=${profOpen}, FriendCode=${codeText}`);
+    const pwdCardVisible = !document.getElementById('guest-password-protect-card')?.classList.contains('hidden');
+    console.log(`E2E_VERIFY [1/6] Profile Modal Open=${profOpen}, FriendCode=${codeText}, GuestPwdCard=${pwdCardVisible}`);
     toggleProfileModal(false);
 
     // 2. Klasik Düelloyu Başlat testi
@@ -4814,7 +5801,7 @@ async function runAutomatedE2EVerification() {
     const qView = document.getElementById('view-question');
     const qOpenLink = qView && !qView.classList.contains('hidden');
     const optCountLink = document.querySelectorAll('#options-container .option-btn').length;
-    console.log(`E2E_VERIFY [2/4] Klasik Duello Start Open=${qOpenLink}, Options=${optCountLink}`);
+    console.log(`E2E_VERIFY [2/6] Klasik Duello Start Open=${qOpenLink}, Options=${optCountLink}`);
 
     // 3. Yan Yana Düelloyu Başlat testi
     resetToHome();
@@ -4823,19 +5810,37 @@ async function runAutomatedE2EVerification() {
     await handlePrimaryStartAction();
     const qOpenPass = qView && !qView.classList.contains('hidden');
     const optCountPass = document.querySelectorAll('#options-container .option-btn').length;
-    console.log(`E2E_VERIFY [3/4] Yan Yana Duello Start Open=${qOpenPass}, Options=${optCountPass}`);
+    console.log(`E2E_VERIFY [3/6] Yan Yana Duello Start Open=${qOpenPass}, Options=${optCountPass}`);
 
-    // 4. Canlı Oda Kur & Kod Al testi
+    // 4. Canlı Oda Kur & Kod Al (0ms Anında Açılış + Ebe Modu Sadece FFA Kontrolü)
     resetToHome();
     if (p1Inp) p1Inp.value = 'EmirhanTest';
     selectGameMode('arena');
-    await handlePrimaryStartAction();
+    const t0 = performance.now();
+    const startPromise = handlePrimaryStartAction();
     const lobbyView = document.getElementById('view-live-room-lobby');
-    const lobbyOpen = lobbyView && !lobbyView.classList.contains('hidden');
+    const lobbyOpenImmediate = lobbyView && !lobbyView.classList.contains('hidden');
+    const openMs = Math.round(performance.now() - t0);
+    await startPromise;
     const roomCode = (document.getElementById('live-lobby-room-code') || {}).textContent || '';
     const hostGoldCards = document.querySelectorAll('#live-lobby-participants-grid .host-gold-card').length;
-    console.log(`E2E_VERIFY [4/4] Canli Oda Lobby Open=${lobbyOpen}, RoomCode=${roomCode}, HostGoldCard=${hostGoldCards}`);
+    const ffaSubmodeHiddenIn1v1 = document.getElementById('live-ffa-submode-box')?.classList.contains('hidden');
+    console.log(`E2E_VERIFY [4/6] Canli Oda 0ms Open=${lobbyOpenImmediate} (${openMs}ms), RoomCode=${roomCode}, HostGoldCard=${hostGoldCards}, FFAHiddenIn1v1=${ffaSubmodeHiddenIn1v1}`);
+
+    // 5. Göz İkonu ile Eşzamanlı Oda Kodu Blurlama Testi
+    toggleRoomCodeBlur();
+    const isBlurred = document.body.classList.contains('blur-room-codes');
+    toggleRoomCodeBlur();
+    console.log(`E2E_VERIFY [5/6] Room Code Blur Toggle Working=${isBlurred}`);
+
+    // 6. Kaçan Rakip (Opponent Fled) 10 İhtimalli Uyarı Modalı Testi
+    openOpponentFledModal({ code: 'TEST99', p1: 'KorkakRakip', p2: 'EmirhanTest', status: 'opponent_fled' });
+    const fledModalOpen = !document.getElementById('opponent-fled-modal')?.classList.contains('hidden');
+    const fledMsgText = (document.getElementById('opponent-fled-title') || {}).textContent || '';
+    dismissFledMatchAndGoHome();
+    console.log(`E2E_VERIFY [6/6] Opponent Fled Modal Open=${fledModalOpen}, MsgSample="${fledMsgText.slice(0, 45)}..."`);
   } catch (err) {
     console.error('E2E_VERIFY_ERROR:', err && err.stack ? err.stack : err);
   }
 }
+
