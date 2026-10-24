@@ -5,7 +5,7 @@
   "p1FriendCode": "SNC-6066",
   "p2FriendCode": "",
   "roomType": "live_arena",
-  "arenaFormat": "1v1",
+  "arenaFormat": "4v4",
   "liveSettings": {
     "ffaSubMode": "ebeli",
     "teamSubMode": "",
@@ -31,5 +31,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T02:02:14.116Z",
-  "updatedAt": "2026-10-24T02:02:13.747Z"
+  "updatedAt": "2026-10-24T02:02:21.555Z"
 }
