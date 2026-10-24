@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T00:59:21.752Z",
+  "updatedAt": "2026-10-24T01:00:51.421Z",
   "players": [
     {
       "friendCode": "SNC-1813",
@@ -13,6 +13,19 @@
       "isPermanentMember": false,
       "lastXpActivityAt": 1792803556825,
       "updatedAt": "2026-10-24T00:59:21.752Z"
+    },
+    {
+      "friendCode": "SNC-3675",
+      "username": "soldakipc1",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "lastXpActivityAt": 1792803651421,
+      "updatedAt": "2026-10-24T01:00:51.421Z"
     }
   ]
 }
