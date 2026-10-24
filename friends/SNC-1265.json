@@ -10,10 +10,28 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792808354167,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNC5LP",
+  "activeRooms": [
+    {
+      "code": "SNC5LP",
+      "p1": "B4ris",
+      "p2": "",
+      "p1FriendCode": "SNC-1265",
+      "p2FriendCode": "SNC-1265",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "cift",
+      "updatedAt": "2026-10-24T11:27:37.401Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-24T11:27:34.096Z"
+  "updatedAt": "2026-10-24T11:27:37.401Z",
+  "deletedRoomCodes": []
 }
