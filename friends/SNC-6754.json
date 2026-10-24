@@ -20,19 +20,32 @@
       "p2FriendCode": "SNC-6754",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-6754",
       "cat": "genel",
-      "updatedAt": "2026-10-24T12:35:31.354Z"
+      "lastMatchPercentage": 0,
+      "updatedAt": "2026-10-24T12:35:44.745Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-24T12:35:31.354Z",
+  "notifications": [
+    {
+      "id": "DONE_P2_SNCNG7_R1",
+      "type": "completed",
+      "title": "🏆 Ayşe Tahminlerini Tamamladı!",
+      "message": "#SNCNG7 düellosu bitti! Uyum skorunuz: %0",
+      "fromCode": "SNC-6252",
+      "fromName": "Ayşe",
+      "roomCode": "SNCNG7",
+      "read": false,
+      "createdAt": "2026-10-24T12:35:44.745Z"
+    }
+  ],
+  "updatedAt": "2026-10-24T12:35:44.745Z",
   "lastPropagatedName": "Burak",
   "deletedRoomCodes": []
 }
