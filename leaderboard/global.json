@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T03:59:31.764Z",
+  "updatedAt": "2026-10-24T04:00:14.290Z",
   "players": [
     {
       "friendCode": "SNC-3375",
@@ -45,7 +45,7 @@
     },
     {
       "friendCode": "SNC-7788",
-      "username": "sıradana",
+      "username": "EmirhanTest",
       "avatar": "😎",
       "level": 2,
       "xp": 180,
@@ -54,8 +54,8 @@
       "provider": "guest",
       "isPermanentMember": false,
       "passwordProtected": false,
-      "lastXpActivityAt": 1792814371764,
-      "updatedAt": "2026-10-24T03:59:31.764Z"
+      "lastXpActivityAt": 1792814359830,
+      "updatedAt": "2026-10-24T04:00:14.290Z"
     },
     {
       "friendCode": "SNC-6283",
