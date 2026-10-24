@@ -10,8 +10,25 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792846347200,
-  "latestRoomCode": "MFFA0Y1",
+  "latestRoomCode": "SNCLTS",
   "activeRooms": [
+    {
+      "code": "SNCLTS",
+      "p1": "YanyanaA",
+      "p2": "YanyanaB",
+      "p1FriendCode": "SNC-8029",
+      "p2FriendCode": "",
+      "roomType": "pass",
+      "arenaFormat": "1v1",
+      "status": "completed",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "lastMatchPercentage": 70,
+      "updatedAt": "2026-10-24T12:53:07.266Z"
+    },
     {
       "code": "MFFA0Y1",
       "p1": "Oyuncu_A",
@@ -141,7 +158,7 @@
       "createdAt": "2026-10-24T12:52:22.234Z"
     }
   ],
-  "updatedAt": "2026-10-24T12:53:05.490Z",
+  "updatedAt": "2026-10-24T12:53:07.266Z",
   "deletedRoomCodes": [],
   "lastPropagatedName": "YanyanaA"
 }
