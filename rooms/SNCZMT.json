@@ -1,8 +1,8 @@
 {
   "code": "SNCZMT",
   "p1Id": "USR_FW6OPX9",
-  "hostCode": "SNC-7224",
-  "p1FriendCode": "SNC-7224",
+  "hostCode": "SNC-2002",
+  "p1FriendCode": "SNC-2002",
   "p2FriendCode": "SNC-2002",
   "roomType": "live_arena",
   "arenaFormat": "1v1",
@@ -16,21 +16,14 @@
   },
   "status": "completed",
   "currentRound": 3,
-  "p1": "emirhan",
+  "p1": "komnenos",
   "p2": "komnenos",
   "participants": [
     {
-      "name": "emirhan",
-      "code": "SNC-7224",
-      "role": "host",
-      "team": "common",
-      "isHost": true
-    },
-    {
       "name": "komnenos",
       "code": "SNC-2002",
-      "role": "member",
-      "isHost": false,
+      "role": "host",
+      "isHost": true,
       "team": "common",
       "score": 0,
       "correct": 0,
@@ -47,7 +40,7 @@
     74
   ],
   "createdAt": "2026-10-24T18:55:06.470Z",
-  "updatedAt": "2026-10-24T19:08:09.998Z",
+  "updatedAt": "2026-10-24T19:08:38.616Z",
   "liveLeaderboard": [
     {
       "code": "SNC-2002",
