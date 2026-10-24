@@ -3,11 +3,12 @@
   "p1Id": "USR_UGVVK0A",
   "p1FriendCode": "SNC-6283",
   "p2FriendCode": "SNC-6283",
+  "nextRoundStarterCode": "SNC-6283",
+  "nextRoundStarterName": "deneb",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "denea",
   "p2": "deneb",
   "cat": "genel",
@@ -127,7 +128,40 @@
       "text": "zaxdb"
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T02:38:32.352Z"
+  "p1Half2Guesses": [
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": "denemebbunemq"
+    },
+    {
+      "emoji": "",
+      "text": "deneb bu ne mq"
+    },
+    {
+      "emoji": "",
+      "text": "deneb bu ne mq"
+    }
+  ],
+  "lastMatchPercentage": 50,
+  "lastCorrectCount": 5,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-24T02:43:09.169Z",
+  "updatedAt": "2026-10-24T02:43:08.768Z",
+  "nextRoundSecondCode": "SNC-6283",
+  "nextRoundSecondName": "denea"
 }
