@@ -14,7 +14,7 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-1265"
   },
-  "status": "live_in_progress",
+  "status": "completed",
   "currentRound": 1,
   "p1": "B4ris",
   "p2": "emirhan",
@@ -48,7 +48,7 @@
   ],
   "createdAt": "2026-10-24T11:27:31.466Z",
   "p2Id": "USR_6YKNHJG",
-  "updatedAt": "2026-10-24T11:38:32.418Z",
+  "updatedAt": "2026-10-24T11:38:39.706Z",
   "liveMatchState": {
     "qIds": [
       60,
@@ -78,7 +78,7 @@
     "activeAnswererName": "B4ris",
     "activeGuesserCode": "SNC-7224",
     "activeGuesserName": "emirhan",
-    "subPhase": "reveal",
+    "subPhase": "completed",
     "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "",
@@ -239,6 +239,40 @@
             "submittedAt": 1792841614390
           }
         }
+      },
+      {
+        "qIndex": 4,
+        "qId": 24,
+        "answererCode": "SNC-1265",
+        "answererName": "B4ris",
+        "guesserCode": "SNC-7224",
+        "guesserName": "emirhan",
+        "answerIdx": 3,
+        "guessIdx": 0,
+        "answerIndex": 3,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "customOption": "direk babamı arayıp ağlarım",
+        "guessesByPlayer": {
+          "SNC-7224": {
+            "code": "SNC-7224",
+            "name": "emirhan",
+            "guessIndex": 0,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": false,
+            "submittedAt": 1792841912418
+          }
+        }
       }
     ],
     "scores": {
@@ -278,6 +312,85 @@
       }
     },
     "phaseStartedAt": 1792841912418,
-    "updatedAt": 1792841912418
-  }
+    "updatedAt": 1792841919706
+  },
+  "liveLeaderboard": [
+    {
+      "code": "SNC-7224",
+      "name": "emirhan",
+      "team": "common",
+      "correct": 1,
+      "total": 3,
+      "points": 100
+    },
+    {
+      "code": "SNC-1265",
+      "name": "B4ris",
+      "team": "blue",
+      "correct": 0,
+      "total": 2,
+      "points": 0
+    }
+  ],
+  "lastMatchPercentage": 20,
+  "lastCorrectCount": 1,
+  "lastTotalQuestions": 5,
+  "p1Answers": [
+    1,
+    2,
+    2,
+    3,
+    3
+  ],
+  "p2Guesses": [
+    1,
+    3,
+    0,
+    0,
+    0
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "💀",
+      "text": "senden 1 tane daha yoksa eyvallah diyeceksin canpolat"
+    },
+    {
+      "emoji": "",
+      "text": "bozuk kısımları fixle oyun iyi"
+    },
+    {
+      "emoji": "😎",
+      "text": "keisnlikle bu"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Comments": [
+    {
+      "emoji": "❤️",
+      "text": "qolaydı"
+    },
+    {
+      "emoji": "💀",
+      "text": "obaaaaa"
+    },
+    {
+      "emoji": "🔥",
+      "text": "affetmez"
+    },
+    {
+      "emoji": "😱",
+      "text": "bastın kahkahayı yadaaaa cimere verdik mustafayı"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ]
 }
