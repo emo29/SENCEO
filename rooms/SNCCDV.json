@@ -1,37 +1,106 @@
 {
   "code": "SNCCDV",
-  "p1Id": "USR_9I6XA8U",
-  "hostCode": "SNC-3675",
-  "p1FriendCode": "SNC-3675",
+  "p1Id": "USR_W7VKMCY",
+  "p1FriendCode": "SNC-6066",
   "p2FriendCode": "SNC-6066",
   "roomType": "live_arena",
   "arenaFormat": "ffa",
-  "liveSettings": {},
-  "status": "live_in_progress",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
+  "whoseTurn": "p1",
   "p1": "aaa1",
   "p2": "sağdakipc1",
-  "participants": [
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [
+    25,
+    58,
+    2,
+    28,
+    66
+  ],
+  "usedQuestionIds": [
+    25,
+    58,
+    2,
+    28,
+    66,
+    27,
+    3,
+    70,
+    7,
+    26
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [],
+  "p1Comments": [],
+  "p2Guesses": [
+    0,
+    0,
+    2,
+    2,
+    2
+  ],
+  "p2Comments": [
     {
-      "name": "aaa1",
-      "code": "SNC-3675",
-      "role": "host",
-      "team": "common",
-      "isHost": true
+      "emoji": "😂",
+      "text": "aaaaaaaaaa"
     },
     {
-      "name": "sağdakipc1",
-      "code": "SNC-6066",
-      "role": "member",
-      "team": "none",
-      "score": 0,
-      "correct": 0,
-      "joinedAt": "2026-10-24T01:15:04.468Z"
+      "emoji": "",
+      "text": "aaaaaaaaaaaaaa"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
     }
   ],
-  "cat": "genel",
-  "thm": "obsidian",
-  "qIds": [],
-  "createdAt": "2026-10-24T01:14:54.909Z",
-  "updatedAt": "2026-10-24T01:15:18.047Z"
+  "p2Half2QIds": [
+    27,
+    3,
+    70,
+    7,
+    26
+  ],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [
+    3,
+    2,
+    2,
+    2,
+    2
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-24T01:22:33.250Z"
 }
