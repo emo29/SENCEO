@@ -1,0 +1,75 @@
+{
+  "code": "M4V4WQX",
+  "roomType": "live_arena",
+  "arenaFormat": "4v4",
+  "status": "live_lobby",
+  "hostCode": "SNC-1001",
+  "hostName": "Oyuncu_A",
+  "p1": "Oyuncu_A",
+  "p1FriendCode": "SNC-1001",
+  "participants": [
+    {
+      "name": "Oyuncu_A",
+      "code": "SNC-1001",
+      "isHost": true,
+      "team": "A",
+      "role": "host"
+    },
+    {
+      "name": "Oyuncu_B",
+      "code": "SNC-1002",
+      "isHost": false,
+      "team": "A",
+      "role": "member"
+    },
+    {
+      "name": "Oyuncu_C",
+      "code": "SNC-1003",
+      "isHost": false,
+      "team": "A",
+      "role": "member"
+    },
+    {
+      "name": "Oyuncu_D",
+      "code": "SNC-1004",
+      "isHost": false,
+      "team": "A",
+      "role": "member"
+    },
+    {
+      "name": "Oyuncu_E",
+      "code": "SNC-1005",
+      "isHost": false,
+      "team": "B",
+      "role": "member"
+    },
+    {
+      "name": "Oyuncu_F",
+      "code": "SNC-1006",
+      "isHost": false,
+      "team": "B",
+      "role": "member"
+    },
+    {
+      "name": "Oyuncu_G",
+      "code": "SNC-1007",
+      "isHost": false,
+      "team": "B",
+      "role": "member"
+    },
+    {
+      "name": "Oyuncu_H",
+      "code": "SNC-1008",
+      "isHost": false,
+      "team": "B",
+      "role": "member"
+    }
+  ],
+  "liveSettings": {
+    "teamSubMode": "partner"
+  },
+  "p1Id": "USR_E0B22H4",
+  "p2FriendCode": "SNC-5728",
+  "p2Id": "USR_E0B22H4",
+  "updatedAt": "2026-10-25T13:51:03.742Z"
+}
