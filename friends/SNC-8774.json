@@ -20,19 +20,32 @@
       "p2FriendCode": "SNC-8774",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-8774",
       "cat": "cift",
-      "updatedAt": "2026-10-25T17:37:08.948Z"
+      "lastMatchPercentage": 50,
+      "updatedAt": "2026-10-25T17:42:03.630Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-25T17:37:08.948Z",
+  "notifications": [
+    {
+      "id": "DONE_P2_SNCLTE_R1",
+      "type": "completed",
+      "title": "🏆 emirhan Tahminlerini Tamamladı!",
+      "message": "#SNCLTE düellosu bitti! Uyum skorunuz: %50",
+      "fromCode": "SNC-7224",
+      "fromName": "emirhan",
+      "roomCode": "SNCLTE",
+      "read": false,
+      "createdAt": "2026-10-25T17:42:03.630Z"
+    }
+  ],
+  "updatedAt": "2026-10-25T17:42:03.630Z",
   "lastPropagatedName": "bahan",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
