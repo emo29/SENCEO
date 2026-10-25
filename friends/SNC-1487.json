@@ -10,12 +10,30 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792949418721,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCS3W",
+  "activeRooms": [
+    {
+      "code": "SNCS3W",
+      "p1": "epsaniol",
+      "p2": "adeneme",
+      "p1FriendCode": "SNC-2603",
+      "p2FriendCode": "SNC-1487",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-25T17:31:02.356Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T17:30:18.721Z",
+  "updatedAt": "2026-10-25T17:31:02.356Z",
   "lastPropagatedName": "adeneme",
-  "isPasswordProtected": false
+  "isPasswordProtected": false,
+  "deletedRoomCodes": []
 }
