@@ -1,13 +1,13 @@
 {
   "friendCode": "SNC-5885",
-  "username": "Misafir Oyuncu",
+  "username": "ee",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
-  "provider": "guest",
-  "isPermanentMember": false,
-  "passwordProtected": false,
+  "provider": "Google",
+  "isPermanentMember": true,
+  "passwordProtected": true,
   "passwordHash": "",
   "lastXpActivityAt": 1792936466490,
   "latestRoomCode": "",
@@ -15,7 +15,8 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T14:00:27.005Z",
+  "updatedAt": "2026-10-25T14:01:28.594Z",
   "deletedAccountAt": "2026-10-25T13:54:26.490Z",
-  "isPasswordProtected": false
+  "isPasswordProtected": true,
+  "lastPropagatedName": "ee"
 }
