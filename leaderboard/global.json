@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T19:26:46.245Z",
+  "updatedAt": "2026-10-25T20:24:28.251Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -530,6 +530,20 @@
       "passwordProtected": true,
       "lastXpActivityAt": 1792952826018,
       "updatedAt": "2026-10-25T18:27:06.019Z"
+    },
+    {
+      "friendCode": "SNC-6057",
+      "username": "Misafir",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "Misafir",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792959868250,
+      "updatedAt": "2026-10-25T20:24:28.251Z"
     }
   ]
 }
