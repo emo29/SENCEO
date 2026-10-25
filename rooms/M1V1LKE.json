@@ -2,7 +2,7 @@
   "code": "M1V1LKE",
   "roomType": "live_arena",
   "arenaFormat": "1v1",
-  "status": "live_lobby",
+  "status": "live_in_progress",
   "hostCode": "SNC-1001",
   "hostName": "Oyuncu_A",
   "p1": "Oyuncu_A",
@@ -27,5 +27,108 @@
   "p1Id": "USR_CBTNMSH",
   "p2FriendCode": "SNC-8484",
   "p2Id": "USR_CBTNMSH",
-  "updatedAt": "2026-10-25T13:48:15.820Z"
+  "updatedAt": "2026-10-25T13:48:18.441Z",
+  "cat": "genel",
+  "currentRound": 1,
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
+  "qIds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "usedQuestionIds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "liveMatchState": {
+    "qIds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-1001",
+        "name": "Oyuncu_A",
+        "team": "A"
+      },
+      {
+        "code": "SNC-1002",
+        "name": "Oyuncu_B",
+        "team": "B"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-1001",
+    "activeAnswererName": "Oyuncu_A",
+    "activeGuesserCode": "SNC-1002",
+    "activeGuesserName": "Oyuncu_B",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-1001": {
+        "code": "SNC-1001",
+        "name": "Oyuncu_A",
+        "team": "A",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1002": {
+        "code": "SNC-1002",
+        "name": "Oyuncu_B",
+        "team": "B",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-1001": {
+        "code": "SNC-1001",
+        "name": "Oyuncu_A",
+        "team": "A",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1002": {
+        "code": "SNC-1002",
+        "name": "Oyuncu_B",
+        "team": "B",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1792936098441,
+    "updatedAt": 1792936098441
+  }
 }
