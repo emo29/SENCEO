@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792936087741,
-  "latestRoomCode": "SNC4H5",
+  "latestRoomCode": "M1V1LKE",
   "activeRooms": [
+    {
+      "code": "M1V1LKE",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1001",
+      "p2FriendCode": "SNC-8484",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "live_lobby",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-25T13:48:17.487Z"
+    },
     {
       "code": "SNC4H5",
       "p1": "sıradana",
@@ -45,7 +61,7 @@
       "createdAt": "2026-10-25T13:48:02.800Z"
     }
   ],
-  "updatedAt": "2026-10-25T13:48:07.741Z",
+  "updatedAt": "2026-10-25T13:48:17.487Z",
   "lastPropagatedName": "sıradana",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
