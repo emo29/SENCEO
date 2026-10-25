@@ -15,24 +15,36 @@
     {
       "code": "SNC4H5",
       "p1": "sıradana",
-      "p2": "",
+      "p2": "sıradanb",
       "p1FriendCode": "SNC-8484",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-9999",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-25T13:48:00.726Z"
+      "updatedAt": "2026-10-25T13:48:02.799Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-25T13:48:00.726Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNC4H5_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "sıradanb 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNC4H5)",
+      "fromCode": "SNC-9999",
+      "fromName": "sıradanb",
+      "roomCode": "SNC4H5",
+      "read": false,
+      "createdAt": "2026-10-25T13:48:02.800Z"
+    }
+  ],
+  "updatedAt": "2026-10-25T13:48:02.800Z",
   "lastPropagatedName": "sıradana",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
