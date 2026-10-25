@@ -1,6 +1,20 @@
 {
-  "updatedAt": "2026-10-25T11:53:04.162Z",
+  "updatedAt": "2026-10-25T12:40:54.586Z",
   "players": [
+    {
+      "friendCode": "SNC-9101",
+      "username": "Selin Y.",
+      "avatar": "😎",
+      "level": 7,
+      "xp": 680,
+      "gamesPlayed": 5,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792932054586,
+      "updatedAt": "2026-10-25T12:40:54.586Z"
+    },
     {
       "friendCode": "SNC-3375",
       "username": "sıradana",
