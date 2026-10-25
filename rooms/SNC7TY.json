@@ -1,0 +1,84 @@
+{
+  "code": "SNC7TY",
+  "p1Id": "USR_832TXAZ",
+  "p1FriendCode": "SNC-4741",
+  "p2Id": "USR_IYJNN9O",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "Emirhan",
+  "p2": "",
+  "cat": "genel",
+  "thm": "cosmic",
+  "qIds": [
+    80,
+    81,
+    79,
+    76,
+    78
+  ],
+  "usedQuestionIds": [
+    4,
+    40,
+    67,
+    63,
+    13,
+    34,
+    39,
+    59,
+    75,
+    15,
+    27,
+    32,
+    31,
+    55,
+    53,
+    80,
+    81,
+    79,
+    76,
+    78
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    1,
+    1,
+    3,
+    0,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "🤔",
+      "text": "çekilmeyecek çile"
+    },
+    {
+      "emoji": "🔥",
+      "text": "sarı bayrakta niye üçgen ünlem hmm"
+    },
+    {
+      "emoji": "❤️",
+      "text": "müq"
+    },
+    {
+      "emoji": "😱",
+      "text": "sie"
+    },
+    {
+      "emoji": "🔥",
+      "text": "köle muamelesi hm"
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-25T19:19:49.767Z"
+}
