@@ -197,6 +197,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "NUDGE_SNCSN6_1792935898887",
+      "type": "next_round_nudge",
+      "title": "🔥 2. Raund Çağrısı! (İlk Sıra Sende)",
+      "message": "sıradana #SNCSN6 odasında 2. Raunda geçmen için sana bildirim gönderdi! İlk sıra sende, hemen başlat!",
+      "fromCode": "SNC-4324",
+      "fromName": "sıradana",
+      "roomCode": "SNCSN6",
+      "read": false,
+      "createdAt": "2026-10-25T13:44:58.887Z"
+    },
+    {
       "id": "DONE_P2_SNCSN6_R1",
       "type": "completed",
       "title": "🏆 sıradana Tahminlerini Tamamladı!",
@@ -274,6 +285,6 @@
       "createdAt": "2026-10-24T03:56:42.937Z"
     }
   ],
-  "updatedAt": "2026-10-25T13:44:51.663Z",
+  "updatedAt": "2026-10-25T13:44:58.887Z",
   "deletedRoomCodes": []
 }
