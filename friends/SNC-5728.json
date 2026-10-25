@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792936241556,
-  "latestRoomCode": "M5V5WS1",
+  "latestRoomCode": "MFFAWT5",
   "activeRooms": [
+    {
+      "code": "MFFAWT5",
+      "p1": "Oyuncu_A",
+      "p2": "",
+      "p1FriendCode": "SNC-1001",
+      "p2FriendCode": "SNC-5728",
+      "roomType": "live_arena",
+      "arenaFormat": "ffa",
+      "status": "live_lobby",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-25T13:51:16.733Z"
+    },
     {
       "code": "M5V5WS1",
       "p1": "Oyuncu_A",
@@ -125,7 +141,7 @@
       "createdAt": "2026-10-25T13:50:36.143Z"
     }
   ],
-  "updatedAt": "2026-10-25T13:51:11.088Z",
+  "updatedAt": "2026-10-25T13:51:16.733Z",
   "deletedRoomCodes": [],
   "lastPropagatedName": "sıradana",
   "isPasswordProtected": false
