@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-4324",
   "username": "sıradana",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "level": 2,
+  "xp": 180,
+  "gamesPlayed": 1,
+  "questionsCorrect": 6,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792935885611,
+  "lastXpActivityAt": 1792935893656,
   "latestRoomCode": "SNCSN6",
   "activeRooms": [
     {
@@ -45,7 +45,7 @@
       "createdAt": "2026-10-25T13:44:48.389Z"
     }
   ],
-  "updatedAt": "2026-10-25T13:44:50.953Z",
+  "updatedAt": "2026-10-25T13:44:53.656Z",
   "deletedRoomCodes": [],
   "lastPropagatedName": "sıradana",
   "isPasswordProtected": false
