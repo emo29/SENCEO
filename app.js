@@ -9254,7 +9254,7 @@ async function runAutomatedE2EVerification() {
     const isBlurred = document.body.classList.contains('blur-room-codes');
     toggleAllRoomCodesBlur();
     toggleSingleRoomCodeBlur('TEST99');
-    const singleBlurred = isRoomCodeBlurredForCard('TEST99');
+    const singleBlurred = Boolean(gameState.blurredRoomCodesSet && gameState.blurredRoomCodesSet.has('TEST99'));
     toggleSingleRoomCodeBlur('TEST99');
     openDeleteAccountConfirm();
     const deleteConfirmOpen = !document.getElementById('delete-account-confirm-box')?.classList.contains('hidden');
