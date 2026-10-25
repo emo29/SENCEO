@@ -1,1 +1,35 @@
-null
+{
+  "code": "SNCNMQ",
+  "p1Id": "USR_K6FPZV7",
+  "hostCode": "SNC-5885",
+  "p1FriendCode": "SNC-5885",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "liveSettings": {
+    "ffaSubMode": "ebe",
+    "teamSubMode": "",
+    "turnStep": 1,
+    "timerSeconds": 0,
+    "starterMode": "random",
+    "selectedStarterCode": ""
+  },
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "oe",
+  "p2": "",
+  "participants": [
+    {
+      "name": "oe",
+      "code": "SNC-5885",
+      "role": "host",
+      "team": "common",
+      "isHost": true
+    }
+  ],
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [],
+  "createdAt": "2026-10-25T12:58:56.326Z",
+  "updatedAt": "2026-10-25T12:58:55.050Z"
+}
