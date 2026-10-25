@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-9999",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-9999",
       "cat": "genel",
-      "updatedAt": "2026-10-25T13:44:49.120Z"
+      "lastMatchPercentage": 60,
+      "updatedAt": "2026-10-25T13:44:51.662Z"
     },
     {
       "code": "SNCZGZ",
@@ -196,6 +197,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "DONE_P2_SNCSN6_R1",
+      "type": "completed",
+      "title": "🏆 sıradana Tahminlerini Tamamladı!",
+      "message": "#SNCSN6 düellosu bitti! Uyum skorunuz: %60",
+      "fromCode": "SNC-4324",
+      "fromName": "sıradana",
+      "roomCode": "SNCSN6",
+      "read": false,
+      "createdAt": "2026-10-25T13:44:51.663Z"
+    },
+    {
       "id": "NUDGE_SNCZGZ_1792846348472",
       "type": "next_round_nudge",
       "title": "🔥 2. Raund Çağrısı! (İlk Sıra Sende)",
@@ -262,6 +274,6 @@
       "createdAt": "2026-10-24T03:56:42.937Z"
     }
   ],
-  "updatedAt": "2026-10-25T13:44:49.120Z",
+  "updatedAt": "2026-10-25T13:44:51.663Z",
   "deletedRoomCodes": []
 }
