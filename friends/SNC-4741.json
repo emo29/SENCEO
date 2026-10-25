@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-4741",
   "username": "Emirhan",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "level": 2,
+  "xp": 180,
+  "gamesPlayed": 1,
+  "questionsCorrect": 6,
   "provider": "Google",
   "isPermanentMember": true,
   "passwordProtected": true,
   "passwordHash": "",
-  "lastXpActivityAt": 1792955864828,
+  "lastXpActivityAt": 1792956405468,
   "latestRoomCode": "SNC7TY",
   "activeRooms": [
     {
@@ -45,7 +45,7 @@
       "createdAt": "2026-10-25T19:22:45.952Z"
     }
   ],
-  "updatedAt": "2026-10-25T19:26:43.727Z",
+  "updatedAt": "2026-10-25T19:26:45.468Z",
   "email": "periheltry@gmail.com",
   "googleSub": "108291569470125462549",
   "picture": "https://lh3.googleusercontent.com/a/ACg8ocLZEjJf70n2QDoNdTudca6tNZi_4CRSRs4AkuixkCcySXIRPlW3=s96-c",
