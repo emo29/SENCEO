@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T12:40:56.697Z",
+  "updatedAt": "2026-10-25T12:40:58.537Z",
   "players": [
     {
       "friendCode": "SNC-9101",
@@ -28,6 +28,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792932056697,
       "updatedAt": "2026-10-25T12:40:56.697Z"
+    },
+    {
+      "friendCode": "SNC-9103",
+      "username": "Zeynep D.",
+      "avatar": "😎",
+      "level": 5,
+      "xp": 490,
+      "gamesPlayed": 5,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792932058536,
+      "updatedAt": "2026-10-25T12:40:58.536Z"
     },
     {
       "friendCode": "SNC-3375",
