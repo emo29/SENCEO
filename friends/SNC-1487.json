@@ -20,19 +20,32 @@
       "p2FriendCode": "SNC-1487",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-1487",
       "cat": "genel",
-      "updatedAt": "2026-10-25T17:31:02.356Z"
+      "lastMatchPercentage": 100,
+      "updatedAt": "2026-10-25T17:31:38.042Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-25T17:31:02.356Z",
+  "notifications": [
+    {
+      "id": "DONE_P2_SNCS3W_R1",
+      "type": "completed",
+      "title": "🏆 epsaniol Tahminlerini Tamamladı!",
+      "message": "#SNCS3W düellosu bitti! Uyum skorunuz: %100",
+      "fromCode": "SNC-2603",
+      "fromName": "epsaniol",
+      "roomCode": "SNCS3W",
+      "read": false,
+      "createdAt": "2026-10-25T17:31:38.042Z"
+    }
+  ],
+  "updatedAt": "2026-10-25T17:31:38.042Z",
   "lastPropagatedName": "adeneme",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
