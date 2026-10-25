@@ -1,0 +1,137 @@
+{
+  "code": "SNCGYE",
+  "p1Id": "USR_E0B22H4",
+  "p1FriendCode": "SNC-5728",
+  "p2Id": "USR_E0B22H4",
+  "p2FriendCode": "",
+  "nextRoundStarterCode": "",
+  "nextRoundStarterName": "YanyanaB",
+  "roomType": "pass",
+  "arenaFormat": "1v1",
+  "status": "completed",
+  "currentRound": 1,
+  "p1": "YanyanaA",
+  "p2": "YanyanaB",
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [
+    29,
+    74,
+    55,
+    31,
+    7
+  ],
+  "usedQuestionIds": [
+    25,
+    28,
+    1,
+    27,
+    11,
+    58,
+    2,
+    53,
+    3,
+    9,
+    70,
+    62,
+    66,
+    32,
+    30,
+    29,
+    74,
+    55,
+    31,
+    7,
+    26,
+    44,
+    34,
+    77,
+    56
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    1,
+    2,
+    0,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "🔥",
+      "text": "yanyana p1 notu"
+    },
+    {},
+    {},
+    {},
+    {}
+  ],
+  "p2Guesses": [
+    0,
+    1,
+    1,
+    0,
+    2
+  ],
+  "p2Comments": [
+    {
+      "emoji": "😎",
+      "text": "yanyana p2 tahmini"
+    },
+    {},
+    {},
+    {},
+    {}
+  ],
+  "p2Half2QIds": [
+    26,
+    44,
+    34,
+    77,
+    56
+  ],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [
+    2,
+    2,
+    1,
+    0,
+    1
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "🚀",
+      "text": "yanyana p2 soru notu"
+    },
+    {},
+    {},
+    {},
+    {}
+  ],
+  "p1Half2Guesses": [
+    2,
+    1,
+    1,
+    0,
+    1
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "🎯",
+      "text": "yanyana p1 2.yari tahmini"
+    },
+    {},
+    {},
+    {},
+    {}
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 70,
+  "lastCorrectCount": 7,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-25T13:50:34.891Z",
+  "updatedAt": "2026-10-25T13:51:20.807Z",
+  "nextRoundSecondCode": "SNC-5728",
+  "nextRoundSecondName": "YanyanaA"
+}
