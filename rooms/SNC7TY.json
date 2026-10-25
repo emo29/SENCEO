@@ -179,7 +179,11 @@
   "lastCorrectCount": 6,
   "lastTotalQuestions": 10,
   "completedAt": "2026-10-25T19:26:43.997Z",
-  "updatedAt": "2026-10-25T19:26:42.801Z",
+  "updatedAt": "2026-10-25T19:41:10.768Z",
   "nextRoundSecondCode": "SNC-4741",
-  "nextRoundSecondName": "Emirhan"
+  "nextRoundSecondName": "Emirhan",
+  "round2NudgeAt": 1792957270768,
+  "round2NudgeFrom": "Emirhan",
+  "round2NudgeFromCode": "SNC-4741",
+  "round2NudgeTargetRound": 2
 }
