@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-1487",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-1487",
       "cat": "genel",
-      "updatedAt": "2026-10-25T17:31:01.392Z"
+      "lastMatchPercentage": 100,
+      "updatedAt": "2026-10-25T17:31:37.199Z"
     }
   ],
   "incomingRequests": [],
@@ -44,7 +45,7 @@
       "createdAt": "2026-10-25T17:31:01.392Z"
     }
   ],
-  "updatedAt": "2026-10-25T17:31:01.392Z",
+  "updatedAt": "2026-10-25T17:31:37.199Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "epsaniol",
   "deletedRoomCodes": []
