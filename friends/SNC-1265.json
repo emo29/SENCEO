@@ -56,6 +56,17 @@
   ],
   "notifications": [
     {
+      "id": "LIVE_PULL_SNCBPN_1792960015381",
+      "type": "instant_live_invite",
+      "title": "⚔️ emirhan Seni Canlı Odaya Çekiyor!",
+      "message": "emirhan (#SNCBPN) canlı düello masasını kurdu ve şu an lobide seni bekliyor!",
+      "fromCode": "SNC-7224",
+      "fromName": "emirhan",
+      "roomCode": "SNCBPN",
+      "read": false,
+      "createdAt": "2026-10-25T20:26:55.381Z"
+    },
+    {
       "id": "FINVITE_SNC-7224_TO_SNC-1265",
       "type": "friend_accepted",
       "title": "🎉 Davet Linkinle Yeni Bağ Kuruldu!",
@@ -78,6 +89,6 @@
       "createdAt": "2026-10-24T12:21:15.870Z"
     }
   ],
-  "updatedAt": "2026-10-24T17:55:31.160Z",
+  "updatedAt": "2026-10-25T20:26:55.381Z",
   "deletedRoomCodes": []
 }
