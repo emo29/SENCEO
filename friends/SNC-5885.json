@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792936361368,
-  "latestRoomCode": "SNCJ93",
+  "latestRoomCode": "SNCJCH",
   "activeRooms": [
+    {
+      "code": "SNCJCH",
+      "p1": "oe",
+      "p2": "",
+      "p1FriendCode": "SNC-5885",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "bluff",
+      "updatedAt": "2026-10-25T13:53:30.714Z"
+    },
     {
       "code": "SNCJ93",
       "p1": "oe",
@@ -64,7 +80,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T13:53:15.879Z",
+  "updatedAt": "2026-10-25T13:53:30.714Z",
   "lastPropagatedName": "oe",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
