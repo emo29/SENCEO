@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T13:53:57.584Z",
+  "updatedAt": "2026-10-25T13:54:27.267Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -236,20 +236,6 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792860867335,
       "updatedAt": "2026-10-24T16:54:27.335Z"
-    },
-    {
-      "friendCode": "SNC-5885",
-      "username": "oe",
-      "avatar": "😎",
-      "level": 1,
-      "xp": 35,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "guest",
-      "isPermanentMember": true,
-      "passwordProtected": true,
-      "lastXpActivityAt": 1792936361368,
-      "updatedAt": "2026-10-25T13:53:57.584Z"
     },
     {
       "friendCode": "SNC-8880",
