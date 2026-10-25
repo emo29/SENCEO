@@ -10,12 +10,30 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792932610159,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCBBU",
+  "activeRooms": [
+    {
+      "code": "SNCBBU",
+      "p1": "oe",
+      "p2": "ee",
+      "p1FriendCode": "SNC-5885",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-25T12:50:33.244Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T12:50:30.080Z",
+  "updatedAt": "2026-10-25T12:50:33.244Z",
   "lastPropagatedName": "oe",
-  "isPasswordProtected": false
+  "isPasswordProtected": false,
+  "deletedRoomCodes": []
 }
