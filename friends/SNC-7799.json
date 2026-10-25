@@ -1,39 +1,22 @@
 {
   "friendCode": "SNC-7799",
-  "username": "yyy",
+  "username": "Misafir Oyuncu",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
-  "provider": "Misafir",
+  "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792939512852,
-  "latestRoomCode": "SNC28C",
-  "activeRooms": [
-    {
-      "code": "SNC28C",
-      "p1": "yyy",
-      "p2": "",
-      "p1FriendCode": "SNC-7799",
-      "p2FriendCode": "",
-      "roomType": "classic",
-      "arenaFormat": "1v1",
-      "status": "waiting_p2",
-      "abandonedByCode": "",
-      "abandonedByName": "",
-      "currentRound": 1,
-      "nextRoundStarterCode": "",
-      "cat": "genel",
-      "updatedAt": "2026-10-25T14:46:15.328Z"
-    }
-  ],
+  "lastXpActivityAt": 1792939587939,
+  "latestRoomCode": "",
+  "activeRooms": [],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T14:46:15.328Z",
+  "updatedAt": "2026-10-25T14:46:27.939Z",
+  "deletedAccountAt": "2026-10-25T14:46:27.939Z",
   "isPasswordProtected": false,
-  "lastPropagatedName": "yyy",
-  "deletedRoomCodes": []
+  "rawPassword": ""
 }
