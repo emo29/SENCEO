@@ -1,0 +1,20 @@
+{
+  "friendCode": "SNC-2603",
+  "username": "Misafir Oyuncu",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "Misafir",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792949373603,
+  "latestRoomCode": "",
+  "activeRooms": [],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-25T17:29:33.603Z",
+  "isPasswordProtected": false
+}
