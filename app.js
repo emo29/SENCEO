@@ -987,7 +987,7 @@ function openInfoGuideModal(section) {
     titleEl.textContent = '🔒 Gizlilik & Çerez Politikası';
     bodyEl.innerHTML = `
       <p><strong>1. Çerez Kullanımı:</strong> senceo; oyuncu adını, arkadaş kodunu (<code>SNC-XXXX</code>), seviyeni, seçtiğin temayı ve devam eden düello odalarını hatırlamak için yalnızca zorunlu oturum çerezleri kullanır. Reklam veya takip çerezi kullanılmaz.</p>
-      <p><strong>2. Hesap Koruması &amp; Silme:</strong> Şifresiz misafir oturumları 7 gün hareketsizlikte sıfırlanırken, şifre korumalı veya sosyal girişli hesaplar kalıcı olarak saklanır. Dilediğin an <em>Profil &gt; 🗑️ Hesabı Sil</em> adımıyla tüm verilerini kalıcı olarak silebilirsin.</p>
+      <p><strong>2. Hesap Koruması &amp; Silme:</strong> Şifresiz misafir hesapları, 7 gün hareketsizlikte tüm oyun geçmişi, odaları ve aktiviteleriyle birlikte sistemden komple silinir. Şifre korumalı veya sosyal girişli (Google, Facebook, iCloud) hesaplar ise kalıcı olarak saklanır. Dilediğin an <em>Profil &gt; 🗑️ Hesabı Sil</em> adımıyla hesabını ve tüm aktivitelerini anında kalıcı olarak silebilirsin.</p>
     `;
   } else {
     titleEl.textContent = '🎮 senceo Nasıl Oynanır?';
@@ -3239,9 +3239,68 @@ function saveRoomToLocalLobbyList(roomPayload) {
   updateNavActiveDuelsCount();
 }
 
+// ---------------- AKTİF DÜELLO SİLME / TÜMÜNÜ TEMİZLEME / MAÇ İPTAL ONAY KUTUSU (v0.16 #1) ----------------
+let pendingDuelDeleteMode = null; // 'all' | 'single'
+let pendingDuelDeleteCode = '';
+
+function openDuelDeleteConfirmModal(mode, roomCode = '') {
+  pendingDuelDeleteMode = mode;
+  pendingDuelDeleteCode = String(roomCode || '').trim().toUpperCase();
+
+  const modal = document.getElementById('duel-delete-confirm-modal');
+  const titleEl = document.getElementById('duel-delete-confirm-title');
+  const descEl = document.getElementById('duel-delete-confirm-desc');
+  const yesLabelEl = document.getElementById('btn-confirm-duel-delete-yes-label');
+
+  if (!modal) {
+    if (mode === 'all') executeClearAllActiveDuels();
+    else if (pendingDuelDeleteCode) executeDeleteDuelFromLobby(pendingDuelDeleteCode);
+    return;
+  }
+
+  if (mode === 'all') {
+    if (titleEl) titleEl.textContent = 'Tüm Aktif Düellolar Silinsin mi?';
+    if (descEl) descEl.textContent = 'Tüm aktif düelloların silinecektir, emin misin?';
+    if (yesLabelEl) yesLabelEl.textContent = 'Evet, Eminim Sil';
+  } else {
+    if (titleEl) titleEl.textContent = 'Maçı İptal Et / Sil';
+    if (descEl) {
+      descEl.textContent = pendingDuelDeleteCode
+        ? `Bu aktif düellon (#${pendingDuelDeleteCode}) iptal edilip silinecektir, emin misin?`
+        : 'Bu aktif düellon iptal edilip silinecektir, emin misin?';
+    }
+    if (yesLabelEl) yesLabelEl.textContent = 'Evet, Eminim Sil';
+  }
+
+  modal.classList.remove('hidden');
+}
+
+function closeDuelDeleteConfirmModal() {
+  pendingDuelDeleteMode = null;
+  pendingDuelDeleteCode = '';
+  const modal = document.getElementById('duel-delete-confirm-modal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function confirmDuelDeleteAction() {
+  const mode = pendingDuelDeleteMode;
+  const code = pendingDuelDeleteCode;
+  closeDuelDeleteConfirmModal();
+  if (mode === 'all') {
+    executeClearAllActiveDuels();
+  } else if (mode === 'single' && code) {
+    executeDeleteDuelFromLobby(code);
+  }
+}
+
 function deleteDuelFromLobby(roomCode, ev) {
   if (ev) ev.stopPropagation();
   const cleanCode = String(roomCode || '').trim().toUpperCase();
+  if (!cleanCode) return;
+  openDuelDeleteConfirmModal('single', cleanCode);
+}
+
+function executeDeleteDuelFromLobby(cleanCode) {
   if (!cleanCode) return;
 
   markRoomCodePermanentlyDeleted(cleanCode);
@@ -3263,6 +3322,10 @@ function deleteDuelFromLobby(roomCode, ev) {
 }
 
 function clearAllActiveDuels() {
+  openDuelDeleteConfirmModal('all', '');
+}
+
+function executeClearAllActiveDuels() {
   let codes = [];
   try {
     codes = JSON.parse(localStorage.getItem('senceo_my_rooms_index') || '[]');

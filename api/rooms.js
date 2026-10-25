@@ -1018,10 +1018,23 @@ export default async function handler(req, res) {
             ["guest", "Misafir"].includes(rec.provider || "guest") &&
             now - lastAct > SEVEN_DAYS_MS
           ) {
+            const freshEmpty = {
+              ...createDefaultFriendRecord(cleanFCode, "Misafir Oyuncu"),
+              activeRooms: [],
+              bonds: {},
+              incomingRequests: [],
+              notifications: [],
+              expiredGuestCleanedAt: new Date().toISOString()
+            };
+            putJsonToCloudPath(
+              `friends/${cleanFCode}.json`,
+              () => freshEmpty,
+              `Auto-clean expired 7-day guest account and activities ${cleanFCode}`
+            ).catch(() => {});
             return res.status(200).json({
               source: "friend-index",
               expiredGuest: true,
-              friend: createDefaultFriendRecord(cleanFCode, "Misafir Oyuncu"),
+              friend: freshEmpty,
               room: null
             });
           }
