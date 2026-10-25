@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T13:54:35.069Z",
+  "updatedAt": "2026-10-25T13:55:33.387Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -435,7 +435,7 @@
     },
     {
       "friendCode": "SNC-5462",
-      "username": "ae",
+      "username": "aep",
       "avatar": "😎",
       "level": 1,
       "xp": 0,
@@ -444,8 +444,8 @@
       "provider": "guest",
       "isPermanentMember": false,
       "passwordProtected": false,
-      "lastXpActivityAt": 1792936475069,
-      "updatedAt": "2026-10-25T13:54:35.069Z"
+      "lastXpActivityAt": 1792936469365,
+      "updatedAt": "2026-10-25T13:55:33.387Z"
     }
   ]
 }
