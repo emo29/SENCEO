@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "lobby_open",
+  "status": "opponent_fled",
   "currentRound": 1,
   "p1": "emirhan",
   "p2": "",
@@ -31,5 +31,8 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T19:08:37.300Z",
-  "updatedAt": "2026-10-24T19:08:43.180Z"
+  "updatedAt": "2026-10-25T17:24:26.657Z",
+  "abandonedByCode": "",
+  "abandonedByName": "Rakibin",
+  "abandonedAt": 1792949066657
 }
