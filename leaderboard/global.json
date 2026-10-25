@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T11:24:57.102Z",
+  "updatedAt": "2026-10-25T11:45:04.009Z",
   "players": [
     {
       "friendCode": "SNC-3375",
@@ -65,11 +65,11 @@
       "xp": 210,
       "gamesPlayed": 1,
       "questionsCorrect": 7,
-      "provider": "Misafir",
+      "provider": "guest",
       "isPermanentMember": true,
       "passwordProtected": true,
-      "lastXpActivityAt": 1792815007724,
-      "updatedAt": "2026-10-25T10:13:03.300Z"
+      "lastXpActivityAt": 1792927586830,
+      "updatedAt": "2026-10-25T11:45:04.009Z"
     },
     {
       "friendCode": "SNC-5838",
