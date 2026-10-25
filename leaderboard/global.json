@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T19:17:45.584Z",
+  "updatedAt": "2026-10-25T19:18:17.781Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -519,8 +519,8 @@
     },
     {
       "friendCode": "SNC-4741",
-      "username": "Emirhan Turan_4741",
-      "avatar": "😎",
+      "username": "Emirhan_4741",
+      "avatar": "🔥",
       "level": 1,
       "xp": 0,
       "gamesPlayed": 0,
@@ -528,8 +528,8 @@
       "provider": "Google",
       "isPermanentMember": true,
       "passwordProtected": true,
-      "lastXpActivityAt": 1792955865583,
-      "updatedAt": "2026-10-25T19:17:45.583Z"
+      "lastXpActivityAt": 1792955868006,
+      "updatedAt": "2026-10-25T19:18:17.781Z"
     }
   ]
 }
