@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-5728",
-  "username": "YanyanaA",
+  "username": "EmirhanTest",
   "level": 4,
   "xp": 390,
   "gamesPlayed": 2,
@@ -158,8 +158,8 @@
       "createdAt": "2026-10-25T13:50:36.143Z"
     }
   ],
-  "updatedAt": "2026-10-25T13:51:23.710Z",
+  "updatedAt": "2026-10-25T13:51:25.006Z",
   "deletedRoomCodes": [],
-  "lastPropagatedName": "YanyanaA",
+  "lastPropagatedName": "EmirhanTest",
   "isPasswordProtected": false
 }
