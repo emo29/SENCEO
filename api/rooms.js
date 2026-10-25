@@ -466,9 +466,24 @@ async function upsertGlobalLeaderboardEntry(profileObj) {
         );
         const safeUsername = lockedByOther ? `${desiredName}_${cleanCode.slice(-4)}` : desiredName;
 
+        const cleanEmail = String(profileObj.email || prev?.email || "").trim().toLowerCase();
+        if (cleanEmail) {
+          // Aynı e-posta daha önce başka bir boş/eski SNC-XXXX kaydında kalmışsa oradan temizle ki çakışma olmasın!
+          list.forEach((p) => {
+            if (p && p.friendCode !== cleanCode && p.email && String(p.email).trim().toLowerCase() === cleanEmail) {
+              p.email = "";
+              if (!p.passwordHash && !p.rawPassword) {
+                p.isPermanentMember = false;
+                p.provider = "guest";
+              }
+            }
+          });
+        }
+
         const entry = {
           friendCode: cleanCode,
           username: safeUsername,
+          email: cleanEmail,
           avatar: profileObj.avatar || prev?.avatar || "😎",
           level: Math.max(1, Math.floor(newXp / 100) + 1),
           xp: newXp,
@@ -505,6 +520,194 @@ async function upsertGlobalLeaderboardEntry(profileObj) {
       `Update global leaderboard for ${cleanCode}`
     );
   } catch (e) {}
+}
+
+// v0.18 KÖK NEDEN ÇÖZÜMÜ: Google / Facebook / iCloud Hesap Bağlama (Aktarma) & Giriş Çözümleyici
+// 1. Kullanıcı şifreli/isimli hesabındayken (örn. emirhan - SNC-7266) "Üyeliğini Hesaba Aktar / Bağla" yaparsa,
+//    daha önce aynı Google hesabıyla açılmış 0 TP'lik boş bir kayıt (SNC-XXXX) olsa bile sosyal hesabı MEVCUT SNC-7266 hesabına bağlar!
+// 2. Çıkış yapıp sadece Google/Facebook/iCloud ile giriş yaptığında ise oauth_links/index.json + leaderboard/global.json üzerinden
+//    doğrudan bağlı olduğu emirhan (SNC-7266) hesabını (tüm TP, seviye ve bağlarıyla) geri yükler!
+async function resolveAndBindOAuthAccount({
+  provider,
+  email,
+  displayName,
+  picture = "",
+  subId = "",
+  stateData = {},
+  incomingProfile = {}
+}) {
+  const cleanEmail = String(email || "").trim().toLowerCase();
+  const stateCode = /^SNC-\d{4}$/i.test(stateData.friendCode || "")
+    ? String(stateData.friendCode).trim().toUpperCase()
+    : "";
+  const stateName =
+    stateData.username &&
+    stateData.username !== "Misafir Oyuncu" &&
+    stateData.username !== "Oyuncu"
+      ? String(stateData.username).trim()
+      : "";
+  const isExplicitLink = Boolean(stateData.isLinking || stateData.mode === "link");
+
+  // 1. oauth_links/index.json ve leaderboard/global.json üzerinden bu e-postaya bağlı mevcut hesabı bul
+  const [oauthIndexFile, lbFile, stateFriendFile] = await Promise.all([
+    getJsonFromCloudPath("oauth_links/index.json").catch(() => null),
+    getJsonFromCloudPath("leaderboard/global.json").catch(() => null),
+    stateCode ? getJsonFromCloudPath(`friends/${stateCode}.json`).catch(() => null) : Promise.resolve(null)
+  ]);
+
+  const linksMap = (oauthIndexFile && oauthIndexFile.data && oauthIndexFile.data.links) || {};
+  const playersList = Array.isArray(lbFile?.data?.players) ? lbFile.data.players : [];
+
+  let existingEmailCode = "";
+  if (cleanEmail && linksMap[cleanEmail] && /^SNC-\d{4}$/i.test(linksMap[cleanEmail].friendCode || "")) {
+    existingEmailCode = String(linksMap[cleanEmail].friendCode).toUpperCase();
+  }
+  if (!existingEmailCode && cleanEmail) {
+    const lbMatch = playersList.find(
+      (p) => p && p.friendCode && p.email && String(p.email).trim().toLowerCase() === cleanEmail
+    );
+    if (lbMatch) existingEmailCode = String(lbMatch.friendCode).toUpperCase();
+  }
+
+  const stateFriendRec = stateFriendFile && stateFriendFile.data ? stateFriendFile.data : null;
+  const stateHasValuableAccount = Boolean(
+    stateCode &&
+      (isExplicitLink ||
+        (stateFriendRec &&
+          (stateFriendRec.passwordProtected ||
+            stateFriendRec.passwordHash ||
+            stateFriendRec.rawPassword ||
+            (Number(stateFriendRec.xp) || 0) > 0 ||
+            (stateFriendRec.username &&
+              stateFriendRec.username !== "Misafir Oyuncu" &&
+              stateFriendRec.username !== "Oyuncu"))) ||
+        (Number(stateData.xp) || 0) > 0)
+  );
+
+  // Eğer kullanıcı mevcut şifreli/değerli hesabını (örn. emirhan SNC-7266) bağlıyorsa hedef kod stateCode'dur!
+  // Eğer çıkış yapmış boş bir oturumdan sadece "Google ile Giriş Yap" diyorsa hedef kod existingEmailCode'dur!
+  let targetCode = "";
+  if (stateHasValuableAccount && stateCode) {
+    targetCode = stateCode;
+  } else if (existingEmailCode) {
+    targetCode = existingEmailCode;
+  } else if (stateCode) {
+    targetCode = stateCode;
+  } else {
+    targetCode = `SNC-${Math.floor(1000 + Math.random() * 9000)}`;
+  }
+
+  // Eğer daha önce bu e-postaya bağlı başka bir boş/eski hesap (existingEmailCode !== targetCode) varsa,
+  // onun XP'sini koruyup e-posta bağını eski hesaptan kaldır!
+  let salvagedXp = 0;
+  let salvagedGames = 0;
+  let salvagedCorrect = 0;
+  if (existingEmailCode && existingEmailCode !== targetCode) {
+    try {
+      const oldFile = await getJsonFromCloudPath(`friends/${existingEmailCode}.json`);
+      if (oldFile && oldFile.data) {
+        salvagedXp = Number(oldFile.data.xp) || 0;
+        salvagedGames = Number(oldFile.data.gamesPlayed) || 0;
+        salvagedCorrect = Number(oldFile.data.questionsCorrect) || 0;
+        await putJsonToCloudPath(
+          `friends/${existingEmailCode}.json`,
+          (oldRec) => {
+            if (!oldRec) return oldRec;
+            oldRec.email = "";
+            if (!oldRec.passwordHash && !oldRec.rawPassword) {
+              oldRec.provider = "guest";
+              oldRec.authProvider = "guest";
+              oldRec.isPermanentMember = false;
+            }
+            oldRec.updatedAt = new Date().toISOString();
+            return oldRec;
+          },
+          `Transfer social link ${cleanEmail} from ${existingEmailCode} to ${targetCode}`
+        );
+      }
+    } catch (e) {}
+  }
+
+  const updatedFriend = await putJsonToCloudPath(
+    `friends/${targetCode}.json`,
+    (existing) => {
+      const fallbackName = stateName || displayName || "Oyuncu";
+      const rec = Object.assign(createDefaultFriendRecord(targetCode, fallbackName), existing || {});
+      const hasExistingRealName =
+        rec.username && rec.username !== "Misafir Oyuncu" && rec.username !== "Oyuncu";
+      if (!hasExistingRealName) {
+        rec.username = stateName || displayName || "Oyuncu";
+      } else if (stateName && isExplicitLink) {
+        rec.username = stateName;
+      }
+      rec.xp = Math.max(
+        Number(rec.xp) || 0,
+        Number(stateData.xp) || 0,
+        Number(incomingProfile.xp) || 0,
+        salvagedXp
+      );
+      rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
+      rec.gamesPlayed = Math.max(
+        Number(rec.gamesPlayed) || 0,
+        Number(incomingProfile.gamesPlayed) || 0,
+        salvagedGames
+      );
+      rec.questionsCorrect = Math.max(
+        Number(rec.questionsCorrect) || 0,
+        Number(incomingProfile.questionsCorrect) || 0,
+        salvagedCorrect
+      );
+      rec.email = cleanEmail;
+      if (provider === "Google" && subId) rec.googleSub = subId;
+      if (provider === "Facebook" && subId) rec.facebookId = subId;
+      if (provider === "iCloud" && subId) rec.appleSub = subId;
+      if (picture) rec.picture = picture;
+      rec.provider = provider;
+      rec.authProvider = provider;
+      rec.isPermanentMember = true;
+      rec.passwordProtected = true;
+      rec.isPasswordProtected = true;
+      rec.linkedSocialAt = new Date().toISOString();
+      rec.updatedAt = new Date().toISOString();
+      return rec;
+    },
+    `Bind ${provider} OAuth (${cleanEmail}) to ${targetCode}`
+  );
+
+  if (cleanEmail) {
+    try {
+      await putJsonToCloudPath(
+        "oauth_links/index.json",
+        (existing) => {
+          const map = (existing && existing.links && typeof existing.links === "object") ? { ...existing.links } : {};
+          // Bu targetCode daha önce başka bir e-postaya bağlıysa veya bu e-posta başka koda bağlıysa güncelle
+          map[cleanEmail] = {
+            friendCode: targetCode,
+            username: updatedFriend.username || displayName || "Oyuncu",
+            provider,
+            email: cleanEmail,
+            updatedAt: new Date().toISOString()
+          };
+          return {
+            updatedAt: new Date().toISOString(),
+            links: map
+          };
+        },
+        `Index OAuth link ${cleanEmail} -> ${targetCode}`
+      );
+    } catch (e) {}
+  }
+
+  await upsertGlobalLeaderboardEntry({
+    ...updatedFriend,
+    email: cleanEmail,
+    provider,
+    isPermanentMember: true,
+    passwordProtected: true,
+    isPasswordProtected: true
+  });
+
+  return updatedFriend;
 }
 
 async function getRoomFromCloud(roomCode) {
@@ -747,6 +950,8 @@ export default async function handler(req, res) {
             friendCode: String(req.query.friendCode || "").trim().toUpperCase(),
             username: String(req.query.username || "").trim(),
             xp: Number(req.query.xp) || 0,
+            isLinking: req.query.isLinking === "1" || req.query.mode === "link",
+            mode: req.query.isLinking === "1" || req.query.mode === "link" ? "link" : "login",
             origin: String(req.query.origin || `${proto}://${host}`)
           }),
           "utf-8"
@@ -836,47 +1041,13 @@ export default async function handler(req, res) {
           const fbEmail = String(meJson.email || (fbId ? `fb_${fbId}@facebook.com` : "")).trim().toLowerCase();
           const fbPic = (meJson.picture && meJson.picture.data && meJson.picture.data.url) || "";
 
-          const lb = await getJsonFromCloudPath("leaderboard/global.json");
-          const playersList = lb?.data?.players || [];
-          const existingMatch = playersList.find(
-            (p) => p && p.email && String(p.email).trim().toLowerCase() === fbEmail
-          );
-          const targetCode =
-            (existingMatch && existingMatch.friendCode) ||
-            (/^SNC-\d{4}$/.test(stateData.friendCode || "")
-              ? stateData.friendCode
-              : `SNC-${Math.floor(1000 + Math.random() * 9000)}`);
-
-          const updatedFriend = await putJsonToCloudPath(
-            `friends/${targetCode}.json`,
-            (existing) => {
-              const rec = Object.assign(createDefaultFriendRecord(targetCode, fbName), existing || {});
-              if (!rec.username || rec.username === "Misafir Oyuncu" || rec.username === "Oyuncu") {
-                rec.username = fbName;
-              }
-              rec.xp = Math.max(Number(rec.xp) || 0, Number(stateData.xp) || 0);
-              rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
-              rec.email = fbEmail;
-              rec.facebookId = fbId;
-              rec.picture = fbPic;
-              rec.provider = "Facebook";
-              rec.authProvider = "Facebook";
-              rec.isPermanentMember = true;
-              rec.passwordProtected = true;
-              rec.isPasswordProtected = true;
-              rec.updatedAt = new Date().toISOString();
-              return rec;
-            },
-            `Verified Facebook OAuth 2.0 login for ${targetCode} (${fbEmail})`
-          );
-
-          await upsertGlobalLeaderboardEntry({
-            ...updatedFriend,
-            email: fbEmail,
+          const updatedFriend = await resolveAndBindOAuthAccount({
             provider: "Facebook",
-            isPermanentMember: true,
-            passwordProtected: true,
-            isPasswordProtected: true
+            email: fbEmail,
+            displayName: fbName,
+            picture: fbPic,
+            subId: fbId,
+            stateData
           });
 
           const safeFriend = { ...updatedFriend };
@@ -933,48 +1104,13 @@ export default async function handler(req, res) {
           return res.status(400).send("Google hesabından e-posta bilgisi alınamadı.");
         }
 
-        const lb = await getJsonFromCloudPath("leaderboard/global.json");
-        const playersList = lb?.data?.players || [];
-        const existingMatch = playersList.find(
-          (p) => p && p.email && String(p.email).trim().toLowerCase() === email
-        );
-
-        const targetCode =
-          (existingMatch && existingMatch.friendCode) ||
-          (/^SNC-\d{4}$/.test(stateData.friendCode || "")
-            ? stateData.friendCode
-            : `SNC-${Math.floor(1000 + Math.random() * 9000)}`);
-
-        const updatedFriend = await putJsonToCloudPath(
-          `friends/${targetCode}.json`,
-          (existing) => {
-            const rec = Object.assign(createDefaultFriendRecord(targetCode, googleName), existing || {});
-            if (!rec.username || rec.username === "Misafir Oyuncu" || rec.username === "Oyuncu") {
-              rec.username = googleName;
-            }
-            rec.xp = Math.max(Number(rec.xp) || 0, Number(stateData.xp) || 0);
-            rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
-            rec.email = email;
-            rec.googleSub = googleSub;
-            rec.picture = googlePicture;
-            rec.provider = "Google";
-            rec.authProvider = "Google";
-            rec.isPermanentMember = true;
-            rec.passwordProtected = true;
-            rec.isPasswordProtected = true;
-            rec.updatedAt = new Date().toISOString();
-            return rec;
-          },
-          `Verified Google OAuth 2.0 login for ${targetCode} (${email})`
-        );
-
-        await upsertGlobalLeaderboardEntry({
-          ...updatedFriend,
-          email,
+        const updatedFriend = await resolveAndBindOAuthAccount({
           provider: "Google",
-          isPermanentMember: true,
-          passwordProtected: true,
-          isPasswordProtected: true
+          email,
+          displayName: googleName,
+          picture: googlePicture,
+          subId: googleSub,
+          stateData
         });
 
         const safeFriend = { ...updatedFriend };
@@ -1191,46 +1327,13 @@ export default async function handler(req, res) {
           </body></html>`);
         }
 
-        const lb = await getJsonFromCloudPath("leaderboard/global.json");
-        const playersList = lb?.data?.players || [];
-        const existingMatch = playersList.find(
-          (p) => p && p.email && String(p.email).trim().toLowerCase() === appleEmail
-        );
-        const targetCode =
-          (existingMatch && existingMatch.friendCode) ||
-          (/^SNC-\d{4}$/.test(stateData.friendCode || "")
-            ? stateData.friendCode
-            : `SNC-${Math.floor(1000 + Math.random() * 9000)}`);
-
-        const updatedFriend = await putJsonToCloudPath(
-          `friends/${targetCode}.json`,
-          (existing) => {
-            const rec = Object.assign(createDefaultFriendRecord(targetCode, appleName), existing || {});
-            if (!rec.username || rec.username === "Misafir Oyuncu" || rec.username === "Oyuncu") {
-              rec.username = appleName;
-            }
-            rec.xp = Math.max(Number(rec.xp) || 0, Number(stateData.xp) || 0);
-            rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
-            rec.email = appleEmail;
-            rec.appleSub = appleSub;
-            rec.provider = "iCloud";
-            rec.authProvider = "iCloud";
-            rec.isPermanentMember = true;
-            rec.passwordProtected = true;
-            rec.isPasswordProtected = true;
-            rec.updatedAt = new Date().toISOString();
-            return rec;
-          },
-          `Verified Apple/iCloud OAuth 2.0 login for ${targetCode} (${appleEmail})`
-        );
-
-        await upsertGlobalLeaderboardEntry({
-          ...updatedFriend,
-          email: appleEmail,
+        const updatedFriend = await resolveAndBindOAuthAccount({
           provider: "iCloud",
-          isPermanentMember: true,
-          passwordProtected: true,
-          isPasswordProtected: true
+          email: appleEmail,
+          displayName: appleName,
+          picture: "",
+          subId: appleSub,
+          stateData
         });
 
         const safeFriend = { ...updatedFriend };
@@ -2456,55 +2559,21 @@ export default async function handler(req, res) {
 
         const finalUsername =
           verifiedName || String(body.username || "").trim() || verifiedEmail.split("@")[0] || "Oyuncu";
-
-        const lb = await getJsonFromCloudPath("leaderboard/global.json");
-        const playersList = lb?.data?.players || [];
-        const existingMatch = playersList.find(
-          (p) => p && p.email && String(p.email).trim().toLowerCase() === verifiedEmail
-        );
-
-        const targetCode =
-          (existingMatch && existingMatch.friendCode) ||
-          (/^SNC-\d{4}$/.test(rawFriendCode)
-            ? rawFriendCode
-            : `SNC-${Math.floor(1000 + Math.random() * 9000)}`);
-
         const incomingProfile = body.profile && typeof body.profile === "object" ? body.profile : {};
-        const updatedFriend = await putJsonToCloudPath(
-          `friends/${targetCode}.json`,
-          (existing) => {
-            const rec = Object.assign(createDefaultFriendRecord(targetCode, finalUsername), existing || {});
-            if (!rec.username || rec.username === "Misafir Oyuncu" || rec.username === "Oyuncu") {
-              rec.username = finalUsername;
-            }
-            rec.email = verifiedEmail;
-            rec.googleSub = verifiedSub;
-            rec.picture = verifiedPicture;
-            rec.provider = "Google";
-            rec.authProvider = "Google";
-            rec.isPermanentMember = true;
-            rec.passwordProtected = true;
-            rec.isPasswordProtected = true;
-            rec.xp = Math.max(Number(rec.xp) || 0, Number(incomingProfile.xp) || 0);
-            rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
-            rec.gamesPlayed = Math.max(Number(rec.gamesPlayed) || 0, Number(incomingProfile.gamesPlayed) || 0);
-            rec.questionsCorrect = Math.max(
-              Number(rec.questionsCorrect) || 0,
-              Number(incomingProfile.questionsCorrect) || 0
-            );
-            rec.updatedAt = new Date().toISOString();
-            return rec;
-          },
-          `Google OAuth 2.0 verified login for ${targetCode} (${verifiedEmail})`
-        );
 
-        await upsertGlobalLeaderboardEntry({
-          ...updatedFriend,
-          email: verifiedEmail,
+        const updatedFriend = await resolveAndBindOAuthAccount({
           provider: "Google",
-          isPermanentMember: true,
-          passwordProtected: true,
-          isPasswordProtected: true
+          email: verifiedEmail,
+          displayName: finalUsername,
+          picture: verifiedPicture,
+          subId: verifiedSub,
+          stateData: {
+            friendCode: rawFriendCode,
+            username: String(body.username || "").trim(),
+            xp: Number(incomingProfile.xp) || 0,
+            isLinking: Boolean(body.isLinking)
+          },
+          incomingProfile
         });
 
         const safeFriend = { ...updatedFriend };
@@ -2701,6 +2770,91 @@ export default async function handler(req, res) {
           locked: Boolean(lockedOwner),
           ownerCode: lockedOwner ? lockedOwner.friendCode : null
         });
+      }
+
+      // v0.18: Sosyal Hesap Bağını Kesme ("🔓 Bağı Kes" — unlink_social_account)
+      if (body.action === "unlink_social_account") {
+        const friendCode = String(body.friendCode || "").trim().toUpperCase();
+        const emailToUnlink = String(body.email || "").trim().toLowerCase();
+
+        if (!/^SNC-\d{4}$/i.test(friendCode)) {
+          return res.status(400).json({ error: "Geçersiz SNC-XXXX arkadaş kodu." });
+        }
+
+        let unlinkedEmailVal = emailToUnlink;
+        const updatedFriend = await putJsonToCloudPath(
+          `friends/${friendCode}.json`,
+          (existing) => {
+            const rec = Object.assign(createDefaultFriendRecord(friendCode, "Oyuncu"), existing || {});
+            if (rec.email && !unlinkedEmailVal) {
+              unlinkedEmailVal = String(rec.email).trim().toLowerCase();
+            }
+            const hasPassLock = Boolean(rec.passwordHash || rec.rawPassword);
+            rec.unlinkedEmail = rec.email || "";
+            rec.email = "";
+            rec.googleSub = "";
+            rec.facebookId = "";
+            rec.appleSub = "";
+            rec.provider = hasPassLock ? "Şifreli Üye" : "guest";
+            rec.authProvider = rec.provider;
+            rec.isPermanentMember = false;
+            rec.passwordProtected = hasPassLock;
+            rec.isPasswordProtected = hasPassLock;
+            rec.updatedAt = new Date().toISOString();
+            return rec;
+          },
+          `Unlink social account from ${friendCode}`
+        );
+
+        try {
+          await putJsonToCloudPath(
+            "oauth_links/index.json",
+            (existing) => {
+              const map = (existing && existing.links && typeof existing.links === "object") ? { ...existing.links } : {};
+              if (unlinkedEmailVal && map[unlinkedEmailVal]) {
+                delete map[unlinkedEmailVal];
+              }
+              Object.keys(map).forEach((k) => {
+                if (map[k] && String(map[k].friendCode || "").toUpperCase() === friendCode) {
+                  delete map[k];
+                }
+              });
+              return {
+                updatedAt: new Date().toISOString(),
+                links: map
+              };
+            },
+            `Remove OAuth link for ${friendCode}`
+          );
+        } catch (e) {}
+
+        try {
+          await putJsonToCloudPath(
+            "leaderboard/global.json",
+            (existing) => {
+              const list = Array.isArray(existing?.players) ? existing.players : [];
+              list.forEach((p) => {
+                if (p && String(p.friendCode || "").toUpperCase() === friendCode) {
+                  p.email = "";
+                  p.provider = updatedFriend?.provider || "guest";
+                  p.isPermanentMember = false;
+                  p.passwordProtected = Boolean(updatedFriend?.passwordProtected);
+                  p.updatedAt = new Date().toISOString();
+                }
+              });
+              return {
+                updatedAt: new Date().toISOString(),
+                players: list
+              };
+            },
+            `Unlink social email from leaderboard for ${friendCode}`
+          );
+        } catch (e) {}
+
+        const safeFriend = { ...(updatedFriend || {}) };
+        delete safeFriend.passwordHash;
+        delete safeFriend.rawPassword;
+        return res.status(200).json({ ok: true, friend: safeFriend });
       }
 
       // v0.14 (#2): Hesabı Kalıcı Olarak Silme (delete_user_account)
@@ -3059,6 +3213,9 @@ export default async function handler(req, res) {
                 rec.xp = nextXp;
                 rec.gamesPlayed = Math.max(Number(p.gamesPlayed) || 0, Number(rec.gamesPlayed) || 0);
                 rec.questionsCorrect = Math.max(Number(p.questionsCorrect) || 0, Number(rec.questionsCorrect) || 0);
+                if (p.email && String(p.email).includes("@")) {
+                  rec.email = String(p.email).trim().toLowerCase();
+                }
                 rec.provider = p.provider || rec.provider || "guest";
                 rec.isPermanentMember = isMember || Boolean(rec.isPermanentMember);
                 if (p.passwordProtected !== undefined || p.isPasswordProtected !== undefined) {
@@ -3102,6 +3259,9 @@ export default async function handler(req, res) {
 
           await upsertGlobalLeaderboardEntry({
             ...p,
+            email: p.email || syncedFriendRecord?.email || "",
+            provider: p.provider || syncedFriendRecord?.provider || "guest",
+            isPermanentMember: Boolean(isMember || syncedFriendRecord?.isPermanentMember),
             passwordProtected: Boolean(
               p.passwordProtected || p.isPasswordProtected || syncedFriendRecord?.passwordProtected
             )

@@ -564,6 +564,17 @@ async function syncCloudFriendState(showFeedbackToast = false) {
       userProfile.passwordProtected = true;
       changed = true;
     }
+    if (f.email && String(f.email).includes('@') && f.isPermanentMember && !userProfile.email) {
+      userProfile.email = String(f.email).trim();
+      userProfile.provider = f.provider || 'Google';
+      userProfile.isPermanentMember = true;
+      changed = true;
+    }
+    if (Number(f.xp) > Number(userProfile.xp || 0)) {
+      userProfile.xp = Number(f.xp) || 0;
+      userProfile.level = Math.max(1, Math.floor(userProfile.xp / 100) + 1);
+      changed = true;
+    }
 
     // 0. Buluttaki silinmiş oda listesini yerel silinenler listesiyle birleştir (Silinen odalar ASLA geri gelmesin!)
     const deletedSet = getDeletedRoomCodesSet();
@@ -1087,12 +1098,16 @@ async function submitExistingMemberLoginModal(event) {
     const f = data.friend;
     userProfile.friendCode = f.friendCode || userProfile.friendCode;
     userProfile.username = f.username || identifier;
-    userProfile.email = f.email || userProfile.email || '';
-    userProfile.provider = f.provider || 'Şifreli Üye';
+    userProfile.email = f.email || '';
+    userProfile.provider = f.email ? (f.provider || 'Google') : 'Şifreli Üye';
+    userProfile.isPermanentMember = Boolean(f.email && f.isPermanentMember);
     userProfile.xp = Number(f.xp) || 0;
     userProfile.level = Math.max(1, Number(f.level) || 1);
     userProfile.gamesPlayed = Number(f.gamesPlayed) || 0;
     userProfile.questionsCorrect = Number(f.questionsCorrect) || 0;
+    if (f.bonds && typeof f.bonds === 'object') {
+      userProfile.bonds = Object.assign({}, userProfile.bonds || {}, f.bonds);
+    }
     userProfile.isPasswordProtected = true;
     userProfile.passwordProtected = true;
     userProfile.isLoggedIn = true;
@@ -1137,9 +1152,14 @@ function handleOAuthSuccessPayload(data) {
   if (!data || data.type !== 'SENCEO_OAUTH_SUCCESS') return;
   const prov = data.provider || gameState.pendingOAuthProvider || 'Google';
   const email = String(data.email || '').trim();
-  const name = String(data.name || '').trim() || email.split('@')[0] || 'Oyuncu';
+  const cloudFriend = data.friend || null;
+  const name =
+    (cloudFriend && cloudFriend.username && cloudFriend.username !== 'Misafir Oyuncu' ? cloudFriend.username : '') ||
+    String(data.name || '').trim() ||
+    email.split('@')[0] ||
+    'Oyuncu';
   if (email && email.includes('@')) {
-    completeSocialLogin(prov, name, email, data.friend || null);
+    completeSocialLogin(prov, name, email, cloudFriend, Boolean(data.isLinking || gameState.pendingOAuthIsLinking));
   }
 }
 
@@ -1159,6 +1179,12 @@ window.addEventListener('storage', (event) => {
 
 async function verifyGoogleTokenWithBackend(payload) {
   const errEl = document.getElementById('oauth-modal-error');
+  const isLinkingIntent = Boolean(
+    gameState.pendingOAuthIsLinking ||
+      userProfile.isPasswordProtected ||
+      (Number(userProfile.xp) || 0) > 0 ||
+      (userProfile.username && userProfile.username !== 'Misafir Oyuncu' && userProfile.username !== 'Oyuncu')
+  );
   try {
     const res = await fetch('/api/rooms', {
       method: 'POST',
@@ -1166,7 +1192,8 @@ async function verifyGoogleTokenWithBackend(payload) {
       body: JSON.stringify({
         action: 'verify_google_oauth',
         ...payload,
-        friendCode: userProfile.friendCode,
+        isLinking: isLinkingIntent,
+        friendCode: isLinkingIntent ? userProfile.friendCode : '',
         username: userProfile.username !== 'Misafir Oyuncu' ? userProfile.username : '',
         profile: userProfile
       })
@@ -1179,7 +1206,13 @@ async function verifyGoogleTokenWithBackend(payload) {
       }
       return false;
     }
-    completeSocialLogin('Google', data.name || (data.friend && data.friend.username) || 'Oyuncu', data.email, data.friend || null);
+    completeSocialLogin(
+      'Google',
+      (data.friend && data.friend.username) || data.name || 'Oyuncu',
+      data.email,
+      data.friend || null,
+      isLinkingIntent
+    );
     return true;
   } catch (e) {
     if (errEl) {
@@ -1191,10 +1224,10 @@ async function verifyGoogleTokenWithBackend(payload) {
 }
 
 function triggerOfficialGoogleSignIn() {
-  launchOAuthPopupWindow('Google');
+  launchOAuthPopupWindow('Google', Boolean(gameState.pendingOAuthIsLinking));
 }
 
-function launchOAuthPopupWindow(providerName) {
+function launchOAuthPopupWindow(providerName, isLinking = false) {
   const width = 520;
   const height = 680;
   const left = Math.max(0, Math.round(window.screenX + (window.outerWidth - width) / 2));
@@ -1205,14 +1238,29 @@ function launchOAuthPopupWindow(providerName) {
     providerName === 'Apple' || providerName === 'icloud' ? 'iCloud' : (providerName || 'Google');
   const p1Input = document.getElementById('input-p1-name');
   const currentDraftName =
+    (userProfile.username && userProfile.username !== 'Misafir Oyuncu' ? userProfile.username.trim() : '') ||
     (p1Input && p1Input.value.trim()) ||
-    (userProfile.username && userProfile.username !== 'Misafir Oyuncu' ? userProfile.username.trim() : '');
+    '';
+
+  // Eğer kullanıcı şifreli bir hesaptaysa (ör. emirhan SNC-7266) veya TP > 0 ise veya açıkça "Üyeliğini Hesaba Aktar / Bağla" kartından tıkladıysa:
+  // mevcut friendCode ve TP'yi koruyup bağlama modunda (isLinking=1) gönder!
+  // Aksi halde (yeni/çıkış yapılmış 0 TP misafir oturumunda "Giriş Yap"a basıldıysa), boş friendCode gönder ki buluttaki bağlı SNC-7266 hesabı yüklensin!
+  const hasValuableCurrentAccount = Boolean(
+    isLinking ||
+      userProfile.isPasswordProtected ||
+      (Number(userProfile.xp) || 0) > 0 ||
+      (userProfile.username && userProfile.username !== 'Misafir Oyuncu' && userProfile.username !== 'Oyuncu')
+  );
+  const fCodeParam = hasValuableCurrentAccount ? (userProfile.friendCode || '') : '';
+  const xpParam = hasValuableCurrentAccount ? (userProfile.xp || 0) : 0;
 
   const authUrl = `/api/rooms?oauth_start=1&provider=${encodeURIComponent(
     normalizedProvider
-  )}&friendCode=${encodeURIComponent(userProfile.friendCode || '')}&username=${encodeURIComponent(
+  )}&friendCode=${encodeURIComponent(fCodeParam)}&username=${encodeURIComponent(
     currentDraftName
-  )}&xp=${encodeURIComponent(userProfile.xp || 0)}&origin=${encodeURIComponent(window.location.origin)}`;
+  )}&xp=${encodeURIComponent(xpParam)}&isLinking=${hasValuableCurrentAccount ? '1' : '0'}&mode=${
+    hasValuableCurrentAccount ? 'link' : 'login'
+  }&origin=${encodeURIComponent(window.location.origin)}`;
 
   const popup = window.open(authUrl, `senceo_oauth_${normalizedProvider}`, popupFeatures);
   return popup;
@@ -1220,19 +1268,21 @@ function launchOAuthPopupWindow(providerName) {
 
 // KULLANICI İSTEĞİ: Google / Facebook / iCloud butonuna basınca sağdaki sayfa içi modal (#oauth-login-modal) AÇILMASIN;
 // SADECE soldaki resmi OAuth 2.0 yetkilendirme penceresi (accounts.google.com, facebook.com, appleid.apple.com) açılsın!
-function openSocialLoginModal(providerName) {
+function openSocialLoginModal(providerName, isLinking = false) {
   const normalizedProvider =
     providerName === 'Apple' || providerName === 'icloud' ? 'iCloud' : (providerName || 'Google');
   gameState.pendingOAuthProvider = normalizedProvider;
+  gameState.pendingOAuthIsLinking = Boolean(isLinking);
 
   const modal = document.getElementById('oauth-login-modal');
   if (modal) modal.classList.add('hidden');
 
-  launchOAuthPopupWindow(normalizedProvider);
+  launchOAuthPopupWindow(normalizedProvider, Boolean(isLinking));
 }
 
 function closeSocialLoginModal() {
   gameState.pendingOAuthProvider = null;
+  gameState.pendingOAuthIsLinking = false;
   const modal = document.getElementById('oauth-login-modal');
   if (modal) modal.classList.add('hidden');
 }
@@ -1314,15 +1364,50 @@ async function confirmSocialLoginSubmit(event) {
   }
 }
 
-function completeSocialLogin(providerName, chosenName, chosenEmail, cloudFriend = null) {
+function completeSocialLogin(providerName, chosenName, chosenEmail, cloudFriend = null, wasLinking = false) {
+  const hadValuableLocalAccount = Boolean(
+    wasLinking ||
+      userProfile.isPasswordProtected ||
+      (Number(userProfile.xp) || 0) > 0 ||
+      (userProfile.username && userProfile.username !== 'Misafir Oyuncu' && userProfile.username !== 'Oyuncu')
+  );
+
   if (cloudFriend && cloudFriend.friendCode) {
     userProfile.friendCode = cloudFriend.friendCode;
-    userProfile.xp = Math.max(Number(userProfile.xp) || 0, Number(cloudFriend.xp) || 0);
-    userProfile.level = Math.max(1, Math.floor(userProfile.xp / 100) + 1);
-    userProfile.gamesPlayed = Math.max(Number(userProfile.gamesPlayed) || 0, Number(cloudFriend.gamesPlayed) || 0);
-    userProfile.questionsCorrect = Math.max(Number(userProfile.questionsCorrect) || 0, Number(cloudFriend.questionsCorrect) || 0);
+    // Eğer sıfırdan giriş yapılıyorsa (hadValuableLocalAccount === false), buluttaki bağlı hesabın (ör. emirhan SNC-7266) tüm verilerini birebir yükle
+    if (!hadValuableLocalAccount) {
+      userProfile.xp = Number(cloudFriend.xp) || 0;
+      userProfile.level = Math.max(1, Math.floor(userProfile.xp / 100) + 1);
+      userProfile.gamesPlayed = Number(cloudFriend.gamesPlayed) || 0;
+      userProfile.questionsCorrect = Number(cloudFriend.questionsCorrect) || 0;
+      if (cloudFriend.bonds && typeof cloudFriend.bonds === 'object') {
+        userProfile.bonds = Object.assign({}, cloudFriend.bonds);
+      }
+    } else {
+      userProfile.xp = Math.max(Number(userProfile.xp) || 0, Number(cloudFriend.xp) || 0);
+      userProfile.level = Math.max(1, Math.floor(userProfile.xp / 100) + 1);
+      userProfile.gamesPlayed = Math.max(Number(userProfile.gamesPlayed) || 0, Number(cloudFriend.gamesPlayed) || 0);
+      userProfile.questionsCorrect = Math.max(
+        Number(userProfile.questionsCorrect) || 0,
+        Number(cloudFriend.questionsCorrect) || 0
+      );
+      if (cloudFriend.bonds && typeof cloudFriend.bonds === 'object') {
+        userProfile.bonds = Object.assign({}, cloudFriend.bonds, userProfile.bonds || {});
+      }
+    }
   }
-  userProfile.username = chosenName;
+
+  const finalUsername =
+    hadValuableLocalAccount &&
+    userProfile.username &&
+    userProfile.username !== 'Misafir Oyuncu' &&
+    userProfile.username !== 'Oyuncu'
+      ? userProfile.username
+      : (cloudFriend && cloudFriend.username && cloudFriend.username !== 'Misafir Oyuncu'
+          ? cloudFriend.username
+          : chosenName);
+
+  userProfile.username = finalUsername;
   userProfile.email = chosenEmail;
   userProfile.provider = providerName;
   userProfile.isLoggedIn = true;
@@ -1337,29 +1422,97 @@ function completeSocialLogin(providerName, chosenName, chosenEmail, cloudFriend 
     localStorage.setItem('senceo_onboarding_done_v13', '1');
     const raw = localStorage.getItem('senceo_saved_oauth_accounts') || '[]';
     const list = JSON.parse(raw).filter((a) => a.email !== chosenEmail);
-    list.unshift({ name: chosenName, email: chosenEmail, provider: providerName });
+    list.unshift({
+      name: finalUsername,
+      email: chosenEmail,
+      provider: providerName,
+      friendCode: userProfile.friendCode
+    });
     localStorage.setItem('senceo_saved_oauth_accounts', JSON.stringify(list.slice(0, 3)));
   } catch (e) {}
 
   const p1Input = document.getElementById('input-p1-name');
-  if (p1Input) p1Input.value = chosenName;
+  if (p1Input) p1Input.value = finalUsername;
   const mWelcomeEl = document.getElementById('m-welcome-name');
   if (mWelcomeEl) {
-    if (typeof mWelcomeEl.value === 'string') mWelcomeEl.value = chosenName;
-    else mWelcomeEl.textContent = chosenName;
+    if (typeof mWelcomeEl.value === 'string') mWelcomeEl.value = finalUsername;
+    else mWelcomeEl.textContent = finalUsername;
   }
   if (!gameState.roomCode || gameState.myRoomRole !== 'p2') {
-    gameState.player1Name = chosenName;
+    gameState.player1Name = finalUsername;
   } else {
-    gameState.player2Name = chosenName;
+    gameState.player2Name = finalUsername;
   }
 
   closeSocialLoginModal();
   if (typeof closeExistingMemberLoginModal === 'function') closeExistingMemberLoginModal();
   saveUserProfile(true);
-  if (typeof syncCloudFriendState === 'function') syncCloudFriendState(false);
+  if (typeof syncCloudFriendState === 'function') syncCloudFriendState(true);
   if (typeof initHomeOnboardingState === 'function') initHomeOnboardingState();
+
+  const linkFb = document.getElementById('social-link-feedback');
+  if (linkFb) {
+    linkFb.textContent = `✅ ${finalUsername}-${userProfile.friendCode} hesabı ${providerName} hesabına (${chosenEmail}) bağlandı!`;
+    linkFb.className =
+      'text-[11px] font-bold text-center py-1.5 px-2.5 rounded-lg bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30';
+    linkFb.classList.remove('hidden');
+  }
+
   spawnFloatingEmojiBurst('✅');
+}
+
+// KULLANICI İSTEĞİ (v0.18): Sosyal Hesap Bağını Kes ("🔓 Bağı Kes")
+async function unlinkSocialAccountFromProfile() {
+  const btn = document.getElementById('btn-unlink-social-account');
+  const linkFb = document.getElementById('social-link-feedback');
+  const oldProvider = userProfile.provider || 'Google';
+  const oldEmail = userProfile.email || '';
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Kesiliyor...';
+  }
+
+  try {
+    await fetch('/api/rooms', {
+      method: 'POST',
+      headers: getSupabaseHeaders(),
+      body: JSON.stringify({
+        action: 'unlink_social_account',
+        friendCode: userProfile.friendCode,
+        email: oldEmail
+      })
+    });
+  } catch (e) {}
+
+  userProfile.email = '';
+  userProfile.isPermanentMember = false;
+  userProfile.provider = userProfile.isPasswordProtected ? 'Şifreli Misafir' : 'Misafir';
+
+  try {
+    const raw = localStorage.getItem('senceo_saved_oauth_accounts') || '[]';
+    const list = JSON.parse(raw).filter((a) => a.email !== oldEmail);
+    localStorage.setItem('senceo_saved_oauth_accounts', JSON.stringify(list));
+  } catch (e) {}
+
+  if (btn) {
+    btn.disabled = false;
+    btn.textContent = '🔓 Bağı Kes';
+  }
+
+  saveUserProfile(true);
+  renderProfileUI();
+
+  if (linkFb) {
+    linkFb.textContent = `🔓 ${userProfile.username || 'Oyuncu'}-${userProfile.friendCode} hesabının ${oldProvider}${
+      oldEmail ? ` (${oldEmail})` : ''
+    } bağı kesildi. İstersen başka bir hesaba bağlayabilirsin.`;
+    linkFb.className =
+      'text-[11px] font-bold text-center py-1.5 px-2.5 rounded-lg bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30';
+    linkFb.classList.remove('hidden');
+  }
+
+  spawnFloatingEmojiBurst('🔓');
 }
 
 function continueWithoutRegistration() {
@@ -1435,7 +1588,7 @@ function logoutUserAccount() {
   const delConfirmBox = document.getElementById('delete-account-confirm-box');
   if (delConfirmBox) delConfirmBox.classList.add('hidden');
 
-  ['modal-friend-feedback', 'dashboard-friend-feedback', 'guest-password-feedback'].forEach((id) => {
+  ['modal-friend-feedback', 'dashboard-friend-feedback', 'guest-password-feedback', 'social-link-feedback'].forEach((id) => {
     const el = document.getElementById(id);
     if (el) {
       el.textContent = '';
@@ -1682,10 +1835,16 @@ async function loginWithGuestPassword() {
     const f = data.friend;
     userProfile.friendCode = f.friendCode || userProfile.friendCode;
     userProfile.username = f.username || identifier;
+    userProfile.email = f.email || '';
+    userProfile.provider = f.email ? (f.provider || 'Google') : 'Şifreli Misafir';
+    userProfile.isPermanentMember = Boolean(f.email && f.isPermanentMember);
     userProfile.xp = Number(f.xp) || 0;
     userProfile.level = Math.max(1, Number(f.level) || 1);
     userProfile.gamesPlayed = Number(f.gamesPlayed) || 0;
     userProfile.questionsCorrect = Number(f.questionsCorrect) || 0;
+    if (f.bonds && typeof f.bonds === 'object') {
+      userProfile.bonds = Object.assign({}, userProfile.bonds || {}, f.bonds);
+    }
     userProfile.isPasswordProtected = true;
     userProfile.passwordProtected = true;
     userProfile.isLoggedIn = true;
@@ -1696,7 +1855,10 @@ async function loginWithGuestPassword() {
     const protectNameInp = document.getElementById('input-guest-protect-username');
     if (protectNameInp) protectNameInp.value = userProfile.username;
     const mWelcomeInput = document.getElementById('m-welcome-name');
-    if (mWelcomeInput) mWelcomeInput.value = userProfile.username;
+    if (mWelcomeInput) {
+      if (typeof mWelcomeInput.value === 'string') mWelcomeInput.value = userProfile.username;
+      else mWelcomeInput.textContent = userProfile.username;
+    }
     if (!gameState.roomCode || gameState.myRoomRole !== 'p2') {
       gameState.player1Name = userProfile.username;
     } else {
@@ -2405,10 +2567,50 @@ function renderProfileUI() {
   if (retentionBadge) retentionBadge.textContent = `${daysLeft} Gün Koruma`;
 
   if (guestTransferCard) {
-    guestTransferCard.classList.toggle('hidden', Boolean(userProfile.isPermanentMember));
+    guestTransferCard.classList.remove('hidden');
   }
+  const socialLinkedBox = document.getElementById('social-linked-info-box');
+  const socialLinkBtns = document.getElementById('social-link-buttons-grid');
+  const socialSummaryText = document.getElementById('social-linked-summary-text');
+  const socialEmailText = document.getElementById('social-linked-email-text');
+  const transferTitle = document.getElementById('guest-transfer-card-title');
+  const transferBadge = document.getElementById('guest-transfer-status-badge');
+  const isSocialLinked = Boolean(userProfile.isPermanentMember && userProfile.email);
+
+  if (socialLinkedBox) {
+    socialLinkedBox.classList.toggle('hidden', !isSocialLinked);
+  }
+  if (socialLinkBtns) {
+    socialLinkBtns.classList.toggle('hidden', isSocialLinked);
+  }
+  if (isSocialLinked) {
+    const provLabel = userProfile.provider || 'Google';
+    if (transferTitle) transferTitle.textContent = `🔗 Bağlı Sosyal Hesap (${provLabel})`;
+    if (transferBadge) {
+      transferBadge.textContent = `✓ ${provLabel} Bağlı`;
+      transferBadge.className = 'px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 font-mono-theme font-bold text-[10px]';
+    }
+    if (socialSummaryText) {
+      socialSummaryText.textContent = `🔗 ${displayName}-${userProfile.friendCode || 'SNC-0000'} hesabı ${provLabel} hesabına bağlandı`;
+    }
+    if (socialEmailText) {
+      socialEmailText.textContent = `Bağlı Hesap: ${userProfile.email}`;
+    }
+  } else {
+    if (transferTitle) transferTitle.textContent = '🔄 Üyeliğini Hesaba Aktar / Bağla';
+    if (transferBadge) {
+      transferBadge.textContent = '✅ Aktif (OAuth 2.0)';
+      transferBadge.className = 'px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 font-mono-theme font-bold text-[10px]';
+    }
+  }
+
+  const dashSavingCta = document.getElementById('dash-account-saving-cta');
+  if (dashSavingCta) {
+    dashSavingCta.classList.toggle('hidden', isSocialLinked);
+  }
+
   if (guestPassCard) {
-    guestPassCard.classList.toggle('hidden', Boolean(userProfile.isPermanentMember));
+    guestPassCard.classList.remove('hidden');
   }
   // KULLANICI İSTEĞİ: Hesaba giriş yapıldıysa / şifreyle korunduysa "Şifreyle Koru" formu gizlenir;
   // yerine "Başka Hesaba Gir" ve "Hesaptan Çık" seçenekleri görünür!
@@ -2444,8 +2646,8 @@ function renderProfileUI() {
 
   if (mName) mName.textContent = displayName;
   if (mProv) {
-    mProv.textContent = userProfile.isPermanentMember
-      ? `${userProfile.provider}${userProfile.email ? ` (${userProfile.email})` : ''} • Kalıcı Üye`
+    mProv.textContent = isSocialLinked
+      ? `🔗 ${displayName}-${userProfile.friendCode} • ${userProfile.provider} (${userProfile.email}) Bağlı`
       : userProfile.isPasswordProtected
       ? `Misafir Oturumu (🔐 Şifre Korumalı • ${userProfile.friendCode})`
       : `Misafir Oturumu (${daysLeft} gün XP hareketsizlik süresi)`;
@@ -3324,6 +3526,31 @@ function executeDeleteDuelFromLobby(cleanCode) {
 }
 
 function clearAllActiveDuels() {
+  const delSet = getDeletedRoomCodesSet();
+  let activeCodes = [];
+  try {
+    const rawCodes = JSON.parse(localStorage.getItem('senceo_my_rooms_index') || '[]');
+    activeCodes = rawCodes.filter((c) => {
+      const clean = String(c || '').toUpperCase();
+      if (!clean || delSet.has(clean)) return false;
+      return Boolean(localStorage.getItem(`senceo_room_${clean}`));
+    });
+  } catch (e) {}
+
+  const fbEl = document.getElementById('clear-all-duels-feedback');
+  if (activeCodes.length === 0) {
+    if (fbEl) {
+      fbEl.textContent = 'ℹ️ Aktif düello bulunamadı.';
+      fbEl.classList.remove('hidden');
+      if (gameState.clearDuelsFeedbackTimer) clearTimeout(gameState.clearDuelsFeedbackTimer);
+      gameState.clearDuelsFeedbackTimer = setTimeout(() => {
+        fbEl.classList.add('hidden');
+      }, 3500);
+    }
+    return;
+  }
+
+  if (fbEl) fbEl.classList.add('hidden');
   openDuelDeleteConfirmModal('all', '');
 }
 
@@ -3574,6 +3801,10 @@ async function refreshActiveGamesLobby() {
   updateNavActiveDuelsCount();
 
   const urgentBannerEl = document.getElementById('urgent-turn-banner');
+  const urgentBadgeEl = document.getElementById('urgent-banner-badge');
+  const urgentDotWrap = document.getElementById('urgent-banner-dot-wrap');
+  const urgentBadgeText = document.getElementById('urgent-banner-badge-text');
+  const urgentIconSym = document.getElementById('urgent-banner-icon-symbol');
   const urgentTitle = document.getElementById('urgent-banner-title');
   const urgentDesc = document.getElementById('urgent-banner-desc');
   const urgentBtnText = document.getElementById('urgent-banner-btn-text');
@@ -3626,8 +3857,15 @@ async function refreshActiveGamesLobby() {
   if (allRooms.length === 0) {
     if (urgentBannerEl) {
       urgentBannerEl.className =
-        'relative overflow-hidden rounded-2xl stitch-card border-2 border-emerald-500/50 bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-transparent p-5 sm:p-7 shadow-sm transition-all';
+        'relative overflow-hidden rounded-2xl stitch-card border border-[var(--outline-variant)] p-5 sm:p-7 shadow-sm transition-all';
     }
+    if (urgentBadgeEl) {
+      urgentBadgeEl.className =
+        'inline-flex items-center gap-1.5 px-3 py-1 rounded-full stitch-subcard border border-[var(--outline-variant)] text-[10px] font-extrabold uppercase tracking-wider text-muted-theme';
+    }
+    if (urgentDotWrap) urgentDotWrap.classList.add('hidden');
+    if (urgentBadgeText) urgentBadgeText.textContent = 'AKTİF DÜELLO YOK';
+    if (urgentIconSym) urgentIconSym.textContent = 'sports_esports';
     if (urgentTitle) urgentTitle.textContent = 'Henüz aktif bir düellon bulunmuyor';
     if (urgentDesc) urgentDesc.textContent = 'Yeni bir Klasik Oyun veya Canlı Oda başlatarak arkadaşlarını davet edebilirsin.';
     if (urgentBtnText) urgentBtnText.textContent = 'Yeni Oyun Başlat';
@@ -3651,9 +3889,56 @@ async function refreshActiveGamesLobby() {
     return;
   }
 
-  if (urgentBannerEl) {
-    urgentBannerEl.className =
-      'relative overflow-hidden rounded-2xl stitch-card border-2 border-emerald-500/85 bg-gradient-to-r from-emerald-500/20 via-teal-500/10 to-transparent p-5 sm:p-7 shadow-[0_0_28px_rgba(16,185,129,0.22)] transition-all';
+  if (turnCount > 0) {
+    if (urgentBannerEl) {
+      urgentBannerEl.className =
+        'relative overflow-hidden rounded-2xl stitch-card border-2 border-emerald-500/85 bg-gradient-to-r from-emerald-500/20 via-teal-500/10 to-transparent p-5 sm:p-7 shadow-[0_0_28px_rgba(16,185,129,0.22)] transition-all';
+    }
+    if (urgentBadgeEl) {
+      urgentBadgeEl.className =
+        'inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/50 text-[10px] font-extrabold uppercase tracking-wider text-emerald-500';
+    }
+    if (urgentDotWrap) urgentDotWrap.classList.remove('hidden');
+    if (urgentBadgeText) urgentBadgeText.textContent = 'SIRA SENDE';
+    if (urgentIconSym) urgentIconSym.textContent = 'bolt';
+  } else if (waitingCount > 0) {
+    const firstWaiting = allRooms.find((x) => !x.isMyTurn && x.room.status !== 'completed');
+    const waitRoom = firstWaiting ? firstWaiting.room : allRooms[0].room;
+    const waitOpp = firstWaiting && firstWaiting.isP1 ? (waitRoom.p2 || 'Arkadaşın') : (waitRoom.p1 || 'Rakibin');
+    gameState.urgentRoomCode = waitRoom.code || '';
+    if (urgentBannerEl) {
+      urgentBannerEl.className =
+        'relative overflow-hidden rounded-2xl stitch-card border-2 border-amber-500/60 bg-gradient-to-r from-amber-500/15 via-amber-500/5 to-transparent p-5 sm:p-7 shadow-sm transition-all';
+    }
+    if (urgentBadgeEl) {
+      urgentBadgeEl.className =
+        'inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/50 text-[10px] font-extrabold uppercase tracking-wider text-amber-500';
+    }
+    if (urgentDotWrap) urgentDotWrap.classList.add('hidden');
+    if (urgentBadgeText) urgentBadgeText.textContent = '⏳ RAKİP BEKLENİYOR';
+    if (urgentIconSym) urgentIconSym.textContent = 'schedule';
+    if (urgentTitle) urgentTitle.textContent = `${waitOpp} hamlesini yapıyor (#${waitRoom.code})`;
+    if (urgentDesc) urgentDesc.textContent = 'Arkadaşın 5 soruyu tamamladığında sıra sana geçecek.';
+    if (urgentBtnText) urgentBtnText.textContent = 'Odayı Gör';
+    if (urgentTimeText) urgentTimeText.textContent = `Rakip Bekleniyor • #${waitRoom.code}`;
+  } else {
+    const lastRoom = allRooms[0].room;
+    gameState.urgentRoomCode = lastRoom.code || '';
+    if (urgentBannerEl) {
+      urgentBannerEl.className =
+        'relative overflow-hidden rounded-2xl stitch-card border border-[var(--outline-variant)] p-5 sm:p-7 shadow-sm transition-all';
+    }
+    if (urgentBadgeEl) {
+      urgentBadgeEl.className =
+        'inline-flex items-center gap-1.5 px-3 py-1 rounded-full stitch-subcard border border-[var(--outline-variant)] text-[10px] font-extrabold uppercase tracking-wider text-primary-theme';
+    }
+    if (urgentDotWrap) urgentDotWrap.classList.add('hidden');
+    if (urgentBadgeText) urgentBadgeText.textContent = '🏆 TAMAMLANAN DÜELLOLAR';
+    if (urgentIconSym) urgentIconSym.textContent = 'emoji_events';
+    if (urgentTitle) urgentTitle.textContent = 'Aktif sıra bekleyen düellon yok';
+    if (urgentDesc) urgentDesc.textContent = 'Tamamlanan düellolarının karnesini inceleyebilir veya yeni bir raund başlatabilirsin.';
+    if (urgentBtnText) urgentBtnText.textContent = 'Son Karneni Gör';
+    if (urgentTimeText) urgentTimeText.textContent = `${completedCount} Tamamlanan Düello`;
   }
 
   container.innerHTML = '';
@@ -3663,7 +3948,7 @@ async function refreshActiveGamesLobby() {
   for (const item of allRooms) {
     const { room, isP1, isMyTurn } = item;
 
-    if (!gameState.urgentRoomCode && isMyTurn) {
+    if (turnCount > 0 && (!gameState.urgentRoomCode || gameState.urgentRoomCode === room.code) && isMyTurn) {
       gameState.urgentRoomCode = room.code;
       const opp = isP1 ? (room.p2 || room.p2FriendCode || 'Arkadaşın') : (room.p1 || 'Oyuncu 1');
       if (urgentTitle) urgentTitle.textContent = `🟢 ${opp} senin 5 tahminini bekliyor! (#${room.code})`;
@@ -8634,36 +8919,11 @@ function showResultScreen(awardXpNow = false) {
     }
   }
 
-  // v0.11 / v0.17: Alt 1. Yarı & 2. Yarı Slaytını Tekrar İzle kutuları (Her iki oyuncu da istediği zaman izleyebilir!)
+  // v0.18 DÜZELTMESİ (1. Görsel Madde 3): Sonuç karnesinde sağ üstteki #result-top-replay-card varken alttaki çift kutular (#p1-replay-slides-box, #p2-watch-slides-box) daima gizli tutulur!
   const p1ReplayBox = document.getElementById('p1-replay-slides-box');
-  const p1ReplayLabel = document.getElementById('btn-p1-replay-slides-label');
-  if (p1ReplayBox) {
-    if (hasHalf1Slides) {
-      if (p1ReplayLabel) {
-        p1ReplayLabel.textContent = `1. YARI SLAYTINI TEKRAR İZLE (${p2Name.toUpperCase()}'NİN TAHMİNLERİ)`;
-      }
-      p1ReplayBox.classList.remove('hidden');
-    } else {
-      p1ReplayBox.classList.add('hidden');
-    }
-  }
-
+  if (p1ReplayBox) p1ReplayBox.classList.add('hidden');
   const p2WatchBox = document.getElementById('p2-watch-slides-box');
-  const p2WatchLabel = document.getElementById('btn-p2-watch-slides-label');
-  if (p2WatchBox) {
-    if (hasHalf2Slides) {
-      if (p2WatchLabel) {
-        const alreadyWatched = Boolean(roomRef && roomRef.p2WatchedSlides);
-        p2WatchLabel.textContent =
-          !isP1 && !alreadyWatched
-            ? `TAHMİNLERİ KONTROL ET (${p1Name.toUpperCase()}'İN TAHMİN SLAYTINI İZLE)`
-            : `2. YARI SLAYTINI TEKRAR İZLE (${p1Name.toUpperCase()}'İN TAHMİNLERİ)`;
-      }
-      p2WatchBox.classList.remove('hidden');
-    } else {
-      p2WatchBox.classList.add('hidden');
-    }
-  }
+  if (p2WatchBox) p2WatchBox.classList.add('hidden');
 
   // v0.10 KULLANICI İSTEĞİ: Player 1'in rapor ekranında Player 2 slaytı izlerken animasyonlu bilgi gösterilir, bitince kaybolur!
   const p1WatchingBanner = document.getElementById('p1-partner-watching-slides-banner');
