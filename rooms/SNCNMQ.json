@@ -8,7 +8,7 @@
   "arenaFormat": "4v4",
   "liveSettings": {
     "ffaSubMode": "ebe",
-    "teamSubMode": "",
+    "teamSubMode": "cross_team",
     "turnStep": 1,
     "timerSeconds": 0,
     "starterMode": "random",
@@ -31,5 +31,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-25T12:58:56.326Z",
-  "updatedAt": "2026-10-25T12:59:09.375Z"
+  "updatedAt": "2026-10-25T12:59:15.662Z"
 }
