@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T12:40:54.586Z",
+  "updatedAt": "2026-10-25T12:40:56.697Z",
   "players": [
     {
       "friendCode": "SNC-9101",
@@ -14,6 +14,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792932054586,
       "updatedAt": "2026-10-25T12:40:54.586Z"
+    },
+    {
+      "friendCode": "SNC-9102",
+      "username": "Burak K.",
+      "avatar": "😎",
+      "level": 6,
+      "xp": 560,
+      "gamesPlayed": 5,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792932056697,
+      "updatedAt": "2026-10-25T12:40:56.697Z"
     },
     {
       "friendCode": "SNC-3375",
