@@ -1026,8 +1026,8 @@ function hasUserCompletedInitialAuthChoice() {
 // ---------------- ÜYELİĞİN VAR MI? GİRİŞ YAP MODALI (v0.15 #7) ----------------
 function openExistingMemberLoginModal() {
   const modal = document.getElementById('existing-member-login-modal');
-  const idInp = document.getElementById('input-existing-member-id');
-  const passInp = document.getElementById('input-existing-member-pass');
+  const idInp = document.getElementById('input-member-login-id') || document.getElementById('input-existing-member-id');
+  const passInp = document.getElementById('input-member-login-pass') || document.getElementById('input-existing-member-pass');
   const fbEl = document.getElementById('existing-member-login-feedback');
   if (!modal) return;
   if (fbEl) fbEl.classList.add('hidden');
@@ -1043,8 +1043,8 @@ function closeExistingMemberLoginModal() {
 
 async function submitExistingMemberLoginModal(event) {
   if (event) event.preventDefault();
-  const idInp = document.getElementById('input-existing-member-id');
-  const passInp = document.getElementById('input-existing-member-pass');
+  const idInp = document.getElementById('input-member-login-id') || document.getElementById('input-existing-member-id');
+  const passInp = document.getElementById('input-member-login-pass') || document.getElementById('input-existing-member-pass');
   const fbEl = document.getElementById('existing-member-login-feedback');
 
   const showMsg = (txt, isErr) => {

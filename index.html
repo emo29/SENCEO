@@ -30,7 +30,7 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="mobile.css?v=0.14" />
+  <link rel="stylesheet" href="mobile.css?v=0.15" />
   <title>🔥 SENCE O Nasıl Biri? — Beni Ne Kadar Tanıyorsun? | senceo</title>
   <meta name="description" content="SENCE O nasıl biri, ne seçerdi, ne yapardı? 👀 5 sorumu doğru tahmin edebilecek misin yoksa çuvallayacak mısın? Hemen tıkla ve yüzleşelim! ⚡" />
   <meta property="og:type" content="website" />
@@ -55,7 +55,13 @@
 
   <style>
     /* ==========================================================================
-       STITCH DESIGN SYSTEM — 5 COMPLETE THEMES (v0.14)
+       MOBİL / MASAÜSTÜ GÖRÜNÜRLÜK GARANTİSİ (mobile.css yüklenmese bile asla kaymaz)
+       ========================================================================== */
+    html:not(.is-mobile) .m-only { display: none !important; }
+    html.is-mobile .d-only { display: none !important; }
+
+    /* ==========================================================================
+       STITCH DESIGN SYSTEM — 5 COMPLETE THEMES (v0.15)
        1. luminous (DEFAULT FOR NEW USERS): Luminous Social Gaming (Beyaz / Light)
        2. obsidian: Obsidian Kinetic (Koyu / Dark)
        3. cosmic: Cosmic Neon (Eski Default — Uzay Mavisi, Derin Mor & Neon Pembe/Mavi)
@@ -951,21 +957,21 @@
         </div>
 
         <!-- Compact Auth / Guest Bar -->
-        <div id="home-auth-card" class="d-only stitch-card p-4 sm:p-5 mb-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3.5 border-2 border-[var(--primary)]">
-          <div class="flex items-center gap-2.5">
+        <div id="home-auth-card" class="d-only stitch-card p-4 sm:p-5 mb-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border-2 border-[var(--primary)]">
+          <div class="flex items-center gap-3 min-w-0 flex-1">
             <div class="w-10 h-10 rounded-xl bg-[var(--primary-fixed)] text-primary-theme flex items-center justify-center shrink-0">
               <span class="material-symbols-outlined text-[22px]">shield_person</span>
             </div>
-            <div>
+            <div class="min-w-0">
               <div class="font-bold text-xs sm:text-sm">Hesabını Bağla ve Seviyeni Koru</div>
-              <p class="text-[11px] text-muted-theme">Seviyen, oda geçmişin ve arkadaş bağların kalıcı olarak korunur. Başlamak için bir giriş yöntemi seç veya üye olmadan devam et.</p>
+              <p class="text-[11px] text-muted-theme leading-snug">Seviyen, oda geçmişin ve arkadaş bağların kalıcı olarak korunur.</p>
             </div>
           </div>
-          <div class="flex flex-wrap items-center gap-1.5 w-full lg:w-auto justify-start lg:justify-end">
+          <div class="flex flex-wrap sm:flex-nowrap items-center gap-1.5 shrink-0 w-full lg:w-auto justify-start lg:justify-end">
             <button
               type="button"
               onclick="openSocialLoginModal('Google')"
-              class="px-3 py-1.5 rounded-lg stitch-subcard hover:border-[var(--primary)] font-bold text-xs flex items-center gap-1.5 transition"
+              class="px-2.5 py-1.5 rounded-lg stitch-subcard hover:border-[var(--primary)] font-bold text-xs flex items-center gap-1 transition whitespace-nowrap"
             >
               <span class="font-extrabold text-red-500">G</span>
               <span>Google</span>
@@ -973,7 +979,7 @@
             <button
               type="button"
               onclick="openSocialLoginModal('Facebook')"
-              class="px-3 py-1.5 rounded-lg bg-[#1877F2] text-white font-bold text-xs flex items-center gap-1.5 transition hover:opacity-90"
+              class="px-2.5 py-1.5 rounded-lg bg-[#1877F2] text-white font-bold text-xs flex items-center gap-1 transition hover:opacity-90 whitespace-nowrap"
             >
               <span class="font-extrabold">f</span>
               <span>Facebook</span>
@@ -981,16 +987,16 @@
             <button
               type="button"
               onclick="openSocialLoginModal('iCloud')"
-              class="px-3 py-1.5 rounded-lg stitch-subcard hover:border-[var(--primary)] font-bold text-xs flex items-center gap-1.5 transition"
+              class="px-2.5 py-1.5 rounded-lg stitch-subcard hover:border-[var(--primary)] font-bold text-xs flex items-center gap-1 transition whitespace-nowrap"
             >
-              <span class="material-symbols-outlined text-[15px]">cloud</span>
+              <span class="material-symbols-outlined text-[14px]">cloud</span>
               <span>iCloud</span>
             </button>
             <button
               type="button"
               id="btn-continue-guest"
               onclick="continueWithoutRegistration()"
-              class="px-3 py-1.5 rounded-lg bg-[var(--primary-fixed)] text-primary-theme text-xs font-extrabold hover:opacity-90 transition"
+              class="px-3 py-1.5 rounded-lg bg-[var(--primary-fixed)] text-primary-theme text-xs font-extrabold hover:opacity-90 transition whitespace-nowrap"
             >
               Üye Olmadan Devam Et
             </button>
@@ -998,7 +1004,7 @@
               type="button"
               id="btn-open-existing-member-login"
               onclick="openExistingMemberLoginModal()"
-              class="px-3 py-1.5 rounded-lg stitch-subcard border border-[var(--primary)] text-primary-theme text-xs font-extrabold hover:bg-[var(--primary-fixed)] transition flex items-center gap-1"
+              class="px-3 py-1.5 rounded-lg stitch-subcard border border-[var(--primary)] text-primary-theme text-xs font-extrabold hover:bg-[var(--primary-fixed)] transition flex items-center gap-1 whitespace-nowrap"
             >
               <span>🔑</span>
               <span>Üyeliğin var mı? Giriş Yap</span>

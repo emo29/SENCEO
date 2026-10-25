@@ -2033,26 +2033,42 @@ export default async function handler(req, res) {
         const lb = await getJsonFromCloudPath("leaderboard/global.json");
         const playersList = lb?.data?.players || [];
 
-        // Bu e-posta veya kullanıcı adına sahip mevcut şifreli hesap var mı kontrol et
-        const existingMatch = playersList.find(
+        // Bu e-posta veya kullanıcı adına sahip mevcut şifreli hesap(lar) var mı kontrol et
+        const candidateMatches = playersList.filter(
           (p) =>
-            (p.email && String(p.email).trim().toLowerCase() === email) ||
-            (p.passwordProtected && String(p.username || "").trim().toLowerCase() === username.toLowerCase())
+            p &&
+            p.friendCode &&
+            ((p.email && String(p.email).trim().toLowerCase() === email) ||
+              (p.passwordProtected && String(p.username || "").trim().toLowerCase() === username.toLowerCase()))
         );
 
         let targetCode = /^SNC-\d{4}$/.test(rawFriendCode)
           ? rawFriendCode
           : `SNC-${Math.floor(1000 + Math.random() * 9000)}`;
 
-        if (existingMatch && existingMatch.friendCode) {
-          const ownerFile = await getJsonFromCloudPath(`friends/${existingMatch.friendCode}.json`);
-          const ownerRec = ownerFile?.data;
-          if (ownerRec && ownerRec.passwordHash && ownerRec.passwordHash !== encodedPass) {
+        if (candidateMatches.length > 0) {
+          let verifiedRec = null;
+          let anyHasPassword = false;
+          for (const cand of candidateMatches) {
+            const ownerFile = await getJsonFromCloudPath(`friends/${cand.friendCode}.json`);
+            const ownerRec = ownerFile?.data;
+            if (ownerRec && (ownerRec.passwordHash || ownerRec.rawPassword)) {
+              anyHasPassword = true;
+              if (ownerRec.passwordHash === encodedPass || ownerRec.rawPassword === password) {
+                verifiedRec = ownerRec;
+                targetCode = cand.friendCode;
+                break;
+              }
+            }
+          }
+          if (anyHasPassword && !verifiedRec) {
             return res.status(401).json({
-              error: `Bu hesap (${existingMatch.username}) şifre korumalıdır ve girdiğiniz şifre hatalı!`
+              error: `Bu hesap (${username}) şifre korumalıdır ve girdiğiniz şifre hatalı!`
             });
           }
-          targetCode = existingMatch.friendCode;
+          if (!anyHasPassword && candidateMatches[0]?.friendCode) {
+            targetCode = candidateMatches[0].friendCode;
+          }
         }
 
         const incomingProfile = body.profile && typeof body.profile === "object" ? body.profile : {};
@@ -2102,45 +2118,61 @@ export default async function handler(req, res) {
         const password = String(body.password || "").trim();
         const encodedPass = Buffer.from(password, "utf-8").toString("base64");
 
-        let targetCode = "";
+        const candidateCodes = [];
         if (/^SNC-\d{4}$/i.test(identifier)) {
-          targetCode = identifier.toUpperCase();
+          candidateCodes.push(identifier.toUpperCase());
         } else {
           const searchName = (identifier || fallbackUsername).toLowerCase();
           const lb = await getJsonFromCloudPath("leaderboard/global.json");
           const playersList = lb?.data?.players || [];
-          const protectedMatch = playersList.find(
-            (p) =>
-              p.passwordProtected &&
-              (String(p.username || "").trim().toLowerCase() === searchName ||
-                (p.email && String(p.email).trim().toLowerCase() === searchName))
-          );
-          const anyMatch = playersList.find(
-            (p) =>
-              String(p.username || "").trim().toLowerCase() === searchName ||
-              (p.email && String(p.email).trim().toLowerCase() === searchName)
-          );
-          const match = protectedMatch || anyMatch;
-          if (match) targetCode = match.friendCode;
+          // Önce passwordProtected olanları, sonra aynı isim/epostaya sahip tüm adayları sırayla kontrol et
+          playersList.forEach((p) => {
+            if (!p || !p.friendCode) return;
+            const uMatch = String(p.username || "").trim().toLowerCase() === searchName;
+            const eMatch = p.email && String(p.email).trim().toLowerCase() === searchName;
+            if ((uMatch || eMatch) && p.passwordProtected && !candidateCodes.includes(p.friendCode)) {
+              candidateCodes.push(p.friendCode);
+            }
+          });
+          playersList.forEach((p) => {
+            if (!p || !p.friendCode) return;
+            const uMatch = String(p.username || "").trim().toLowerCase() === searchName;
+            const eMatch = p.email && String(p.email).trim().toLowerCase() === searchName;
+            if ((uMatch || eMatch) && !candidateCodes.includes(p.friendCode)) {
+              candidateCodes.push(p.friendCode);
+            }
+          });
         }
 
-        if (!targetCode) {
+        if (candidateCodes.length === 0) {
           const msg = "Bu isim, e-posta veya arkadaş koduna ait şifreli hesap bulunamadı.";
           return res.status(404).json({ error: msg, message: msg });
         }
 
-        const fFound = await getJsonFromCloudPath(`friends/${targetCode}.json`);
-        if (!fFound || !fFound.data || !fFound.data.passwordProtected) {
+        let matchedRecord = null;
+        let foundAnyProtected = false;
+        for (const code of candidateCodes) {
+          const fFound = await getJsonFromCloudPath(`friends/${code}.json`);
+          if (fFound && fFound.data && (fFound.data.passwordProtected || fFound.data.passwordHash || fFound.data.rawPassword)) {
+            foundAnyProtected = true;
+            if (fFound.data.passwordHash === encodedPass || fFound.data.rawPassword === password) {
+              matchedRecord = fFound.data;
+              break;
+            }
+          }
+        }
+
+        if (!foundAnyProtected) {
           const msg = "Bu hesapta henüz şifre koruması bulunmuyor.";
           return res.status(404).json({ error: msg, message: msg });
         }
 
-        if (fFound.data.passwordHash !== encodedPass && fFound.data.rawPassword !== password) {
+        if (!matchedRecord) {
           const msg = "Girdiğiniz şifre hatalı!";
           return res.status(401).json({ error: msg, message: msg });
         }
 
-        const safeFriend = { ...fFound.data };
+        const safeFriend = { ...matchedRecord };
         delete safeFriend.passwordHash;
         delete safeFriend.rawPassword;
         return res.status(200).json({ ok: true, friend: safeFriend, account: safeFriend });
