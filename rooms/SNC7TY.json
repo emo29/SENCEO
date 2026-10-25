@@ -4,15 +4,16 @@
   "p1FriendCode": "SNC-4741",
   "p2Id": "USR_367PT4B",
   "p2FriendCode": "SNC-6206",
+  "nextRoundStarterCode": "SNC-6206",
+  "nextRoundStarterName": "salihcan",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "Emirhan",
   "p2": "salihcan",
   "cat": "genel",
-  "thm": "luminous",
+  "thm": "brutal26",
   "qIds": [
     80,
     81,
@@ -143,7 +144,42 @@
       "text": ""
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-10-25T19:22:45.054Z"
+  "p1Half2Guesses": [
+    1,
+    1,
+    0,
+    1,
+    3
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": "yiyince yatırım yapmıs olmuon"
+    },
+    {
+      "emoji": "",
+      "text": "xDDD son şıkkı okumamıştım"
+    },
+    {
+      "emoji": "🤔",
+      "text": "insan yazı yazar"
+    },
+    {
+      "emoji": "😂",
+      "text": ""
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 60,
+  "lastCorrectCount": 6,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-25T19:26:43.997Z",
+  "updatedAt": "2026-10-25T19:26:42.801Z",
+  "nextRoundSecondCode": "SNC-4741",
+  "nextRoundSecondName": "Emirhan"
 }
