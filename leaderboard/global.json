@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T12:40:58.537Z",
+  "updatedAt": "2026-10-25T12:41:00.702Z",
   "players": [
     {
       "friendCode": "SNC-9101",
@@ -56,6 +56,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792812023896,
       "updatedAt": "2026-10-24T03:20:23.896Z"
+    },
+    {
+      "friendCode": "SNC-9104",
+      "username": "Kerem A.",
+      "avatar": "😎",
+      "level": 5,
+      "xp": 410,
+      "gamesPlayed": 5,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792932060702,
+      "updatedAt": "2026-10-25T12:41:00.702Z"
     },
     {
       "friendCode": "SNC-8029",
