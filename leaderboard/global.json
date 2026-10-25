@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T10:13:03.300Z",
+  "updatedAt": "2026-10-25T11:24:57.102Z",
   "players": [
     {
       "friendCode": "SNC-3375",
@@ -461,6 +461,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792867959656,
       "updatedAt": "2026-10-24T18:52:39.656Z"
+    },
+    {
+      "friendCode": "SNC-6111",
+      "username": "Misafir Oyuncu",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": true,
+      "passwordProtected": true,
+      "lastXpActivityAt": 1792927497102,
+      "updatedAt": "2026-10-25T11:24:57.102Z"
     }
   ]
 }
