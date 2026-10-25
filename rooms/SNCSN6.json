@@ -110,15 +110,15 @@
     {},
     {}
   ],
-  "p2WatchingSlides": true,
-  "p2WatchedSlides": false,
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": true,
   "lastMatchPercentage": 60,
   "lastCorrectCount": 6,
   "lastTotalQuestions": 10,
   "completedAt": "2026-10-25T13:44:46.356Z",
-  "updatedAt": "2026-10-25T13:44:52.670Z",
+  "updatedAt": "2026-10-25T13:44:55.058Z",
   "nextRoundSecondCode": "SNC-4324",
   "nextRoundSecondName": "sıradana",
   "p2WatchingBy": "sıradanb",
-  "slideStatusUpdatedAt": 1792935892670
+  "slideStatusUpdatedAt": 1792935895058
 }
