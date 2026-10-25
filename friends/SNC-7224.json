@@ -15,18 +15,18 @@
     {
       "code": "SNCLTE",
       "p1": "emirhan",
-      "p2": "",
+      "p2": "bahan",
       "p1FriendCode": "SNC-7224",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-8774",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "cift",
-      "updatedAt": "2026-10-25T17:28:25.320Z"
+      "updatedAt": "2026-10-25T17:37:08.104Z"
     },
     {
       "code": "SNC4BU",
@@ -173,6 +173,17 @@
   ],
   "notifications": [
     {
+      "id": "TURN_P1_SNCLTE_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "bahan 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCLTE)",
+      "fromCode": "SNC-8774",
+      "fromName": "bahan",
+      "roomCode": "SNCLTE",
+      "read": false,
+      "createdAt": "2026-10-25T17:37:08.104Z"
+    },
+    {
       "id": "FINVITE_SNC-7191_TO_SNC-7224",
       "type": "friend_accepted",
       "title": "🎉 Davet Linkinle Yeni Bağ Kuruldu!",
@@ -207,7 +218,7 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-25T17:28:25.320Z",
+  "updatedAt": "2026-10-25T17:37:08.104Z",
   "deletedRoomCodes": [],
   "isPasswordProtected": true,
   "lastPropagatedName": "emirhan",
