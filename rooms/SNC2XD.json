@@ -6,7 +6,7 @@
   "p2FriendCode": "SNC-7224",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "opponent_fled",
   "currentRound": 1,
   "whoseTurn": "p1",
   "p1": "komnenos",
@@ -134,5 +134,8 @@
   ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-25T11:16:58.505Z"
+  "updatedAt": "2026-10-25T17:24:27.384Z",
+  "abandonedByCode": "",
+  "abandonedByName": "Rakibin",
+  "abandonedAt": 1792949067384
 }
