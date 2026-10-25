@@ -85,7 +85,7 @@
   "p1Id": "USR_E0B22H4",
   "p2FriendCode": "SNC-5728",
   "p2Id": "USR_E0B22H4",
-  "updatedAt": "2026-10-25T13:51:13.116Z",
+  "updatedAt": "2026-10-25T13:51:14.093Z",
   "cat": "genel",
   "currentRound": 1,
   "liveLeaderboard": null,
@@ -176,19 +176,31 @@
     "activeAnswererName": "Oyuncu_B",
     "activeGuesserCode": "SNC-1006",
     "activeGuesserName": "Oyuncu_F",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "🔥",
       "text": "Oyuncu_B cevabı"
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 2,
     "currentGuessComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "🎯",
+      "text": "Oyuncu_F tahmini"
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-1006": {
+        "code": "SNC-1006",
+        "name": "Oyuncu",
+        "guessIndex": 2,
+        "comment": {
+          "emoji": "🎯",
+          "text": "Oyuncu_F tahmini"
+        },
+        "isCorrect": true,
+        "submittedAt": 1792936274093
+      }
+    },
     "history": [],
     "scores": {
       "SNC-1002": {
@@ -227,9 +239,9 @@
         "code": "SNC-1006",
         "name": "Oyuncu_F",
         "team": "B",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       },
       "SNC-1007": {
         "code": "SNC-1007",
@@ -309,9 +321,9 @@
         "code": "SNC-1006",
         "name": "Oyuncu_F",
         "team": "B",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       },
       "SNC-1007": {
         "code": "SNC-1007",
@@ -354,7 +366,7 @@
         "points": 0
       }
     },
-    "phaseStartedAt": 1792936273116,
-    "updatedAt": 1792936273116
+    "phaseStartedAt": 1792936274093,
+    "updatedAt": 1792936274093
   }
 }
