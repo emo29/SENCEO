@@ -2,17 +2,17 @@
   "code": "SNC2XD",
   "p1Id": "USR_06K8L3F",
   "p1FriendCode": "SNC-2002",
-  "p2Id": "",
-  "p2FriendCode": "",
+  "p2Id": "USR_FW6OPX9",
+  "p2FriendCode": "SNC-7224",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
-  "whoseTurn": "p2",
+  "whoseTurn": "p1",
   "p1": "komnenos",
-  "p2": "",
+  "p2": "emirhan",
   "cat": "genel",
-  "thm": "luminous",
+  "thm": "brutal26",
   "qIds": [
     32,
     25,
@@ -25,7 +25,14 @@
     25,
     66,
     3,
-    74
+    74,
+    2,
+    1,
+    53,
+    9,
+    7,
+    29,
+    70
   ],
   "customOptionsMap": {},
   "p1Answers": [
@@ -57,13 +64,75 @@
       "text": ""
     }
   ],
-  "p2Guesses": [],
-  "p2Comments": [],
-  "p2Half2QIds": [],
-  "p2Half2CustomMap": {},
-  "p2Half2Answers": [],
-  "p2Half2Comments": [],
+  "p2Guesses": [
+    0,
+    1,
+    3,
+    0,
+    1
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": "e dün içimden cevap veririmi işaretlemiştin niah"
+    }
+  ],
+  "p2Half2QIds": [
+    29,
+    1,
+    70,
+    9,
+    7
+  ],
+  "p2Half2CustomMap": {
+    "0": "aaaaaaa"
+  },
+  "p2Half2Answers": [
+    3,
+    -1,
+    3,
+    3,
+    0
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T18:54:10.072Z"
+  "updatedAt": "2026-10-25T11:16:58.505Z"
 }
