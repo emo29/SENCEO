@@ -1,0 +1,57 @@
+{
+  "code": "SNC4H5",
+  "p1Id": "USR_CBTNMSH",
+  "p1FriendCode": "SNC-8484",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "sıradana",
+  "p2": "",
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [
+    9,
+    58,
+    1,
+    29,
+    11
+  ],
+  "usedQuestionIds": [
+    9,
+    58,
+    1,
+    29,
+    11
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    1,
+    2,
+    3,
+    0
+  ],
+  "p1Comments": [
+    {
+      "emoji": "🔥",
+      "text": "a1"
+    },
+    {},
+    {},
+    {},
+    {}
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-25T13:47:58.432Z"
+}
