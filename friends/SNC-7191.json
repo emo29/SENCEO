@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-7191",
-  "username": "Oyuncu (SNC-7191)",
+  "username": "Misafir Oyuncu",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
@@ -9,17 +9,14 @@
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792927715116,
+  "lastXpActivityAt": 1792939508998,
   "latestRoomCode": "",
   "activeRooms": [],
   "incomingRequests": [],
-  "acceptedFriends": [
-    {
-      "code": "SNC-7224",
-      "name": "emirhan",
-      "acceptedAt": "2026-10-25T11:28:35.116Z"
-    }
-  ],
+  "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T11:30:54.357Z"
+  "updatedAt": "2026-10-25T14:45:08.998Z",
+  "deletedAccountAt": "2026-10-25T14:45:08.998Z",
+  "isPasswordProtected": false,
+  "rawPassword": ""
 }
