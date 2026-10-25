@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T19:18:17.781Z",
+  "updatedAt": "2026-10-25T19:26:46.245Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -222,6 +222,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792949499862,
       "updatedAt": "2026-10-25T17:31:39.862Z"
+    },
+    {
+      "friendCode": "SNC-4741",
+      "username": "Emirhan_4741",
+      "avatar": "🔥",
+      "level": 2,
+      "xp": 180,
+      "gamesPlayed": 1,
+      "questionsCorrect": 6,
+      "provider": "Google",
+      "isPermanentMember": true,
+      "passwordProtected": true,
+      "lastXpActivityAt": 1792956406245,
+      "updatedAt": "2026-10-25T19:26:46.245Z"
     },
     {
       "friendCode": "SNC-1265",
@@ -516,20 +530,6 @@
       "passwordProtected": true,
       "lastXpActivityAt": 1792952826018,
       "updatedAt": "2026-10-25T18:27:06.019Z"
-    },
-    {
-      "friendCode": "SNC-4741",
-      "username": "Emirhan_4741",
-      "avatar": "🔥",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "Google",
-      "isPermanentMember": true,
-      "passwordProtected": true,
-      "lastXpActivityAt": 1792955868006,
-      "updatedAt": "2026-10-25T19:18:17.781Z"
     }
   ]
 }
