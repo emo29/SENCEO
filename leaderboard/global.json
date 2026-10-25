@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T21:45:57.445Z",
+  "updatedAt": "2026-10-25T23:27:17.110Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -167,20 +167,6 @@
       "updatedAt": "2026-10-25T13:42:09.9101086Z"
     },
     {
-      "friendCode": "SNC-7224",
-      "username": "emirhan",
-      "avatar": "🔥",
-      "level": 4,
-      "xp": 360,
-      "gamesPlayed": 2,
-      "questionsCorrect": 12,
-      "provider": "guest",
-      "isPermanentMember": true,
-      "passwordProtected": true,
-      "lastXpActivityAt": 1792960543933,
-      "updatedAt": "2026-10-25T21:45:57.445Z"
-    },
-    {
       "friendCode": "SNC-8812",
       "username": "Tolga",
       "avatar": "🎸",
@@ -278,6 +264,22 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792955803193,
       "updatedAt": "2026-10-25T19:16:45.635Z"
+    },
+    {
+      "friendCode": "SNC-7224",
+      "username": "emirhan",
+      "avatar": "🔥",
+      "level": 1453,
+      "xp": 29,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": true,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792970837110,
+      "updatedAt": "2026-10-25T23:27:17.110Z",
+      "email": "periheltry@gmail.com",
+      "isPasswordProtected": false
     },
     {
       "friendCode": "SNC-8880",
