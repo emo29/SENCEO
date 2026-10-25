@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T12:41:02.550Z",
+  "updatedAt": "2026-10-25T12:41:04.553Z",
   "players": [
     {
       "friendCode": "SNC-9101",
@@ -126,6 +126,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792845371542,
       "updatedAt": "2026-10-24T12:36:11.542Z"
+    },
+    {
+      "friendCode": "SNC-9106",
+      "username": "Caner S.",
+      "avatar": "😎",
+      "level": 3,
+      "xp": 270,
+      "gamesPlayed": 5,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792932064553,
+      "updatedAt": "2026-10-25T12:41:04.553Z"
     },
     {
       "friendCode": "SNC-7224",
