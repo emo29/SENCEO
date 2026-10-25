@@ -15,24 +15,36 @@
     {
       "code": "SNCS3W",
       "p1": "epsaniol",
-      "p2": "",
+      "p2": "adeneme",
       "p1FriendCode": "SNC-2603",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-1487",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-25T17:29:58.013Z"
+      "updatedAt": "2026-10-25T17:31:01.392Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-25T17:29:58.013Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCS3W_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "adeneme 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCS3W)",
+      "fromCode": "SNC-1487",
+      "fromName": "adeneme",
+      "roomCode": "SNCS3W",
+      "read": false,
+      "createdAt": "2026-10-25T17:31:01.392Z"
+    }
+  ],
+  "updatedAt": "2026-10-25T17:31:01.392Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "epsaniol",
   "deletedRoomCodes": []
