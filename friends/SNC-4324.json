@@ -1,0 +1,37 @@
+{
+  "friendCode": "SNC-4324",
+  "username": "sıradana",
+  "level": 1,
+  "xp": 0,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1792935885611,
+  "latestRoomCode": "SNCSN6",
+  "activeRooms": [
+    {
+      "code": "SNCSN6",
+      "p1": "sıradana",
+      "p2": "",
+      "p1FriendCode": "SNC-4324",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-25T13:44:45.611Z"
+    }
+  ],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-25T13:44:45.611Z",
+  "deletedRoomCodes": []
+}
