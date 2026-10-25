@@ -5,8 +5,8 @@
   "xp": 210,
   "gamesPlayed": 1,
   "questionsCorrect": 7,
-  "provider": "guest",
-  "isPermanentMember": false,
+  "provider": "Google",
+  "isPermanentMember": true,
   "passwordProtected": true,
   "passwordHash": "MTIz",
   "lastXpActivityAt": 1792815007494,
@@ -191,8 +191,12 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-25T14:48:19.375Z",
+  "updatedAt": "2026-10-25T17:23:48.371Z",
   "deletedRoomCodes": [],
   "isPasswordProtected": true,
-  "lastPropagatedName": "emirhan"
+  "lastPropagatedName": "emirhan",
+  "email": "periheltry@gmail.com",
+  "googleSub": "108291569470125462549",
+  "picture": "https://lh3.googleusercontent.com/a/ACg8ocLZEjJf70n2QDoNdTudca6tNZi_4CRSRs4AkuixkCcySXIRPlW3=s96-c",
+  "authProvider": "Google"
 }
