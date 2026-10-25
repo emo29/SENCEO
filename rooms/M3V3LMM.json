@@ -2,7 +2,7 @@
   "code": "M3V3LMM",
   "roomType": "live_arena",
   "arenaFormat": "3v3",
-  "status": "live_lobby",
+  "status": "live_in_progress",
   "hostCode": "SNC-1001",
   "hostName": "Oyuncu_A",
   "p1": "Oyuncu_A",
@@ -57,5 +57,192 @@
   "p1Id": "USR_CBTNMSH",
   "p2FriendCode": "SNC-8484",
   "p2Id": "USR_CBTNMSH",
-  "updatedAt": "2026-10-25T13:48:27.456Z"
+  "updatedAt": "2026-10-25T13:48:30.395Z",
+  "cat": "genel",
+  "currentRound": 1,
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
+  "qIds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "usedQuestionIds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "liveMatchState": {
+    "qIds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-1005",
+        "name": "Oyuncu_E",
+        "team": "B"
+      },
+      {
+        "code": "SNC-1006",
+        "name": "Oyuncu_F",
+        "team": "B"
+      },
+      {
+        "code": "SNC-1001",
+        "name": "Oyuncu_A",
+        "team": "A"
+      },
+      {
+        "code": "SNC-1002",
+        "name": "Oyuncu_B",
+        "team": "A"
+      },
+      {
+        "code": "SNC-1003",
+        "name": "Oyuncu_C",
+        "team": "A"
+      },
+      {
+        "code": "SNC-1004",
+        "name": "Oyuncu_D",
+        "team": "B"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-1005",
+    "activeAnswererName": "Oyuncu_E",
+    "activeGuesserCode": "SNC-1001",
+    "activeGuesserName": "Oyuncu_A",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-1005": {
+        "code": "SNC-1005",
+        "name": "Oyuncu_E",
+        "team": "B",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1006": {
+        "code": "SNC-1006",
+        "name": "Oyuncu_F",
+        "team": "B",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1001": {
+        "code": "SNC-1001",
+        "name": "Oyuncu_A",
+        "team": "A",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1002": {
+        "code": "SNC-1002",
+        "name": "Oyuncu_B",
+        "team": "A",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1003": {
+        "code": "SNC-1003",
+        "name": "Oyuncu_C",
+        "team": "A",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1004": {
+        "code": "SNC-1004",
+        "name": "Oyuncu_D",
+        "team": "B",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-1005": {
+        "code": "SNC-1005",
+        "name": "Oyuncu_E",
+        "team": "B",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1006": {
+        "code": "SNC-1006",
+        "name": "Oyuncu_F",
+        "team": "B",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1001": {
+        "code": "SNC-1001",
+        "name": "Oyuncu_A",
+        "team": "A",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1002": {
+        "code": "SNC-1002",
+        "name": "Oyuncu_B",
+        "team": "A",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1003": {
+        "code": "SNC-1003",
+        "name": "Oyuncu_C",
+        "team": "A",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1004": {
+        "code": "SNC-1004",
+        "name": "Oyuncu_D",
+        "team": "B",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1792936110395,
+    "updatedAt": 1792936110395
+  }
 }
