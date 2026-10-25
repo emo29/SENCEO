@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T12:41:00.702Z",
+  "updatedAt": "2026-10-25T12:41:02.550Z",
   "players": [
     {
       "friendCode": "SNC-9101",
@@ -84,6 +84,20 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792846389207,
       "updatedAt": "2026-10-24T12:53:11.402Z"
+    },
+    {
+      "friendCode": "SNC-9105",
+      "username": "Merve T.",
+      "avatar": "😎",
+      "level": 4,
+      "xp": 340,
+      "gamesPlayed": 5,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1792932062550,
+      "updatedAt": "2026-10-25T12:41:02.550Z"
     },
     {
       "friendCode": "SNC-3675",
