@@ -32,6 +32,8 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T13:44:45.611Z",
-  "deletedRoomCodes": []
+  "updatedAt": "2026-10-25T13:44:47.215Z",
+  "deletedRoomCodes": [],
+  "lastPropagatedName": "sıradana",
+  "isPasswordProtected": false
 }
