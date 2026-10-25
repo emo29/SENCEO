@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-4741",
-  "username": "Emirhan Turan",
+  "username": "Emirhan",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
@@ -15,10 +15,11 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T19:17:44.828Z",
+  "updatedAt": "2026-10-25T19:18:17.024Z",
   "email": "periheltry@gmail.com",
   "googleSub": "108291569470125462549",
   "picture": "https://lh3.googleusercontent.com/a/ACg8ocLZEjJf70n2QDoNdTudca6tNZi_4CRSRs4AkuixkCcySXIRPlW3=s96-c",
   "authProvider": "Google",
-  "isPasswordProtected": true
+  "isPasswordProtected": true,
+  "lastPropagatedName": "Emirhan"
 }
