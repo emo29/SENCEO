@@ -27,7 +27,7 @@
   "p1Id": "USR_FPS3H4D",
   "p2FriendCode": "SNC-4324",
   "p2Id": "USR_FPS3H4D",
-  "updatedAt": "2026-10-25T13:45:03.004Z",
+  "updatedAt": "2026-10-25T13:45:03.954Z",
   "cat": "genel",
   "currentRound": 1,
   "liveLeaderboard": null,
@@ -78,11 +78,11 @@
     "activeAnswererName": "Oyuncu_A",
     "activeGuesserCode": "SNC-1002",
     "activeGuesserName": "Oyuncu_B",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 2,
     "currentAnswerComment": {
-      "emoji": "",
-      "text": ""
+      "emoji": "🔥",
+      "text": "Oyuncu_A cevabı"
     },
     "currentCustomOption": "",
     "currentGuess": null,
@@ -128,7 +128,7 @@
         "points": 0
       }
     },
-    "phaseStartedAt": 1792935903004,
-    "updatedAt": 1792935903004
+    "phaseStartedAt": 1792935903954,
+    "updatedAt": 1792935903954
   }
 }
