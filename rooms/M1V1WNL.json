@@ -1,0 +1,31 @@
+{
+  "code": "M1V1WNL",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "status": "live_lobby",
+  "hostCode": "SNC-1001",
+  "hostName": "Oyuncu_A",
+  "p1": "Oyuncu_A",
+  "p1FriendCode": "SNC-1001",
+  "participants": [
+    {
+      "name": "Oyuncu_A",
+      "code": "SNC-1001",
+      "isHost": true,
+      "team": "A",
+      "role": "host"
+    },
+    {
+      "name": "Oyuncu_B",
+      "code": "SNC-1002",
+      "isHost": false,
+      "team": "B",
+      "role": "member"
+    }
+  ],
+  "liveSettings": {},
+  "p1Id": "USR_E0B22H4",
+  "p2FriendCode": "SNC-5728",
+  "p2Id": "USR_E0B22H4",
+  "updatedAt": "2026-10-25T13:50:45.377Z"
+}
