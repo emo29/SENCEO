@@ -7,8 +7,8 @@
   "questionsCorrect": 0,
   "provider": "guest",
   "isPermanentMember": false,
-  "passwordProtected": false,
-  "passwordHash": "",
+  "passwordProtected": true,
+  "passwordHash": "MTIz",
   "lastXpActivityAt": 1792936361368,
   "latestRoomCode": "SNCJCH",
   "activeRooms": [
@@ -80,8 +80,8 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T13:53:30.714Z",
+  "updatedAt": "2026-10-25T13:53:56.382Z",
   "lastPropagatedName": "oe",
-  "isPasswordProtected": false,
+  "isPasswordProtected": true,
   "deletedRoomCodes": []
 }
