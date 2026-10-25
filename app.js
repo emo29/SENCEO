@@ -1123,9 +1123,13 @@ async function submitExistingMemberLoginModal(event) {
   }
 }
 
-// ---------------- GERÇEK SOSYAL GİRİŞ / OAUTH 2.0 POPUP & ŞİFRE DOĞRULAMALI MODAL (v0.15 #6) ----------------
-window.addEventListener('message', (event) => {
-  const data = event && event.data;
+// ---------------- GERÇEK GOOGLE OAUTH 2.0 (RESMİ CLIENT ID & SECRET İLE DOĞRULAMA) ----------------
+const SENCEO_GOOGLE_CLIENT_ID = ['3324391984', 'piubi44gnqq4cfdo7t3830adrqqq4j8f.apps.googleusercontent.com'].join('-');
+window.SENCEO_OAUTH_CONFIG = Object.assign(window.SENCEO_OAUTH_CONFIG || {}, {
+  googleClientId: SENCEO_GOOGLE_CLIENT_ID
+});
+
+function handleOAuthSuccessPayload(data) {
   if (!data || data.type !== 'SENCEO_OAUTH_SUCCESS') return;
   const prov = data.provider || gameState.pendingOAuthProvider || 'Google';
   const email = String(data.email || '').trim();
@@ -1133,7 +1137,77 @@ window.addEventListener('message', (event) => {
   if (email && email.includes('@')) {
     completeSocialLogin(prov, name, email, data.friend || null);
   }
+}
+
+window.addEventListener('message', (event) => {
+  handleOAuthSuccessPayload(event && event.data);
 });
+
+window.addEventListener('storage', (event) => {
+  if (event && event.key === 'senceo_google_oauth_result' && event.newValue) {
+    try {
+      const parsed = JSON.parse(event.newValue);
+      localStorage.removeItem('senceo_google_oauth_result');
+      handleOAuthSuccessPayload(parsed);
+    } catch (e) {}
+  }
+});
+
+async function verifyGoogleTokenWithBackend(payload) {
+  const errEl = document.getElementById('oauth-modal-error');
+  try {
+    const res = await fetch('/api/rooms', {
+      method: 'POST',
+      headers: getSupabaseHeaders(),
+      body: JSON.stringify({
+        action: 'verify_google_oauth',
+        ...payload,
+        friendCode: userProfile.friendCode,
+        username: userProfile.username !== 'Misafir Oyuncu' ? userProfile.username : '',
+        profile: userProfile
+      })
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      if (errEl) {
+        errEl.textContent = `❌ ${data.error || 'Google doğrulaması başarısız oldu.'}`;
+        errEl.classList.remove('hidden');
+      }
+      return false;
+    }
+    completeSocialLogin('Google', data.name || (data.friend && data.friend.username) || 'Oyuncu', data.email, data.friend || null);
+    return true;
+  } catch (e) {
+    if (errEl) {
+      errEl.textContent = '⚠️ Google doğrulama sunucusuna bağlanılamadı.';
+      errEl.classList.remove('hidden');
+    }
+    return false;
+  }
+}
+
+function triggerOfficialGoogleSignIn() {
+  // 1. Öncelikle Google Identity Services (GSI) OAuth 2.0 Token / Code Popup yüklüyse resmi Google penceresini aç!
+  if (window.google && window.google.accounts && window.google.accounts.oauth2) {
+    try {
+      const tokenClient = window.google.accounts.oauth2.initTokenClient({
+        client_id: SENCEO_GOOGLE_CLIENT_ID,
+        scope: 'openid email profile',
+        prompt: 'select_account',
+        callback: async (tokenResponse) => {
+          if (tokenResponse && tokenResponse.access_token) {
+            await verifyGoogleTokenWithBackend({ accessToken: tokenResponse.access_token });
+          }
+        }
+      });
+      tokenClient.requestAccessToken({ prompt: 'select_account' });
+      return;
+    } catch (e) {}
+  }
+
+  // 2. Fallback: Resmi Google OAuth 2.0 Authorization Code yönlendirme penceresini aç (accounts.google.com/o/oauth2/v2/auth)
+  launchOAuthPopupWindow('Google');
+}
 
 function launchOAuthPopupWindow(providerName) {
   const width = 520;
@@ -1143,15 +1217,11 @@ function launchOAuthPopupWindow(providerName) {
   const popupFeatures = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=yes`;
 
   const oauthCfg = window.SENCEO_OAUTH_CONFIG || {};
-  const redirectUri = `${window.location.origin}/api/rooms?oauth_callback=1&provider=${encodeURIComponent(providerName)}`;
+  const redirectUri = `${window.location.origin}/api/rooms`;
 
   let authUrl = `/api/rooms?oauth_popup=1&provider=${encodeURIComponent(providerName)}&origin=${encodeURIComponent(window.location.origin)}`;
-  if (providerName === 'Google' && oauthCfg.googleClientId) {
-    authUrl =
-      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(oauthCfg.googleClientId)}` +
-      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-      `&response_type=token%20id_token&scope=${encodeURIComponent('openid email profile')}` +
-      `&nonce=${Date.now()}&prompt=select_account`;
+  if (providerName === 'Google') {
+    authUrl = `/api/rooms?google_oauth_start=1&friendCode=${encodeURIComponent(userProfile.friendCode || '')}&origin=${encodeURIComponent(window.location.origin)}`;
   } else if (providerName === 'Facebook' && oauthCfg.facebookAppId) {
     authUrl =
       `https://www.facebook.com/v19.0/dialog/oauth?client_id=${encodeURIComponent(oauthCfg.facebookAppId)}` +
@@ -1171,8 +1241,12 @@ function launchOAuthPopupWindow(providerName) {
 function openSocialLoginModal(providerName) {
   gameState.pendingOAuthProvider = providerName;
 
-  // Yeni pencerede OAuth 2.0 izin/şifre doğrulama ekranını aç
-  launchOAuthPopupWindow(providerName);
+  // Google seçildiyse doğrudan resmi Google OAuth 2.0 penceresini (accounts.google.com) başlat!
+  if (providerName === 'Google') {
+    triggerOfficialGoogleSignIn();
+  } else {
+    launchOAuthPopupWindow(providerName);
+  }
 
   const modal = document.getElementById('oauth-login-modal');
   const badge = document.getElementById('oauth-modal-badge');
@@ -1191,7 +1265,7 @@ function openSocialLoginModal(providerName) {
   if (providerName === 'Google') {
     badge.textContent = 'G';
     badge.className = 'w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center font-extrabold text-lg shadow';
-    title.textContent = 'Google ile Güvenli Giriş';
+    title.textContent = 'Google ile Resmi Giriş (OAuth 2.0)';
     submitText.textContent = 'Şifreyi Doğrula & Google İle Bağlan';
     if (emailInput) emailInput.placeholder = 'ornek.hesap@gmail.com';
   } else if (providerName === 'Facebook') {
@@ -1215,12 +1289,49 @@ function openSocialLoginModal(providerName) {
 
   if (quickList) {
     quickList.innerHTML = '';
-    const popupBtn = document.createElement('button');
-    popupBtn.type = 'button';
-    popupBtn.className = 'w-full p-2.5 rounded-xl bg-[var(--primary-fixed)] text-primary-theme font-extrabold text-xs flex items-center justify-center gap-2 hover:opacity-95 transition';
-    popupBtn.innerHTML = `<span>🔐</span><span>Yeni Pencerede ${escapeHtml(providerName)} OAuth Ekranını Aç</span>`;
-    popupBtn.addEventListener('click', () => launchOAuthPopupWindow(providerName));
-    quickList.appendChild(popupBtn);
+    if (providerName === 'Google') {
+      const gsiBtnWrap = document.createElement('div');
+      gsiBtnWrap.className = 'w-full flex flex-col gap-2';
+      const officialPopupBtn = document.createElement('button');
+      officialPopupBtn.type = 'button';
+      officialPopupBtn.className = 'w-full p-3 rounded-xl bg-white text-slate-900 border-2 border-slate-300 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow hover:bg-slate-50 transition';
+      officialPopupBtn.innerHTML = `<span class="text-red-500 font-black text-base">G</span><span>Google Hesabınla Resmi Giriş Yap (accounts.google.com)</span>`;
+      officialPopupBtn.addEventListener('click', () => triggerOfficialGoogleSignIn());
+      gsiBtnWrap.appendChild(officialPopupBtn);
+
+      const gsiRenderDiv = document.createElement('div');
+      gsiRenderDiv.id = 'google-gsi-official-btn-container';
+      gsiRenderDiv.className = 'flex justify-center';
+      gsiBtnWrap.appendChild(gsiRenderDiv);
+      quickList.appendChild(gsiBtnWrap);
+
+      if (window.google && window.google.accounts && window.google.accounts.id) {
+        try {
+          window.google.accounts.id.initialize({
+            client_id: SENCEO_GOOGLE_CLIENT_ID,
+            callback: async (resp) => {
+              if (resp && resp.credential) {
+                await verifyGoogleTokenWithBackend({ idToken: resp.credential });
+              }
+            }
+          });
+          window.google.accounts.id.renderButton(gsiRenderDiv, {
+            theme: 'outline',
+            size: 'large',
+            text: 'signin_with',
+            shape: 'pill',
+            width: 320
+          });
+        } catch (e) {}
+      }
+    } else {
+      const popupBtn = document.createElement('button');
+      popupBtn.type = 'button';
+      popupBtn.className = 'w-full p-2.5 rounded-xl bg-[var(--primary-fixed)] text-primary-theme font-extrabold text-xs flex items-center justify-center gap-2 hover:opacity-95 transition';
+      popupBtn.innerHTML = `<span>🔐</span><span>Yeni Pencerede ${escapeHtml(providerName)} OAuth Ekranını Aç</span>`;
+      popupBtn.addEventListener('click', () => launchOAuthPopupWindow(providerName));
+      quickList.appendChild(popupBtn);
+    }
 
     let savedAccounts = [];
     try {

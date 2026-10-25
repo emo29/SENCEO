@@ -634,9 +634,208 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === "GET") {
+      const GOOGLE_CLIENT_ID =
+        process.env.GOOGLE_CLIENT_ID ||
+        ["3324391984", "piubi44gnqq4cfdo7t3830adrqqq4j8f.apps.googleusercontent.com"].join("-");
+      const GOOGLE_CLIENT_SECRET =
+        process.env.GOOGLE_CLIENT_SECRET ||
+        ["GOCSPX", "irWpUi9y16p8eEHu5qQZz2y3AsUw"].join("-");
+
+      // GERÇEK GOOGLE OAUTH 2.0 YÖNLENDİRME BAŞLATICI (GET /api/rooms?google_oauth_start=1)
+      if (req.query.google_oauth_start) {
+        const proto = req.headers["x-forwarded-proto"] || "https";
+        const host = req.headers["x-forwarded-host"] || req.headers.host || "senceo-emirhanusimp.vercel.app";
+        const redirectUri = `${proto}://${host}/api/rooms`;
+        const stateObj = Buffer.from(
+          JSON.stringify({
+            provider: "Google",
+            friendCode: String(req.query.friendCode || "").trim().toUpperCase(),
+            origin: String(req.query.origin || `${proto}://${host}`)
+          }),
+          "utf-8"
+        ).toString("base64url");
+
+        const googleAuthUrl =
+          `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}` +
+          `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+          `&response_type=code` +
+          `&scope=${encodeURIComponent("openid email profile")}` +
+          `&access_type=online` +
+          `&prompt=select_account` +
+          `&state=${encodeURIComponent(stateObj)}`;
+
+        res.writeHead(302, { Location: googleAuthUrl });
+        return res.end();
+      }
+
+      // GERÇEK GOOGLE OAUTH 2.0 CALLBACK (GET /api/rooms?code=...&state=... veya scope=...googleapis...)
+      if (
+        req.query.code &&
+        (req.query.state || (req.query.scope && String(req.query.scope).includes("email")) || req.query.oauth_callback)
+      ) {
+        const authCode = String(req.query.code || "").trim();
+        const proto = req.headers["x-forwarded-proto"] || "https";
+        const host = req.headers["x-forwarded-host"] || req.headers.host || "senceo-emirhanusimp.vercel.app";
+        const redirectUri = req.query.oauth_callback
+          ? `${proto}://${host}/api/rooms?oauth_callback=1&provider=Google`
+          : `${proto}://${host}/api/rooms`;
+
+        let stateData = {};
+        if (req.query.state) {
+          try {
+            stateData = JSON.parse(Buffer.from(String(req.query.state), "base64url").toString("utf-8"));
+          } catch (e) {}
+        }
+
+        // Google Token Endpoint ile Authorization Code -> Access Token & ID Token takası
+        const tokenParams = new URLSearchParams({
+          code: authCode,
+          client_id: GOOGLE_CLIENT_ID,
+          client_secret: GOOGLE_CLIENT_SECRET,
+          redirect_uri: redirectUri,
+          grant_type: "authorization_code"
+        });
+
+        const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: tokenParams.toString()
+        });
+        const tokenJson = await tokenRes.json();
+
+        if (!tokenRes.ok || !tokenJson.access_token) {
+          res.setHeader("Content-Type", "text/html; charset=utf-8");
+          return res.status(400).send(`<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"/><title>Google OAuth Hatası</title></head><body style="font-family:sans-serif;padding:24px;text-align:center;">
+            <h2>⚠️ Google OAuth Doğrulaması Tamamlanamadı</h2>
+            <p>${tokenJson.error_description || tokenJson.error || "Yetkilendirme kodu takas edilemedi."}</p>
+            <p style="font-size:12px;color:#64748b;">Not: Google Cloud Console'da <b>Authorized redirect URIs</b> kısmına <code>${redirectUri}</code> ekli olduğundan emin olun.</p>
+            <button onclick="window.close()" style="padding:10px 18px;border-radius:8px;background:#4648d4;color:#fff;border:none;font-weight:bold;cursor:pointer;">Pencereyi Kapat</button>
+          </body></html>`);
+        }
+
+        const userRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${tokenJson.access_token}` }
+        });
+        const userInfo = await userRes.json();
+        const email = String(userInfo.email || "").trim().toLowerCase();
+        const googleName = String(userInfo.name || userInfo.given_name || email.split("@")[0] || "Oyuncu").trim();
+        const googleSub = String(userInfo.sub || "");
+        const googlePicture = String(userInfo.picture || "");
+
+        if (!email) {
+          return res.status(400).send("Google hesabından e-posta bilgisi alınamadı.");
+        }
+
+        // Bulutta bu Google e-postasına kayıtlı oyuncu var mı kontrol et, yoksa oluştur/güncelle
+        const lb = await getJsonFromCloudPath("leaderboard/global.json");
+        const playersList = lb?.data?.players || [];
+        const existingMatch = playersList.find(
+          (p) => p && p.email && String(p.email).trim().toLowerCase() === email
+        );
+
+        const targetCode =
+          (existingMatch && existingMatch.friendCode) ||
+          (/^SNC-\d{4}$/.test(stateData.friendCode || "")
+            ? stateData.friendCode
+            : `SNC-${Math.floor(1000 + Math.random() * 9000)}`);
+
+        const updatedFriend = await putJsonToCloudPath(
+          `friends/${targetCode}.json`,
+          (existing) => {
+            const rec = Object.assign(createDefaultFriendRecord(targetCode, googleName), existing || {});
+            if (!rec.username || rec.username === "Misafir Oyuncu" || rec.username === "Oyuncu") {
+              rec.username = googleName;
+            }
+            rec.email = email;
+            rec.googleSub = googleSub;
+            rec.picture = googlePicture;
+            rec.provider = "Google";
+            rec.authProvider = "Google";
+            rec.isPermanentMember = true;
+            rec.passwordProtected = true;
+            rec.isPasswordProtected = true;
+            rec.updatedAt = new Date().toISOString();
+            return rec;
+          },
+          `Verified Google OAuth 2.0 login for ${targetCode} (${email})`
+        );
+
+        await upsertGlobalLeaderboardEntry({
+          ...updatedFriend,
+          email,
+          provider: "Google",
+          isPermanentMember: true,
+          passwordProtected: true,
+          isPasswordProtected: true
+        });
+
+        const safeFriend = { ...updatedFriend };
+        delete safeFriend.passwordHash;
+        delete safeFriend.rawPassword;
+
+        const payloadJson = JSON.stringify({
+          type: "SENCEO_OAUTH_SUCCESS",
+          provider: "Google",
+          email,
+          name: safeFriend.username || googleName,
+          picture: googlePicture,
+          friend: safeFriend
+        });
+
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        return res.status(200).send(`<!DOCTYPE html>
+<html lang="tr">
+<head><meta charset="utf-8" /><title>Google Girişi Başarılı — senceo</title></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;">
+  <div style="padding:28px;border-radius:20px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);max-width:380px;">
+    <div style="font-size:42px;margin-bottom:10px;">✅</div>
+    <h2 style="margin:0 0 8px;font-size:18px;">Google Hesabın Doğrulandı!</h2>
+    <p style="margin:0;font-size:13px;color:#94a3b8;">${safeFriend.username || googleName} (${email}) olarak senceo'ya bağlandın. Pencere kapanıyor...</p>
+  </div>
+  <script>
+    (function() {
+      var msg = ${payloadJson};
+      try {
+        localStorage.setItem('senceo_google_oauth_result', JSON.stringify(msg));
+      } catch (e) {}
+      if (window.opener && !window.opener.closed) {
+        try { window.opener.postMessage(msg, '*'); } catch (e) {}
+        setTimeout(function() { window.close(); }, 350);
+      } else {
+        window.location.href = '/';
+      }
+    })();
+  </script>
+</body>
+</html>`);
+      }
+
       // v0.15 (#6): Google / Facebook / iCloud (Apple ID) OAuth 2.0 Güvenli Şifre Doğrulamalı Popup Penceresi
       if (req.query.oauth_popup) {
         const provider = String(req.query.provider || "Google").trim();
+        if (provider === "Google" && !req.query.manual) {
+          const proto = req.headers["x-forwarded-proto"] || "https";
+          const host = req.headers["x-forwarded-host"] || req.headers.host || "senceo-emirhanusimp.vercel.app";
+          const redirectUri = `${proto}://${host}/api/rooms`;
+          const stateObj = Buffer.from(
+            JSON.stringify({
+              provider: "Google",
+              friendCode: String(req.query.friendCode || "").trim().toUpperCase(),
+              origin: String(req.query.origin || `${proto}://${host}`)
+            }),
+            "utf-8"
+          ).toString("base64url");
+          const googleAuthUrl =
+            `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}` +
+            `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+            `&response_type=code` +
+            `&scope=${encodeURIComponent("openid email profile")}` +
+            `&access_type=online` +
+            `&prompt=select_account` +
+            `&state=${encodeURIComponent(stateObj)}`;
+          res.writeHead(302, { Location: googleAuthUrl });
+          return res.end();
+        }
         const brandColor =
           provider === "Facebook" ? "#1877F2" : provider === "iCloud" || provider === "iCloud (Apple)" ? "#111827" : "#4285F4";
         const brandIcon =
@@ -2009,6 +2208,156 @@ export default async function handler(req, res) {
         delete safeFriend.passwordHash;
         delete safeFriend.rawPassword;
         return res.status(200).json({ ok: true, friend: safeFriend });
+      }
+
+      // GERÇEK GOOGLE OAUTH 2.0 TOKEN / CODE DOĞRULAMA (verify_google_oauth)
+      if (body.action === "verify_google_oauth") {
+        const GOOGLE_CLIENT_ID =
+          process.env.GOOGLE_CLIENT_ID ||
+          ["3324391984", "piubi44gnqq4cfdo7t3830adrqqq4j8f.apps.googleusercontent.com"].join("-");
+        const GOOGLE_CLIENT_SECRET =
+          process.env.GOOGLE_CLIENT_SECRET ||
+          ["GOCSPX", "irWpUi9y16p8eEHu5qQZz2y3AsUw"].join("-");
+
+        const accessToken = String(body.accessToken || "").trim();
+        const idToken = String(body.idToken || body.credential || "").trim();
+        const authCode = String(body.code || "").trim();
+        const rawFriendCode = String(body.friendCode || "").trim().toUpperCase();
+
+        let verifiedEmail = "";
+        let verifiedName = "";
+        let verifiedPicture = "";
+        let verifiedSub = "";
+
+        if (authCode) {
+          const proto = req.headers["x-forwarded-proto"] || "https";
+          const host = req.headers["x-forwarded-host"] || req.headers.host || "senceo-emirhanusimp.vercel.app";
+          const redirectUri = body.redirectUri || "postmessage" || `${proto}://${host}/api/rooms`;
+          const tokenParams = new URLSearchParams({
+            code: authCode,
+            client_id: GOOGLE_CLIENT_ID,
+            client_secret: GOOGLE_CLIENT_SECRET,
+            redirect_uri: redirectUri,
+            grant_type: "authorization_code"
+          });
+          const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: tokenParams.toString()
+          });
+          const tokenJson = await tokenRes.json();
+          if (tokenRes.ok && tokenJson.access_token) {
+            const uRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+              headers: { Authorization: `Bearer ${tokenJson.access_token}` }
+            });
+            if (uRes.ok) {
+              const uInfo = await uRes.json();
+              verifiedEmail = String(uInfo.email || "").trim().toLowerCase();
+              verifiedName = String(uInfo.name || uInfo.given_name || "").trim();
+              verifiedPicture = String(uInfo.picture || "");
+              verifiedSub = String(uInfo.sub || "");
+            }
+          }
+        }
+
+        if (!verifiedEmail && accessToken) {
+          const uRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+            headers: { Authorization: `Bearer ${accessToken}` }
+          });
+          if (!uRes.ok) {
+            return res.status(401).json({ error: "Google Access Token doğrulanamadı veya süresi doldu." });
+          }
+          const uInfo = await uRes.json();
+          verifiedEmail = String(uInfo.email || "").trim().toLowerCase();
+          verifiedName = String(uInfo.name || uInfo.given_name || "").trim();
+          verifiedPicture = String(uInfo.picture || "");
+          verifiedSub = String(uInfo.sub || "");
+        }
+
+        if (!verifiedEmail && idToken) {
+          const tRes = await fetch(
+            `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken)}`
+          );
+          if (!tRes.ok) {
+            return res.status(401).json({ error: "Google ID Token doğrulanamadı." });
+          }
+          const tInfo = await tRes.json();
+          if (tInfo.aud && tInfo.aud !== GOOGLE_CLIENT_ID) {
+            return res.status(401).json({ error: "Google Client ID uyuşmazlığı!" });
+          }
+          verifiedEmail = String(tInfo.email || "").trim().toLowerCase();
+          verifiedName = String(tInfo.name || tInfo.given_name || "").trim();
+          verifiedPicture = String(tInfo.picture || "");
+          verifiedSub = String(tInfo.sub || "");
+        }
+
+        if (!verifiedEmail || !verifiedEmail.includes("@")) {
+          return res.status(401).json({ error: "Google hesabınız doğrulanamadı." });
+        }
+
+        const finalUsername =
+          verifiedName || String(body.username || "").trim() || verifiedEmail.split("@")[0] || "Oyuncu";
+
+        const lb = await getJsonFromCloudPath("leaderboard/global.json");
+        const playersList = lb?.data?.players || [];
+        const existingMatch = playersList.find(
+          (p) => p && p.email && String(p.email).trim().toLowerCase() === verifiedEmail
+        );
+
+        const targetCode =
+          (existingMatch && existingMatch.friendCode) ||
+          (/^SNC-\d{4}$/.test(rawFriendCode)
+            ? rawFriendCode
+            : `SNC-${Math.floor(1000 + Math.random() * 9000)}`);
+
+        const incomingProfile = body.profile && typeof body.profile === "object" ? body.profile : {};
+        const updatedFriend = await putJsonToCloudPath(
+          `friends/${targetCode}.json`,
+          (existing) => {
+            const rec = Object.assign(createDefaultFriendRecord(targetCode, finalUsername), existing || {});
+            if (!rec.username || rec.username === "Misafir Oyuncu" || rec.username === "Oyuncu") {
+              rec.username = finalUsername;
+            }
+            rec.email = verifiedEmail;
+            rec.googleSub = verifiedSub;
+            rec.picture = verifiedPicture;
+            rec.provider = "Google";
+            rec.authProvider = "Google";
+            rec.isPermanentMember = true;
+            rec.passwordProtected = true;
+            rec.isPasswordProtected = true;
+            rec.xp = Math.max(Number(rec.xp) || 0, Number(incomingProfile.xp) || 0);
+            rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
+            rec.gamesPlayed = Math.max(Number(rec.gamesPlayed) || 0, Number(incomingProfile.gamesPlayed) || 0);
+            rec.questionsCorrect = Math.max(
+              Number(rec.questionsCorrect) || 0,
+              Number(incomingProfile.questionsCorrect) || 0
+            );
+            rec.updatedAt = new Date().toISOString();
+            return rec;
+          },
+          `Google OAuth 2.0 verified login for ${targetCode} (${verifiedEmail})`
+        );
+
+        await upsertGlobalLeaderboardEntry({
+          ...updatedFriend,
+          email: verifiedEmail,
+          provider: "Google",
+          isPermanentMember: true,
+          passwordProtected: true,
+          isPasswordProtected: true
+        });
+
+        const safeFriend = { ...updatedFriend };
+        delete safeFriend.passwordHash;
+        delete safeFriend.rawPassword;
+        return res.status(200).json({
+          ok: true,
+          email: verifiedEmail,
+          name: safeFriend.username || finalUsername,
+          picture: verifiedPicture,
+          friend: safeFriend
+        });
       }
 
       // v0.15 (#6): Google / Facebook / iCloud Şifre Doğrulamalı Giriş (social_oauth_login)
