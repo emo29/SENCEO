@@ -2,7 +2,7 @@
 // 4 Tam Kapsamlı Tema (1. Luminous Beyaz Varsayılan, 2. Obsidian Koyu, 3. Cosmic Neon Eski Varsayılan, 4. Neo-Brutal Acid)
 // v0.10: Player 2 Tahmin Slaytı İzleme Butonu, Player 1 Rapor Ekranında Canlı "X Tahminlerini İzliyor" Animasyonu, Raund Bazlı Rol Kilidi ve Tüm Modlar E2E Doğrulaması
 
-const APP_VERSION = 'v0.15';
+const APP_VERSION = 'v0.17';
 const DEFAULT_SUPABASE_URL = 'https://kypzuqnksnlinkfuxvnl.supabase.co';
 const TOTAL_QUESTIONS = 5;
 const CIRCLE_CIRCUMFERENCE = 414.69;
@@ -2592,11 +2592,11 @@ function renderBondsLists() {
     const addFriendBtnHtml =
       !isFriendRow && hasValidFriendCode
         ? b.friendRequestSent || b.status === 'pending'
-          ? `<span class="px-2 py-1 rounded-lg stitch-subcard text-[10px] font-bold text-amber-500">⏳ İstek Gönderildi</span>`
+          ? `<span class="px-2 py-1 rounded-lg stitch-subcard text-[10px] font-bold text-amber-500 whitespace-nowrap">⏳ İstek Gönderildi</span>`
           : `<button
               type="button"
               onclick="sendFriendRequestToBond('${escapeHtml(fName)}')"
-              class="px-2.5 py-1 rounded-lg bg-[var(--primary-fixed)] text-primary-theme font-bold text-[11px] hover:opacity-90 transition"
+              class="px-2.5 py-1 rounded-lg bg-[var(--primary-fixed)] text-primary-theme font-bold text-[11px] hover:opacity-90 transition whitespace-nowrap"
             >
               ➕ Arkadaş Ekle
             </button>`
@@ -2607,7 +2607,7 @@ function renderBondsLists() {
         ? `<button
             type="button"
             onclick="inviteFriendToInstantLiveRoom('${escapeHtml(b.code)}', '${escapeHtml(cleanReal || fName)}')"
-            class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold text-[11px] hover:opacity-90 transition shadow-sm flex items-center gap-1"
+            class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold text-[11px] hover:opacity-90 transition shadow-sm flex items-center gap-1 whitespace-nowrap"
             title="Arkadaşını Tek Tıkla Eşzamanlı Canlı Odaya Çek!"
           >
             <span>⚔️</span>
@@ -2616,52 +2616,54 @@ function renderBondsLists() {
         : '';
 
     return `
-      <div class="py-2.5 flex items-center justify-between gap-2">
-        <div class="flex items-center gap-2.5 min-w-0">
-          <div class="relative shrink-0">
-            <div class="w-10 h-10 rounded-full bg-[var(--primary-fixed)] text-primary-theme font-bold text-xs flex items-center justify-center">
-              ${escapeHtml(initials)}
+      <div class="py-3 flex flex-col gap-2 overflow-hidden">
+        <div class="flex items-start justify-between gap-2 min-w-0">
+          <div class="flex items-center gap-2.5 min-w-0 flex-1">
+            <div class="relative shrink-0">
+              <div class="w-10 h-10 rounded-full bg-[var(--primary-fixed)] text-primary-theme font-bold text-xs flex items-center justify-center">
+                ${escapeHtml(initials)}
+              </div>
+              <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[var(--surface-lowest)]" title="Çevrimiçi / Davete Hazır"></span>
             </div>
-            <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[var(--surface-lowest)]" title="Çevrimiçi / Davete Hazır"></span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <h5 class="font-bold text-xs sm:text-sm truncate max-w-full">${escapeHtml(displayLabel)}</h5>
+                ${
+                  isFriendRow
+                    ? `<span class="px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-500 text-[9px] font-extrabold uppercase shrink-0">🟢 Arkadaş</span>`
+                    : `<span class="px-1.5 py-0.5 rounded stitch-subcard text-muted-theme text-[9px] font-bold uppercase shrink-0">🔗 Oyun Bağı</span>`
+                }
+              </div>
+              <div class="text-[11px] text-muted-theme truncate">
+                ${
+                  hasActiveRoom
+                    ? `🟢 Aktif Oda: #${escapeHtml(b.activeRoomCode)}${!isPending ? ` • %${b.lastPct || 80} Uyum` : ''}`
+                    : isPending
+                    ? isFriendRow
+                      ? 'Arkadaş eklendi • İlk düelloyu başlat!'
+                      : 'Arkadaşlık isteği gönderildi'
+                    : `${b.commonAnswers || b.matches * 3} Ortak Yanıt • ${b.matches} Oyun`
+                }
+              </div>
+            </div>
           </div>
-          <div class="min-w-0">
-            <div class="flex items-center gap-1.5 flex-wrap">
-              <h5 class="font-bold text-xs sm:text-sm truncate">${escapeHtml(displayLabel)}</h5>
-              ${
-                isFriendRow
-                  ? `<span class="px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-500 text-[9px] font-extrabold uppercase shrink-0">🟢 Çevrimiçi • Arkadaş</span>`
-                  : `<span class="px-1.5 py-0.5 rounded stitch-subcard text-muted-theme text-[9px] font-bold uppercase shrink-0">🔗 Oyun Bağı</span>`
-              }
-            </div>
-            <span class="text-[11px] text-muted-theme">
-              ${
-                hasActiveRoom
-                  ? `🟢 Aktif Oda: #${escapeHtml(b.activeRoomCode)}`
-                  : isPending
-                  ? isFriendRow
-                    ? 'Arkadaş eklendi • İlk düelloyu veya canlı odayı başlat!'
-                    : 'Arkadaşlık isteği gönderildi'
-                  : `${b.commonAnswers || b.matches * 3} Ortak Yanıt • ${b.matches} Oyun`
-              }
+          <div class="flex items-center gap-1.5 shrink-0">
+            ${!isPending && !isCompact ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 text-[10px] font-extrabold whitespace-nowrap">%${b.lastPct || 80} Uyum</span>` : ''}
+            <span class="px-2.5 py-0.5 rounded-full stitch-subcard text-[10px] font-bold text-primary-theme whitespace-nowrap">
+              ${isPending ? bondTitle : `${bondTitle} (LVL ${b.level || 1})`}
             </span>
           </div>
         </div>
-        <div class="flex flex-col items-end gap-1 shrink-0">
-          <span class="px-2 py-0.5 rounded-full stitch-subcard text-[10px] font-bold text-primary-theme">
-            ${isPending ? bondTitle : `${bondTitle} (LVL ${b.level || 1})`}
-          </span>
-          <div class="flex items-center gap-1.5 flex-wrap justify-end">
-            ${!isPending && !isCompact ? `<span class="text-xs font-extrabold">%${b.lastPct || 80} Uyum</span>` : ''}
-            ${addFriendBtnHtml}
-            ${livePullBtnHtml}
-            <button
-              type="button"
-              onclick="startDuelWithFriend('${escapeHtml(fName)}')"
-              class="px-2.5 py-1 rounded-lg bg-emerald-500 text-white font-bold text-[11px] hover:opacity-90 transition shadow-sm"
-            >
-              ${btnText}
-            </button>
-          </div>
+        <div class="flex items-center justify-end gap-1.5 flex-wrap">
+          ${addFriendBtnHtml}
+          ${livePullBtnHtml}
+          <button
+            type="button"
+            onclick="startDuelWithFriend('${escapeHtml(fName)}')"
+            class="px-3 py-1 rounded-lg bg-emerald-500 text-white font-bold text-[11px] hover:opacity-90 transition shadow-sm whitespace-nowrap"
+          >
+            ${btnText}
+          </button>
         </div>
       </div>
     `;
@@ -3571,6 +3573,7 @@ async function refreshActiveGamesLobby() {
 
   updateNavActiveDuelsCount();
 
+  const urgentBannerEl = document.getElementById('urgent-turn-banner');
   const urgentTitle = document.getElementById('urgent-banner-title');
   const urgentDesc = document.getElementById('urgent-banner-desc');
   const urgentBtnText = document.getElementById('urgent-banner-btn-text');
@@ -3580,6 +3583,7 @@ async function refreshActiveGamesLobby() {
   const allRooms = [];
   let turnCount = 0;
   let waitingCount = 0;
+  let completedCount = 0;
 
   for (const code of codes.slice(0, 15)) {
     let room = null;
@@ -3590,26 +3594,40 @@ async function refreshActiveGamesLobby() {
     if (!room) continue;
 
     const isP1 = isUserPlayer1OfRoom(room);
+    const isCompleted = room.status === 'completed' || room.status === 'opponent_fled';
     const isMyTurn =
       room.status === 'opponent_fled' ||
       (room.status === 'waiting_p1_half2' && isP1) ||
       (room.status === 'waiting_p2' && !isP1);
 
+    if (isCompleted) completedCount++;
     if (isMyTurn) turnCount++;
-    else waitingCount++;
+    else if (!isCompleted) waitingCount++;
 
     allRooms.push({ room, isP1, isMyTurn });
   }
 
-  // Filtre Sayaçlarını Güncelle (Tümü (X), Sıra Sende (Y), Bekleyenler (Z))
-  const cAll = document.getElementById('filter-count-all');
-  const cTurn = document.getElementById('filter-count-turn');
-  const cWait = document.getElementById('filter-count-waiting');
-  if (cAll) cAll.textContent = String(allRooms.length);
-  if (cTurn) cTurn.textContent = String(turnCount);
-  if (cWait) cWait.textContent = String(waitingCount);
+  // Filtre Sayaçlarını Güncelle (Tümü (X), Sıra Sende (Y), Bekleyenler (Z), Tamamlanan (W))
+  ['filter-count-all', 'count-filter-all'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(allRooms.length);
+  });
+  ['filter-count-turn', 'count-filter-myturn'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(turnCount);
+  });
+  ['filter-count-waiting', 'count-filter-waiting'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(waitingCount);
+  });
+  const cComp = document.getElementById('count-filter-completed');
+  if (cComp) cComp.textContent = String(completedCount);
 
   if (allRooms.length === 0) {
+    if (urgentBannerEl) {
+      urgentBannerEl.className =
+        'relative overflow-hidden rounded-2xl stitch-card border-2 border-emerald-500/50 bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-transparent p-5 sm:p-7 shadow-sm transition-all';
+    }
     if (urgentTitle) urgentTitle.textContent = 'Henüz aktif bir düellon bulunmuyor';
     if (urgentDesc) urgentDesc.textContent = 'Yeni bir Klasik Oyun veya Canlı Oda başlatarak arkadaşlarını davet edebilirsin.';
     if (urgentBtnText) urgentBtnText.textContent = 'Yeni Oyun Başlat';
@@ -3633,6 +3651,11 @@ async function refreshActiveGamesLobby() {
     return;
   }
 
+  if (urgentBannerEl) {
+    urgentBannerEl.className =
+      'relative overflow-hidden rounded-2xl stitch-card border-2 border-emerald-500/85 bg-gradient-to-r from-emerald-500/20 via-teal-500/10 to-transparent p-5 sm:p-7 shadow-[0_0_28px_rgba(16,185,129,0.22)] transition-all';
+  }
+
   container.innerHTML = '';
   let renderedCount = 0;
   const eyeIconName = gameState.blurRoomCodes ? 'visibility_off' : 'visibility';
@@ -3643,10 +3666,10 @@ async function refreshActiveGamesLobby() {
     if (!gameState.urgentRoomCode && isMyTurn) {
       gameState.urgentRoomCode = room.code;
       const opp = isP1 ? (room.p2 || room.p2FriendCode || 'Arkadaşın') : (room.p1 || 'Oyuncu 1');
-      if (urgentTitle) urgentTitle.textContent = `${opp} senin 5 tahminini bekliyor!`;
+      if (urgentTitle) urgentTitle.textContent = `🟢 ${opp} senin 5 tahminini bekliyor! (#${room.code})`;
       if (urgentDesc) urgentDesc.textContent = `${(room.cat || 'Genel').toUpperCase()} serisinde son hamle sende. Uyum oranını yükseltme şansını kaçırma.`;
       if (urgentBtnText) urgentBtnText.textContent = 'Hamleni Yap';
-      if (urgentTimeText) urgentTimeText.textContent = `Aktif Sıra`;
+      if (urgentTimeText) urgentTimeText.textContent = `Aktif Sıra • #${room.code}`;
     }
 
     if (gameState.activeLobbyFilter === 'turn' && !isMyTurn) continue;
@@ -5057,11 +5080,52 @@ function pickQuestionsForCategory(category, count = TOTAL_QUESTIONS) {
       : gameState.mode
     : null;
   const effectiveCat = specialModeCat || (category === 'bluff' ? 'derin' : category);
+  const isStrictFormatMode = ['redflag', 'blitz', 'kristal'].includes(effectiveCat);
+
+  if (isStrictFormatMode) {
+    // KRİTİK v0.17 DÜZELTMESİ: Bayrak (redflag), Blitz veya Kristal Küre modlarında 2. Yarıda (Player 2 çözerken)
+    // veya 2. Raundda ASLA klasik (genel/cift/kanka) sorulara düşülmez! Her zaman ilgili modun kendi havuzundan seçilir.
+    const allModeQuestions = QUESTIONS_DB.filter((q) => q.category === effectiveCat || q.cat === effectiveCat);
+    const activeHalf1Ids = Array.isArray(gameState.selectedQuestions)
+      ? gameState.selectedQuestions.map((q) => q.id)
+      : [];
+    const unusedInMode = allModeQuestions.filter(
+      (q) => !gameState.usedQuestionIds.includes(q.id) && !activeHalf1Ids.includes(q.id)
+    );
+
+    let picked = [];
+    if (unusedInMode.length >= count) {
+      picked = shuffleArray(unusedInMode).slice(0, count);
+    } else {
+      const fallbackSameMode = allModeQuestions.filter(
+        (q) => !unusedInMode.some((u) => u.id === q.id) && !activeHalf1Ids.includes(q.id)
+      );
+      const combinedModePool = [...shuffleArray(unusedInMode), ...shuffleArray(fallbackSameMode)];
+      if (combinedModePool.length < count) {
+        const extraFromMode = allModeQuestions.filter((q) => !combinedModePool.some((c) => c.id === q.id));
+        combinedModePool.push(...shuffleArray(extraFromMode));
+      }
+      picked = combinedModePool.slice(0, count);
+    }
+
+    picked.forEach((q) => {
+      if (!gameState.usedQuestionIds.includes(q.id)) {
+        gameState.usedQuestionIds.push(q.id);
+      }
+    });
+    return picked;
+  }
+
   const unusedPool = QUESTIONS_DB.filter((q) => !gameState.usedQuestionIds.includes(q.id));
   const sourcePool = unusedPool.length >= count ? unusedPool : QUESTIONS_DB;
 
   const primary = sourcePool.filter((q) => q.category === effectiveCat || q.cat === effectiveCat);
-  const others = sourcePool.filter((q) => q.category !== effectiveCat && q.cat !== effectiveCat);
+  const others = sourcePool.filter(
+    (q) =>
+      q.category !== effectiveCat &&
+      q.cat !== effectiveCat &&
+      !['redflag', 'blitz', 'kristal'].includes(q.category || q.cat)
+  );
   const combined = [...shuffleArray(primary), ...shuffleArray(others)];
   const picked = combined.slice(0, count);
 
@@ -7460,6 +7524,9 @@ async function showInterstitialScreen(stage) {
       : gameState.player1Name || 'Arkadaşın';
 
   const nextStatus = isAfterP1 ? 'waiting_p2' : 'waiting_p1_half2';
+  const persistedCat = ['redflag', 'blitz', 'kristal'].includes(gameState.mode)
+    ? gameState.mode
+    : gameState.category;
   const roomRecord = {
     code: gameState.roomCode,
     p1Id: isAfterP1 ? (userProfile.id || gameState.p1Id || '') : (gameState.p1Id || ''),
@@ -7467,13 +7534,14 @@ async function showInterstitialScreen(stage) {
     p2Id: isAfterP1 ? (gameState.p2Id || '') : (userProfile.id || gameState.p2Id || ''),
     p2FriendCode: isAfterP1 ? (gameState.player2FriendCode || '') : (gameState.player2FriendCode || userProfile.friendCode || ''),
     roomType: gameState.mode === 'arena' ? 'live_arena' : 'classic',
+    gameMode: gameState.mode || 'link',
     arenaFormat: gameState.arenaFormat,
     status: nextStatus,
     currentRound: gameState.currentRound,
     whoseTurn: isAfterP1 ? 'p2' : 'p1',
     p1: isAfterP1 ? gameState.player1Name : trueP1Name,
     p2: gameState.player2Name || '',
-    cat: gameState.category,
+    cat: persistedCat,
     thm: gameState.theme,
     qIds: gameState.selectedQuestions.map((q) => q.id),
     usedQuestionIds: gameState.usedQuestionIds,
@@ -8010,15 +8078,33 @@ function loadRoomIntoGameState(room, forceResultView = false) {
   const prevLoadedRound = Number(gameState.currentRound || 1);
   const incomingRound = Number(room.currentRound || 1);
 
+  const q1ListPre = (room.qIds || []).map((id) => QUESTIONS_DB.find((q) => q.id === id)).filter(Boolean);
+  const inferredQ1Cat = q1ListPre[0] ? (q1ListPre[0].category || q1ListPre[0].cat || '') : '';
+  const savedRoomMode = String(room.gameMode || '').trim().toLowerCase();
+
   gameState.isSandboxTest = false;
   gameState.roomCode = room.code || '';
   gameState.p1Id = room.p1Id || gameState.p1Id || '';
   gameState.p1FriendCode = room.p1FriendCode || gameState.p1FriendCode || '';
   gameState.p2Id = room.p2Id || gameState.p2Id || '';
-  gameState.mode = room.roomType === 'live_arena' ? 'arena' : room.roomType === 'pass' ? 'pass' : 'link';
+  if (room.roomType === 'live_arena') {
+    gameState.mode = 'arena';
+  } else if (room.roomType === 'pass') {
+    gameState.mode = 'pass';
+  } else if (['redflag', 'blitz', 'kristal', 'bluff'].includes(savedRoomMode)) {
+    gameState.mode = savedRoomMode;
+  } else if (['redflag', 'blitz', 'kristal'].includes(room.cat)) {
+    gameState.mode = room.cat;
+  } else if (['redflag', 'blitz', 'kristal'].includes(inferredQ1Cat)) {
+    gameState.mode = inferredQ1Cat;
+  } else {
+    gameState.mode = 'link';
+  }
   gameState.arenaFormat = room.arenaFormat || '1v1';
   gameState.currentRound = incomingRound;
-  gameState.category = room.cat || 'genel';
+  gameState.category = ['redflag', 'blitz', 'kristal'].includes(gameState.mode)
+    ? gameState.mode
+    : (room.cat || 'genel');
   gameState.player1Name = room.p1 || 'Oyuncu 1';
   gameState.player2Name = room.p2 || '';
   gameState.player2FriendCode = room.p2FriendCode || '';
@@ -8371,6 +8457,9 @@ async function finalizeGameAndShowResults() {
   setMyRoleForRoom(gameState.roomCode, 'p1', finishedRound);
 
   // KULLANICI İSTEĞİ: 1. Raundda 2. başlayan oyuncu (p2 / denemeb), 2. Raundda ZORUNLU OLARAK 1. başlar!
+  const completedCat = ['redflag', 'blitz', 'kristal'].includes(gameState.mode)
+    ? gameState.mode
+    : gameState.category;
   const completedRoom = {
     code: gameState.roomCode,
     p1Id: gameState.p1Id || userProfile.id || '',
@@ -8380,12 +8469,13 @@ async function finalizeGameAndShowResults() {
     nextRoundStarterCode: gameState.player2FriendCode || '',
     nextRoundStarterName: gameState.player2Name || '2. Oyuncu',
     roomType: gameState.mode === 'arena' ? 'live_arena' : gameState.mode === 'pass' ? 'pass' : 'classic',
+    gameMode: gameState.mode || 'link',
     arenaFormat: gameState.arenaFormat,
     status: 'completed',
     currentRound: finishedRound,
     p1: gameState.player1Name,
     p2: gameState.player2Name || '2. Oyuncu',
-    cat: gameState.category,
+    cat: completedCat,
     thm: gameState.theme,
     qIds: gameState.selectedQuestions.map((q) => q.id),
     usedQuestionIds: gameState.usedQuestionIds,
@@ -8497,9 +8587,6 @@ function showResultScreen(awardXpNow = false) {
   const p1Name = gameState.player1Name || 'Oyuncu 1';
   const p2Name = gameState.player2Name || 'Oyuncu 2';
 
-  // v0.11: 1. Yarı Slaytını Tekrar İzle butonu (Klasik modda Player 1 için, Yan Yana modda ortak ekran için görünür!)
-  const p1ReplayBox = document.getElementById('p1-replay-slides-box');
-  const p1ReplayLabel = document.getElementById('btn-p1-replay-slides-label');
   const hasHalf1Slides =
     !isLiveArenaResult &&
     !gameState.isSandboxTest &&
@@ -8508,23 +8595,6 @@ function showResultScreen(awardXpNow = false) {
     Array.isArray(gameState.p2Guesses) &&
     gameState.p2Guesses.length > 0;
 
-  if (p1ReplayBox) {
-    if ((isP1 || gameState.mode === 'pass') && hasHalf1Slides) {
-      if (p1ReplayLabel) {
-        p1ReplayLabel.textContent =
-          gameState.mode === 'pass'
-            ? `1. YARI SLAYTINI TEKRAR İZLE (${p2Name.toUpperCase()}'NİN TAHMİNLERİ)`
-            : `TAHMİN SLAYTINI TEKRAR İZLE (${p2Name.toUpperCase()}'NİN TAHMİNLERİ)`;
-      }
-      p1ReplayBox.classList.remove('hidden');
-    } else {
-      p1ReplayBox.classList.add('hidden');
-    }
-  }
-
-  // v0.10..v0.11: Player 2 için 2. Yarı Slaytını İzle / Tekrar İzle (Yan Yana modda her iki yarı slaytı da tekrar izlenebilir!)
-  const p2WatchBox = document.getElementById('p2-watch-slides-box');
-  const p2WatchLabel = document.getElementById('btn-p2-watch-slides-label');
   const hasHalf2Slides =
     !isLiveArenaResult &&
     !gameState.isSandboxTest &&
@@ -8533,16 +8603,61 @@ function showResultScreen(awardXpNow = false) {
     Array.isArray(gameState.p1Half2Guesses) &&
     gameState.p1Half2Guesses.length > 0;
 
+  // v0.17: 4. GÖRSEL SAĞ ÜST KÖŞE KIRMIZI ALAN ("🎬 Tahmin Slaytını Tekrar İzle" Modülü)
+  const topReplayCard = document.getElementById('result-top-replay-card');
+  const topHalf1Btn = document.getElementById('btn-top-replay-half1');
+  const topHalf1Label = document.getElementById('btn-top-replay-half1-label');
+  const topHalf2Btn = document.getElementById('btn-top-replay-half2');
+  const topHalf2Label = document.getElementById('btn-top-replay-half2-label');
+
+  if (topReplayCard) {
+    if (hasHalf1Slides || hasHalf2Slides) {
+      topReplayCard.classList.remove('hidden');
+      if (topHalf1Btn) {
+        if (hasHalf1Slides) {
+          topHalf1Btn.classList.remove('hidden');
+          if (topHalf1Label) topHalf1Label.textContent = `1. Yarı (${p2Name})`;
+        } else {
+          topHalf1Btn.classList.add('hidden');
+        }
+      }
+      if (topHalf2Btn) {
+        if (hasHalf2Slides) {
+          topHalf2Btn.classList.remove('hidden');
+          if (topHalf2Label) topHalf2Label.textContent = `2. Yarı (${p1Name})`;
+        } else {
+          topHalf2Btn.classList.add('hidden');
+        }
+      }
+    } else {
+      topReplayCard.classList.add('hidden');
+    }
+  }
+
+  // v0.11 / v0.17: Alt 1. Yarı & 2. Yarı Slaytını Tekrar İzle kutuları (Her iki oyuncu da istediği zaman izleyebilir!)
+  const p1ReplayBox = document.getElementById('p1-replay-slides-box');
+  const p1ReplayLabel = document.getElementById('btn-p1-replay-slides-label');
+  if (p1ReplayBox) {
+    if (hasHalf1Slides) {
+      if (p1ReplayLabel) {
+        p1ReplayLabel.textContent = `1. YARI SLAYTINI TEKRAR İZLE (${p2Name.toUpperCase()}'NİN TAHMİNLERİ)`;
+      }
+      p1ReplayBox.classList.remove('hidden');
+    } else {
+      p1ReplayBox.classList.add('hidden');
+    }
+  }
+
+  const p2WatchBox = document.getElementById('p2-watch-slides-box');
+  const p2WatchLabel = document.getElementById('btn-p2-watch-slides-label');
   if (p2WatchBox) {
-    if ((!isP1 || gameState.mode === 'pass') && hasHalf2Slides) {
+    if (hasHalf2Slides) {
       if (p2WatchLabel) {
         const alreadyWatched = Boolean(roomRef && roomRef.p2WatchedSlides);
         p2WatchLabel.textContent =
-          gameState.mode === 'pass'
-            ? `2. YARI SLAYTINI TEKRAR İZLE (${p1Name.toUpperCase()}'İN TAHMİNLERİ)`
-            : alreadyWatched
-            ? `SLAYTI TEKRAR İZLE (${p1Name.toUpperCase()}'İN TAHMİNLERİ)`
-            : `TAHMİNLERİ KONTROL ET (${p1Name.toUpperCase()}'İN TAHMİN SLAYTINI İZLE)`;
+          !isP1 && !alreadyWatched
+            ? `TAHMİNLERİ KONTROL ET (${p1Name.toUpperCase()}'İN TAHMİN SLAYTINI İZLE)`
+            : `2. YARI SLAYTINI TEKRAR İZLE (${p1Name.toUpperCase()}'İN TAHMİNLERİ)`;
       }
       p2WatchBox.classList.remove('hidden');
     } else {
@@ -9185,8 +9300,20 @@ function shareScoreResult() {
   }
 }
 
-// KULLANICI İSTEĞİ (#14): 📸 "Instagram / WhatsApp Hikaye Kartı İndir (PNG)" (1080x1920 Canvas Story Görseli)
-function downloadResultStoryCardPng() {
+// KULLANICI İSTEĞİ (v0.17 #4b): 📸 "Hikaye Kartı Paylaş" (Kopyala, Şurada Paylaş, İndir seçenekli 1080x1920 Canvas Story Görseli)
+function openStoryCardShareModal() {
+  const modal = document.getElementById('story-card-share-modal');
+  const fb = document.getElementById('story-card-modal-feedback');
+  if (fb) fb.classList.add('hidden');
+  if (modal) modal.classList.remove('hidden');
+}
+
+function closeStoryCardShareModal() {
+  const modal = document.getElementById('story-card-share-modal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function buildStoryCardCanvas() {
   const { correctCount, totalCount, percentage } = calculateOverallRoundScore();
   const p1 = gameState.player1Name || 'Oyuncu 1';
   const p2 = gameState.isSandboxTest ? 'Simülasyon' : (gameState.player2Name || 'Oyuncu 2');
@@ -9199,7 +9326,7 @@ function downloadResultStoryCardPng() {
   canvas.width = 1080;
   canvas.height = 1920;
   const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+  if (!ctx) return null;
 
   // Arka Plan Radyal & Lineer Gradyan
   const grad = ctx.createLinearGradient(0, 0, 1080, 1920);
@@ -9327,6 +9454,119 @@ function downloadResultStoryCardPng() {
   ctx.font = '700 26px Inter, sans-serif';
   ctx.fillText('senceo-emirhanusimp.vercel.app', 540, 1792);
 
+  return { canvas, p1, p2, percentage, correctCount, totalCount };
+}
+
+function getStoryShareTextAndUrl() {
+  const { correctCount, totalCount, percentage } = calculateOverallRoundScore();
+  const p1 = gameState.player1Name || 'Oyuncu 1';
+  const p2 = gameState.isSandboxTest ? 'Simülasyon' : (gameState.player2Name || 'Oyuncu 2');
+  const baseUrl = `${window.location.origin}${window.location.pathname}`;
+  const directResultUrl = `${baseUrl}?r=${gameState.roomCode || 'SNC'}&view=result`;
+  const shareText = `📸 senceo Hikaye Karnesi: ${p1} ⚡ ${p2} — %${percentage} Uyum (${correctCount}/${totalCount})! 🔥 Sonuç karnesini gör ve sen de meydan oku: ${directResultUrl}`;
+  return { shareText, directResultUrl, p1, p2, percentage };
+}
+
+function showStoryModalFeedback(msg) {
+  const fb = document.getElementById('story-card-modal-feedback');
+  if (fb) {
+    fb.textContent = msg;
+    fb.classList.remove('hidden');
+  }
+  const toast = document.getElementById('result-share-toast');
+  if (toast) {
+    toast.textContent = msg;
+    toast.classList.remove('hidden');
+    setTimeout(() => toast.classList.add('hidden'), 4000);
+  }
+}
+
+async function copyStoryCardToClipboard() {
+  const built = buildStoryCardCanvas();
+  const { shareText } = getStoryShareTextAndUrl();
+  spawnFloatingEmojiBurst('📋');
+
+  if (built && built.canvas && navigator.clipboard && typeof window.ClipboardItem !== 'undefined') {
+    try {
+      const blob = await new Promise((resolve) => built.canvas.toBlob(resolve, 'image/png'));
+      if (blob) {
+        await navigator.clipboard.write([new window.ClipboardItem({ 'image/png': blob })]);
+        showStoryModalFeedback('✅ Hikaye kartı görseli (PNG) panoya kopyalandı! İstediğin sohbete yapıştırabilirsin.');
+        return;
+      }
+    } catch (e) {}
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    try {
+      await navigator.clipboard.writeText(shareText);
+      showStoryModalFeedback('✅ Hikaye kartı özeti ve sonuç linki panoya kopyalandı!');
+      return;
+    } catch (e) {}
+  }
+  showStoryModalFeedback('✅ Sonuç linki hazır!');
+}
+
+async function shareStoryCardExternal() {
+  const built = buildStoryCardCanvas();
+  const { shareText, directResultUrl, p1, p2, percentage } = getStoryShareTextAndUrl();
+  spawnFloatingEmojiBurst('📤');
+
+  if (built && built.canvas && navigator.share) {
+    try {
+      const blob = await new Promise((resolve) => built.canvas.toBlob(resolve, 'image/png'));
+      if (blob && typeof File !== 'undefined') {
+        const safeP1 = p1.replace(/[^a-zA-Z0-9çğıöşüÇĞİÖŞÜ_-]/g, '') || 'p1';
+        const safeP2 = p2.replace(/[^a-zA-Z0-9çğıöşüÇĞİÖŞÜ_-]/g, '') || 'p2';
+        const file = new File([blob], `senceo-uyum-${safeP1}-${safeP2}-${percentage}.png`, { type: 'image/png' });
+        if (!navigator.canShare || navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'senceo Hikaye Kartı',
+            text: shareText
+          });
+          showStoryModalFeedback('✅ Hikaye kartı paylaşıldı!');
+          return;
+        }
+      }
+      await navigator.share({
+        title: 'senceo Hikaye Kartı',
+        text: shareText,
+        url: directResultUrl
+      });
+      showStoryModalFeedback('✅ Hikaye kartı bağlantısı paylaşıldı!');
+      return;
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+    }
+  }
+
+  shareStoryCardToPlatform('whatsapp');
+}
+
+function shareStoryCardToPlatform(platform) {
+  const { shareText, directResultUrl } = getStoryShareTextAndUrl();
+  const encodedText = encodeURIComponent(shareText);
+  const encodedUrl = encodeURIComponent(directResultUrl);
+  let targetUrl = '';
+  if (platform === 'whatsapp') {
+    targetUrl = `https://wa.me/?text=${encodedText}`;
+  } else if (platform === 'telegram') {
+    targetUrl = `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`;
+  } else if (platform === 'twitter') {
+    targetUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
+  }
+  if (targetUrl) {
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+    showStoryModalFeedback('📤 Paylaşım penceresi açıldı!');
+  }
+}
+
+function downloadResultStoryCardPng() {
+  const built = buildStoryCardCanvas();
+  if (!built || !built.canvas) return;
+  const { canvas, p1, p2, percentage } = built;
+
   try {
     const dataUrl = canvas.toDataURL('image/png');
     const a = document.createElement('a');
@@ -9338,12 +9578,7 @@ function downloadResultStoryCardPng() {
     a.click();
     document.body.removeChild(a);
     spawnFloatingEmojiBurst('📸');
-    const toast = document.getElementById('result-share-toast');
-    if (toast) {
-      toast.textContent = '📸 Hikaye kartın (1080x1920 PNG) indirildi! Instagram veya WhatsApp hikayende paylaşabilirsin.';
-      toast.classList.remove('hidden');
-      setTimeout(() => toast.classList.add('hidden'), 4000);
-    }
+    showStoryModalFeedback('📸 Hikaye kartın (1080x1920 PNG) indirildi! Instagram veya WhatsApp hikayende paylaşabilirsin.');
   } catch (e) {}
 }
 

@@ -693,6 +693,13 @@
       pointer-events: none !important;
       cursor: not-allowed !important;
     }
+    @keyframes urgentDotBlink {
+      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 8px #10b981; }
+      50% { opacity: 0.25; transform: scale(0.82); box-shadow: 0 0 0 transparent; }
+    }
+    .urgent-blink-dot {
+      animation: urgentDotBlink 1.15s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col justify-between">
@@ -1540,17 +1547,20 @@
 
       <!-- ================= PAGE 2: AKTİF OYUNLAR & BAĞLARIM DASHBOARD (Exact Stitch aktif_oyunlar_ba_lar_m_light/dark Page #2 & #3) ================= -->
       <section id="view-active-games" class="hidden animate-view space-y-8">
-        <!-- Top Alert Banner: Sıra Sende High-Priority Callout (Exact Stitch Design) -->
-        <div id="urgent-turn-banner" class="relative overflow-hidden rounded-2xl stitch-subcard p-5 sm:p-7 shadow-sm">
+        <!-- Top Alert Banner: Sıra Sende High-Priority Callout (v0.17: Yanıp Sönen Yeşil Nokta + Belirgin Zümrüt Çerçeve/Parıltı) -->
+        <div id="urgent-turn-banner" class="relative overflow-hidden rounded-2xl stitch-card border-2 border-emerald-500/75 bg-gradient-to-r from-emerald-500/15 via-teal-500/5 to-transparent p-5 sm:p-7 shadow-[0_0_24px_rgba(16,185,129,0.18)] transition-all">
           <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-5 relative z-10">
             <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-xl bg-primary-theme flex items-center justify-center shrink-0 shadow-md">
+              <div id="urgent-banner-icon-box" class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-500 flex items-center justify-center shrink-0 shadow-md">
                 <span class="material-symbols-outlined text-[26px]">timer</span>
               </div>
               <div>
-                <div class="flex items-center gap-2.5 mb-1">
-                  <span id="urgent-banner-badge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold text-[11px] tracking-wide">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <div class="flex items-center gap-2.5 mb-1 flex-wrap">
+                  <span id="urgent-banner-badge" class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-emerald-500/25 border border-emerald-500/50 text-emerald-600 dark:text-emerald-300 font-extrabold text-[11px] tracking-wide">
+                    <span class="relative flex h-2.5 w-2.5">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80"></span>
+                      <span class="urgent-blink-dot relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
                     <span>SIRA SENDE</span>
                   </span>
                   <span id="urgent-banner-meta" class="text-xs text-muted-theme font-semibold flex items-center gap-1">
@@ -1571,7 +1581,7 @@
                 type="button"
                 id="urgent-banner-btn"
                 onclick="handleUrgentBannerAction()"
-                class="w-full md:w-auto theme-btn-primary px-6 py-3.5 text-sm flex items-center justify-center gap-2"
+                class="w-full md:w-auto px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg transition"
               >
                 <span id="urgent-banner-btn-text">Yeni Oyun Başlat</span>
                 <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -1739,7 +1749,7 @@
                 </button>
               </div>
 
-              <div id="dashboard-bonds-list" class="divide-y divide-[var(--outline-variant)] space-y-2 max-h-[240px] overflow-y-auto pr-1">
+              <div id="dashboard-bonds-list" class="divide-y divide-[var(--outline-variant)] space-y-2 max-h-[280px] overflow-y-auto overflow-x-hidden pr-1">
                 <!-- Populated dynamically by app.js -->
               </div>
 
@@ -1955,8 +1965,8 @@
                   id="input-dashboard-friend-code"
                   type="text"
                   maxlength="14"
-                  placeholder="Örn: SNC-2281 veya SNC123"
-                  class="stitch-input flex-1 px-3.5 py-2.5 text-xs sm:text-sm font-mono-theme font-bold uppercase"
+                  placeholder="SNC-2281 veya SNC123"
+                  class="stitch-input flex-1 min-w-0 px-3 py-2.5 text-xs font-mono-theme font-bold uppercase tracking-normal"
                 />
                 <button
                   type="button"
@@ -1971,7 +1981,7 @@
           </div>
 
           <!-- Right 7 Cols: Friends & Saved Bonds List -->
-          <div id="bonds-list-card" class="md:col-span-7 stitch-card p-6 space-y-4">
+          <div id="bonds-list-card" class="md:col-span-7 stitch-card p-6 space-y-4 overflow-hidden">
             <div class="flex items-center justify-between flex-wrap gap-2">
               <div>
                 <h3 class="font-display-theme font-bold text-lg">👥 Arkadaşlarım &amp; 🔗 Kayıtlı Bağlarım</h3>
@@ -1987,7 +1997,7 @@
               </button>
             </div>
 
-            <div id="bonds-page-full-list" class="space-y-4">
+            <div id="bonds-page-full-list" class="space-y-4 overflow-x-hidden">
               <!-- Populated dynamically by app.js -->
             </div>
           </div>
@@ -2858,8 +2868,8 @@
             </p>
           </div>
 
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <div class="relative w-36 h-36 shrink-0 flex items-center justify-center">
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
+            <div class="relative w-32 h-32 sm:w-36 sm:h-36 shrink-0 flex items-center justify-center">
               <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 160 160">
                 <defs>
                   <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -2888,22 +2898,57 @@
               </div>
             </div>
 
-            <div class="flex-1 text-center sm:text-left space-y-2.5">
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full stitch-subcard text-xs font-bold">
-                <span id="result-p1-name" class="text-primary-theme">Oyuncu 1</span>
-                <span>⚡</span>
-                <span id="result-p2-name">Oyuncu 2</span>
-                <span class="opacity-50">•</span>
-                <span id="result-correct-ratio" class="text-emerald-600 dark:text-emerald-400 font-mono-theme">0 / 5 Doğru</span>
-              </div>
+            <div class="flex-1 w-full text-center sm:text-left space-y-2.5">
+              <!-- Üst Satır: Sol tarafta Oyuncu & XP rozetleri, Sağ üst köşede (4. Görsel Kırmızı Alan) Slaytı Tekrar İzle Modülü -->
+              <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-2.5">
+                <div class="space-y-1.5">
+                  <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full stitch-subcard text-xs font-bold">
+                    <span id="result-p1-name" class="text-primary-theme">Oyuncu 1</span>
+                    <span>⚡</span>
+                    <span id="result-p2-name">Oyuncu 2</span>
+                    <span class="opacity-50">•</span>
+                    <span id="result-correct-ratio" class="text-emerald-600 dark:text-emerald-400 font-mono-theme">0 / 5 Doğru</span>
+                  </div>
 
-              <div id="result-xp-bond-banner" class="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-[11px] font-extrabold">
-                <span id="result-personal-xp-pill" class="px-2.5 py-1 rounded-lg stitch-subcard text-primary-theme">
-                  ⭐ senceo Seviyen: +50 XP
-                </span>
-                <span id="result-bond-xp-pill" class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-600 dark:text-rose-300">
-                  🤝 İkili Bağ: LVL 1
-                </span>
+                  <div id="result-xp-bond-banner" class="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-[11px] font-extrabold">
+                    <span id="result-personal-xp-pill" class="px-2.5 py-1 rounded-lg stitch-subcard text-primary-theme">
+                      ⭐ senceo Seviyen: +50 XP
+                    </span>
+                    <span id="result-bond-xp-pill" class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-600 dark:text-rose-300">
+                      🤝 İkili Bağ: LVL 1
+                    </span>
+                  </div>
+                </div>
+
+                <!-- 4. GÖRSEL KIRMIZI ALAN: Sağ Üst Köşe Slaytı Tekrar İzle & Özet Kutusu -->
+                <div id="result-top-replay-card" class="w-full sm:w-auto stitch-subcard border border-[var(--primary)] px-3 py-2 rounded-xl flex flex-col items-center sm:items-end gap-1.5 shrink-0">
+                  <div class="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-primary-theme">
+                    <span>🎬</span>
+                    <span id="result-top-replay-title">Tahmin Slaytını Tekrar İzle</span>
+                  </div>
+                  <div class="flex items-center gap-1.5 flex-wrap justify-center sm:justify-end">
+                    <button
+                      type="button"
+                      id="btn-top-replay-half1"
+                      onclick="startReplayHalf1SlidesFromResult()"
+                      class="px-2.5 py-1.5 rounded-lg bg-[var(--surface-high)] hover:border-[var(--primary)] border border-transparent text-primary-theme text-[11px] font-extrabold flex items-center gap-1 transition cursor-pointer"
+                      title="1. Yarı Tahmin Slaytını İzle"
+                    >
+                      <span>🔄</span>
+                      <span id="btn-top-replay-half1-label">1. Yarı Slaytı</span>
+                    </button>
+                    <button
+                      type="button"
+                      id="btn-top-replay-half2"
+                      onclick="startP2WatchP1Slides()"
+                      class="hidden px-2.5 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/50 text-emerald-600 dark:text-emerald-300 hover:bg-emerald-500/30 text-[11px] font-extrabold flex items-center gap-1 transition cursor-pointer"
+                      title="2. Yarı Tahmin Slaytını İzle"
+                    >
+                      <span>🎬</span>
+                      <span id="btn-top-replay-half2-label">2. Yarı Slaytı</span>
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div class="stitch-subcard p-3.5">
@@ -2927,40 +2972,40 @@
             </div>
           </div>
 
-          <!-- v0.11 SLAYTI TEKRAR İZLEME OPSİYONU: 1. Yarı Tahmin Slaytı (Player 1 & Yan Yana Modu İçin) -->
-          <div id="p1-replay-slides-box" class="hidden stitch-subcard border border-[var(--primary)] p-4 space-y-2.5 text-center">
-            <div id="p1-replay-slides-desc" class="text-xs sm:text-sm font-bold text-primary-theme">
+          <!-- v0.11 / v0.17 SLAYTI TEKRAR İZLEME OPSİYONU: 1. Yarı Tahmin Slaytı -->
+          <div id="p1-replay-slides-box" class="hidden stitch-subcard border border-[var(--primary)] p-3.5 space-y-2 text-center">
+            <div id="p1-replay-slides-desc" class="text-xs font-bold text-primary-theme">
               🔄 1. Yarıdaki tahmin slaytını (5 sn Cevap + Yorum Balonları) istediğin zaman tekrar izleyebilirsin:
             </div>
             <button
               type="button"
               id="btn-p1-replay-slides"
               onclick="startReplayHalf1SlidesFromResult()"
-              class="theme-btn-secondary w-full py-3 px-5 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2"
+              class="theme-btn-secondary w-full py-2.5 px-4 font-extrabold text-xs flex items-center justify-center gap-2"
             >
               <span>🔄</span>
               <span id="btn-p1-replay-slides-label">1. YARI SLAYTINI TEKRAR İZLE</span>
             </button>
           </div>
 
-          <!-- SADECE PLAYER 2'DE (veya YAN YANA MODDA) GÖRÜNEN: "Tahminleri Kontrol Et / Tekrar İzle" Kutusu -->
-          <div id="p2-watch-slides-box" class="hidden stitch-subcard border-2 border-emerald-500 bg-emerald-500/10 p-4 space-y-2.5 text-center">
-            <div id="p2-watch-slides-desc" class="text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-300">
-              🎬 Bakalım arkadaşın senin hazırladığın 5 soruya ne cevap vermiş? (5 sn Cevap + 4 sn Balon Slaytı)
+          <!-- 2. Yarı Tahmin Slaytı Kutusu -->
+          <div id="p2-watch-slides-box" class="hidden stitch-subcard border-2 border-emerald-500 bg-emerald-500/10 p-3.5 space-y-2 text-center">
+            <div id="p2-watch-slides-desc" class="text-xs font-bold text-emerald-700 dark:text-emerald-300">
+              🎬 2. Yarıdaki tahmin slaytını (5 sn Cevap + Yorum Balonları) istediğin zaman tekrar izleyebilirsin:
             </div>
             <button
               type="button"
               id="btn-p2-watch-slides"
               onclick="startP2WatchP1Slides()"
-              class="theme-btn-primary w-full py-3.5 px-5 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg"
+              class="theme-btn-primary w-full py-3 px-4 font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg"
             >
               <span>🎬</span>
-              <span id="btn-p2-watch-slides-label">TAHMİNLERİ KONTROL ET (SLAYTI İZLE)</span>
+              <span id="btn-p2-watch-slides-label">2. YARI SLAYTINI TEKRAR İZLE</span>
             </button>
           </div>
 
-          <div class="stitch-subcard p-3 flex items-center justify-between gap-2 text-left">
-            <div class="truncate">
+          <div class="stitch-subcard p-3 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 text-left">
+            <div class="truncate min-w-0 flex-1">
               <div class="text-[10px] uppercase font-bold text-muted-theme">Canlı Sonuç &amp; Karne Linki:</div>
               <div id="result-direct-url-text" class="text-xs font-mono-theme text-primary-theme font-bold truncate">https://senceo-emirhanusimp.vercel.app/?r=...</div>
             </div>
@@ -2974,12 +3019,12 @@
             <button
               type="button"
               id="btn-download-story-card"
-              onclick="downloadResultStoryCardPng()"
-              class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white text-xs font-extrabold shrink-0 shadow-sm hover:opacity-95 transition flex items-center gap-1"
-              title="Instagram / WhatsApp Hikaye Boyutunda (1080x1920) Uyum Karnesi İndir"
+              onclick="openStoryCardShareModal()"
+              class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white text-xs font-extrabold shrink-0 shadow-sm hover:opacity-95 transition flex items-center gap-1 cursor-pointer"
+              title="Instagram / WhatsApp Hikaye Boyutunda (1080x1920) Uyum Karnesi Paylaş / Kopyala / İndir"
             >
               <span>📸</span>
-              <span>Hikaye Kartı İndir (PNG)</span>
+              <span>Hikaye Kartı Paylaş</span>
             </button>
           </div>
 
@@ -3040,7 +3085,7 @@
         <button type="button" onclick="openInfoGuideModal('privacy')" class="hover:text-primary-theme transition-colors">Gizlilik</button>
       </div>
       <p>
-        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.16</span>
+        senceo uyum &amp; tahmin oyunu <span class="text-primary-theme font-bold">emirhanus imp.</span> yapımıdır <span id="footer-version-label" class="font-mono-theme font-extrabold text-primary-theme">v0.17</span>
       </p>
     </div>
   </footer>
@@ -3491,8 +3536,8 @@
             id="input-add-friend"
             type="text"
             maxlength="14"
-            placeholder="Arkadaş Kodu (SNC-XXXX) veya Oda Kodu..."
-            class="stitch-input flex-1 px-3 py-2 text-xs font-mono-theme font-bold uppercase"
+            placeholder="SNC-2281 veya SNC123"
+            class="stitch-input flex-1 min-w-0 px-3 py-2 text-xs font-mono-theme font-bold uppercase tracking-normal"
           />
           <button
             type="button"
@@ -3504,7 +3549,7 @@
         </div>
         <p id="modal-friend-feedback" class="hidden text-[11px] font-semibold"></p>
 
-        <div id="profile-friends-bond-list" class="space-y-2 max-h-[190px] overflow-y-auto pr-1 pt-1">
+        <div id="profile-friends-bond-list" class="space-y-2 max-h-[190px] overflow-y-auto overflow-x-hidden pr-1 pt-1">
         </div>
       </div>
 
@@ -4166,10 +4211,109 @@
     </div>
   </div>
 
+  <!-- ================= HİKAYE KARTI PAYLAŞ SEÇENEKLERİ MODALI (v0.17 #4b: Kopyala / Şurada Paylaş / İndir) ================= -->
+  <div
+    id="story-card-share-modal"
+    class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+    onclick="if(event.target === this) closeStoryCardShareModal()"
+  >
+    <div class="stitch-card w-full max-w-md p-6 text-center space-y-4 animate-view border-2 border-purple-500/70">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5 text-left">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 text-white flex items-center justify-center text-2xl shadow-md shrink-0">
+            📸
+          </div>
+          <div>
+            <h3 class="font-display-theme text-lg font-extrabold leading-tight">Hikaye Kartı Paylaş</h3>
+            <p class="text-[11px] text-muted-theme">1080×1920 Uyum Karnesi görselini istediğin gibi paylaş</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeStoryCardShareModal()" class="w-8 h-8 rounded-full stitch-subcard flex items-center justify-center font-bold text-sm" title="Kapat">✕</button>
+      </div>
+
+      <div class="space-y-2.5 pt-1">
+        <button
+          type="button"
+          id="btn-story-modal-copy"
+          onclick="copyStoryCardToClipboard()"
+          class="w-full py-3.5 px-4 rounded-xl stitch-subcard border border-[var(--outline-variant)] hover:border-[var(--primary)] font-extrabold text-xs sm:text-sm flex items-center justify-between transition cursor-pointer"
+        >
+          <span class="flex items-center gap-2.5">
+            <span class="text-lg">📋</span>
+            <span class="text-left">
+              <span class="block font-extrabold">Kopyala (Görsel &amp; Özet)</span>
+              <span class="block text-[11px] text-muted-theme font-normal">Hikaye kartını veya sonuç özetini panoya kopyalar</span>
+            </span>
+          </span>
+          <span class="material-symbols-outlined text-primary-theme text-[18px]">content_copy</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-story-modal-share"
+          onclick="shareStoryCardExternal()"
+          class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-extrabold text-xs sm:text-sm flex items-center justify-between shadow-md hover:opacity-95 transition cursor-pointer"
+        >
+          <span class="flex items-center gap-2.5">
+            <span class="text-lg">📤</span>
+            <span class="text-left">
+              <span class="block font-extrabold">Şurada Paylaş (WhatsApp / Instagram / X)</span>
+              <span class="block text-[11px] text-white/85 font-normal">Cihazının paylaşım menüsüyle veya sosyal ağlarda paylaş</span>
+            </span>
+          </span>
+          <span class="material-symbols-outlined text-[18px]">share</span>
+        </button>
+
+        <!-- Masaüstü Hızlı Sosyal Paylaşım Kısayolları -->
+        <div id="story-card-social-links-row" class="grid grid-cols-3 gap-2 pt-0.5">
+          <button
+            type="button"
+            onclick="shareStoryCardToPlatform('whatsapp')"
+            class="py-2 px-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-600 dark:text-emerald-300 text-[11px] font-extrabold hover:bg-emerald-500/25 transition cursor-pointer"
+          >
+            💬 WhatsApp
+          </button>
+          <button
+            type="button"
+            onclick="shareStoryCardToPlatform('telegram')"
+            class="py-2 px-2.5 rounded-xl bg-sky-500/15 border border-sky-500/40 text-sky-600 dark:text-sky-300 text-[11px] font-extrabold hover:bg-sky-500/25 transition cursor-pointer"
+          >
+            ✈️ Telegram
+          </button>
+          <button
+            type="button"
+            onclick="shareStoryCardToPlatform('twitter')"
+            class="py-2 px-2.5 rounded-xl stitch-subcard border border-[var(--outline-variant)] hover:border-[var(--primary)] text-[11px] font-extrabold transition cursor-pointer"
+          >
+            𝕏 / Twitter
+          </button>
+        </div>
+
+        <button
+          type="button"
+          id="btn-story-modal-download"
+          onclick="downloadResultStoryCardPng(); closeStoryCardShareModal();"
+          class="w-full py-3.5 px-4 rounded-xl theme-btn-secondary font-extrabold text-xs sm:text-sm flex items-center justify-between transition cursor-pointer"
+        >
+          <span class="flex items-center gap-2.5">
+            <span class="text-lg">📥</span>
+            <span class="text-left">
+              <span class="block font-extrabold">İndir (PNG)</span>
+              <span class="block text-[11px] text-muted-theme font-normal">1080×1920 HD Hikaye Kartını cihazına indir</span>
+            </span>
+          </span>
+          <span class="material-symbols-outlined text-primary-theme text-[18px]">download</span>
+        </button>
+      </div>
+
+      <p id="story-card-modal-feedback" class="hidden text-xs font-extrabold text-emerald-500 pt-1"></p>
+    </div>
+  </div>
+
   <!-- Scripts -->
-  <script src="questions.js?v=0.16"></script>
-  <script src="app.js?v=0.16"></script>
-  <script src="mobile.js?v=0.16"></script>
+  <script src="questions.js?v=0.17"></script>
+  <script src="app.js?v=0.17"></script>
+  <script src="mobile.js?v=0.17"></script>
 </body>
 </html>
 
