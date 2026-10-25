@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T17:23:49.146Z",
+  "updatedAt": "2026-10-25T17:26:12.344Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -198,7 +198,7 @@
     {
       "friendCode": "SNC-7224",
       "username": "emirhan",
-      "avatar": "😎",
+      "avatar": "🔥",
       "level": 3,
       "xp": 210,
       "gamesPlayed": 1,
@@ -206,8 +206,8 @@
       "provider": "Google",
       "isPermanentMember": true,
       "passwordProtected": true,
-      "lastXpActivityAt": 1792815007494,
-      "updatedAt": "2026-10-25T17:23:49.146Z"
+      "lastXpActivityAt": 1792949031360,
+      "updatedAt": "2026-10-25T17:26:12.344Z"
     },
     {
       "friendCode": "SNC-1265",
