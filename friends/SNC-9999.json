@@ -214,6 +214,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "NUDGE_SNC4H5_1792936094461",
+      "type": "next_round_nudge",
+      "title": "🔥 2. Raund Çağrısı! (İlk Sıra Sende)",
+      "message": "sıradana #SNC4H5 odasında 2. Raunda geçmen için sana bildirim gönderdi! İlk sıra sende, hemen başlat!",
+      "fromCode": "SNC-8484",
+      "fromName": "sıradana",
+      "roomCode": "SNC4H5",
+      "read": false,
+      "createdAt": "2026-10-25T13:48:14.461Z"
+    },
+    {
       "id": "DONE_P2_SNC4H5_R1",
       "type": "completed",
       "title": "🏆 sıradana Tahminlerini Tamamladı!",
@@ -313,6 +324,6 @@
       "createdAt": "2026-10-24T03:56:42.937Z"
     }
   ],
-  "updatedAt": "2026-10-25T13:48:06.758Z",
+  "updatedAt": "2026-10-25T13:48:14.461Z",
   "deletedRoomCodes": []
 }
