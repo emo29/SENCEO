@@ -116,9 +116,13 @@
   "lastCorrectCount": 6,
   "lastTotalQuestions": 10,
   "completedAt": "2026-10-25T13:44:46.356Z",
-  "updatedAt": "2026-10-25T13:44:56.443Z",
+  "updatedAt": "2026-10-25T13:44:58.173Z",
   "nextRoundSecondCode": "SNC-4324",
   "nextRoundSecondName": "sıradana",
   "p2WatchingBy": "sıradanb",
-  "slideStatusUpdatedAt": 1792935896443
+  "slideStatusUpdatedAt": 1792935896443,
+  "round2NudgeAt": 1792935898173,
+  "round2NudgeFrom": "sıradana",
+  "round2NudgeFromCode": "SNC-4324",
+  "round2NudgeTargetRound": 2
 }
