@@ -100,6 +100,7 @@ html.is-mobile .m-step-dot {
 }
 html[data-theme="brutal26"].is-mobile .m-step-dot { background: #ccff00; color: #090a0c; }
 html[data-theme="cosmic"].is-mobile .m-step-dot { color: #fff; }
+html[data-theme="crimson"].is-mobile .m-step-dot { background: #ff002b; color: #fff; }
 
 /* ---------------- YENİ OYUN (Ana Sayfa) ---------------- */
 html.is-mobile #m-stepper-card { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; }

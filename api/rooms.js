@@ -294,6 +294,42 @@ async function removePlayerFromLiveRoom(roomCode, leavingCode, leavingName = "")
   );
 }
 
+const BLOCKED_TEST_USERNAMES = new Set([
+  "denemea",
+  "denemeb",
+  "emirhantest",
+  "deneb",
+  "denea",
+  "deneme1",
+  "a",
+  "i",
+  "misafir oyuncu",
+  "oyuncu",
+  "oyuncu_a",
+  "oyuncu_b",
+  "oyuncu_c",
+  "oyuncu_d",
+  "oyuncu_e",
+  "oyuncu_f",
+  "oyuncu_g",
+  "oyuncu_h",
+  "oyuncu_j",
+  "oyuncu_k",
+  "yanyanaa",
+  "yanyanab",
+  "sıradana",
+  "sıradanb",
+  "korkakrakip"
+]);
+
+function isBlockedTestAccountName(username) {
+  const clean = String(username || "").trim().toLowerCase();
+  if (!clean || clean.length <= 1) return true;
+  if (BLOCKED_TEST_USERNAMES.has(clean)) return true;
+  if (/^oyuncu_[a-z0-9]+$/i.test(clean)) return true;
+  return false;
+}
+
 // Global Liderlik Tablosunu Güncelle + 7 Gün Puanı Artmayan Misafirleri Otomatik Sil + Şifreli İsim Koruması
 async function upsertGlobalLeaderboardEntry(profileObj) {
   if (!profileObj || !profileObj.friendCode || !/^SNC-\d{4}$/i.test(profileObj.friendCode)) return;
@@ -304,6 +340,10 @@ async function upsertGlobalLeaderboardEntry(profileObj) {
     isProt ||
     (profileObj.provider && !["guest", "Misafir"].includes(profileObj.provider) && Boolean(profileObj.email));
 
+  if (isBlockedTestAccountName(profileObj.username) && !isProt) {
+    return;
+  }
+
   try {
     await putJsonToCloudPath(
       "leaderboard/global.json",
@@ -311,9 +351,10 @@ async function upsertGlobalLeaderboardEntry(profileObj) {
         const now = Date.now();
         let list = Array.isArray(existing?.players) ? existing.players : [];
 
-        // 7 gün boyunca hiç XP kazanmamış ve şifresiz/üyeliksiz misafir hesapları temizle
+        // Test hesaplarını ve 7 gün boyunca hiç XP kazanmamış şifresiz/üyeliksiz misafir hesapları temizle
         list = list.filter((item) => {
           if (!item || !item.friendCode) return false;
+          if (isBlockedTestAccountName(item.username)) return false;
           if (item.isPermanentMember || item.passwordProtected) return true;
           const lastAct = Number(item.lastXpActivityAt) || new Date(item.updatedAt || now).getTime();
           return now - lastAct <= SEVEN_DAYS_MS;
@@ -328,6 +369,13 @@ async function upsertGlobalLeaderboardEntry(profileObj) {
           profileObj.username && profileObj.username !== "Misafir Oyuncu"
             ? profileObj.username.trim()
             : prev?.username || "Misafir Oyuncu";
+
+        if (isBlockedTestAccountName(desiredName)) {
+          return {
+            updatedAt: new Date().toISOString(),
+            players: list.slice(0, 100)
+          };
+        }
 
         // Eğer başka bir oyuncu bu ismi şifreyle korumuşsa, ismin üzerine yazılmasını engelle!
         const lockedByOther = list.find(
@@ -575,6 +623,7 @@ export default async function handler(req, res) {
         const players = Array.isArray(lb?.data?.players)
           ? lb.data.players.filter((item) => {
               if (!item || !item.friendCode) return false;
+              if (isBlockedTestAccountName(item.username)) return false;
               if (item.isPermanentMember || item.passwordProtected) return true;
               const lastAct = Number(item.lastXpActivityAt) || new Date(item.updatedAt || now).getTime();
               return now - lastAct <= SEVEN_DAYS_MS;
@@ -735,11 +784,13 @@ export default async function handler(req, res) {
           (existing) => {
             const rec = Object.assign(createDefaultFriendRecord(myCode, myName), existing || {});
             if (myName && myName !== "Misafir Oyuncu") rec.username = myName;
-            rec.incomingRequests = (rec.incomingRequests || []).filter((r) => r.fromCode !== requesterCode);
+            rec.incomingRequests = (rec.incomingRequests || []).filter(
+              (r) => String(r.fromCode || "").toUpperCase() !== requesterCode
+            );
             if (!Array.isArray(rec.acceptedFriends)) rec.acceptedFriends = [];
 
             if (decision === "accept") {
-              if (!rec.acceptedFriends.some((f) => f.code === requesterCode)) {
+              if (!rec.acceptedFriends.some((f) => String(f.code || "").toUpperCase() === requesterCode)) {
                 rec.acceptedFriends.push({
                   code: requesterCode,
                   name: requesterName,
@@ -748,12 +799,18 @@ export default async function handler(req, res) {
               }
             }
             if (Array.isArray(rec.notifications)) {
-              rec.notifications.forEach((n) => {
-                if (n.fromCode === requesterCode && n.type === "friend_request") {
-                  n.read = true;
-                  n.handled = decision;
-                }
-              });
+              if (decision === "reject") {
+                rec.notifications = rec.notifications.filter(
+                  (n) => !(String(n.fromCode || "").toUpperCase() === requesterCode && n.type === "friend_request")
+                );
+              } else {
+                rec.notifications.forEach((n) => {
+                  if (String(n.fromCode || "").toUpperCase() === requesterCode && n.type === "friend_request") {
+                    n.read = true;
+                    n.handled = decision;
+                  }
+                });
+              }
             }
             rec.updatedAt = new Date().toISOString();
             return rec;
@@ -1447,7 +1504,13 @@ export default async function handler(req, res) {
               }
               lms.currentAnswer = choiceIdx;
               lms.currentAnswerComment = commentObj;
-              lms.currentCustomOption = String(body.customOption || "").trim();
+              lms.currentCustomOption =
+                body.customOption && typeof body.customOption === "object"
+                  ? {
+                      text: String(body.customOption.text || "").trim(),
+                      slot: Math.min(3, Math.max(0, Number(body.customOption.slot) || 0))
+                    }
+                  : String(body.customOption || "").trim();
               lms.currentGuess = null;
               lms.currentGuessComment = { emoji: "", text: "" };
               lms.guessesByPlayer = {};
@@ -1768,8 +1831,9 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, friend: safeFriend });
       }
 
-      if (body.action === "login_guest_password") {
-        const identifier = String(body.identifier || "").trim();
+      if (body.action === "login_guest_password" || body.action === "login_guest_account") {
+        const identifier = String(body.identifier || body.friendCode || body.username || "").trim();
+        const fallbackUsername = String(body.username || "").trim();
         const password = String(body.password || "").trim();
         const encodedPass = Buffer.from(password, "utf-8").toString("base64");
 
@@ -1777,16 +1841,17 @@ export default async function handler(req, res) {
         if (/^SNC-\d{4}$/i.test(identifier)) {
           targetCode = identifier.toUpperCase();
         } else {
+          const searchName = identifier || fallbackUsername;
           const lb = await getJsonFromCloudPath("leaderboard/global.json");
           const playersList = lb?.data?.players || [];
           // Önce şifre korumalı olan eşleşmeyi ara (aynı isimde eski şifresiz misafir kaydı varsa onu atla!)
           const protectedMatch = playersList.find(
             (p) =>
               p.passwordProtected &&
-              String(p.username || "").trim().toLowerCase() === identifier.toLowerCase()
+              String(p.username || "").trim().toLowerCase() === searchName.toLowerCase()
           );
           const anyMatch = playersList.find(
-            (p) => String(p.username || "").trim().toLowerCase() === identifier.toLowerCase()
+            (p) => String(p.username || "").trim().toLowerCase() === searchName.toLowerCase()
           );
           const match = protectedMatch || anyMatch;
           if (match) targetCode = match.friendCode;
@@ -1810,7 +1875,7 @@ export default async function handler(req, res) {
 
         const safeFriend = { ...fFound.data };
         delete safeFriend.passwordHash;
-        return res.status(200).json({ ok: true, friend: safeFriend });
+        return res.status(200).json({ ok: true, friend: safeFriend, account: safeFriend });
       }
 
       if (body.action === "check_username_lock") {
