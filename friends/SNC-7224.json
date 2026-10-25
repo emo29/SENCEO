@@ -126,14 +126,7 @@
       "updatedAt": "2026-10-24T02:08:55.304Z"
     }
   ],
-  "incomingRequests": [
-    {
-      "fromCode": "SNC-6111",
-      "fromName": "Oyuncu (SNC-6111)",
-      "status": "pending",
-      "createdAt": "2026-10-25T11:24:55.186Z"
-    }
-  ],
+  "incomingRequests": [],
   "acceptedFriends": [
     {
       "code": "SNC-1265",
@@ -151,7 +144,8 @@
       "fromName": "Oyuncu (SNC-6111)",
       "roomCode": "",
       "read": true,
-      "createdAt": "2026-10-25T11:24:55.186Z"
+      "createdAt": "2026-10-25T11:24:55.186Z",
+      "handled": "reject"
     },
     {
       "id": "TURN_P1_SNCJPC_R1",
@@ -165,7 +159,7 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-25T11:26:29.594Z",
+  "updatedAt": "2026-10-25T11:26:42.681Z",
   "deletedRoomCodes": [],
   "isPasswordProtected": true,
   "lastPropagatedName": "emirhan"
