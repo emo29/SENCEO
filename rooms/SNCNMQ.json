@@ -5,7 +5,7 @@
   "p1FriendCode": "SNC-5885",
   "p2FriendCode": "",
   "roomType": "live_arena",
-  "arenaFormat": "1v1",
+  "arenaFormat": "4v4",
   "liveSettings": {
     "ffaSubMode": "ebe",
     "teamSubMode": "",
@@ -31,5 +31,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-25T12:58:56.326Z",
-  "updatedAt": "2026-10-25T12:58:55.050Z"
+  "updatedAt": "2026-10-25T12:59:07.551Z"
 }
