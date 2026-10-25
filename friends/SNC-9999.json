@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1792811578022,
-  "latestRoomCode": "SNC4H5",
+  "latestRoomCode": "SNCEP9",
   "activeRooms": [
+    {
+      "code": "SNCEP9",
+      "p1": "sıradana",
+      "p2": "sıradanb",
+      "p1FriendCode": "SNC-5728",
+      "p2FriendCode": "SNC-9999",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-25T13:50:36.973Z"
+    },
     {
       "code": "SNC4H5",
       "p1": "sıradana",
@@ -324,6 +340,6 @@
       "createdAt": "2026-10-24T03:56:42.937Z"
     }
   ],
-  "updatedAt": "2026-10-25T13:48:14.461Z",
+  "updatedAt": "2026-10-25T13:50:36.973Z",
   "deletedRoomCodes": []
 }
