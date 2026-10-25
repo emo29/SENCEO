@@ -44,6 +44,8 @@
       "createdAt": "2026-10-25T13:50:36.143Z"
     }
   ],
-  "updatedAt": "2026-10-25T13:50:36.143Z",
-  "deletedRoomCodes": []
+  "updatedAt": "2026-10-25T13:50:37.793Z",
+  "deletedRoomCodes": [],
+  "lastPropagatedName": "sıradana",
+  "isPasswordProtected": false
 }
