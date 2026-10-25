@@ -4,11 +4,12 @@
   "p1FriendCode": "SNC-2603",
   "p2Id": "USR_2FSPXG4",
   "p2FriendCode": "SNC-1487",
+  "nextRoundStarterCode": "SNC-1487",
+  "nextRoundStarterName": "adeneme",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "epsaniol",
   "p2": "adeneme",
   "cat": "genel",
@@ -128,7 +129,42 @@
       "text": ""
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-10-25T17:31:00.335Z"
+  "p1Half2Guesses": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 100,
+  "lastCorrectCount": 10,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-25T17:31:37.534Z",
+  "updatedAt": "2026-10-25T17:31:36.299Z",
+  "nextRoundSecondCode": "SNC-2603",
+  "nextRoundSecondName": "epsaniol"
 }
