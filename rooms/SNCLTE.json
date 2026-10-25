@@ -1,0 +1,69 @@
+{
+  "code": "SNCLTE",
+  "p1Id": "USR_O3LF7AT",
+  "p1FriendCode": "SNC-7224",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "emirhan",
+  "p2": "",
+  "cat": "cift",
+  "thm": "luminous",
+  "qIds": [
+    4,
+    40,
+    67,
+    63,
+    13
+  ],
+  "usedQuestionIds": [
+    4,
+    40,
+    67,
+    63,
+    13
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    2,
+    0,
+    3,
+    2
+  ],
+  "p1Comments": [
+    {
+      "emoji": "🔥",
+      "text": "gizlice değil apaçık"
+    },
+    {
+      "emoji": "🤔",
+      "text": "sonsuza kadar bekleyebilirim"
+    },
+    {
+      "emoji": "🔥",
+      "text": "arada girip onun keşfetten kaydırırız"
+    },
+    {
+      "emoji": "",
+      "text": "tabi"
+    },
+    {
+      "emoji": "🤔",
+      "text": "maksat unutmayalım"
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-25T17:28:24.250Z"
+}
