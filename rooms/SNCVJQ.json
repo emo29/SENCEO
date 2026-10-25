@@ -6,7 +6,7 @@
   "p2FriendCode": "",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "opponent_fled",
   "currentRound": 1,
   "whoseTurn": "p2",
   "p1": "emirhan",
@@ -67,5 +67,8 @@
   "p2Half2Comments": [],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-24T17:58:23.316Z"
+  "updatedAt": "2026-10-25T17:24:25.887Z",
+  "abandonedByCode": "",
+  "abandonedByName": "Rakibin",
+  "abandonedAt": 1792949065887
 }
