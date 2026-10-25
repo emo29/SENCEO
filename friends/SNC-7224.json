@@ -5,7 +5,7 @@
   "xp": 210,
   "gamesPlayed": 1,
   "questionsCorrect": 7,
-  "provider": "Misafir",
+  "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": true,
   "passwordHash": "MTIz",
@@ -175,7 +175,7 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-25T11:30:53.546Z",
+  "updatedAt": "2026-10-25T11:45:03.039Z",
   "deletedRoomCodes": [],
   "isPasswordProtected": true,
   "lastPropagatedName": "emirhan"
