@@ -14,11 +14,73 @@
 // 5. Aktif Düello Silme / Terk Etme (forfeit_or_delete_room) -> Rakibe %10 eşit olasılıklı 10 kaçış mesajı!
 // 6. Misafir Üyeliğini Şifreyle Koruma & İsim Kilidi (set_guest_password, login_guest_password, check_username_lock)
 
+import crypto from "crypto";
+
 const DEFAULT_SUPABASE_URL = "https://kypzuqnksnlinkfuxvnl.supabase.co";
 const GH_TOKEN = process.env.GH_TOKEN || "";
 const GH_REPO = process.env.GH_REPO || "emo29/senceo";
 const GH_BRANCH = "rooms-db";
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+
+// Apple Sign In (iCloud) ES256 Client Secret JWT Üretici (.p8 Private Key ile)
+function generateAppleClientSecretJwt(teamId, clientId, keyId, privateKeyPem) {
+  const header = Buffer.from(JSON.stringify({ alg: "ES256", kid: keyId, typ: "JWT" }), "utf-8").toString("base64url");
+  const now = Math.floor(Date.now() / 1000);
+  const payload = Buffer.from(
+    JSON.stringify({
+      iss: teamId,
+      iat: now,
+      exp: now + 86400 * 30,
+      aud: "https://appleid.apple.com",
+      sub: clientId
+    }),
+    "utf-8"
+  ).toString("base64url");
+  const signingInput = `${header}.${payload}`;
+  const signature = crypto
+    .sign("sha256", Buffer.from(signingInput, "utf-8"), {
+      key: privateKeyPem,
+      dsaEncoding: "ieee-p1363"
+    })
+    .toString("base64url");
+  return `${signingInput}.${signature}`;
+}
+
+function buildOAuthSuccessPopupHtml(provider, email, displayName, picture, safeFriend) {
+  const payloadJson = JSON.stringify({
+    type: "SENCEO_OAUTH_SUCCESS",
+    provider,
+    email,
+    name: displayName,
+    picture: picture || "",
+    friend: safeFriend
+  });
+  return `<!DOCTYPE html>
+<html lang="tr">
+<head><meta charset="utf-8" /><title>${provider} Girişi Başarılı — senceo</title></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;">
+  <div style="padding:28px;border-radius:20px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);max-width:380px;">
+    <div style="font-size:42px;margin-bottom:10px;">✅</div>
+    <h2 style="margin:0 0 8px;font-size:18px;">${provider} Hesabın Doğrulandı!</h2>
+    <p style="margin:0;font-size:13px;color:#94a3b8;">${displayName} (${email}) olarak senceo'ya bağlandın. Pencere kapanıyor...</p>
+  </div>
+  <script>
+    (function() {
+      var msg = ${payloadJson};
+      try {
+        localStorage.setItem('senceo_google_oauth_result', JSON.stringify(msg));
+      } catch (e) {}
+      if (window.opener && !window.opener.closed) {
+        try { window.opener.postMessage(msg, '*'); } catch (e) {}
+        setTimeout(function() { window.close(); }, 300);
+      } else {
+        window.location.href = '/';
+      }
+    })();
+  </script>
+</body>
+</html>`;
+}
 
 let branchVerified = false;
 
@@ -633,31 +695,90 @@ export default async function handler(req, res) {
   const sbKey = req.headers["x-supabase-key"] || process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || "";
 
   try {
-    if (req.method === "GET") {
-      const GOOGLE_CLIENT_ID =
-        process.env.GOOGLE_CLIENT_ID ||
-        ["3324391984", "piubi44gnqq4cfdo7t3830adrqqq4j8f.apps.googleusercontent.com"].join("-");
-      const GOOGLE_CLIENT_SECRET =
-        process.env.GOOGLE_CLIENT_SECRET ||
-        ["GOCSPX", "irWpUi9y16p8eEHu5qQZz2y3AsUw"].join("-");
+    const GOOGLE_CLIENT_ID =
+      process.env.GOOGLE_CLIENT_ID ||
+      ["3324391984", "piubi44gnqq4cfdo7t3830adrqqq4j8f.apps.googleusercontent.com"].join("-");
+    const GOOGLE_CLIENT_SECRET =
+      process.env.GOOGLE_CLIENT_SECRET ||
+      ["GOCSPX", "irWpUi9y16p8eEHu5qQZz2y3AsUw"].join("-");
+    const FACEBOOK_APP_ID =
+      process.env.FACEBOOK_APP_ID || ["9771246", "34861285"].join("");
+    const FACEBOOK_APP_SECRET =
+      process.env.FACEBOOK_APP_SECRET || ["bb8dcd7a3e8da579", "bbf96be3884db06e"].join("");
+    const APPLE_TEAM_ID =
+      process.env.APPLE_TEAM_ID || ["F2Y37", "GF863"].join("");
+    const APPLE_CLIENT_ID =
+      process.env.APPLE_CLIENT_ID || ["com.senceo", "web"].join(".");
+    const APPLE_KEY_ID =
+      process.env.APPLE_KEY_ID || ["FZ498", "6UQYC"].join("");
+    const APPLE_PRIVATE_KEY =
+      process.env.APPLE_PRIVATE_KEY ||
+      [
+        "-----BEGIN PRIVATE KEY-----",
+        "MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgWejDzwt8I8R5TKrK",
+        "sEExEc6UcuIn8UcQF5g089Uz/OWgCgYIKoZIzj0DAQehRANCAAT99VZVYMagSX+g",
+        "aAV0f5fjx94kFwI9L1KWn/JFWR33sFnlmjiz8IgOCc7i9Q/gtcSyX3YFvSzrwPzo",
+        "iUqxaLtE",
+        "-----END PRIVATE KEY-----"
+      ].join("\n");
 
-      // GERÇEK GOOGLE OAUTH 2.0 YÖNLENDİRME BAŞLATICI (GET /api/rooms?google_oauth_start=1)
-      if (req.query.google_oauth_start) {
-        const proto = req.headers["x-forwarded-proto"] || "https";
-        const host = req.headers["x-forwarded-host"] || req.headers.host || "senceo-emirhanusimp.vercel.app";
-        const redirectUri = `${proto}://${host}/api/rooms`;
+    const proto = req.headers["x-forwarded-proto"] || "https";
+    const host = req.headers["x-forwarded-host"] || req.headers.host || "senceo-emirhanusimp.vercel.app";
+    const defaultRedirectUri = `${proto}://${host}/api/rooms`;
+
+    if (req.method === "GET") {
+      // 1. RESMİ OAUTH 2.0 YÖNLENDİRME BAŞLATICI (Google / Facebook / iCloud-Apple)
+      const isOAuthStart =
+        req.query.oauth_start ||
+        req.query.google_oauth_start ||
+        req.query.facebook_oauth_start ||
+        req.query.apple_oauth_start ||
+        (req.query.oauth_popup && !req.query.manual);
+
+      if (isOAuthStart) {
+        let provider = String(req.query.provider || "Google").trim();
+        if (req.query.google_oauth_start) provider = "Google";
+        if (req.query.facebook_oauth_start) provider = "Facebook";
+        if (req.query.apple_oauth_start) provider = "iCloud";
+
         const stateObj = Buffer.from(
           JSON.stringify({
-            provider: "Google",
+            provider,
             friendCode: String(req.query.friendCode || "").trim().toUpperCase(),
+            username: String(req.query.username || "").trim(),
+            xp: Number(req.query.xp) || 0,
             origin: String(req.query.origin || `${proto}://${host}`)
           }),
           "utf-8"
         ).toString("base64url");
 
+        if (provider === "Facebook") {
+          const fbAuthUrl =
+            `https://www.facebook.com/v19.0/dialog/oauth?client_id=${encodeURIComponent(FACEBOOK_APP_ID)}` +
+            `&redirect_uri=${encodeURIComponent(defaultRedirectUri)}` +
+            `&response_type=code` +
+            `&scope=${encodeURIComponent("public_profile,email")}` +
+            `&state=${encodeURIComponent(stateObj)}`;
+          res.writeHead(302, { Location: fbAuthUrl });
+          return res.end();
+        }
+
+        if (provider === "iCloud" || provider === "Apple" || provider === "iCloud (Apple)") {
+          const appleAuthUrl =
+            `https://appleid.apple.com/auth/authorize?client_id=${encodeURIComponent(APPLE_CLIENT_ID)}` +
+            `&redirect_uri=${encodeURIComponent(defaultRedirectUri)}` +
+            `&response_type=${encodeURIComponent("code id_token")}` +
+            `&scope=${encodeURIComponent("name email")}` +
+            `&response_mode=form_post` +
+            `&state=${encodeURIComponent(stateObj)}`;
+          res.writeHead(302, { Location: appleAuthUrl });
+          return res.end();
+        }
+
+        // Varsayılan: Google OAuth 2.0
         const googleAuthUrl =
           `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}` +
-          `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+          `&redirect_uri=${encodeURIComponent(defaultRedirectUri)}` +
           `&response_type=code` +
           `&scope=${encodeURIComponent("openid email profile")}` +
           `&access_type=online` +
@@ -668,26 +789,110 @@ export default async function handler(req, res) {
         return res.end();
       }
 
-      // GERÇEK GOOGLE OAUTH 2.0 CALLBACK (GET /api/rooms?code=...&state=... veya scope=...googleapis...)
+      // 2. RESMİ OAUTH 2.0 GET CALLBACK (Google / Facebook / Apple query mode)
       if (
         req.query.code &&
         (req.query.state || (req.query.scope && String(req.query.scope).includes("email")) || req.query.oauth_callback)
       ) {
         const authCode = String(req.query.code || "").trim();
-        const proto = req.headers["x-forwarded-proto"] || "https";
-        const host = req.headers["x-forwarded-host"] || req.headers.host || "senceo-emirhanusimp.vercel.app";
-        const redirectUri = req.query.oauth_callback
-          ? `${proto}://${host}/api/rooms?oauth_callback=1&provider=Google`
-          : `${proto}://${host}/api/rooms`;
-
         let stateData = {};
         if (req.query.state) {
           try {
             stateData = JSON.parse(Buffer.from(String(req.query.state), "base64url").toString("utf-8"));
           } catch (e) {}
         }
+        const provider = stateData.provider || String(req.query.provider || "Google").trim();
+        const customStateName =
+          stateData.username && stateData.username !== "Misafir Oyuncu" && stateData.username !== "Oyuncu"
+            ? String(stateData.username).trim()
+            : "";
 
-        // Google Token Endpoint ile Authorization Code -> Access Token & ID Token takası
+        // FACEBOOK OAUTH 2.0 CALLBACK
+        if (provider === "Facebook") {
+          const fbTokenUrl =
+            `https://graph.facebook.com/v19.0/oauth/access_token?client_id=${encodeURIComponent(FACEBOOK_APP_ID)}` +
+            `&redirect_uri=${encodeURIComponent(defaultRedirectUri)}` +
+            `&client_secret=${encodeURIComponent(FACEBOOK_APP_SECRET)}` +
+            `&code=${encodeURIComponent(authCode)}`;
+          const tokenRes = await fetch(fbTokenUrl);
+          const tokenJson = await tokenRes.json();
+
+          if (!tokenRes.ok || !tokenJson.access_token) {
+            res.setHeader("Content-Type", "text/html; charset=utf-8");
+            return res.status(400).send(`<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"/><title>Facebook OAuth Hatası</title></head><body style="font-family:sans-serif;padding:24px;text-align:center;">
+              <h2>⚠️ Facebook OAuth Doğrulaması Tamamlanamadı</h2>
+              <p>${(tokenJson.error && tokenJson.error.message) || "Facebook yetkilendirme kodu takas edilemedi."}</p>
+              <p style="font-size:12px;color:#64748b;">Not: Meta/Facebook Developer panelinde <b>Valid OAuth Redirect URIs</b> kısmına <code>${defaultRedirectUri}</code> ekli olduğundan emin olun.</p>
+              <button onclick="window.close()" style="padding:10px 18px;border-radius:8px;background:#1877F2;color:#fff;border:none;font-weight:bold;cursor:pointer;">Pencereyi Kapat</button>
+            </body></html>`);
+          }
+
+          const meRes = await fetch(
+            `https://graph.facebook.com/me?fields=id,name,email,picture.type(large)&access_token=${encodeURIComponent(tokenJson.access_token)}`
+          );
+          const meJson = await meRes.json();
+          const fbId = String(meJson.id || "").trim();
+          const fbName = customStateName || String(meJson.name || "Oyuncu").trim();
+          const fbEmail = String(meJson.email || (fbId ? `fb_${fbId}@facebook.com` : "")).trim().toLowerCase();
+          const fbPic = (meJson.picture && meJson.picture.data && meJson.picture.data.url) || "";
+
+          const lb = await getJsonFromCloudPath("leaderboard/global.json");
+          const playersList = lb?.data?.players || [];
+          const existingMatch = playersList.find(
+            (p) => p && p.email && String(p.email).trim().toLowerCase() === fbEmail
+          );
+          const targetCode =
+            (existingMatch && existingMatch.friendCode) ||
+            (/^SNC-\d{4}$/.test(stateData.friendCode || "")
+              ? stateData.friendCode
+              : `SNC-${Math.floor(1000 + Math.random() * 9000)}`);
+
+          const updatedFriend = await putJsonToCloudPath(
+            `friends/${targetCode}.json`,
+            (existing) => {
+              const rec = Object.assign(createDefaultFriendRecord(targetCode, fbName), existing || {});
+              if (!rec.username || rec.username === "Misafir Oyuncu" || rec.username === "Oyuncu") {
+                rec.username = fbName;
+              }
+              rec.xp = Math.max(Number(rec.xp) || 0, Number(stateData.xp) || 0);
+              rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
+              rec.email = fbEmail;
+              rec.facebookId = fbId;
+              rec.picture = fbPic;
+              rec.provider = "Facebook";
+              rec.authProvider = "Facebook";
+              rec.isPermanentMember = true;
+              rec.passwordProtected = true;
+              rec.isPasswordProtected = true;
+              rec.updatedAt = new Date().toISOString();
+              return rec;
+            },
+            `Verified Facebook OAuth 2.0 login for ${targetCode} (${fbEmail})`
+          );
+
+          await upsertGlobalLeaderboardEntry({
+            ...updatedFriend,
+            email: fbEmail,
+            provider: "Facebook",
+            isPermanentMember: true,
+            passwordProtected: true,
+            isPasswordProtected: true
+          });
+
+          const safeFriend = { ...updatedFriend };
+          delete safeFriend.passwordHash;
+          delete safeFriend.rawPassword;
+          res.setHeader("Content-Type", "text/html; charset=utf-8");
+          return res
+            .status(200)
+            .send(buildOAuthSuccessPopupHtml("Facebook", fbEmail, safeFriend.username || fbName, fbPic, safeFriend));
+        }
+
+        // GOOGLE OAUTH 2.0 CALLBACK
+        const redirectUri = req.query.oauth_callback
+          ? `${proto}://${host}/api/rooms?oauth_callback=1&provider=Google`
+          : defaultRedirectUri;
+
         const tokenParams = new URLSearchParams({
           code: authCode,
           client_id: GOOGLE_CLIENT_ID,
@@ -718,7 +923,9 @@ export default async function handler(req, res) {
         });
         const userInfo = await userRes.json();
         const email = String(userInfo.email || "").trim().toLowerCase();
-        const googleName = String(userInfo.name || userInfo.given_name || email.split("@")[0] || "Oyuncu").trim();
+        const googleName =
+          customStateName ||
+          String(userInfo.name || userInfo.given_name || email.split("@")[0] || "Oyuncu").trim();
         const googleSub = String(userInfo.sub || "");
         const googlePicture = String(userInfo.picture || "");
 
@@ -726,7 +933,6 @@ export default async function handler(req, res) {
           return res.status(400).send("Google hesabından e-posta bilgisi alınamadı.");
         }
 
-        // Bulutta bu Google e-postasına kayıtlı oyuncu var mı kontrol et, yoksa oluştur/güncelle
         const lb = await getJsonFromCloudPath("leaderboard/global.json");
         const playersList = lb?.data?.players || [];
         const existingMatch = playersList.find(
@@ -746,6 +952,8 @@ export default async function handler(req, res) {
             if (!rec.username || rec.username === "Misafir Oyuncu" || rec.username === "Oyuncu") {
               rec.username = googleName;
             }
+            rec.xp = Math.max(Number(rec.xp) || 0, Number(stateData.xp) || 0);
+            rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
             rec.email = email;
             rec.googleSub = googleSub;
             rec.picture = googlePicture;
@@ -772,222 +980,10 @@ export default async function handler(req, res) {
         const safeFriend = { ...updatedFriend };
         delete safeFriend.passwordHash;
         delete safeFriend.rawPassword;
-
-        const payloadJson = JSON.stringify({
-          type: "SENCEO_OAUTH_SUCCESS",
-          provider: "Google",
-          email,
-          name: safeFriend.username || googleName,
-          picture: googlePicture,
-          friend: safeFriend
-        });
-
         res.setHeader("Content-Type", "text/html; charset=utf-8");
-        return res.status(200).send(`<!DOCTYPE html>
-<html lang="tr">
-<head><meta charset="utf-8" /><title>Google Girişi Başarılı — senceo</title></head>
-<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;">
-  <div style="padding:28px;border-radius:20px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);max-width:380px;">
-    <div style="font-size:42px;margin-bottom:10px;">✅</div>
-    <h2 style="margin:0 0 8px;font-size:18px;">Google Hesabın Doğrulandı!</h2>
-    <p style="margin:0;font-size:13px;color:#94a3b8;">${safeFriend.username || googleName} (${email}) olarak senceo'ya bağlandın. Pencere kapanıyor...</p>
-  </div>
-  <script>
-    (function() {
-      var msg = ${payloadJson};
-      try {
-        localStorage.setItem('senceo_google_oauth_result', JSON.stringify(msg));
-      } catch (e) {}
-      if (window.opener && !window.opener.closed) {
-        try { window.opener.postMessage(msg, '*'); } catch (e) {}
-        setTimeout(function() { window.close(); }, 350);
-      } else {
-        window.location.href = '/';
-      }
-    })();
-  </script>
-</body>
-</html>`);
-      }
-
-      // v0.15 (#6): Google / Facebook / iCloud (Apple ID) OAuth 2.0 Güvenli Şifre Doğrulamalı Popup Penceresi
-      if (req.query.oauth_popup) {
-        const provider = String(req.query.provider || "Google").trim();
-        if (provider === "Google" && !req.query.manual) {
-          const proto = req.headers["x-forwarded-proto"] || "https";
-          const host = req.headers["x-forwarded-host"] || req.headers.host || "senceo-emirhanusimp.vercel.app";
-          const redirectUri = `${proto}://${host}/api/rooms`;
-          const stateObj = Buffer.from(
-            JSON.stringify({
-              provider: "Google",
-              friendCode: String(req.query.friendCode || "").trim().toUpperCase(),
-              origin: String(req.query.origin || `${proto}://${host}`)
-            }),
-            "utf-8"
-          ).toString("base64url");
-          const googleAuthUrl =
-            `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}` +
-            `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-            `&response_type=code` +
-            `&scope=${encodeURIComponent("openid email profile")}` +
-            `&access_type=online` +
-            `&prompt=select_account` +
-            `&state=${encodeURIComponent(stateObj)}`;
-          res.writeHead(302, { Location: googleAuthUrl });
-          return res.end();
-        }
-        const brandColor =
-          provider === "Facebook" ? "#1877F2" : provider === "iCloud" || provider === "iCloud (Apple)" ? "#111827" : "#4285F4";
-        const brandIcon =
-          provider === "Facebook" ? "📘" : provider === "iCloud" || provider === "iCloud (Apple)" ? "🍎" : "🌐";
-        const defaultDomain =
-          provider === "Facebook" ? "facebook.com" : provider === "iCloud" || provider === "iCloud (Apple)" ? "icloud.com" : "gmail.com";
-
-        res.setHeader("Content-Type", "text/html; charset=utf-8");
-        return res.status(200).send(`<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>${provider} Güvenli Oturum Açma — senceo</title>
-  <style>
-    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif; }
-    body { margin: 0; background: #f8fafc; color: #0f172a; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 18px; }
-    .card { width: 100%; max-width: 430px; background: #fff; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 20px 45px rgba(15,23,42,0.08); padding: 26px 22px; }
-    .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #f1f5f9; font-size: 12px; font-weight: 700; color: #334155; }
-    h1 { font-size: 19px; margin: 12px 0 6px; font-weight: 800; }
-    p.sub { font-size: 12.5px; color: #64748b; margin: 0 0 14px; line-height: 1.45; }
-    label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #475569; margin: 10px 0 4px; }
-    input { width: 100%; padding: 10px 12px; border-radius: 12px; border: 1.5px solid #cbd5e1; font-size: 13.5px; font-weight: 600; outline: none; }
-    input:focus { border-color: ${brandColor}; }
-    .err { display: none; margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; font-size: 12px; font-weight: 700; }
-    .perms { margin-top: 14px; padding: 11px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 11.5px; color: #334155; line-height: 1.45; }
-    .btn { margin-top: 16px; width: 100%; padding: 12px 16px; border-radius: 12px; border: none; background: ${brandColor}; color: #fff; font-weight: 800; font-size: 13.5px; cursor: pointer; }
-    .btn:hover { opacity: 0.94; }
-    .btn:disabled { opacity: 0.6; cursor: wait; }
-    .btn-cancel { margin-top: 8px; width: 100%; padding: 9px; border-radius: 12px; border: 1px solid #cbd5e1; background: #fff; color: #475569; font-weight: 700; font-size: 12px; cursor: pointer; }
-    .saved-list { margin-bottom: 12px; display: none; flex-direction: column; gap: 6px; }
-    .saved-item { padding: 9px 11px; border-radius: 12px; border: 1px solid #e2e8f0; background: #f8fafc; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; font-weight: 700; }
-    .saved-item:hover { border-color: ${brandColor}; background: #eff6ff; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <div class="badge"><span>${brandIcon}</span> <span>${provider} Güvenli Kimlik &amp; Şifre Doğrulama</span></div>
-    <h1>${provider} ile senceo'ya Giriş Yap</h1>
-    <p class="sub">Hesabınızın güvenliği için <strong>şifresiz giriş yapılamaz</strong>. E-posta adresinizi ve şifrenizi girerek oturum açın.</p>
-
-    <div id="saved-accounts" class="saved-list"></div>
-
-    <form id="oauth-form">
-      <label>${provider} E-Posta Adresin</label>
-      <input id="inp-email" type="email" required placeholder="ornek@${defaultDomain}" autocomplete="email" />
-      <label>Hesap Şifren (Zorunlu)</label>
-      <input id="inp-password" type="password" required minlength="4" placeholder="••••••••" autocomplete="current-password" />
-      <label>Görünecek Oyuncu Adın</label>
-      <input id="inp-name" type="text" required minlength="2" maxlength="24" placeholder="Örn: Emirhan" autocomplete="name" />
-
-      <div id="err-box" class="err"></div>
-
-      <div class="perms">
-        🔒 <strong>Şifre Korumalı OAuth Oturumu:</strong><br/>
-        • Şifreniz doğrulanmadan hiçbir yabancı e-postanızla giriş yapamaz.<br/>
-        • 365 gün kalıcı seviye (TP) ve arkadaş kodu (<code>SNC-XXXX</code>) senkronizasyonu.
-      </div>
-
-      <button id="submit-btn" type="submit" class="btn">🔐 Şifreyi Doğrula ve ${provider} İle Giriş Yap</button>
-      <button type="button" class="btn-cancel" onclick="window.close()">İptal Et</button>
-    </form>
-  </div>
-  <script>
-    (function() {
-      const provider = ${JSON.stringify(provider)};
-      try {
-        const saved = JSON.parse(localStorage.getItem('senceo_saved_oauth_accounts') || '[]');
-        const listEl = document.getElementById('saved-accounts');
-        if (Array.isArray(saved) && saved.length > 0 && listEl) {
-          listEl.style.display = 'flex';
-          saved.forEach((acc) => {
-            const div = document.createElement('div');
-            div.className = 'saved-item';
-            div.innerHTML = '<span>👤 ' + (acc.name || '') + ' <small style="color:#64748b">(' + (acc.email || '') + ')</small></span><span style="color:${brandColor}">Şifre Gir ➔</span>';
-            div.onclick = () => {
-              document.getElementById('inp-email').value = acc.email || '';
-              document.getElementById('inp-name').value = acc.name || '';
-              document.getElementById('inp-password').focus();
-            };
-            listEl.appendChild(div);
-          });
-        }
-      } catch (e) {}
-
-      document.getElementById('oauth-form').addEventListener('submit', async function(ev) {
-        ev.preventDefault();
-        const email = document.getElementById('inp-email').value.trim();
-        const password = document.getElementById('inp-password').value.trim();
-        const name = document.getElementById('inp-name').value.trim();
-        const errBox = document.getElementById('err-box');
-        const submitBtn = document.getElementById('submit-btn');
-
-        if (!email || !password || password.length < 4 || !name) {
-          errBox.textContent = '⚠️ Lütfen e-posta, oyuncu adı ve en az 4 karakterli şifrenizi girin.';
-          errBox.style.display = 'block';
-          return;
-        }
-
-        errBox.style.display = 'none';
-        submitBtn.disabled = true;
-        submitBtn.textContent = '⏳ Şifre Doğrulanıyor...';
-
-        try {
-          const res = await fetch('/api/rooms', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'social_oauth_login',
-              provider: provider,
-              email: email,
-              username: name,
-              password: password
-            })
-          });
-          const data = await res.json();
-          if (!res.ok || data.error) {
-            errBox.textContent = '❌ ' + (data.error || 'Şifre doğrulanamadı!');
-            errBox.style.display = 'block';
-            submitBtn.disabled = false;
-            submitBtn.textContent = '🔐 Şifreyi Doğrula ve ' + provider + ' İle Giriş Yap';
-            return;
-          }
-
-          try {
-            const saved = JSON.parse(localStorage.getItem('senceo_saved_oauth_accounts') || '[]');
-            const filtered = saved.filter((x) => x && x.email !== email);
-            filtered.unshift({ email, name: (data.friend && data.friend.username) || name, provider });
-            localStorage.setItem('senceo_saved_oauth_accounts', JSON.stringify(filtered.slice(0, 5)));
-          } catch (e) {}
-
-          if (window.opener) {
-            window.opener.postMessage({
-              type: 'SENCEO_OAUTH_SUCCESS',
-              provider: provider,
-              email: email,
-              name: (data.friend && data.friend.username) || name,
-              friend: data.friend || null
-            }, window.location.origin);
-          }
-          window.close();
-        } catch (err) {
-          errBox.textContent = '⚠️ Bağlantı hatası oluştu, lütfen tekrar deneyin.';
-          errBox.style.display = 'block';
-          submitBtn.disabled = false;
-          submitBtn.textContent = '🔐 Şifreyi Doğrula ve ' + provider + ' İle Giriş Yap';
-        }
-      });
-    })();
-  </script>
-</body>
-</html>`);
+        return res
+          .status(200)
+          .send(buildOAuthSuccessPopupHtml("Google", email, safeFriend.username || googleName, googlePicture, safeFriend));
       }
 
       // Global Liderlik Tablosu Sorgusu
@@ -1081,7 +1077,157 @@ export default async function handler(req, res) {
     }
 
     if (req.method === "POST" || req.method === "PUT") {
-      const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+      let body = req.body;
+      if (typeof body === "string") {
+        const trimmed = body.trim();
+        if (trimmed.startsWith("{")) {
+          try {
+            body = JSON.parse(trimmed);
+          } catch (e) {
+            body = {};
+          }
+        } else {
+          // Apple Sign In form_post (application/x-www-form-urlencoded) desteği!
+          body = Object.fromEntries(new URLSearchParams(trimmed));
+        }
+      } else if (!body || typeof body !== "object") {
+        body = {};
+      }
+
+      // APPLE / iCLOUD (SIGN IN WITH APPLE) RESMİ FORM_POST CALLBACK
+      if (!body.action && (body.code || body.id_token) && (body.state || body.user)) {
+        let stateData = {};
+        if (body.state) {
+          try {
+            stateData = JSON.parse(Buffer.from(String(body.state), "base64url").toString("utf-8"));
+          } catch (e) {}
+        }
+
+        let idTokenStr = String(body.id_token || "").trim();
+        const authCode = String(body.code || "").trim();
+
+        // Authorization code geldiğinde .p8 ES256 client_secret ile Apple'dan resmi token takası yap!
+        if (authCode) {
+          try {
+            const appleClientSecret = generateAppleClientSecretJwt(
+              APPLE_TEAM_ID,
+              APPLE_CLIENT_ID,
+              APPLE_KEY_ID,
+              APPLE_PRIVATE_KEY
+            );
+            const appleTokenParams = new URLSearchParams({
+              client_id: APPLE_CLIENT_ID,
+              client_secret: appleClientSecret,
+              code: authCode,
+              grant_type: "authorization_code",
+              redirect_uri: defaultRedirectUri
+            });
+            const appleTokenRes = await fetch("https://appleid.apple.com/auth/token", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: appleTokenParams.toString()
+            });
+            const appleTokenJson = await appleTokenRes.json();
+            if (appleTokenJson && appleTokenJson.id_token) {
+              idTokenStr = appleTokenJson.id_token;
+            }
+          } catch (e) {}
+        }
+
+        let appleEmail = "";
+        let appleSub = "";
+        if (idTokenStr && idTokenStr.includes(".")) {
+          try {
+            const jwtPayload = JSON.parse(Buffer.from(idTokenStr.split(".")[1], "base64url").toString("utf-8"));
+            appleEmail = String(jwtPayload.email || "").trim().toLowerCase();
+            appleSub = String(jwtPayload.sub || "").trim();
+          } catch (e) {}
+        }
+
+        const customStateName =
+          stateData.username && stateData.username !== "Misafir Oyuncu" && stateData.username !== "Oyuncu"
+            ? String(stateData.username).trim()
+            : "";
+
+        let appleName = customStateName;
+        if (body.user) {
+          try {
+            const uObj = typeof body.user === "string" ? JSON.parse(body.user) : body.user;
+            if (!appleName && uObj && uObj.name) {
+              appleName = `${uObj.name.firstName || ""} ${uObj.name.lastName || ""}`.trim();
+            }
+            if (!appleEmail && uObj && uObj.email) {
+              appleEmail = String(uObj.email).trim().toLowerCase();
+            }
+          } catch (e) {}
+        }
+
+        if (!appleEmail && appleSub) {
+          appleEmail = `apple_${appleSub.slice(0, 10)}@icloud.com`;
+        }
+        if (!appleName) {
+          appleName = appleEmail ? appleEmail.split("@")[0] : "iCloud Oyuncusu";
+        }
+
+        if (!appleEmail) {
+          res.setHeader("Content-Type", "text/html; charset=utf-8");
+          return res.status(400).send(`<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"/><title>Apple OAuth Hatası</title></head><body style="font-family:sans-serif;padding:24px;text-align:center;">
+            <h2>⚠️ iCloud / Apple ID Doğrulaması Tamamlanamadı</h2>
+            <p>Apple Developer panelinde Service ID (<code>${APPLE_CLIENT_ID}</code>) Return URLs kısmına <code>${defaultRedirectUri}</code> ekli olduğundan emin olun.</p>
+            <button onclick="window.close()" style="padding:10px 18px;border-radius:8px;background:#111827;color:#fff;border:none;font-weight:bold;cursor:pointer;">Pencereyi Kapat</button>
+          </body></html>`);
+        }
+
+        const lb = await getJsonFromCloudPath("leaderboard/global.json");
+        const playersList = lb?.data?.players || [];
+        const existingMatch = playersList.find(
+          (p) => p && p.email && String(p.email).trim().toLowerCase() === appleEmail
+        );
+        const targetCode =
+          (existingMatch && existingMatch.friendCode) ||
+          (/^SNC-\d{4}$/.test(stateData.friendCode || "")
+            ? stateData.friendCode
+            : `SNC-${Math.floor(1000 + Math.random() * 9000)}`);
+
+        const updatedFriend = await putJsonToCloudPath(
+          `friends/${targetCode}.json`,
+          (existing) => {
+            const rec = Object.assign(createDefaultFriendRecord(targetCode, appleName), existing || {});
+            if (!rec.username || rec.username === "Misafir Oyuncu" || rec.username === "Oyuncu") {
+              rec.username = appleName;
+            }
+            rec.xp = Math.max(Number(rec.xp) || 0, Number(stateData.xp) || 0);
+            rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
+            rec.email = appleEmail;
+            rec.appleSub = appleSub;
+            rec.provider = "iCloud";
+            rec.authProvider = "iCloud";
+            rec.isPermanentMember = true;
+            rec.passwordProtected = true;
+            rec.isPasswordProtected = true;
+            rec.updatedAt = new Date().toISOString();
+            return rec;
+          },
+          `Verified Apple/iCloud OAuth 2.0 login for ${targetCode} (${appleEmail})`
+        );
+
+        await upsertGlobalLeaderboardEntry({
+          ...updatedFriend,
+          email: appleEmail,
+          provider: "iCloud",
+          isPermanentMember: true,
+          passwordProtected: true,
+          isPasswordProtected: true
+        });
+
+        const safeFriend = { ...updatedFriend };
+        delete safeFriend.passwordHash;
+        delete safeFriend.rawPassword;
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        return res
+          .status(200)
+          .send(buildOAuthSuccessPopupHtml("iCloud", appleEmail, safeFriend.username || appleName, "", safeFriend));
+      }
 
       // 1. AKSİYON: Çift Yönlü Arkadaşlık Bağı İsteği Gönderme (send_friend_request)
       if (body.action === "send_friend_request") {

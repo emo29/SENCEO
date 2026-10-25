@@ -3175,6 +3175,36 @@
         <button type="button" onclick="closeExistingMemberLoginModal()" class="w-8 h-8 rounded-full stitch-subcard flex items-center justify-center font-bold text-sm">✕</button>
       </div>
 
+      <div class="space-y-1.5 pb-2 border-b border-[var(--outline-variant)]">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-muted-theme">Sosyal Hesabınla Hızlı Giriş Yap</div>
+        <div class="grid grid-cols-3 gap-2">
+          <button
+            type="button"
+            onclick="openSocialLoginModal('Google')"
+            class="py-2 px-2 rounded-xl stitch-subcard border border-[var(--outline-variant)] hover:border-[var(--primary)] text-xs font-extrabold flex items-center justify-center gap-1 transition cursor-pointer"
+          >
+            <span class="text-red-500 font-black">G</span>
+            <span>Google</span>
+          </button>
+          <button
+            type="button"
+            onclick="openSocialLoginModal('Facebook')"
+            class="py-2 px-2 rounded-xl bg-[#1877F2] text-white hover:opacity-90 text-xs font-extrabold flex items-center justify-center gap-1 transition cursor-pointer"
+          >
+            <span class="font-black">f</span>
+            <span>Facebook</span>
+          </button>
+          <button
+            type="button"
+            onclick="openSocialLoginModal('iCloud')"
+            class="py-2 px-2 rounded-xl stitch-subcard border border-[var(--outline-variant)] hover:border-[var(--primary)] text-xs font-extrabold flex items-center justify-center gap-1 transition cursor-pointer"
+          >
+            <span>☁️</span>
+            <span>iCloud</span>
+          </button>
+        </div>
+      </div>
+
       <form onsubmit="submitExistingMemberLoginModal(event)" class="space-y-3">
         <div>
           <label for="input-member-login-id" class="block text-xs font-bold mb-1">Oyuncu Adın veya Arkadaş Kodun (SNC-XXXX)</label>
@@ -3365,24 +3395,39 @@
         </div>
       </div>
 
-      <!-- 2. ÜYELİĞİNİ HESABA AKTAR KUTUSU (ŞU AN PASİF — SONRA GOOGLE/FACEBOOK/ICLOUD BAĞLANACAK) -->
-      <div id="guest-transfer-membership-card" class="stitch-subcard p-3.5 border border-[var(--outline-variant)] opacity-55 select-none space-y-2">
+      <!-- 2. ÜYELİĞİNİ HESABA AKTAR / BAĞLA KUTUSU (AKTİF — GOOGLE, FACEBOOK, ICLOUD OAUTH 2.0) -->
+      <div id="guest-transfer-membership-card" class="stitch-subcard p-3.5 border-2 border-[var(--primary)] space-y-2.5">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-extrabold text-muted-theme">🔄 Üyeliğini Hesaba Aktar</span>
-          <span class="px-2 py-0.5 rounded bg-slate-500/20 text-muted-theme font-mono-theme font-bold text-[10px]">⏳ Pasif (Yakında)</span>
+          <span class="text-xs font-extrabold text-primary-theme">🔄 Üyeliğini Hesaba Aktar / Bağla</span>
+          <span id="guest-transfer-status-badge" class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 font-mono-theme font-bold text-[10px]">✅ Aktif (OAuth 2.0)</span>
         </div>
         <p class="text-[11px] text-muted-theme leading-snug">
-          Misafir ilerlemeni Google, Facebook ve iCloud hesaplarıyla eşleştirme özelliği yakında aktif edilecektir.
+          Mevcut ilerlemeni, seviyeni (TP), rozetlerini ve <strong>SNC-XXXX</strong> arkadaş kodunu Google, Facebook veya iCloud (Apple ID) hesabına tek tıkla aktararak kalıcı hale getir.
         </p>
-        <div class="grid grid-cols-3 gap-2 pt-1 pointer-events-none">
-          <button type="button" disabled class="theme-btn-secondary py-2 px-2 text-[11px] font-bold opacity-60 cursor-not-allowed">
-            G Google
+        <div class="grid grid-cols-3 gap-2 pt-1">
+          <button
+            type="button"
+            onclick="openSocialLoginModal('Google')"
+            class="py-2 px-2 rounded-xl stitch-card border border-[var(--outline-variant)] hover:border-[var(--primary)] text-[11px] font-extrabold flex items-center justify-center gap-1 transition cursor-pointer"
+          >
+            <span class="text-red-500 font-black">G</span>
+            <span>Google</span>
           </button>
-          <button type="button" disabled class="theme-btn-secondary py-2 px-2 text-[11px] font-bold opacity-60 cursor-not-allowed">
-            f Facebook
+          <button
+            type="button"
+            onclick="openSocialLoginModal('Facebook')"
+            class="py-2 px-2 rounded-xl bg-[#1877F2] text-white hover:opacity-90 text-[11px] font-extrabold flex items-center justify-center gap-1 transition cursor-pointer"
+          >
+            <span class="font-black">f</span>
+            <span>Facebook</span>
           </button>
-          <button type="button" disabled class="theme-btn-secondary py-2 px-2 text-[11px] font-bold opacity-60 cursor-not-allowed">
-            ☁️ iCloud
+          <button
+            type="button"
+            onclick="openSocialLoginModal('iCloud')"
+            class="py-2 px-2 rounded-xl stitch-card border border-[var(--outline-variant)] hover:border-[var(--primary)] text-[11px] font-extrabold flex items-center justify-center gap-1 transition cursor-pointer"
+          >
+            <span>☁️</span>
+            <span>iCloud</span>
           </button>
         </div>
       </div>

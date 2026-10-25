@@ -1123,10 +1123,14 @@ async function submitExistingMemberLoginModal(event) {
   }
 }
 
-// ---------------- GERÇEK GOOGLE OAUTH 2.0 (RESMİ CLIENT ID & SECRET İLE DOĞRULAMA) ----------------
+// ---------------- GERÇEK GOOGLE, FACEBOOK & APPLE/iCLOUD OAUTH 2.0 (RESMİ CLIENT ID & SECRET İLE DOĞRULAMA) ----------------
 const SENCEO_GOOGLE_CLIENT_ID = ['3324391984', 'piubi44gnqq4cfdo7t3830adrqqq4j8f.apps.googleusercontent.com'].join('-');
+const SENCEO_FACEBOOK_APP_ID = ['97712463', '4861285'].join('');
+const SENCEO_APPLE_CLIENT_ID = ['com', 'senceo', 'web'].join('.');
 window.SENCEO_OAUTH_CONFIG = Object.assign(window.SENCEO_OAUTH_CONFIG || {}, {
-  googleClientId: SENCEO_GOOGLE_CLIENT_ID
+  googleClientId: SENCEO_GOOGLE_CLIENT_ID,
+  facebookAppId: SENCEO_FACEBOOK_APP_ID,
+  appleClientId: SENCEO_APPLE_CLIENT_ID
 });
 
 function handleOAuthSuccessPayload(data) {
@@ -1187,25 +1191,6 @@ async function verifyGoogleTokenWithBackend(payload) {
 }
 
 function triggerOfficialGoogleSignIn() {
-  // 1. Öncelikle Google Identity Services (GSI) OAuth 2.0 Token / Code Popup yüklüyse resmi Google penceresini aç!
-  if (window.google && window.google.accounts && window.google.accounts.oauth2) {
-    try {
-      const tokenClient = window.google.accounts.oauth2.initTokenClient({
-        client_id: SENCEO_GOOGLE_CLIENT_ID,
-        scope: 'openid email profile',
-        prompt: 'select_account',
-        callback: async (tokenResponse) => {
-          if (tokenResponse && tokenResponse.access_token) {
-            await verifyGoogleTokenWithBackend({ accessToken: tokenResponse.access_token });
-          }
-        }
-      });
-      tokenClient.requestAccessToken({ prompt: 'select_account' });
-      return;
-    } catch (e) {}
-  }
-
-  // 2. Fallback: Resmi Google OAuth 2.0 Authorization Code yönlendirme penceresini aç (accounts.google.com/o/oauth2/v2/auth)
   launchOAuthPopupWindow('Google');
 }
 
@@ -1216,165 +1201,34 @@ function launchOAuthPopupWindow(providerName) {
   const top = Math.max(0, Math.round(window.screenY + (window.outerHeight - height) / 2));
   const popupFeatures = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=yes`;
 
-  const oauthCfg = window.SENCEO_OAUTH_CONFIG || {};
-  const redirectUri = `${window.location.origin}/api/rooms`;
+  const normalizedProvider =
+    providerName === 'Apple' || providerName === 'icloud' ? 'iCloud' : (providerName || 'Google');
+  const p1Input = document.getElementById('input-p1-name');
+  const currentDraftName =
+    (p1Input && p1Input.value.trim()) ||
+    (userProfile.username && userProfile.username !== 'Misafir Oyuncu' ? userProfile.username.trim() : '');
 
-  let authUrl = `/api/rooms?oauth_popup=1&provider=${encodeURIComponent(providerName)}&origin=${encodeURIComponent(window.location.origin)}`;
-  if (providerName === 'Google') {
-    authUrl = `/api/rooms?google_oauth_start=1&friendCode=${encodeURIComponent(userProfile.friendCode || '')}&origin=${encodeURIComponent(window.location.origin)}`;
-  } else if (providerName === 'Facebook' && oauthCfg.facebookAppId) {
-    authUrl =
-      `https://www.facebook.com/v19.0/dialog/oauth?client_id=${encodeURIComponent(oauthCfg.facebookAppId)}` +
-      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-      `&response_type=token&scope=${encodeURIComponent('email,public_profile')}`;
-  } else if ((providerName === 'iCloud' || providerName === 'Apple') && oauthCfg.appleClientId) {
-    authUrl =
-      `https://appleid.apple.com/auth/authorize?client_id=${encodeURIComponent(oauthCfg.appleClientId)}` +
-      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-      `&response_type=code%20id_token&scope=${encodeURIComponent('name email')}&response_mode=form_post`;
-  }
+  const authUrl = `/api/rooms?oauth_start=1&provider=${encodeURIComponent(
+    normalizedProvider
+  )}&friendCode=${encodeURIComponent(userProfile.friendCode || '')}&username=${encodeURIComponent(
+    currentDraftName
+  )}&xp=${encodeURIComponent(userProfile.xp || 0)}&origin=${encodeURIComponent(window.location.origin)}`;
 
-  const popup = window.open(authUrl, `senceo_oauth_${providerName}`, popupFeatures);
+  const popup = window.open(authUrl, `senceo_oauth_${normalizedProvider}`, popupFeatures);
   return popup;
 }
 
+// KULLANICI İSTEĞİ: Google / Facebook / iCloud butonuna basınca sağdaki sayfa içi modal (#oauth-login-modal) AÇILMASIN;
+// SADECE soldaki resmi OAuth 2.0 yetkilendirme penceresi (accounts.google.com, facebook.com, appleid.apple.com) açılsın!
 function openSocialLoginModal(providerName) {
-  gameState.pendingOAuthProvider = providerName;
-
-  // Google seçildiyse doğrudan resmi Google OAuth 2.0 penceresini (accounts.google.com) başlat!
-  if (providerName === 'Google') {
-    triggerOfficialGoogleSignIn();
-  } else {
-    launchOAuthPopupWindow(providerName);
-  }
+  const normalizedProvider =
+    providerName === 'Apple' || providerName === 'icloud' ? 'iCloud' : (providerName || 'Google');
+  gameState.pendingOAuthProvider = normalizedProvider;
 
   const modal = document.getElementById('oauth-login-modal');
-  const badge = document.getElementById('oauth-modal-badge');
-  const title = document.getElementById('oauth-modal-title');
-  const submitText = document.getElementById('oauth-submit-btn-text');
-  const emailInput = document.getElementById('input-oauth-email');
-  const nameInput = document.getElementById('input-oauth-username');
-  const passInput = document.getElementById('input-oauth-password');
-  const errEl = document.getElementById('oauth-modal-error');
-  const quickList = document.getElementById('oauth-quick-accounts-list');
+  if (modal) modal.classList.add('hidden');
 
-  if (!modal) return;
-  if (errEl) errEl.classList.add('hidden');
-  if (passInput) passInput.value = '';
-
-  if (providerName === 'Google') {
-    badge.textContent = 'G';
-    badge.className = 'w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center font-extrabold text-lg shadow';
-    title.textContent = 'Google ile Resmi Giriş (OAuth 2.0)';
-    submitText.textContent = 'Şifreyi Doğrula & Google İle Bağlan';
-    if (emailInput) emailInput.placeholder = 'ornek.hesap@gmail.com';
-  } else if (providerName === 'Facebook') {
-    badge.textContent = 'f';
-    badge.className = 'w-10 h-10 rounded-xl bg-[#1877F2] text-white flex items-center justify-center font-extrabold text-lg shadow';
-    title.textContent = 'Facebook ile Güvenli Giriş';
-    submitText.textContent = 'Şifreyi Doğrula & Facebook İle Bağlan';
-    if (emailInput) emailInput.placeholder = 'eposta@facebook.com';
-  } else {
-    badge.textContent = '☁️';
-    badge.className = 'w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center font-extrabold text-lg shadow';
-    title.textContent = 'iCloud / Apple ID ile Giriş';
-    submitText.textContent = 'Şifreyi Doğrula & Apple ID İle Bağlan';
-    if (emailInput) emailInput.placeholder = 'eposta@icloud.com';
-  }
-
-  const p1Input = document.getElementById('input-p1-name');
-  const currentDraftName = (p1Input && p1Input.value.trim()) || (userProfile.isLoggedIn ? userProfile.username : '');
-  if (nameInput) nameInput.value = currentDraftName;
-  if (emailInput) emailInput.value = userProfile.email || '';
-
-  if (quickList) {
-    quickList.innerHTML = '';
-    if (providerName === 'Google') {
-      const gsiBtnWrap = document.createElement('div');
-      gsiBtnWrap.className = 'w-full flex flex-col gap-2';
-      const officialPopupBtn = document.createElement('button');
-      officialPopupBtn.type = 'button';
-      officialPopupBtn.className = 'w-full p-3 rounded-xl bg-white text-slate-900 border-2 border-slate-300 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow hover:bg-slate-50 transition';
-      officialPopupBtn.innerHTML = `<span class="text-red-500 font-black text-base">G</span><span>Google Hesabınla Resmi Giriş Yap (accounts.google.com)</span>`;
-      officialPopupBtn.addEventListener('click', () => triggerOfficialGoogleSignIn());
-      gsiBtnWrap.appendChild(officialPopupBtn);
-
-      const gsiRenderDiv = document.createElement('div');
-      gsiRenderDiv.id = 'google-gsi-official-btn-container';
-      gsiRenderDiv.className = 'flex justify-center';
-      gsiBtnWrap.appendChild(gsiRenderDiv);
-      quickList.appendChild(gsiBtnWrap);
-
-      if (window.google && window.google.accounts && window.google.accounts.id) {
-        try {
-          window.google.accounts.id.initialize({
-            client_id: SENCEO_GOOGLE_CLIENT_ID,
-            callback: async (resp) => {
-              if (resp && resp.credential) {
-                await verifyGoogleTokenWithBackend({ idToken: resp.credential });
-              }
-            }
-          });
-          window.google.accounts.id.renderButton(gsiRenderDiv, {
-            theme: 'outline',
-            size: 'large',
-            text: 'signin_with',
-            shape: 'pill',
-            width: 320
-          });
-        } catch (e) {}
-      }
-    } else {
-      const popupBtn = document.createElement('button');
-      popupBtn.type = 'button';
-      popupBtn.className = 'w-full p-2.5 rounded-xl bg-[var(--primary-fixed)] text-primary-theme font-extrabold text-xs flex items-center justify-center gap-2 hover:opacity-95 transition';
-      popupBtn.innerHTML = `<span>🔐</span><span>Yeni Pencerede ${escapeHtml(providerName)} OAuth Ekranını Aç</span>`;
-      popupBtn.addEventListener('click', () => launchOAuthPopupWindow(providerName));
-      quickList.appendChild(popupBtn);
-    }
-
-    let savedAccounts = [];
-    try {
-      savedAccounts = JSON.parse(localStorage.getItem('senceo_saved_oauth_accounts') || '[]');
-    } catch (e) {}
-
-    savedAccounts
-      .filter((acc) => acc && acc.email && acc.name && (!acc.provider || acc.provider === providerName))
-      .slice(0, 2)
-      .forEach((acc) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'w-full p-2.5 rounded-xl stitch-subcard hover:border-[var(--primary)] flex items-center justify-between text-left transition';
-        btn.innerHTML = `
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-full bg-primary-theme flex items-center justify-center font-bold text-xs">
-              ${escapeHtml(acc.name.slice(0, 2).toUpperCase())}
-            </div>
-            <div>
-              <div class="font-bold text-xs">${escapeHtml(acc.name)}</div>
-              <div class="text-[11px] text-muted-theme">${escapeHtml(acc.email)}</div>
-            </div>
-          </div>
-          <span class="text-xs font-bold text-primary-theme">Şifre Gir ➔</span>
-        `;
-        btn.addEventListener('click', () => {
-          if (emailInput) emailInput.value = acc.email;
-          if (nameInput) nameInput.value = acc.name;
-          if (passInput) {
-            passInput.value = '';
-            passInput.focus();
-          }
-        });
-        quickList.appendChild(btn);
-      });
-  }
-
-  modal.classList.remove('hidden');
-  if (emailInput && !emailInput.value) {
-    emailInput.focus();
-  } else if (passInput) {
-    passInput.focus();
-  }
+  launchOAuthPopupWindow(normalizedProvider);
 }
 
 function closeSocialLoginModal() {
@@ -1489,6 +1343,11 @@ function completeSocialLogin(providerName, chosenName, chosenEmail, cloudFriend 
 
   const p1Input = document.getElementById('input-p1-name');
   if (p1Input) p1Input.value = chosenName;
+  const mWelcomeEl = document.getElementById('m-welcome-name');
+  if (mWelcomeEl) {
+    if (typeof mWelcomeEl.value === 'string') mWelcomeEl.value = chosenName;
+    else mWelcomeEl.textContent = chosenName;
+  }
   if (!gameState.roomCode || gameState.myRoomRole !== 'p2') {
     gameState.player1Name = chosenName;
   } else {
@@ -1496,7 +1355,9 @@ function completeSocialLogin(providerName, chosenName, chosenEmail, cloudFriend 
   }
 
   closeSocialLoginModal();
-  saveUserProfile();
+  if (typeof closeExistingMemberLoginModal === 'function') closeExistingMemberLoginModal();
+  saveUserProfile(true);
+  if (typeof syncCloudFriendState === 'function') syncCloudFriendState(false);
   if (typeof initHomeOnboardingState === 'function') initHomeOnboardingState();
   spawnFloatingEmojiBurst('✅');
 }
