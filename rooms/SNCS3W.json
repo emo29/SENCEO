@@ -2,15 +2,15 @@
   "code": "SNCS3W",
   "p1Id": "USR_PN2VVUP",
   "p1FriendCode": "SNC-2603",
-  "p2Id": "",
-  "p2FriendCode": "",
+  "p2Id": "USR_2FSPXG4",
+  "p2FriendCode": "SNC-1487",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
-  "whoseTurn": "p2",
+  "whoseTurn": "p1",
   "p1": "epsaniol",
-  "p2": "",
+  "p2": "adeneme",
   "cat": "genel",
   "thm": "luminous",
   "qIds": [
@@ -25,7 +25,12 @@
     2,
     66,
     1,
-    53
+    53,
+    26,
+    31,
+    58,
+    30,
+    62
   ],
   "customOptionsMap": {},
   "p1Answers": [
@@ -57,13 +62,73 @@
       "text": ""
     }
   ],
-  "p2Guesses": [],
-  "p2Comments": [],
-  "p2Half2QIds": [],
+  "p2Guesses": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Half2QIds": [
+    26,
+    31,
+    58,
+    30,
+    62
+  ],
   "p2Half2CustomMap": {},
-  "p2Half2Answers": [],
-  "p2Half2Comments": [],
+  "p2Half2Answers": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "❤️",
+      "text": "aaaaaaa"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-25T17:29:57.147Z"
+  "updatedAt": "2026-10-25T17:31:00.335Z"
 }
