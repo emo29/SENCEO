@@ -116,7 +116,11 @@
   "lastCorrectCount": 6,
   "lastTotalQuestions": 10,
   "completedAt": "2026-10-25T13:50:34.581Z",
-  "updatedAt": "2026-10-25T13:50:37.864Z",
+  "updatedAt": "2026-10-25T13:50:42.017Z",
   "nextRoundSecondCode": "SNC-5728",
-  "nextRoundSecondName": "sıradana"
+  "nextRoundSecondName": "sıradana",
+  "round2NudgeAt": 1792936242017,
+  "round2NudgeFrom": "sıradana",
+  "round2NudgeFromCode": "SNC-5728",
+  "round2NudgeTargetRound": 2
 }
