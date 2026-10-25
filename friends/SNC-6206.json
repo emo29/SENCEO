@@ -51,6 +51,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "NUDGE_SNC7TY_1792957271619",
+      "type": "next_round_nudge",
+      "title": "🔥 2. Raund Çağrısı! (İlk Sıra Sende)",
+      "message": "Emirhan #SNC7TY odasında 2. Raunda geçmen için sana bildirim gönderdi! İlk sıra sende, hemen başlat!",
+      "fromCode": "SNC-4741",
+      "fromName": "Emirhan",
+      "roomCode": "SNC7TY",
+      "read": false,
+      "createdAt": "2026-10-25T19:41:11.619Z"
+    },
+    {
       "id": "DONE_P2_SNC7TY_R1",
       "type": "completed",
       "title": "🏆 Emirhan Tahminlerini Tamamladı!",
@@ -194,6 +205,6 @@
       "createdAt": "2026-10-24T04:10:06.380Z"
     }
   ],
-  "updatedAt": "2026-10-25T19:26:44.497Z",
+  "updatedAt": "2026-10-25T19:41:11.619Z",
   "deletedRoomCodes": []
 }
