@@ -1,0 +1,35 @@
+{
+  "code": "SNC96H",
+  "p1Id": "USR_E0B22H4",
+  "hostCode": "SNC-5728",
+  "p1FriendCode": "SNC-5728",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "liveSettings": {
+    "ffaSubMode": "ebe",
+    "teamSubMode": "",
+    "turnStep": 1,
+    "timerSeconds": 0,
+    "starterMode": "random",
+    "selectedStarterCode": ""
+  },
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "EmirhanTest",
+  "p2": "",
+  "participants": [
+    {
+      "name": "EmirhanTest",
+      "code": "SNC-5728",
+      "role": "host",
+      "team": "common",
+      "isHost": true
+    }
+  ],
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [],
+  "createdAt": "2026-10-25T13:50:34.911Z",
+  "updatedAt": "2026-10-25T13:51:24.005Z"
+}
