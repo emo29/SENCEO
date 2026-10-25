@@ -1,7 +1,7 @@
 {
   "code": "SNC5PA",
   "p1Id": "USR_FW6OPX9",
-  "hostCode": "SNC-7224",
+  "hostCode": "",
   "p1FriendCode": "SNC-7224",
   "p2FriendCode": "",
   "roomType": "live_arena",
@@ -14,24 +14,16 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "opponent_fled",
+  "status": "abandoned",
   "currentRound": 1,
   "p1": "emirhan",
   "p2": "",
-  "participants": [
-    {
-      "name": "emirhan",
-      "code": "SNC-7224",
-      "role": "host",
-      "team": "common",
-      "isHost": true
-    }
-  ],
+  "participants": [],
   "cat": "genel",
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-10-24T19:08:37.300Z",
-  "updatedAt": "2026-10-25T17:24:26.657Z",
+  "updatedAt": "2026-10-25T20:26:54.253Z",
   "abandonedByCode": "",
   "abandonedByName": "Rakibin",
   "abandonedAt": 1792949066657
