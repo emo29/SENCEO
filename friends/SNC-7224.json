@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-7224",
   "username": "emirhan",
-  "level": 3,
-  "xp": 210,
-  "gamesPlayed": 1,
-  "questionsCorrect": 7,
+  "level": 4,
+  "xp": 360,
+  "gamesPlayed": 2,
+  "questionsCorrect": 12,
   "provider": "Google",
   "isPermanentMember": true,
   "passwordProtected": true,
   "passwordHash": "MTIz",
-  "lastXpActivityAt": 1792815007494,
+  "lastXpActivityAt": 1792950124936,
   "latestRoomCode": "SNCLTE",
   "activeRooms": [
     {
@@ -219,7 +219,7 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-25T17:42:02.735Z",
+  "updatedAt": "2026-10-25T17:42:04.936Z",
   "deletedRoomCodes": [],
   "isPasswordProtected": true,
   "lastPropagatedName": "emirhan",
