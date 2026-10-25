@@ -15,24 +15,36 @@
     {
       "code": "SNC2XD",
       "p1": "komnenos",
-      "p2": "",
+      "p2": "emirhan",
       "p1FriendCode": "SNC-2002",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-7224",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-24T18:54:10.920Z"
+      "updatedAt": "2026-10-25T11:16:59.399Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-24T18:54:10.920Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNC2XD_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "emirhan 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNC2XD)",
+      "fromCode": "SNC-7224",
+      "fromName": "emirhan",
+      "roomCode": "SNC2XD",
+      "read": false,
+      "createdAt": "2026-10-25T11:16:59.399Z"
+    }
+  ],
+  "updatedAt": "2026-10-25T11:16:59.399Z",
   "lastPropagatedName": "komnenos",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
