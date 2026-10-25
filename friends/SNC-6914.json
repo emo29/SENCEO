@@ -1,20 +1,21 @@
 {
   "friendCode": "SNC-6914",
-  "username": "Oyuncu",
+  "username": "Oyuncu 1",
   "level": 1,
-  "xp": 0,
+  "xp": 35,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792955636652,
+  "lastXpActivityAt": 1792955802068,
   "latestRoomCode": "",
   "activeRooms": [],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T19:13:58.322Z",
-  "isPasswordProtected": false
+  "updatedAt": "2026-10-25T19:16:42.068Z",
+  "isPasswordProtected": false,
+  "lastPropagatedName": "Oyuncu 1"
 }
