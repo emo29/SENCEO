@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-9999",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-9999",
       "cat": "genel",
-      "updatedAt": "2026-10-25T13:50:36.143Z"
+      "lastMatchPercentage": 60,
+      "updatedAt": "2026-10-25T13:50:39.712Z"
     }
   ],
   "incomingRequests": [],
@@ -44,7 +45,7 @@
       "createdAt": "2026-10-25T13:50:36.143Z"
     }
   ],
-  "updatedAt": "2026-10-25T13:50:37.793Z",
+  "updatedAt": "2026-10-25T13:50:39.712Z",
   "deletedRoomCodes": [],
   "lastPropagatedName": "sıradana",
   "isPasswordProtected": false
