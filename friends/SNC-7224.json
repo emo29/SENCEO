@@ -197,7 +197,7 @@
       "fromCode": "SNC-8774",
       "fromName": "bahan",
       "roomCode": "SNCLTE",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-25T17:37:08.104Z"
     },
     {
@@ -235,7 +235,7 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-25T20:26:56.848Z",
+  "updatedAt": "2026-10-25T20:27:08.690Z",
   "deletedRoomCodes": [],
   "isPasswordProtected": true,
   "lastPropagatedName": "emirhan",
