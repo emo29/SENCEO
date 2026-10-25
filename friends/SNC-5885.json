@@ -2,14 +2,14 @@
   "friendCode": "SNC-5885",
   "username": "oe",
   "level": 1,
-  "xp": 0,
+  "xp": 35,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792932610159,
+  "lastXpActivityAt": 1792936361368,
   "latestRoomCode": "SNCNMQ",
   "activeRooms": [
     {
@@ -48,7 +48,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T12:59:02.398Z",
+  "updatedAt": "2026-10-25T13:52:41.368Z",
   "lastPropagatedName": "oe",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
