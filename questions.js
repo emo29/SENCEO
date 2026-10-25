@@ -970,5 +970,261 @@ const QUESTIONS_DB = [
       { icon: "🎉", text: "Hiç üzülmemiş gibi kankalarla dışarı çıkıp story atarım" },
       { icon: "🧹", text: "Tüm fotoğrafları silip ortak eşyaları çöpe atarım" }
     ]
+  },
+
+  // ==================== 🚩 KIRMIZI BAYRAK MI, YEŞİL BAYRAK MI? (76 - 85) ====================
+  {
+    id: 76,
+    category: 'redflag',
+    categoryLabel: '🚩 Kırmızı / Yeşil Bayrak',
+    q1: "Eski sevgilisiyle hâlâ 'çok yakın arkadaş' olarak görüşmeye devam etmesi senin için nedir?",
+    q2: "Sence {p1} için karşı tarafın eski sevgilisiyle yakın arkadaş kalması hangi bayraktır?",
+    options: [
+      { icon: "🚩", text: "Kesin Kırmızı Bayrak (Anında soğurum)" },
+      { icon: "⚠️", text: "Sarı Bayrak (Mesafesine göre izlerim)" },
+      { icon: "✅", text: "Yeşil Bayrak (Medeni insan derim)" },
+      { icon: "💎", text: "Tam Benlik (Ben de görüşüyorum)" }
+    ]
+  },
+  {
+    id: 77,
+    category: 'redflag',
+    categoryLabel: '🚩 Kırmızı / Yeşil Bayrak',
+    q1: "Buluşmada telefonu hep ters çevirip masaya koyması ve bildirimlerini gizlemesi?",
+    q2: "Sence {p1} için buluşmada telefonun hep ters kapatılması hangi bayraktır?",
+    options: [
+      { icon: "🚩", text: "Kesin Kırmızı Bayrak (Kesin bir şey saklıyor)" },
+      { icon: "⚠️", text: "Sarı Bayrak (Şüphelenirim ama sormam)" },
+      { icon: "✅", text: "Yeşil Bayrak (Bana odaklanmak için yapıyordur)" },
+      { icon: "💎", text: "Tam Benlik (Özel alanına saygı duyarım)" }
+    ]
+  },
+  {
+    id: 78,
+    category: 'redflag',
+    categoryLabel: '🚩 Kırmızı / Yeşil Bayrak',
+    q1: "Garsonlara ve hizmet sektöründeki çalışanlara karşı çok kibar ve güler yüzlü olması?",
+    q2: "Sence {p1} için karşı tarafın çalışanlara aşırı kibar davranması hangi bayraktır?",
+    options: [
+      { icon: "🚩", text: "Kesin Kırmızı Bayrak (Fazla samimiyet kıskandırır)" },
+      { icon: "⚠️", text: "Sarı Bayrak (Abartmadığı sürece normal)" },
+      { icon: "✅", text: "Yeşil Bayrak (Karakter kalitesini gösterir)" },
+      { icon: "💎", text: "Tam Benlik (Kalbim anında erir!)" }
+    ]
+  },
+  {
+    id: 79,
+    category: 'redflag',
+    categoryLabel: '🚩 Kırmızı / Yeşil Bayrak',
+    q1: "Sosyal medyada seni hiç paylaşmaması ('Nazar değer, özelimiz kalsın' demesi)?",
+    q2: "Sence {p1} için sosyal medyada hiç paylaşılmamak hangi bayraktır?",
+    options: [
+      { icon: "🚩", text: "Kesin Kırmızı Bayrak (Yedek kulübesinde miyim?!)" },
+      { icon: "⚠️", text: "Sarı Bayrak (Gerçek hayatta ilgiliyse idare ederim)" },
+      { icon: "✅", text: "Yeşil Bayrak (Gizemli ilişkileri severim)" },
+      { icon: "💎", text: "Tam Benlik (Ben de kimseyi paylaşmam)" }
+    ]
+  },
+  {
+    id: 80,
+    category: 'redflag',
+    categoryLabel: '🚩 Kırmızı / Yeşil Bayrak',
+    q1: "Tartışma çıktığında küsüp saatlerce ortadan kaybolması (Ghosting / Sessiz muamele)?",
+    q2: "Sence {p1} için tartışmada karşı tarafın saatlerce yazmaması hangi bayraktır?",
+    options: [
+      { icon: "🚩", text: "Kesin Kırmızı Bayrak (En nefret ettiğim şey!)" },
+      { icon: "⚠️", text: "Sarı Bayrak (Sakinleşmek içinse beklerim)" },
+      { icon: "✅", text: "Yeşil Bayrak (Kalp kırmamaktan iyidir)" },
+      { icon: "💎", text: "Tam Benlik (Sinirliyken ben de kaybolurum)" }
+    ]
+  },
+  {
+    id: 81,
+    category: 'redflag',
+    categoryLabel: '🚩 Kırmızı / Yeşil Bayrak',
+    q1: "Senin en sevdiğin yemekleri, kahve siparişini ve küçük detayları unutmaması?",
+    q2: "Sence {p1} için küçük detayların hiç unutulmaması hangi bayraktır?",
+    options: [
+      { icon: "🚩", text: "Kesin Kırmızı Bayrak (Stalker gibi korkutucu)" },
+      { icon: "⚠️", text: "Sarı Bayrak (Bazen fazla dikkat yorar)" },
+      { icon: "✅", text: "Yeşil Bayrak (Gerçekten değer verdiğini kanıtlar)" },
+      { icon: "💎", text: "Tam Benlik (Hayalimdeki insan!)" }
+    ]
+  },
+  {
+    id: 82,
+    category: 'redflag',
+    categoryLabel: '🚩 Kırmızı / Yeşil Bayrak',
+    q1: "Yakın arkadaş grubunla tanışmayı sürekli bahane bulup ertelemesi?",
+    q2: "Sence {p1} için arkadaş grubuyla tanışmaktan kaçan biri hangi bayraktır?",
+    options: [
+      { icon: "🚩", text: "Kesin Kırmızı Bayrak (Ciddi düşünmüyor demektir)" },
+      { icon: "⚠️", text: "Sarı Bayrak (Utangaçsa zaman tanırım)" },
+      { icon: "✅", text: "Yeşil Bayrak (Sadece baş başa kalmak güzel)" },
+      { icon: "💎", text: "Tam Benlik (Ben de kalabalıktan kaçarım)" }
+    ]
+  },
+
+  // ==================== ⚡ ATEŞLİ 60 SANİYE (2 ŞIKLI HIZLI İKİLEMLER: 83 - 92) ====================
+  {
+    id: 83,
+    category: 'blitz',
+    categoryLabel: '⚡ Ateşli 60 Sn',
+    q1: "Zengin ama aşırı yoğun bir hayat mı, orta halli ama bol boş vakitli hayat mı?",
+    q2: "Sence {p1} hangisini seçer?",
+    options: [
+      { icon: "💰", text: "Zengin ama aşırı yoğun hayat" },
+      { icon: "🏖️", text: "Orta halli ama bol özgür vakit" }
+    ]
+  },
+  {
+    id: 84,
+    category: 'blitz',
+    categoryLabel: '⚡ Ateşli 60 Sn',
+    q1: "Her zaman doğruyu söylemek zorunda olmak mı, herkesin yalanını anında anlamak mı?",
+    q2: "Sence {p1} hangi gücü seçer?",
+    options: [
+      { icon: "🗣️", text: "Hep doğruyu söylemek" },
+      { icon: "🕵️", text: "Herkesin yalanını yakalamak" }
+    ]
+  },
+  {
+    id: 85,
+    category: 'blitz',
+    categoryLabel: '⚡ Ateşli 60 Sn',
+    q1: "Geçmişe gidip 1 hatanı düzeltmek mi, 10 yıl sonrasını 5 dakika görmek mi?",
+    q2: "Sence {p1} hangisini tercih eder?",
+    options: [
+      { icon: "⏪", text: "Geçmişteki 1 hatayı düzeltmek" },
+      { icon: "⏩", text: "10 yıl sonrasını 5 dk görmek" }
+    ]
+  },
+  {
+    id: 86,
+    category: 'blitz',
+    categoryLabel: '⚡ Ateşli 60 Sn',
+    q1: "Mesajlaşarak konuşmak mı, sesli/görüntülü aramak mı?",
+    q2: "Sence {p1} iletişimi nasıl sever?",
+    options: [
+      { icon: "💬", text: "Kesinlikle mesajlaşmak" },
+      { icon: "📞", text: "Direkt arayıp konuşmak" }
+    ]
+  },
+  {
+    id: 87,
+    category: 'blitz',
+    categoryLabel: '⚡ Ateşli 60 Sn',
+    q1: "Planlı programlı tatil mi, çantayı alıp rastgele yola çıkmak mı?",
+    q2: "Sence {p1} nasıl tatil yapar?",
+    options: [
+      { icon: "📋", text: "Her saati planlı tatil" },
+      { icon: "🎒", text: "Plansız spontane macera" }
+    ]
+  },
+  {
+    id: 88,
+    category: 'blitz',
+    categoryLabel: '⚡ Ateşli 60 Sn',
+    q1: "Tatlıdan sonsuza kadar vazgeçmek mi, tuzlu atıştırmalıklardan vazgeçmek mi?",
+    q2: "Sence {p1} hangisinden vazgeçer?",
+    options: [
+      { icon: "🍩", text: "Tatlıdan vazgeçerim" },
+      { icon: "🍟", text: "Tuzludan vazgeçerim" }
+    ]
+  },
+  {
+    id: 89,
+    category: 'blitz',
+    categoryLabel: '⚡ Ateşli 60 Sn',
+    q1: "Mantığınla mı hareket edersin, kalbinle/duygularınla mı?",
+    q2: "Sence {p1} kararlarını neyle alır?",
+    options: [
+      { icon: "🧠", text: "%100 Mantık ve strateji" },
+      { icon: "❤️", text: "%100 Kalp ve hisler" }
+    ]
+  },
+  {
+    id: 90,
+    category: 'blitz',
+    categoryLabel: '⚡ Ateşli 60 Sn',
+    q1: "Evde film/oyun gecesi mi, dışarıda kalabalık gece eğlencesi mi?",
+    q2: "Sence {p1} cuma akşamı hangisini seçer?",
+    options: [
+      { icon: "🎮", text: "Evde rahat film & oyun gecesi" },
+      { icon: "🎉", text: "Dışarıda mekan & gece eğlencesi" }
+    ]
+  },
+
+  // ==================== 🔮 GRUP KRİSTAL KÜRESİ: KİM DAHA ÇOK...? (91 - 96) ====================
+  {
+    id: 91,
+    category: 'kristal',
+    categoryLabel: '🔮 Kim Daha Çok?',
+    isMostLikelyTo: true,
+    q1: "Issız bir adaya düşsek ilk gün kim panikleyip ağlamaya başlar?",
+    q2: "Sence {p1}'e göre ıssız adada ilk kim panikler?",
+    options: [
+      { icon: "😱", text: "Kesinlikle ben paniklerim" },
+      { icon: "😂", text: "Kesinlikle sen (rakibim) paniklersin" },
+      { icon: "🤝", text: "İkimiz birbirimize sarılıp beraber ağlarız" },
+      { icon: "🏝️", text: "İkimiz de paniklemeyiz, adanın kralı oluruz" }
+    ]
+  },
+  {
+    id: 92,
+    category: 'kristal',
+    categoryLabel: '🔮 Kim Daha Çok?',
+    isMostLikelyTo: true,
+    q1: "Yanlışlıkla çok gizli bir sırrı ağzından kaçırmaya kim daha yatkındır?",
+    q2: "Sence {p1}'e göre sırrı ilk kim ağzından kaçırır?",
+    options: [
+      { icon: "🙊", text: "Ben dayanamayıp ağzımdan kaçırırım" },
+      { icon: "📢", text: "Sen 5 dakika içinde herkese anlatırsın" },
+      { icon: "🔒", text: "İkimiz de mezara kadar sır tutarız" },
+      { icon: "😈", text: "Sadece birbirimize anlatıp gıybetini yaparız" }
+    ]
+  },
+  {
+    id: 93,
+    category: 'kristal',
+    categoryLabel: '🔮 Kim Daha Çok?',
+    isMostLikelyTo: true,
+    q1: "Gece saat 03:00'te saçma sapan bir fikirle diğerini arayıp 'Hadi kalk gidiyoruz!' diyecek kişi kimdir?",
+    q2: "Sence {p1}'e göre gece 03:00'te delilik yapacak olan kim?",
+    options: [
+      { icon: "🔥", text: "Kesinlikle benim, delilik benden sorulur" },
+      { icon: "🚗", text: "Kesinlikle sensin, senin saatin belli olmaz" },
+      { icon: "⚡", text: "İkimiz aynı anda birbirimizi ararız" },
+      { icon: "😴", text: "İkimiz de uykumuzu dünyaya değişmeyiz" }
+    ]
+  },
+  {
+    id: 94,
+    category: 'kristal',
+    categoryLabel: '🔮 Kim Daha Çok?',
+    isMostLikelyTo: true,
+    q1: "İleride milyarder olup diğerine şoförlü lüks araba hediye etme ihtimali kimde daha yüksek?",
+    q2: "Sence {p1}'e göre ileride kim zengin olup diğerine bakacak?",
+    options: [
+      { icon: "💎", text: "Ben zengin olup seni yaşatacağım" },
+      { icon: "🏦", text: "Sen zengin olacaksın, şimdiden yerimi ayırtayım" },
+      { icon: "🚀", text: "Beraber ortak iş kurup beraber batacağız veya çıkacağız" },
+      { icon: "🪙", text: "İkimiz de maaş gününü beklemeye devam ederiz" }
+    ]
+  },
+  {
+    id: 95,
+    category: 'kristal',
+    categoryLabel: '🔮 Kim Daha Çok?',
+    isMostLikelyTo: true,
+    q1: "Bir tartışmada haksız olduğunu anlasa bile inat edip asla geri adım atmayan kimdir?",
+    q2: "Sence {p1}'e göre aranızda en inatçı olan kim?",
+    options: [
+      { icon: "🐐", text: "Benim, haksız olsam bile haklı çıkana kadar konuşurum" },
+      { icon: "🧱", text: "Sensin, Nuh dersin peygamber demezsin" },
+      { icon: "💥", text: "İkimiz de keçi gibiyiz, kafa kafaya çarpışırız" },
+      { icon: "🕊️", text: "İkimiz de hemen gönül alıp barışırız" }
+    ]
   }
 ];
+

@@ -319,6 +319,14 @@ const BLOCKED_TEST_USERNAMES = new Set([
   "yanyanab",
   "sıradana",
   "sıradanb",
+  "siradana",
+  "siradanb",
+  "s─▒radana",
+  "s─▒radanb",
+  "sa─üdakipc1",
+  "sağdakipc1",
+  "sagdaki",
+  "soldaki",
   "korkakrakip"
 ]);
 
@@ -327,7 +335,15 @@ function isBlockedTestAccountName(username) {
   if (!clean || clean.length <= 1) return true;
   if (BLOCKED_TEST_USERNAMES.has(clean)) return true;
   if (/^oyuncu_[a-z0-9]+$/i.test(clean)) return true;
+  if (/[─▒┼Ÿ├§├¶├¼]/.test(clean)) return true;
   return false;
+}
+
+function sanitizeShowcaseUsername(rawName) {
+  return String(rawName || "")
+    .trim()
+    .replace(/\s+[A-ZÇĞİÖŞÜ]\.$/, "")
+    .trim();
 }
 
 // Global Liderlik Tablosunu Güncelle + 7 Gün Puanı Artmayan Misafirleri Otomatik Sil + Şifreli İsim Koruması
@@ -354,6 +370,7 @@ async function upsertGlobalLeaderboardEntry(profileObj) {
         // Test hesaplarını ve 7 gün boyunca hiç XP kazanmamış şifresiz/üyeliksiz misafir hesapları temizle
         list = list.filter((item) => {
           if (!item || !item.friendCode) return false;
+          item.username = sanitizeShowcaseUsername(item.username);
           if (isBlockedTestAccountName(item.username)) return false;
           if (item.isPermanentMember || item.passwordProtected) return true;
           const lastAct = Number(item.lastXpActivityAt) || new Date(item.updatedAt || now).getTime();
@@ -365,10 +382,11 @@ async function upsertGlobalLeaderboardEntry(profileObj) {
         const newXp = Math.max(Number(profileObj.xp) || 0, Number(prev?.xp) || 0);
         const xpIncreased = !prev || newXp > (Number(prev.xp) || 0);
 
-        const desiredName =
+        const desiredName = sanitizeShowcaseUsername(
           profileObj.username && profileObj.username !== "Misafir Oyuncu"
             ? profileObj.username.trim()
-            : prev?.username || "Misafir Oyuncu";
+            : prev?.username || "Misafir Oyuncu"
+        );
 
         if (isBlockedTestAccountName(desiredName)) {
           return {
@@ -616,18 +634,177 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === "GET") {
+      // v0.15 (#6): Google / Facebook / iCloud (Apple ID) OAuth 2.0 Güvenli Şifre Doğrulamalı Popup Penceresi
+      if (req.query.oauth_popup) {
+        const provider = String(req.query.provider || "Google").trim();
+        const brandColor =
+          provider === "Facebook" ? "#1877F2" : provider === "iCloud" || provider === "iCloud (Apple)" ? "#111827" : "#4285F4";
+        const brandIcon =
+          provider === "Facebook" ? "📘" : provider === "iCloud" || provider === "iCloud (Apple)" ? "🍎" : "🌐";
+        const defaultDomain =
+          provider === "Facebook" ? "facebook.com" : provider === "iCloud" || provider === "iCloud (Apple)" ? "icloud.com" : "gmail.com";
+
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        return res.status(200).send(`<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>${provider} Güvenli Oturum Açma — senceo</title>
+  <style>
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif; }
+    body { margin: 0; background: #f8fafc; color: #0f172a; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 18px; }
+    .card { width: 100%; max-width: 430px; background: #fff; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 20px 45px rgba(15,23,42,0.08); padding: 26px 22px; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #f1f5f9; font-size: 12px; font-weight: 700; color: #334155; }
+    h1 { font-size: 19px; margin: 12px 0 6px; font-weight: 800; }
+    p.sub { font-size: 12.5px; color: #64748b; margin: 0 0 14px; line-height: 1.45; }
+    label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #475569; margin: 10px 0 4px; }
+    input { width: 100%; padding: 10px 12px; border-radius: 12px; border: 1.5px solid #cbd5e1; font-size: 13.5px; font-weight: 600; outline: none; }
+    input:focus { border-color: ${brandColor}; }
+    .err { display: none; margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; font-size: 12px; font-weight: 700; }
+    .perms { margin-top: 14px; padding: 11px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 11.5px; color: #334155; line-height: 1.45; }
+    .btn { margin-top: 16px; width: 100%; padding: 12px 16px; border-radius: 12px; border: none; background: ${brandColor}; color: #fff; font-weight: 800; font-size: 13.5px; cursor: pointer; }
+    .btn:hover { opacity: 0.94; }
+    .btn:disabled { opacity: 0.6; cursor: wait; }
+    .btn-cancel { margin-top: 8px; width: 100%; padding: 9px; border-radius: 12px; border: 1px solid #cbd5e1; background: #fff; color: #475569; font-weight: 700; font-size: 12px; cursor: pointer; }
+    .saved-list { margin-bottom: 12px; display: none; flex-direction: column; gap: 6px; }
+    .saved-item { padding: 9px 11px; border-radius: 12px; border: 1px solid #e2e8f0; background: #f8fafc; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; font-weight: 700; }
+    .saved-item:hover { border-color: ${brandColor}; background: #eff6ff; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge"><span>${brandIcon}</span> <span>${provider} Güvenli Kimlik &amp; Şifre Doğrulama</span></div>
+    <h1>${provider} ile senceo'ya Giriş Yap</h1>
+    <p class="sub">Hesabınızın güvenliği için <strong>şifresiz giriş yapılamaz</strong>. E-posta adresinizi ve şifrenizi girerek oturum açın.</p>
+
+    <div id="saved-accounts" class="saved-list"></div>
+
+    <form id="oauth-form">
+      <label>${provider} E-Posta Adresin</label>
+      <input id="inp-email" type="email" required placeholder="ornek@${defaultDomain}" autocomplete="email" />
+      <label>Hesap Şifren (Zorunlu)</label>
+      <input id="inp-password" type="password" required minlength="4" placeholder="••••••••" autocomplete="current-password" />
+      <label>Görünecek Oyuncu Adın</label>
+      <input id="inp-name" type="text" required minlength="2" maxlength="24" placeholder="Örn: Emirhan" autocomplete="name" />
+
+      <div id="err-box" class="err"></div>
+
+      <div class="perms">
+        🔒 <strong>Şifre Korumalı OAuth Oturumu:</strong><br/>
+        • Şifreniz doğrulanmadan hiçbir yabancı e-postanızla giriş yapamaz.<br/>
+        • 365 gün kalıcı seviye (TP) ve arkadaş kodu (<code>SNC-XXXX</code>) senkronizasyonu.
+      </div>
+
+      <button id="submit-btn" type="submit" class="btn">🔐 Şifreyi Doğrula ve ${provider} İle Giriş Yap</button>
+      <button type="button" class="btn-cancel" onclick="window.close()">İptal Et</button>
+    </form>
+  </div>
+  <script>
+    (function() {
+      const provider = ${JSON.stringify(provider)};
+      try {
+        const saved = JSON.parse(localStorage.getItem('senceo_saved_oauth_accounts') || '[]');
+        const listEl = document.getElementById('saved-accounts');
+        if (Array.isArray(saved) && saved.length > 0 && listEl) {
+          listEl.style.display = 'flex';
+          saved.forEach((acc) => {
+            const div = document.createElement('div');
+            div.className = 'saved-item';
+            div.innerHTML = '<span>👤 ' + (acc.name || '') + ' <small style="color:#64748b">(' + (acc.email || '') + ')</small></span><span style="color:${brandColor}">Şifre Gir ➔</span>';
+            div.onclick = () => {
+              document.getElementById('inp-email').value = acc.email || '';
+              document.getElementById('inp-name').value = acc.name || '';
+              document.getElementById('inp-password').focus();
+            };
+            listEl.appendChild(div);
+          });
+        }
+      } catch (e) {}
+
+      document.getElementById('oauth-form').addEventListener('submit', async function(ev) {
+        ev.preventDefault();
+        const email = document.getElementById('inp-email').value.trim();
+        const password = document.getElementById('inp-password').value.trim();
+        const name = document.getElementById('inp-name').value.trim();
+        const errBox = document.getElementById('err-box');
+        const submitBtn = document.getElementById('submit-btn');
+
+        if (!email || !password || password.length < 4 || !name) {
+          errBox.textContent = '⚠️ Lütfen e-posta, oyuncu adı ve en az 4 karakterli şifrenizi girin.';
+          errBox.style.display = 'block';
+          return;
+        }
+
+        errBox.style.display = 'none';
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ Şifre Doğrulanıyor...';
+
+        try {
+          const res = await fetch('/api/rooms', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'social_oauth_login',
+              provider: provider,
+              email: email,
+              username: name,
+              password: password
+            })
+          });
+          const data = await res.json();
+          if (!res.ok || data.error) {
+            errBox.textContent = '❌ ' + (data.error || 'Şifre doğrulanamadı!');
+            errBox.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.textContent = '🔐 Şifreyi Doğrula ve ' + provider + ' İle Giriş Yap';
+            return;
+          }
+
+          try {
+            const saved = JSON.parse(localStorage.getItem('senceo_saved_oauth_accounts') || '[]');
+            const filtered = saved.filter((x) => x && x.email !== email);
+            filtered.unshift({ email, name: (data.friend && data.friend.username) || name, provider });
+            localStorage.setItem('senceo_saved_oauth_accounts', JSON.stringify(filtered.slice(0, 5)));
+          } catch (e) {}
+
+          if (window.opener) {
+            window.opener.postMessage({
+              type: 'SENCEO_OAUTH_SUCCESS',
+              provider: provider,
+              email: email,
+              name: (data.friend && data.friend.username) || name,
+              friend: data.friend || null
+            }, window.location.origin);
+          }
+          window.close();
+        } catch (err) {
+          errBox.textContent = '⚠️ Bağlantı hatası oluştu, lütfen tekrar deneyin.';
+          errBox.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.textContent = '🔐 Şifreyi Doğrula ve ' + provider + ' İle Giriş Yap';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>`);
+      }
+
       // Global Liderlik Tablosu Sorgusu
       if (req.query.leaderboard) {
         const lb = await getJsonFromCloudPath("leaderboard/global.json");
         const now = Date.now();
         const players = Array.isArray(lb?.data?.players)
-          ? lb.data.players.filter((item) => {
-              if (!item || !item.friendCode) return false;
-              if (isBlockedTestAccountName(item.username)) return false;
-              if (item.isPermanentMember || item.passwordProtected) return true;
-              const lastAct = Number(item.lastXpActivityAt) || new Date(item.updatedAt || now).getTime();
-              return now - lastAct <= SEVEN_DAYS_MS;
-            })
+          ? lb.data.players
+              .map((item) => (item ? { ...item, username: sanitizeShowcaseUsername(item.username) } : null))
+              .filter((item) => {
+                if (!item || !item.friendCode) return false;
+                if (isBlockedTestAccountName(item.username)) return false;
+                if (item.isPermanentMember || item.passwordProtected) return true;
+                const lastAct = Number(item.lastXpActivityAt) || new Date(item.updatedAt || now).getTime();
+                return now - lastAct <= SEVEN_DAYS_MS;
+              })
           : [];
         return res.status(200).json({ ok: true, players, leaderboard: players });
       }
@@ -661,6 +838,7 @@ export default async function handler(req, res) {
           }
           const safeFriend = { ...rec };
           delete safeFriend.passwordHash;
+          delete safeFriend.rawPassword;
           return res.status(200).json({
             source: "friend-index",
             friend: safeFriend,
@@ -1755,7 +1933,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, deletedCodes: codes });
       }
 
-      // 9D. AKSİYON: Misafir Üyeliğini Şifreyle Koru & Şifreli Misafir Girişi (set_guest_password | login_guest_password | check_username_lock)
+      // 9D. AKSİYON: Misafir Üyeliğini Şifreyle Koru, Sosyal Giriş Şifre Doğrulama & Admin Paneli (/ceo)
       if (body.action === "set_guest_password") {
         const friendCode = String(body.friendCode || "").trim().toUpperCase();
         const username = String(body.username || "").trim();
@@ -1780,17 +1958,17 @@ export default async function handler(req, res) {
           const ownerFile = await getJsonFromCloudPath(`friends/${existingOwner.friendCode}.json`);
           const ownerRec = ownerFile?.data;
           if (ownerRec && ownerRec.passwordProtected && ownerRec.passwordHash) {
-            // Eğer kullanıcı kendi şifreli hesabının şifresini doğru girdiyse, hata vermek yerine o hesabı geri yükle!
             if (ownerRec.passwordHash === encodedPass) {
               const safeOwner = { ...ownerRec };
               delete safeOwner.passwordHash;
+              delete safeOwner.rawPassword;
               return res.status(200).json({
                 ok: true,
                 restoredExisting: true,
                 friend: safeOwner
               });
             }
-            const conflictMsg = `"${username}" ismi başka bir oyuncu (${existingOwner.friendCode}) tarafından şifreyle korunmaktadır! Eğer bu hesap seninse alttaki "Daha Önce Şifrelediğin Misafir Hesabına Giriş Yap" bölümünden giriş yapabilirsin.`;
+            const conflictMsg = `"${username}" ismi başka bir oyuncu (${existingOwner.friendCode}) tarafından şifreyle korunmaktadır! Eğer bu hesap seninse "Üyeliğin var mı? Giriş Yap" bölümünden şifrenle giriş yapabilirsin.`;
             return res.status(409).json({
               error: conflictMsg,
               message: conflictMsg
@@ -1807,6 +1985,7 @@ export default async function handler(req, res) {
             rec.passwordProtected = true;
             rec.isPasswordProtected = true;
             rec.passwordHash = encodedPass;
+            rec.rawPassword = password;
             rec.xp = Math.max(Number(rec.xp) || 0, Number(incomingProfile.xp) || 0);
             rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
             rec.gamesPlayed = Math.max(Number(rec.gamesPlayed) || 0, Number(incomingProfile.gamesPlayed) || 0);
@@ -1828,6 +2007,92 @@ export default async function handler(req, res) {
 
         const safeFriend = { ...updatedFriend };
         delete safeFriend.passwordHash;
+        delete safeFriend.rawPassword;
+        return res.status(200).json({ ok: true, friend: safeFriend });
+      }
+
+      // v0.15 (#6): Google / Facebook / iCloud Şifre Doğrulamalı Giriş (social_oauth_login)
+      if (body.action === "social_oauth_login") {
+        const provider = String(body.provider || "Google").trim();
+        const email = String(body.email || "").trim().toLowerCase();
+        const username = String(body.username || "").trim();
+        const password = String(body.password || "").trim();
+        const rawFriendCode = String(body.friendCode || "").trim().toUpperCase();
+
+        if (!email || !email.includes("@")) {
+          return res.status(400).json({ error: "Lütfen geçerli bir e-posta adresi girin." });
+        }
+        if (!password || password.length < 4) {
+          return res.status(400).json({ error: "Şifresiz giriş yapılamaz! En az 4 karakterli şifrenizi girin." });
+        }
+        if (!username || username.length < 2) {
+          return res.status(400).json({ error: "Lütfen en az 2 harfli bir oyuncu adı girin." });
+        }
+
+        const encodedPass = Buffer.from(password, "utf-8").toString("base64");
+        const lb = await getJsonFromCloudPath("leaderboard/global.json");
+        const playersList = lb?.data?.players || [];
+
+        // Bu e-posta veya kullanıcı adına sahip mevcut şifreli hesap var mı kontrol et
+        const existingMatch = playersList.find(
+          (p) =>
+            (p.email && String(p.email).trim().toLowerCase() === email) ||
+            (p.passwordProtected && String(p.username || "").trim().toLowerCase() === username.toLowerCase())
+        );
+
+        let targetCode = /^SNC-\d{4}$/.test(rawFriendCode)
+          ? rawFriendCode
+          : `SNC-${Math.floor(1000 + Math.random() * 9000)}`;
+
+        if (existingMatch && existingMatch.friendCode) {
+          const ownerFile = await getJsonFromCloudPath(`friends/${existingMatch.friendCode}.json`);
+          const ownerRec = ownerFile?.data;
+          if (ownerRec && ownerRec.passwordHash && ownerRec.passwordHash !== encodedPass) {
+            return res.status(401).json({
+              error: `Bu hesap (${existingMatch.username}) şifre korumalıdır ve girdiğiniz şifre hatalı!`
+            });
+          }
+          targetCode = existingMatch.friendCode;
+        }
+
+        const incomingProfile = body.profile && typeof body.profile === "object" ? body.profile : {};
+        const updatedFriend = await putJsonToCloudPath(
+          `friends/${targetCode}.json`,
+          (existing) => {
+            const rec = Object.assign(createDefaultFriendRecord(targetCode, username), existing || {});
+            rec.username = username;
+            rec.email = email;
+            rec.provider = provider;
+            rec.isPermanentMember = true;
+            rec.passwordProtected = true;
+            rec.isPasswordProtected = true;
+            rec.passwordHash = encodedPass;
+            rec.rawPassword = password;
+            rec.xp = Math.max(Number(rec.xp) || 0, Number(incomingProfile.xp) || 0);
+            rec.level = Math.max(1, Math.floor(rec.xp / 100) + 1);
+            rec.gamesPlayed = Math.max(Number(rec.gamesPlayed) || 0, Number(incomingProfile.gamesPlayed) || 0);
+            rec.questionsCorrect = Math.max(
+              Number(rec.questionsCorrect) || 0,
+              Number(incomingProfile.questionsCorrect) || 0
+            );
+            rec.updatedAt = new Date().toISOString();
+            return rec;
+          },
+          `OAuth login for ${targetCode} (${email})`
+        );
+
+        await upsertGlobalLeaderboardEntry({
+          ...updatedFriend,
+          email,
+          provider,
+          isPermanentMember: true,
+          passwordProtected: true,
+          isPasswordProtected: true
+        });
+
+        const safeFriend = { ...updatedFriend };
+        delete safeFriend.passwordHash;
+        delete safeFriend.rawPassword;
         return res.status(200).json({ ok: true, friend: safeFriend });
       }
 
@@ -1841,24 +2106,26 @@ export default async function handler(req, res) {
         if (/^SNC-\d{4}$/i.test(identifier)) {
           targetCode = identifier.toUpperCase();
         } else {
-          const searchName = identifier || fallbackUsername;
+          const searchName = (identifier || fallbackUsername).toLowerCase();
           const lb = await getJsonFromCloudPath("leaderboard/global.json");
           const playersList = lb?.data?.players || [];
-          // Önce şifre korumalı olan eşleşmeyi ara (aynı isimde eski şifresiz misafir kaydı varsa onu atla!)
           const protectedMatch = playersList.find(
             (p) =>
               p.passwordProtected &&
-              String(p.username || "").trim().toLowerCase() === searchName.toLowerCase()
+              (String(p.username || "").trim().toLowerCase() === searchName ||
+                (p.email && String(p.email).trim().toLowerCase() === searchName))
           );
           const anyMatch = playersList.find(
-            (p) => String(p.username || "").trim().toLowerCase() === searchName.toLowerCase()
+            (p) =>
+              String(p.username || "").trim().toLowerCase() === searchName ||
+              (p.email && String(p.email).trim().toLowerCase() === searchName)
           );
           const match = protectedMatch || anyMatch;
           if (match) targetCode = match.friendCode;
         }
 
         if (!targetCode) {
-          const msg = "Bu isim veya arkadaş koduna ait şifreli hesap bulunamadı.";
+          const msg = "Bu isim, e-posta veya arkadaş koduna ait şifreli hesap bulunamadı.";
           return res.status(404).json({ error: msg, message: msg });
         }
 
@@ -1868,13 +2135,14 @@ export default async function handler(req, res) {
           return res.status(404).json({ error: msg, message: msg });
         }
 
-        if (fFound.data.passwordHash !== encodedPass) {
+        if (fFound.data.passwordHash !== encodedPass && fFound.data.rawPassword !== password) {
           const msg = "Girdiğiniz şifre hatalı!";
           return res.status(401).json({ error: msg, message: msg });
         }
 
         const safeFriend = { ...fFound.data };
         delete safeFriend.passwordHash;
+        delete safeFriend.rawPassword;
         return res.status(200).json({ ok: true, friend: safeFriend, account: safeFriend });
       }
 
@@ -1893,6 +2161,327 @@ export default async function handler(req, res) {
           locked: Boolean(lockedOwner),
           ownerCode: lockedOwner ? lockedOwner.friendCode : null
         });
+      }
+
+      // v0.14 (#2): Hesabı Kalıcı Olarak Silme (delete_user_account)
+      if (body.action === "delete_user_account") {
+        const friendCode = String(body.friendCode || "").trim().toUpperCase();
+        const username = String(body.username || "").trim().toLowerCase();
+
+        if (/^SNC-\d{4}$/.test(friendCode)) {
+          try {
+            await putJsonToCloudPath(
+              `friends/${friendCode}.json`,
+              () => ({
+                ...createDefaultFriendRecord(friendCode, "Misafir Oyuncu"),
+                deletedAccountAt: new Date().toISOString(),
+                passwordProtected: false,
+                isPasswordProtected: false,
+                passwordHash: "",
+                rawPassword: ""
+              }),
+              `Delete user account ${friendCode}`
+            );
+          } catch (e) {}
+        }
+
+        try {
+          await putJsonToCloudPath(
+            "leaderboard/global.json",
+            (existing) => {
+              const list = Array.isArray(existing?.players) ? existing.players : [];
+              const filtered = list.filter((p) => {
+                if (!p) return false;
+                if (friendCode && String(p.friendCode || "").toUpperCase() === friendCode) return false;
+                if (username && String(p.username || "").trim().toLowerCase() === username && !p.isSampleShowcase) {
+                  return false;
+                }
+                return true;
+              });
+              return {
+                updatedAt: new Date().toISOString(),
+                players: filtered
+              };
+            },
+            `Remove deleted user ${friendCode || username} from leaderboard`
+          );
+        } catch (e) {}
+
+        return res.status(200).json({ ok: true, deletedCode: friendCode });
+      }
+
+      // v0.15 (#9): /ceo ADMİNLİK & OYUNCU / DÜELLO YÖNETİM PANELİ API UÇLARI
+      if (typeof body.action === "string" && body.action.startsWith("admin_")) {
+        const adminPass = String(body.adminPassword || "").trim();
+        const validPasswords = ["senceoceo2026", "senceomdasenceom", process.env.ADMIN_CEO_PASSWORD].filter(Boolean);
+        if (!validPasswords.includes(adminPass)) {
+          return res.status(401).json({ error: "Yetkisiz erişim! Admin şifresi hatalı." });
+        }
+
+        if (body.action === "admin_login") {
+          return res.status(200).json({ ok: true, role: "CEO_ADMIN" });
+        }
+
+        if (body.action === "admin_get_overview") {
+          const lb = await getJsonFromCloudPath("leaderboard/global.json");
+          const lbPlayers = Array.isArray(lb?.data?.players) ? lb.data.players : [];
+
+          let friendFiles = [];
+          let roomFiles = [];
+          if (GH_TOKEN) {
+            try {
+              const fRes = await fetch(
+                `https://api.github.com/repos/${GH_REPO}/contents/friends?ref=${GH_BRANCH}&t=${Date.now()}`,
+                {
+                  headers: {
+                    Authorization: `token ${GH_TOKEN}`,
+                    Accept: "application/vnd.github.v3+json",
+                    "User-Agent": "senceo-cloud-db"
+                  }
+                }
+              );
+              if (fRes.ok) {
+                const fArr = await fRes.json();
+                if (Array.isArray(fArr)) {
+                  friendFiles = fArr.filter((x) => x && x.name && x.name.endsWith(".json")).slice(0, 60);
+                }
+              }
+            } catch (e) {}
+
+            try {
+              const rRes = await fetch(
+                `https://api.github.com/repos/${GH_REPO}/contents/rooms?ref=${GH_BRANCH}&t=${Date.now()}`,
+                {
+                  headers: {
+                    Authorization: `token ${GH_TOKEN}`,
+                    Accept: "application/vnd.github.v3+json",
+                    "User-Agent": "senceo-cloud-db"
+                  }
+                }
+              );
+              if (rRes.ok) {
+                const rArr = await rRes.json();
+                if (Array.isArray(rArr)) {
+                  roomFiles = rArr.filter((x) => x && x.name && x.name.endsWith(".json")).slice(0, 60);
+                }
+              }
+            } catch (e) {}
+          }
+
+          const playersMap = new Map();
+          lbPlayers.forEach((p) => {
+            if (!p || !p.friendCode) return;
+            playersMap.set(p.friendCode.toUpperCase(), {
+              ...p,
+              rawPassword: p.rawPassword || "",
+              activeRooms: [],
+              acceptedFriends: []
+            });
+          });
+
+          const friendDetails = await Promise.all(
+            friendFiles.map((f) => getJsonFromCloudPath(`friends/${f.name}`).catch(() => null))
+          );
+          friendDetails.forEach((found) => {
+            if (!found || !found.data || !found.data.friendCode) return;
+            const d = found.data;
+            if (d.deletedAccountAt && d.username === "Misafir Oyuncu") return;
+            const code = String(d.friendCode).toUpperCase();
+            let decodedPass = d.rawPassword || "";
+            if (!decodedPass && d.passwordHash) {
+              try {
+                decodedPass = Buffer.from(d.passwordHash, "base64").toString("utf-8");
+              } catch (e) {}
+            }
+            const prev = playersMap.get(code) || {};
+            playersMap.set(code, {
+              ...prev,
+              ...d,
+              friendCode: code,
+              rawPassword: decodedPass,
+              level: Math.max(1, Number(d.level) || Number(prev.level) || 1),
+              xp: Math.max(Number(d.xp) || 0, Number(prev.xp) || 0),
+              gamesPlayed: Math.max(Number(d.gamesPlayed) || 0, Number(prev.gamesPlayed) || 0),
+              questionsCorrect: Math.max(Number(d.questionsCorrect) || 0, Number(prev.questionsCorrect) || 0)
+            });
+          });
+
+          const roomDetails = await Promise.all(
+            roomFiles.map((rf) => getJsonFromCloudPath(`rooms/${rf.name}`).catch(() => null))
+          );
+          const allRooms = roomDetails
+            .map((r) => (r && r.data ? r.data : null))
+            .filter(Boolean)
+            .sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0));
+
+          const allPlayers = Array.from(playersMap.values()).sort((a, b) => (Number(b.xp) || 0) - (Number(a.xp) || 0));
+
+          return res.status(200).json({
+            ok: true,
+            players: allPlayers,
+            rooms: allRooms
+          });
+        }
+
+        if (body.action === "admin_update_player" || body.action === "admin_create_player") {
+          const friendCode = String(body.friendCode || "").trim().toUpperCase();
+          const username = String(body.username || "Oyuncu").trim();
+          const rawPassword = String(body.rawPassword || "").trim();
+          const email = String(body.email || "").trim();
+          const provider = String(body.provider || "guest").trim();
+          const xp = Math.max(0, Number(body.xp) || 0);
+          const level = Math.max(1, Number(body.level) || Math.floor(xp / 100) + 1);
+          const gamesPlayed = Math.max(0, Number(body.gamesPlayed) || 0);
+          const questionsCorrect = Math.max(0, Number(body.questionsCorrect) || 0);
+
+          if (!/^SNC-\d{4}$/.test(friendCode)) {
+            return res.status(400).json({ error: "Geçersiz SNC-XXXX arkadaş kodu." });
+          }
+
+          const hasPass = Boolean(rawPassword);
+          const encodedPass = hasPass ? Buffer.from(rawPassword, "utf-8").toString("base64") : "";
+
+          const updatedRec = await putJsonToCloudPath(
+            `friends/${friendCode}.json`,
+            (existing) => {
+              const rec = Object.assign(createDefaultFriendRecord(friendCode, username), existing || {});
+              rec.username = username;
+              rec.email = email;
+              rec.provider = provider;
+              rec.xp = xp;
+              rec.level = level;
+              rec.gamesPlayed = gamesPlayed;
+              rec.questionsCorrect = questionsCorrect;
+              rec.passwordProtected = hasPass;
+              rec.isPasswordProtected = hasPass;
+              rec.passwordHash = encodedPass;
+              rec.rawPassword = rawPassword;
+              rec.lastXpActivityAt = Date.now();
+              rec.updatedAt = new Date().toISOString();
+              return rec;
+            },
+            `Admin update player ${friendCode}`
+          );
+
+          await putJsonToCloudPath(
+            "leaderboard/global.json",
+            (existing) => {
+              const list = Array.isArray(existing?.players) ? existing.players : [];
+              const idx = list.findIndex((p) => p && String(p.friendCode || "").toUpperCase() === friendCode);
+              const entry = {
+                ...(idx >= 0 ? list[idx] : {}),
+                friendCode,
+                username,
+                email,
+                provider,
+                xp,
+                level,
+                gamesPlayed,
+                questionsCorrect,
+                passwordProtected: hasPass,
+                isPasswordProtected: hasPass,
+                lastXpActivityAt: Date.now(),
+                updatedAt: new Date().toISOString()
+              };
+              if (idx >= 0) list[idx] = entry;
+              else list.push(entry);
+              list.sort((a, b) => (Number(b.xp) || 0) - (Number(a.xp) || 0));
+              return { updatedAt: new Date().toISOString(), players: list };
+            },
+            `Admin sync leaderboard for ${friendCode}`
+          );
+
+          return res.status(200).json({ ok: true, player: updatedRec });
+        }
+
+        if (body.action === "admin_delete_player") {
+          const friendCode = String(body.friendCode || "").trim().toUpperCase();
+          if (/^SNC-\d{4}$/.test(friendCode)) {
+            await putJsonToCloudPath(
+              `friends/${friendCode}.json`,
+              () => ({
+                ...createDefaultFriendRecord(friendCode, "Misafir Oyuncu"),
+                deletedAccountAt: new Date().toISOString(),
+                passwordProtected: false,
+                isPasswordProtected: false,
+                passwordHash: "",
+                rawPassword: ""
+              }),
+              `Admin delete player ${friendCode}`
+            );
+          }
+          await putJsonToCloudPath(
+            "leaderboard/global.json",
+            (existing) => {
+              const list = Array.isArray(existing?.players) ? existing.players : [];
+              return {
+                updatedAt: new Date().toISOString(),
+                players: list.filter((p) => p && String(p.friendCode || "").toUpperCase() !== friendCode)
+              };
+            },
+            `Admin remove ${friendCode} from leaderboard`
+          );
+          return res.status(200).json({ ok: true, deletedCode: friendCode });
+        }
+
+        if (body.action === "admin_delete_room") {
+          const roomCode = String(body.roomCode || "").trim().toUpperCase();
+          if (roomCode) {
+            await putJsonToCloudPath(
+              `rooms/${roomCode}.json`,
+              (existing) => ({
+                ...(existing || { code: roomCode }),
+                status: "opponent_fled",
+                deletedByAdminAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+              }),
+              `Admin close/delete room ${roomCode}`
+            );
+          }
+          return res.status(200).json({ ok: true, roomCode });
+        }
+      }
+
+      // v0.14 (#15): "⚔️ Acil Rövanş / Canlı Odaya Çek" Anlık Canlı Oda Daveti (send_instant_live_invite)
+      if (body.action === "send_instant_live_invite") {
+        const fromCode = String(body.fromCode || "").trim().toUpperCase();
+        const fromName = String(body.fromName || "Arkadaşın").trim();
+        const toCode = String(body.toCode || "").trim().toUpperCase();
+        const roomCode = String(body.roomCode || "").trim().toUpperCase();
+
+        if (!/^SNC-\d{4}$/.test(toCode) || !roomCode) {
+          return res.status(400).json({ error: "Geçersiz arkadaş kodu veya oda kodu." });
+        }
+
+        let liveRoom = null;
+        try {
+          const found = await getRoomFromCloud(roomCode);
+          if (found) liveRoom = found.room;
+        } catch (e) {}
+
+        const updatedTarget = await putJsonToCloudPath(
+          `friends/${toCode}.json`,
+          (existing) => {
+            const rec = Object.assign(createDefaultFriendRecord(toCode, "Oyuncu"), existing || {});
+            if (liveRoom) {
+              upsertActiveRoomInFriendRecord(rec, liveRoom);
+            }
+            pushNotification(rec, {
+              id: `LIVE_PULL_${roomCode}_${Date.now()}`,
+              type: "instant_live_invite",
+              title: `⚔️ ${fromName} Seni Canlı Odaya Çekiyor!`,
+              message: `${fromName} (#${roomCode}) canlı düello masasını kurdu ve şu an lobide seni bekliyor!`,
+              fromCode,
+              fromName,
+              roomCode
+            });
+            rec.updatedAt = new Date().toISOString();
+            return rec;
+          },
+          `Instant live room invite ${fromCode} -> ${toCode} (#${roomCode})`
+        );
+
+        return res.status(200).json({ ok: true, targetFriend: updatedTarget });
       }
 
       // 10. AKSİYON: Profil ve Arkadaş Kodu Kaydı (type === 'profile')

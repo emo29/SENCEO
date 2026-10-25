@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>senceo — CEO & Admin Kontrol Paneli (v0.15)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #090710;
+            color: #F8FAFC;
+            min-height: 100vh;
+        }
+        .font-mono-code {
+            font-family: 'Space Grotesk', monospace;
+        }
+        .glass-card {
+            background: rgba(18, 15, 29, 0.88);
+            border: 1px solid rgba(168, 85, 247, 0.22);
+            backdrop-filter: blur(16px);
+        }
+        .gold-badge {
+            background: linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(245, 158, 11, 0.12));
+            border: 1px solid rgba(250, 204, 21, 0.5);
+            color: #FDE047;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- LOGIN EKRANI -->
+    <div id="ceo-login-screen" class="max-w-md mx-auto mt-16 glass-card rounded-3xl p-7 shadow-2xl">
+        <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 to-purple-600 flex items-center justify-center text-black font-black text-xl shadow-lg">👑</div>
+                <div>
+                    <h1 class="text-xl font-black tracking-tight text-white">senceo <span class="text-amber-400">/ceo</span> Paneli</h1>
+                    <p class="text-xs text-slate-400 font-semibold">Yönetici & Oyuncu Tam Kontrol Merkezi</p>
+                </div>
+            </div>
+            <span class="text-[10px] font-black px-2.5 py-1 rounded-full gold-badge">v0.15</span>
+        </div>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-1.5">Yönetici Kullanıcı Adı</label>
+                <input id="inp-admin-user" type="text" value="emirhan" placeholder="emirhan" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-purple-500/30 text-white font-bold text-sm focus:outline-none focus:border-amber-400">
+            </div>
+            <div>
+                <label class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-1.5">CEO / Admin Şifresi</label>
+                <input id="inp-admin-pass" type="password" placeholder="••••••••••••" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-purple-500/30 text-white font-bold text-sm focus:outline-none focus:border-amber-400" onkeydown="if(event.key==='Enter') loginCeoPanel()">
+            </div>
+            <p id="ceo-login-err" class="hidden text-xs font-bold text-rose-400 bg-rose-500/10 border border-rose-500/30 rounded-xl p-2.5 text-center"></p>
+            <button onclick="loginCeoPanel()" id="btn-ceo-login" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-purple-600 text-slate-950 font-black text-sm uppercase tracking-wider shadow-lg hover:opacity-95 transition">
+                👑 CEO Paneline Giriş Yap
+            </button>
+            <a href="/" class="block text-center text-xs font-bold text-slate-400 hover:text-white transition mt-2">← Ana Sayfaya Dön</a>
+        </div>
+    </div>
+
+    <!-- ANA KONTROL PANELİ -->
+    <div id="ceo-dashboard" class="hidden max-w-7xl mx-auto space-y-6">
+        <!-- Üst Bar -->
+        <div class="glass-card rounded-3xl p-5 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-purple-600 flex items-center justify-center text-2xl shadow-lg">👑</div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl md:text-2xl font-black text-white tracking-tight">senceo CEO & Oyuncu Yönetim Paneli</h1>
+                        <span class="text-[11px] font-black px-2.5 py-0.5 rounded-full gold-badge">TAM YETKİ</span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-medium">Tüm oyuncuların adlarına, şifrelerine, seviyelerine (LVL/TP), e-postalarına ve aktif düello odalarına tam erişim</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2.5">
+                <button onclick="openCreatePlayerModal()" class="px-4 py-2.5 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-extrabold text-xs hover:bg-emerald-500/30 transition">
+                    + Yeni Oyuncu / Hesap Ekle
+                </button>
+                <button onclick="refreshCeoData()" id="btn-ceo-refresh" class="px-4 py-2.5 rounded-xl bg-purple-500/20 border border-purple-400/40 text-purple-200 font-extrabold text-xs hover:bg-purple-500/30 transition">
+                    🔄 Verileri Yenile
+                </button>
+                <a href="/" class="px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 font-bold text-xs hover:bg-white/10 transition">
+                    Oyuna Dön
+                </a>
+                <button onclick="logoutCeo()" class="px-3.5 py-2.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 font-bold text-xs hover:bg-rose-500/25 transition">
+                    Çıkış
+                </button>
+            </div>
+        </div>
+
+        <!-- Özet İstatistik Kartları -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="glass-card rounded-2xl p-4">
+                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Kayıtlı Oyuncu (Bulut)</div>
+                <div id="stat-total-players" class="text-2xl md:text-3xl font-black text-white mt-1">0</div>
+                <div class="text-[11px] text-purple-300 font-semibold mt-0.5">Tüm profiller & şifreler</div>
+            </div>
+            <div class="glass-card rounded-2xl p-4">
+                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Şifreli / Korumalı Hesap</div>
+                <div id="stat-protected-players" class="text-2xl md:text-3xl font-black text-amber-400 mt-1">0</div>
+                <div class="text-[11px] text-amber-200/70 font-semibold mt-0.5">Şifresi görüntülenebilir</div>
+            </div>
+            <div class="glass-card rounded-2xl p-4">
+                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Toplam Düello Odası</div>
+                <div id="stat-total-rooms" class="text-2xl md:text-3xl font-black text-emerald-400 mt-1">0</div>
+                <div class="text-[11px] text-emerald-200/70 font-semibold mt-0.5">Canlı bulut odaları</div>
+            </div>
+            <div class="glass-card rounded-2xl p-4">
+                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Son Senkronizasyon</div>
+                <div id="stat-last-sync" class="text-lg md:text-xl font-black text-sky-400 mt-1">--:--:--</div>
+                <div class="text-[11px] text-slate-400 font-semibold mt-0.5">GitHub rooms-db</div>
+            </div>
+        </div>
+
+        <!-- Sekmeler ve Arama -->
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <button onclick="switchCeoTab('players')" id="tab-btn-players" class="px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-amber-400 text-slate-950 shadow">
+                    👥 Oyuncular & Şifreler (<span id="badge-count-players">0</span>)
+                </button>
+                <button onclick="switchCeoTab('rooms')" id="tab-btn-rooms" class="px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-white/5 text-slate-300 border border-white/10">
+                    ⚔️ Düello Odaları (<span id="badge-count-rooms">0</span>)
+                </button>
+            </div>
+            <div class="flex-1 max-w-md">
+                <input id="inp-ceo-search" type="text" oninput="renderCeoTables()" placeholder="🔍 Oyuncu adı, SNC-kod, şifre, e-posta veya oda kodu ara..." class="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-purple-500/30 text-white text-xs font-bold focus:outline-none focus:border-amber-400">
+            </div>
+        </div>
+
+        <!-- SEKME 1: OYUNCULAR TABLOSU -->
+        <div id="ceo-tab-players" class="glass-card rounded-3xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-white/10 bg-white/5 text-[11px] font-black uppercase tracking-wider text-slate-400">
+                            <th class="py-3.5 px-4">Oyuncu & Kimlik</th>
+                            <th class="py-3.5 px-4">Arkadaş Kodu</th>
+                            <th class="py-3.5 px-4">Şifre (Açık & Hash)</th>
+                            <th class="py-3.5 px-4">Giriş / E-Posta</th>
+                            <th class="py-3.5 px-4">Seviye & TP (XP)</th>
+                            <th class="py-3.5 px-4">İstatistik (D / M)</th>
+                            <th class="py-3.5 px-4">Aktif Odalar & Bağlar</th>
+                            <th class="py-3.5 px-4 text-right">Yönetim İşlemleri</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-ceo-players" class="divide-y divide-white/5 text-xs font-semibold">
+                        <tr><td colspan="8" class="py-8 text-center text-slate-400">Yükleniyor...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SEKME 2: DÜELLO ODALARI TABLOSU -->
+        <div id="ceo-tab-rooms" class="hidden glass-card rounded-3xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-white/10 bg-white/5 text-[11px] font-black uppercase tracking-wider text-slate-400">
+                            <th class="py-3.5 px-4">Oda Kodu</th>
+                            <th class="py-3.5 px-4">1. Oyuncu (Kurucu)</th>
+                            <th class="py-3.5 px-4">2. Oyuncu (Rakip)</th>
+                            <th class="py-3.5 px-4">Durum / Raund</th>
+                            <th class="py-3.5 px-4">Kategori & Skor</th>
+                            <th class="py-3.5 px-4">Son Güncelleme</th>
+                            <th class="py-3.5 px-4 text-right">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-ceo-rooms" class="divide-y divide-white/5 text-xs font-semibold">
+                        <tr><td colspan="7" class="py-8 text-center text-slate-400">Yükleniyor...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- OYUNCU DÜZENLEME / OLUŞTURMA MODALI -->
+    <div id="modal-edit-player" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-card rounded-3xl max-w-lg w-full p-6 space-y-4 border border-amber-400/40 shadow-2xl">
+            <div class="flex items-center justify-between">
+                <h3 id="modal-edit-title" class="text-lg font-black text-white">✏️ Oyuncu Bilgilerini & Şifresini Düzenle</h3>
+                <button onclick="closeEditPlayerModal()" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+            </div>
+            <input type="hidden" id="edit-mode-type" value="update">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Kullanıcı Adı</label>
+                    <input id="edit-username" type="text" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Arkadaş Kodu (SNC-XXXX)</label>
+                    <input id="edit-friendcode" type="text" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-amber-300 font-mono-code font-bold text-xs">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-amber-300 mb-1">Yeni Şifre (Açık Metin)</label>
+                    <input id="edit-password" type="text" placeholder="Şifreyi değiştir veya belirle..." class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-amber-400/40 text-white font-bold text-xs">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">E-Posta Adresi</label>
+                    <input id="edit-email" type="text" placeholder="ornek@gmail.com" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-purple-300 mb-1">Seviye (LVL)</label>
+                    <input id="edit-level" type="number" min="1" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-purple-400/40 text-white font-bold text-xs">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-purple-300 mb-1">Toplam TP (XP)</label>
+                    <input id="edit-xp" type="number" min="0" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-purple-400/40 text-white font-bold text-xs">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-emerald-300 mb-1">Doğru Tahmin Sayısı</label>
+                    <input id="edit-correct" type="number" min="0" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-sky-300 mb-1">Oynanan Maç Sayısı</label>
+                    <input id="edit-matches" type="number" min="0" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs">
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-2 pt-3 border-t border-white/10">
+                <button onclick="closeEditPlayerModal()" class="px-4 py-2.5 rounded-xl bg-white/5 text-slate-300 font-bold text-xs">İptal</button>
+                <button onclick="savePlayerChanges()" id="btn-save-player" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-purple-600 text-slate-950 font-black text-xs uppercase tracking-wider">
+                    ✓ Kaydet ve Buluta İşle
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ODA DETAY MODALI -->
+    <div id="modal-room-detail" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-card rounded-3xl max-w-2xl w-full p-6 space-y-4 border border-purple-400/40 shadow-2xl max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between">
+                <h3 id="modal-room-title" class="text-lg font-black text-white">⚔️ Düello Odası Detayları</h3>
+                <button onclick="document.getElementById('modal-room-detail').classList.add('hidden')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+            </div>
+            <pre id="modal-room-json" class="flex-1 overflow-auto p-4 rounded-2xl bg-black/70 border border-white/10 text-[11px] text-emerald-300 font-mono-code"></pre>
+        </div>
+    </div>
+
+    <script>
+        let CEO_ADMIN_USER = sessionStorage.getItem('senceo_ceo_user') || 'emirhan';
+        let CEO_ADMIN_PASS = sessionStorage.getItem('senceo_ceo_pass') || '';
+        let CEO_DATA = { players: [], rooms: [] };
+        let ACTIVE_CEO_TAB = 'players';
+
+        function escHtml(str) {
+            return String(str ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        }
+
+        async function loginCeoPanel() {
+            const u = document.getElementById('inp-admin-user').value.trim() || 'emirhan';
+            const p = document.getElementById('inp-admin-pass').value.trim();
+            const errEl = document.getElementById('ceo-login-err');
+            const btn = document.getElementById('btn-ceo-login');
+            errEl.classList.add('hidden');
+            if (!p) {
+                errEl.textContent = 'Lütfen CEO / Admin şifresini girin.';
+                errEl.classList.remove('hidden');
+                return;
+            }
+            btn.disabled = true;
+            btn.textContent = 'Doğrulanıyor...';
+            try {
+                const res = await fetch('/api/rooms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'admin_get_overview', adminUsername: u, adminPassword: p })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    errEl.textContent = data.error || 'Yetkisiz giriş! Kullanıcı adı veya şifre hatalı.';
+                    errEl.classList.remove('hidden');
+                    btn.disabled = false;
+                    btn.textContent = '👑 CEO Paneline Giriş Yap';
+                    return;
+                }
+                CEO_ADMIN_USER = u;
+                CEO_ADMIN_PASS = p;
+                sessionStorage.setItem('senceo_ceo_user', u);
+                sessionStorage.setItem('senceo_ceo_pass', p);
+                CEO_DATA.players = data.players || [];
+                CEO_DATA.rooms = data.rooms || [];
+                document.getElementById('ceo-login-screen').classList.add('hidden');
+                document.getElementById('ceo-dashboard').classList.remove('hidden');
+                updateCeoDashboardUI();
+            } catch (e) {
+                errEl.textContent = 'Bağlantı hatası: ' + e.message;
+                errEl.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '👑 CEO Paneline Giriş Yap';
+            }
+        }
+
+        async function refreshCeoData() {
+            const btn = document.getElementById('btn-ceo-refresh');
+            if (btn) btn.textContent = '⏳ Yenileniyor...';
+            try {
+                const res = await fetch('/api/rooms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'admin_get_overview', adminUsername: CEO_ADMIN_USER, adminPassword: CEO_ADMIN_PASS })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    CEO_DATA.players = data.players || [];
+                    CEO_DATA.rooms = data.rooms || [];
+                    updateCeoDashboardUI();
+                }
+            } catch (e) {
+                alert('Veri yenileme hatası: ' + e.message);
+            } finally {
+                if (btn) btn.textContent = '🔄 Verileri Yenile';
+            }
+        }
+
+        function updateCeoDashboardUI() {
+            const players = CEO_DATA.players || [];
+            const rooms = CEO_DATA.rooms || [];
+            document.getElementById('stat-total-players').textContent = players.length;
+            document.getElementById('stat-protected-players').textContent = players.filter(p => p.hasPassword || p.rawPassword).length;
+            document.getElementById('stat-total-rooms').textContent = rooms.length;
+            document.getElementById('stat-last-sync').textContent = new Date().toLocaleTimeString('tr-TR');
+            document.getElementById('badge-count-players').textContent = players.length;
+            document.getElementById('badge-count-rooms').textContent = rooms.length;
+            renderCeoTables();
+        }
+
+        function switchCeoTab(tab) {
+            ACTIVE_CEO_TAB = tab;
+            const pBtn = document.getElementById('tab-btn-players');
+            const rBtn = document.getElementById('tab-btn-rooms');
+            const pTab = document.getElementById('ceo-tab-players');
+            const rTab = document.getElementById('ceo-tab-rooms');
+            if (tab === 'players') {
+                pBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-amber-400 text-slate-950 shadow';
+                rBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-white/5 text-slate-300 border border-white/10';
+                pTab.classList.remove('hidden');
+                rTab.classList.add('hidden');
+            } else {
+                rBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-amber-400 text-slate-950 shadow';
+                pBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-white/5 text-slate-300 border border-white/10';
+                rTab.classList.remove('hidden');
+                pTab.classList.add('hidden');
+            }
+        }
+
+        function renderCeoTables() {
+            const q = (document.getElementById('inp-ceo-search')?.value || '').trim().toLowerCase();
+            // 1. Oyuncular
+            const pBody = document.getElementById('tbody-ceo-players');
+            const filteredPlayers = (CEO_DATA.players || []).filter(p => {
+                if (!q) return true;
+                return (p.username || '').toLowerCase().includes(q) ||
+                       (p.friendCode || '').toLowerCase().includes(q) ||
+                       (p.email || '').toLowerCase().includes(q) ||
+                       (p.rawPassword || '').toLowerCase().includes(q);
+            });
+
+            if (filteredPlayers.length === 0) {
+                pBody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-400">Eşleşen oyuncu bulunamadı.</td></tr>`;
+            } else {
+                pBody.innerHTML = filteredPlayers.map((p, idx) => {
+                    const isStarred = ['komnenos', 'emirhan'].includes((p.username || '').toLowerCase());
+                    const rawPassBadge = p.rawPassword
+                        ? `<span class="px-2.5 py-1 rounded-lg bg-amber-400/15 border border-amber-400/40 text-amber-300 font-mono-code font-bold">${escHtml(p.rawPassword)}</span>`
+                        : (p.hasPassword
+                            ? `<span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px]">Hash Korumalı (Düzenle'den Değiştir)</span>`
+                            : `<span class="text-slate-500 text-[11px]">Şifresiz</span>`);
+                    const activeRoomsCount = Array.isArray(p.activeRooms) ? p.activeRooms.length : 0;
+                    const bondsCount = Array.isArray(p.bonds) ? p.bonds.length : 0;
+                    return `<tr class="hover:bg-white/[0.03] transition">
+                        <td class="py-3.5 px-4">
+                            <div class="flex items-center gap-2">
+                                <span class="font-black text-sm ${isStarred ? 'text-amber-300' : 'text-white'}">${escHtml(p.username || 'İsimsiz')}</span>
+                                ${isStarred ? '<span class="text-[10px] px-2 py-0.5 rounded-full gold-badge font-black">KURUCU</span>' : ''}
+                            </div>
+                            <div class="text-[10px] text-slate-400">${p.updatedAt ? new Date(p.updatedAt).toLocaleString('tr-TR') : ''}</div>
+                        </td>
+                        <td class="py-3.5 px-4 font-mono-code font-bold text-purple-300">${escHtml(p.friendCode || '-')}</td>
+                        <td class="py-3.5 px-4">${rawPassBadge}</td>
+                        <td class="py-3.5 px-4">
+                            <div class="text-slate-200">${escHtml(p.email || '-')}</div>
+                            <div class="text-[10px] uppercase text-slate-400">${escHtml(p.authProvider || 'local')}</div>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <span class="px-2.5 py-1 rounded-lg bg-purple-500/20 border border-purple-400/30 text-purple-200 font-black">LVL ${Number(p.level || 1)}</span>
+                            <span class="ml-1.5 text-amber-300 font-bold">${Number(p.xp || 0)} TP</span>
+                        </td>
+                        <td class="py-3.5 px-4 text-slate-300">
+                            <span class="text-emerald-400 font-bold">${Number(p.correct || 0)} D</span> / <span>${Number(p.matches || 0)} M</span>
+                        </td>
+                        <td class="py-3.5 px-4 text-slate-300">
+                            <span>${activeRoomsCount} Oda</span> • <span>${bondsCount} Bağ</span>
+                        </td>
+                        <td class="py-3.5 px-4 text-right space-x-1.5">
+                            <button onclick="openEditPlayerModal('${escHtml(p.username)}')" class="px-3 py-1.5 rounded-lg bg-amber-400/20 border border-amber-400/40 text-amber-300 hover:bg-amber-400/30 font-extrabold text-[11px]">
+                                ✏️ Düzenle / Şifre
+                            </button>
+                            <button onclick="deletePlayerCeo('${escHtml(p.username)}', '${escHtml(p.friendCode)}')" class="px-2.5 py-1.5 rounded-lg bg-rose-500/20 border border-rose-500/40 text-rose-300 hover:bg-rose-500/30 font-extrabold text-[11px]">
+                                🗑️ Sil
+                            </button>
+                        </td>
+                    </tr>`;
+                }).join('');
+            }
+
+            // 2. Düello Odaları
+            const rBody = document.getElementById('tbody-ceo-rooms');
+            const filteredRooms = (CEO_DATA.rooms || []).filter(r => {
+                if (!q) return true;
+                return (r.roomCode || '').toLowerCase().includes(q) ||
+                       (r.player1Name || '').toLowerCase().includes(q) ||
+                       (r.player2Name || '').toLowerCase().includes(q);
+            });
+
+            if (filteredRooms.length === 0) {
+                rBody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">Eşleşen düello odası bulunamadı.</td></tr>`;
+            } else {
+                rBody.innerHTML = filteredRooms.map(r => {
+                    return `<tr class="hover:bg-white/[0.03] transition">
+                        <td class="py-3.5 px-4 font-mono-code font-black text-amber-300 text-sm">#${escHtml(r.roomCode)}</td>
+                        <td class="py-3.5 px-4">
+                            <div class="font-bold text-white">${escHtml(r.player1Name || '-')}</div>
+                            <div class="text-[10px] font-mono-code text-slate-400">${escHtml(r.player1FriendCode || '')}</div>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <div class="font-bold text-purple-200">${escHtml(r.player2Name || 'Bekleniyor...')}</div>
+                            <div class="text-[10px] font-mono-code text-slate-400">${escHtml(r.player2FriendCode || '')}</div>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-[10px] font-black uppercase">${escHtml(r.status || 'active')}</span>
+                            <div class="text-[11px] text-slate-400 mt-0.5">Raund ${Number(r.currentRound || 1)} / ${Number(r.totalRounds || 5)}</div>
+                        </td>
+                        <td class="py-3.5 px-4 text-slate-300">
+                            <div class="uppercase text-[10px] text-purple-300 font-black">${escHtml(r.category || 'karisik')}</div>
+                            <div class="text-xs font-bold">Skor: ${Number(r.score || 0)}</div>
+                        </td>
+                        <td class="py-3.5 px-4 text-[11px] text-slate-400">${r.updatedAt ? new Date(r.updatedAt).toLocaleString('tr-TR') : '-'}</td>
+                        <td class="py-3.5 px-4 text-right space-x-1.5">
+                            <button onclick="inspectRoomCeo('${escHtml(r.roomCode)}')" class="px-3 py-1.5 rounded-lg bg-purple-500/20 border border-purple-400/40 text-purple-200 hover:bg-purple-500/30 font-extrabold text-[11px]">
+                                🔍 Cevapları Gör
+                            </button>
+                            <a href="/?oda=${encodeURIComponent(r.roomCode)}" target="_blank" class="inline-block px-2.5 py-1.5 rounded-lg bg-sky-500/20 border border-sky-400/40 text-sky-200 font-extrabold text-[11px]">
+                                ↗ Odaya Git
+                            </a>
+                            <button onclick="deleteRoomCeo('${escHtml(r.roomCode)}')" class="px-2.5 py-1.5 rounded-lg bg-rose-500/20 border border-rose-500/40 text-rose-300 hover:bg-rose-500/30 font-extrabold text-[11px]">
+                                🗑️ Sil
+                            </button>
+                        </td>
+                    </tr>`;
+                }).join('');
+            }
+        }
+
+        function openEditPlayerModal(username) {
+            const p = (CEO_DATA.players || []).find(x => (x.username || '').toLowerCase() === (username || '').toLowerCase());
+            if (!p) return;
+            document.getElementById('edit-mode-type').value = 'update';
+            document.getElementById('modal-edit-title').textContent = `✏️ Oyuncu Düzenle: ${p.username}`;
+            document.getElementById('edit-username').value = p.username || '';
+            document.getElementById('edit-friendcode').value = p.friendCode || '';
+            document.getElementById('edit-password').value = p.rawPassword || '';
+            document.getElementById('edit-email').value = p.email || '';
+            document.getElementById('edit-level').value = Number(p.level || 1);
+            document.getElementById('edit-xp').value = Number(p.xp || 0);
+            document.getElementById('edit-correct').value = Number(p.correct || 0);
+            document.getElementById('edit-matches').value = Number(p.matches || 0);
+            document.getElementById('modal-edit-player').classList.remove('hidden');
+        }
+
+        function openCreatePlayerModal() {
+            document.getElementById('edit-mode-type').value = 'create';
+            document.getElementById('modal-edit-title').textContent = '+ Yeni Oyuncu / Hesap Oluştur';
+            document.getElementById('edit-username').value = '';
+            document.getElementById('edit-friendcode').value = 'SNC-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+            document.getElementById('edit-password').value = '';
+            document.getElementById('edit-email').value = '';
+            document.getElementById('edit-level').value = 1;
+            document.getElementById('edit-xp').value = 100;
+            document.getElementById('edit-correct').value = 0;
+            document.getElementById('edit-matches').value = 0;
+            document.getElementById('modal-edit-player').classList.remove('hidden');
+        }
+
+        function closeEditPlayerModal() {
+            document.getElementById('modal-edit-player').classList.add('hidden');
+        }
+
+        async function savePlayerChanges() {
+            const mode = document.getElementById('edit-mode-type').value;
+            const username = document.getElementById('edit-username').value.trim();
+            const friendCode = document.getElementById('edit-friendcode').value.trim().toUpperCase();
+            const newPassword = document.getElementById('edit-password').value.trim();
+            const email = document.getElementById('edit-email').value.trim();
+            const level = Number(document.getElementById('edit-level').value || 1);
+            const xp = Number(document.getElementById('edit-xp').value || 0);
+            const correct = Number(document.getElementById('edit-correct').value || 0);
+            const matches = Number(document.getElementById('edit-matches').value || 0);
+
+            if (!username) {
+                alert('Kullanıcı adı boş olamaz!');
+                return;
+            }
+            const btn = document.getElementById('btn-save-player');
+            btn.disabled = true;
+            btn.textContent = 'Kaydediliyor...';
+            try {
+                const payload = {
+                    action: mode === 'create' ? 'admin_create_player' : 'admin_update_player',
+                    adminUsername: CEO_ADMIN_USER,
+                    adminPassword: CEO_ADMIN_PASS,
+                    targetUsername: username,
+                    username,
+                    friendCode,
+                    newPassword,
+                    password: newPassword,
+                    email,
+                    level,
+                    xp,
+                    correct,
+                    matches
+                };
+                const res = await fetch('/api/rooms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    alert(data.error || 'İşlem başarısız oldu.');
+                } else {
+                    closeEditPlayerModal();
+                    await refreshCeoData();
+                }
+            } catch (e) {
+                alert('Hata: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '✓ Kaydet ve Buluta İşle';
+            }
+        }
+
+        async function deletePlayerCeo(username, friendCode) {
+            if (!confirm(`"${username}" (${friendCode}) adlı oyuncuyu kalıcı olarak silmek istediğinize emin misiniz?`)) return;
+            try {
+                const res = await fetch('/api/rooms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'admin_delete_player',
+                        adminUsername: CEO_ADMIN_USER,
+                        adminPassword: CEO_ADMIN_PASS,
+                        targetUsername: username,
+                        targetFriendCode: friendCode
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refreshCeoData();
+                } else {
+                    alert(data.error || 'Silinemedi.');
+                }
+            } catch (e) {
+                alert('Hata: ' + e.message);
+            }
+        }
+
+        function inspectRoomCeo(roomCode) {
+            const r = (CEO_DATA.rooms || []).find(x => x.roomCode === roomCode);
+            if (!r) return;
+            document.getElementById('modal-room-title').textContent = `⚔️ Oda #${r.roomCode} (${r.player1Name || '?'} vs ${r.player2Name || '?'})`;
+            document.getElementById('modal-room-json').textContent = JSON.stringify(r, null, 2);
+            document.getElementById('modal-room-detail').classList.remove('hidden');
+        }
+
+        async function deleteRoomCeo(roomCode) {
+            if (!confirm(`#${roomCode} kodlu düello odasını buluttan silmek istediğinize emin misiniz?`)) return;
+            try {
+                const res = await fetch('/api/rooms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'admin_delete_room',
+                        adminUsername: CEO_ADMIN_USER,
+                        adminPassword: CEO_ADMIN_PASS,
+                        roomCode
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refreshCeoData();
+                } else {
+                    alert(data.error || 'Oda silinemedi.');
+                }
+            } catch (e) {
+                alert('Hata: ' + e.message);
+            }
+        }
+
+        function logoutCeo() {
+            sessionStorage.removeItem('senceo_ceo_pass');
+            CEO_ADMIN_PASS = '';
+            document.getElementById('ceo-dashboard').classList.add('hidden');
+            document.getElementById('ceo-login-screen').classList.remove('hidden');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (CEO_ADMIN_PASS) {
+                document.getElementById('inp-admin-user').value = CEO_ADMIN_USER;
+                document.getElementById('inp-admin-pass').value = CEO_ADMIN_PASS;
+                loginCeoPanel();
+            }
+        });
+    </script>
+</body>
+</html>
