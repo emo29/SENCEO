@@ -4,7 +4,7 @@
   "p2FriendCode": "SNC-2281",
   "roomType": "classic",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "opponent_fled",
   "currentRound": 1,
   "whoseTurn": "p2",
   "p1": "emirhan",
@@ -75,5 +75,6 @@
   "p2Half2Comments": [],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-23T23:26:49.869Z"
+  "updatedAt": "2026-10-26T21:55:23.333Z",
+  "deletedByAdminAt": "2026-10-26T21:55:23.333Z"
 }
