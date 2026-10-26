@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>senceo — CEO & Admin Kontrol Paneli (v0.15)</title>
+    <title>senceo — CEO & Admin Kontrol Paneli (v0.18)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -26,37 +26,54 @@
             border: 1px solid rgba(250, 204, 21, 0.5);
             color: #FDE047;
         }
+        .glow-amber {
+            box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.35);
+        }
+        /* Toast notification animation */
+        @keyframes toastIn {
+            from { transform: translateY(100%) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .animate-toast {
+            animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-3 sm:p-6 md:p-8">
+
+    <!-- FLOATING TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
 
     <!-- LOGIN EKRANI -->
-    <div id="ceo-login-screen" class="max-w-md mx-auto mt-16 glass-card rounded-3xl p-7 shadow-2xl">
+    <div id="ceo-login-screen" class="max-w-md mx-auto mt-14 glass-card rounded-3xl p-7 shadow-2xl border border-purple-500/30">
         <div class="flex items-center justify-between mb-5">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 to-purple-600 flex items-center justify-center text-black font-black text-xl shadow-lg">👑</div>
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-purple-600 flex items-center justify-center text-black font-black text-2xl shadow-lg">👑</div>
                 <div>
                     <h1 class="text-xl font-black tracking-tight text-white">senceo <span class="text-amber-400">/ceo</span> Paneli</h1>
                     <p class="text-xs text-slate-400 font-semibold">Yönetici & Oyuncu Tam Kontrol Merkezi</p>
                 </div>
             </div>
-            <span class="text-[10px] font-black px-2.5 py-1 rounded-full gold-badge">v0.15</span>
+            <span class="text-[10px] font-black px-2.5 py-1 rounded-full gold-badge">v0.18</span>
         </div>
 
         <div class="space-y-4">
             <div>
                 <label class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-1.5">Yönetici Kullanıcı Adı</label>
-                <input id="inp-admin-user" type="text" value="emirhan" placeholder="emirhan" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-purple-500/30 text-white font-bold text-sm focus:outline-none focus:border-amber-400">
+                <input id="inp-admin-user" type="text" value="emirhan" placeholder="emirhan veya admin" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-purple-500/30 text-white font-bold text-sm focus:outline-none focus:border-amber-400">
             </div>
             <div>
                 <label class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-1.5">CEO / Admin Şifresi</label>
                 <input id="inp-admin-pass" type="password" placeholder="••••••••••••" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-purple-500/30 text-white font-bold text-sm focus:outline-none focus:border-amber-400" onkeydown="if(event.key==='Enter') loginCeoPanel()">
             </div>
             <p id="ceo-login-err" class="hidden text-xs font-bold text-rose-400 bg-rose-500/10 border border-rose-500/30 rounded-xl p-2.5 text-center"></p>
-            <button onclick="loginCeoPanel()" id="btn-ceo-login" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-purple-600 text-slate-950 font-black text-sm uppercase tracking-wider shadow-lg hover:opacity-95 transition">
+            <button onclick="loginCeoPanel()" id="btn-ceo-login" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-purple-600 text-slate-950 font-black text-sm uppercase tracking-wider shadow-lg hover:opacity-95 transition cursor-pointer">
                 👑 CEO Paneline Giriş Yap
             </button>
-            <a href="/" class="block text-center text-xs font-bold text-slate-400 hover:text-white transition mt-2">← Ana Sayfaya Dön</a>
+            <div class="flex items-center justify-between pt-2 text-xs">
+                <a href="/" class="text-slate-400 hover:text-white transition font-semibold">← Oyuna Dön</a>
+                <span class="text-slate-500 text-[11px]">Gizli Erişim • rooms-db</span>
+            </div>
         </div>
     </div>
 
@@ -65,95 +82,121 @@
         <!-- Üst Bar -->
         <div class="glass-card rounded-3xl p-5 flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-3.5">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-purple-600 flex items-center justify-center text-2xl shadow-lg">👑</div>
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-purple-600 flex items-center justify-center text-2xl shadow-lg glow-amber">👑</div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <h1 class="text-xl md:text-2xl font-black text-white tracking-tight">senceo CEO & Oyuncu Yönetim Paneli</h1>
-                        <span class="text-[11px] font-black px-2.5 py-0.5 rounded-full gold-badge">TAM YETKİ</span>
+                        <h1 class="text-xl md:text-2xl font-black text-white tracking-tight">senceo CEO & Yönetim Paneli</h1>
+                        <span class="text-[11px] font-black px-2.5 py-0.5 rounded-full gold-badge">v0.18 FULL POWER</span>
                     </div>
-                    <p class="text-xs text-slate-400 font-medium">Tüm oyuncuların adlarına, şifrelerine, seviyelerine (LVL/TP), e-postalarına ve aktif düello odalarına tam erişim</p>
+                    <p class="text-xs text-slate-400 font-medium">Tüm oyuncu şifreleri (açık metin), seviyeleri, istatistikleri ve canlı düello odaları üzerinde tam kontrol</p>
                 </div>
             </div>
-            <div class="flex items-center gap-2.5">
-                <button onclick="openCreatePlayerModal()" class="px-4 py-2.5 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-extrabold text-xs hover:bg-emerald-500/30 transition">
-                    + Yeni Oyuncu / Hesap Ekle
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="openCreatePlayerModal()" class="px-3.5 py-2.5 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-extrabold text-xs hover:bg-emerald-500/30 transition flex items-center gap-1.5 cursor-pointer">
+                    <span>➕</span> Yeni Oyuncu Ekle
                 </button>
-                <button onclick="refreshCeoData()" id="btn-ceo-refresh" class="px-4 py-2.5 rounded-xl bg-purple-500/20 border border-purple-400/40 text-purple-200 font-extrabold text-xs hover:bg-purple-500/30 transition">
-                    🔄 Verileri Yenile
+                <button onclick="cleanupInactiveRoomsCeo()" title="7 günden eski veya terk edilmiş odaları temizle" class="px-3 py-2.5 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-300 font-extrabold text-xs hover:bg-amber-500/25 transition flex items-center gap-1.5 cursor-pointer">
+                    <span>🧹</span> Terk Odaları Temizle
                 </button>
-                <a href="/" class="px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 font-bold text-xs hover:bg-white/10 transition">
-                    Oyuna Dön
+                <button onclick="refreshCeoData()" id="btn-ceo-refresh" class="px-3.5 py-2.5 rounded-xl bg-purple-500/20 border border-purple-400/40 text-purple-200 font-extrabold text-xs hover:bg-purple-500/30 transition flex items-center gap-1.5 cursor-pointer">
+                    <span id="refresh-icon">🔄</span> Verileri Yenile
+                </button>
+                <a href="/" target="_blank" class="px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 font-bold text-xs hover:bg-white/10 transition">
+                    ↗ Oyuna Git
                 </a>
-                <button onclick="logoutCeo()" class="px-3.5 py-2.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 font-bold text-xs hover:bg-rose-500/25 transition">
-                    Çıkış
+                <button onclick="logoutCeo()" class="px-3 py-2.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 font-bold text-xs hover:bg-rose-500/25 transition cursor-pointer">
+                    🚪 Çıkış
                 </button>
             </div>
         </div>
 
         <!-- Özet İstatistik Kartları -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="glass-card rounded-2xl p-4">
-                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Kayıtlı Oyuncu (Bulut)</div>
+            <div class="glass-card rounded-2xl p-4 border border-purple-500/30">
+                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Kayıtlı Oyuncu</div>
                 <div id="stat-total-players" class="text-2xl md:text-3xl font-black text-white mt-1">0</div>
-                <div class="text-[11px] text-purple-300 font-semibold mt-0.5">Tüm profiller & şifreler</div>
+                <div class="text-[11px] text-purple-300 font-semibold mt-0.5">Bulut Leaderboard</div>
             </div>
-            <div class="glass-card rounded-2xl p-4">
+            <div class="glass-card rounded-2xl p-4 border border-amber-500/30">
                 <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Şifreli / Korumalı Hesap</div>
                 <div id="stat-protected-players" class="text-2xl md:text-3xl font-black text-amber-400 mt-1">0</div>
-                <div class="text-[11px] text-amber-200/70 font-semibold mt-0.5">Şifresi görüntülenebilir</div>
+                <div class="text-[11px] text-amber-200/70 font-semibold mt-0.5">Şifresi açık görüntülenebilir</div>
             </div>
-            <div class="glass-card rounded-2xl p-4">
-                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Toplam Düello Odası</div>
+            <div class="glass-card rounded-2xl p-4 border border-emerald-500/30">
+                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Aktif Düello Odası</div>
                 <div id="stat-total-rooms" class="text-2xl md:text-3xl font-black text-emerald-400 mt-1">0</div>
-                <div class="text-[11px] text-emerald-200/70 font-semibold mt-0.5">Canlı bulut odaları</div>
+                <div class="text-[11px] text-emerald-200/70 font-semibold mt-0.5">Bulut odaları</div>
             </div>
-            <div class="glass-card rounded-2xl p-4">
-                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Son Senkronizasyon</div>
-                <div id="stat-last-sync" class="text-lg md:text-xl font-black text-sky-400 mt-1">--:--:--</div>
+            <div class="glass-card rounded-2xl p-4 border border-sky-500/30">
+                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Son Güncelleme</div>
+                <div id="stat-last-sync" class="text-lg md:text-xl font-black text-sky-400 mt-1 font-mono-code">--:--:--</div>
                 <div class="text-[11px] text-slate-400 font-semibold mt-0.5">GitHub rooms-db</div>
             </div>
         </div>
 
-        <!-- Sekmeler ve Arama -->
-        <div class="flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center gap-2">
-                <button onclick="switchCeoTab('players')" id="tab-btn-players" class="px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-amber-400 text-slate-950 shadow">
-                    👥 Oyuncular & Şifreler (<span id="badge-count-players">0</span>)
-                </button>
-                <button onclick="switchCeoTab('rooms')" id="tab-btn-rooms" class="px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-white/5 text-slate-300 border border-white/10">
-                    ⚔️ Düello Odaları (<span id="badge-count-rooms">0</span>)
-                </button>
+        <!-- Sekmeler, Hızlı Filtreler ve Arama -->
+        <div class="glass-card rounded-3xl p-4 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <button onclick="switchCeoTab('players')" id="tab-btn-players" class="px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-amber-400 text-slate-950 shadow cursor-pointer">
+                        👥 Oyuncular & Şifreler (<span id="badge-count-players">0</span>)
+                    </button>
+                    <button onclick="switchCeoTab('rooms')" id="tab-btn-rooms" class="px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-white/5 text-slate-300 border border-white/10 cursor-pointer">
+                        ⚔️ Düello Odaları (<span id="badge-count-rooms">0</span>)
+                    </button>
+                </div>
+                <div class="flex-1 max-w-md w-full">
+                    <div class="relative">
+                        <span class="absolute left-3.5 top-2.5 text-slate-400 text-xs">🔍</span>
+                        <input id="inp-ceo-search" type="text" oninput="renderCeoTables()" placeholder="İsim, SNC-kod, şifre, e-posta veya oda kodu ara..." class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-black/60 border border-purple-500/30 text-white text-xs font-bold focus:outline-none focus:border-amber-400">
+                    </div>
+                </div>
             </div>
-            <div class="flex-1 max-w-md">
-                <input id="inp-ceo-search" type="text" oninput="renderCeoTables()" placeholder="🔍 Oyuncu adı, SNC-kod, şifre, e-posta veya oda kodu ara..." class="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-purple-500/30 text-white text-xs font-bold focus:outline-none focus:border-amber-400">
+
+            <!-- Filtre Hapları (Pills) -->
+            <div id="filter-pills-players" class="flex flex-wrap items-center gap-1.5 pt-1 border-t border-white/5">
+                <span class="text-[10px] font-black uppercase text-slate-400 mr-1.5">Filtre:</span>
+                <button onclick="setPlayerFilter('all')" data-filter="all" class="player-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-amber-400 text-slate-950">Tümü</button>
+                <button onclick="setPlayerFilter('protected')" data-filter="protected" class="player-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10">🔒 Sadece Şifreliler</button>
+                <button onclick="setPlayerFilter('unprotected')" data-filter="unprotected" class="player-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10">🔓 Şifresizler</button>
+                <button onclick="setPlayerFilter('social')" data-filter="social" class="player-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10">🌐 Sosyal (Google/Apple)</button>
+                <button onclick="setPlayerFilter('vip')" data-filter="vip" class="player-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10">⭐ Kurucular (emirhan/komnenos)</button>
+            </div>
+
+            <div id="filter-pills-rooms" class="hidden flex flex-wrap items-center gap-1.5 pt-1 border-t border-white/5">
+                <span class="text-[10px] font-black uppercase text-slate-400 mr-1.5">Oda Durumu:</span>
+                <button onclick="setRoomFilter('all')" data-room-filter="all" class="room-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-amber-400 text-slate-950">Tümü</button>
+                <button onclick="setRoomFilter('waiting_p2')" data-room-filter="waiting_p2" class="room-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10">⏳ Rakip Bekleyen</button>
+                <button onclick="setRoomFilter('completed')" data-room-filter="completed" class="room-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10">🏆 Tamamlananlar</button>
+                <button onclick="setRoomFilter('live')" data-room-filter="live" class="room-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10">⚡ Canlı Arena</button>
+                <button onclick="setRoomFilter('fled')" data-room-filter="fled" class="room-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10">❌ Terk Edilen / Silinen</button>
             </div>
         </div>
 
         <!-- SEKME 1: OYUNCULAR TABLOSU -->
-        <div id="ceo-tab-players" class="glass-card rounded-3xl overflow-hidden">
+        <div id="ceo-tab-players" class="glass-card rounded-3xl overflow-hidden shadow-xl">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="border-b border-white/10 bg-white/5 text-[11px] font-black uppercase tracking-wider text-slate-400">
                             <th class="py-3.5 px-4">Oyuncu & Kimlik</th>
                             <th class="py-3.5 px-4">Arkadaş Kodu</th>
-                            <th class="py-3.5 px-4">Şifre (Açık & Hash)</th>
-                            <th class="py-3.5 px-4">Giriş / E-Posta</th>
-                            <th class="py-3.5 px-4">Seviye & TP (XP)</th>
-                            <th class="py-3.5 px-4">İstatistik (D / M)</th>
-                            <th class="py-3.5 px-4">Aktif Odalar & Bağlar</th>
-                            <th class="py-3.5 px-4 text-right">Yönetim İşlemleri</th>
+                            <th class="py-3.5 px-4">Şifre (Açık Metin)</th>
+                            <th class="py-3.5 px-4">Giriş Tipi / E-Posta</th>
+                            <th class="py-3.5 px-4">Seviye & TP</th>
+                            <th class="py-3.5 px-4">İstatistik (Doğru / Maç)</th>
+                            <th class="py-3.5 px-4 text-right">Hızlı İşlemler</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-ceo-players" class="divide-y divide-white/5 text-xs font-semibold">
-                        <tr><td colspan="8" class="py-8 text-center text-slate-400">Yükleniyor...</td></tr>
+                        <tr><td colspan="7" class="py-12 text-center text-slate-400">Veriler yükleniyor...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
         <!-- SEKME 2: DÜELLO ODALARI TABLOSU -->
-        <div id="ceo-tab-rooms" class="hidden glass-card rounded-3xl overflow-hidden">
+        <div id="ceo-tab-rooms" class="hidden glass-card rounded-3xl overflow-hidden shadow-xl">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
@@ -162,13 +205,13 @@
                             <th class="py-3.5 px-4">1. Oyuncu (Kurucu)</th>
                             <th class="py-3.5 px-4">2. Oyuncu (Rakip)</th>
                             <th class="py-3.5 px-4">Durum / Raund</th>
-                            <th class="py-3.5 px-4">Kategori & Skor</th>
+                            <th class="py-3.5 px-4">Kategori & Uyum</th>
                             <th class="py-3.5 px-4">Son Güncelleme</th>
-                            <th class="py-3.5 px-4 text-right">İşlem</th>
+                            <th class="py-3.5 px-4 text-right">İşlemler</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-ceo-rooms" class="divide-y divide-white/5 text-xs font-semibold">
-                        <tr><td colspan="7" class="py-8 text-center text-slate-400">Yükleniyor...</td></tr>
+                        <tr><td colspan="7" class="py-12 text-center text-slate-400">Odalar yükleniyor...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -176,64 +219,132 @@
     </div>
 
     <!-- OYUNCU DÜZENLEME / OLUŞTURMA MODALI -->
-    <div id="modal-edit-player" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="modal-edit-player" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl max-w-lg w-full p-6 space-y-4 border border-amber-400/40 shadow-2xl">
             <div class="flex items-center justify-between">
-                <h3 id="modal-edit-title" class="text-lg font-black text-white">✏️ Oyuncu Bilgilerini & Şifresini Düzenle</h3>
-                <button onclick="closeEditPlayerModal()" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">✏️</span>
+                    <h3 id="modal-edit-title" class="text-base sm:text-lg font-black text-white">Oyuncu Bilgilerini & Şifresini Düzenle</h3>
+                </div>
+                <button onclick="closeEditPlayerModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-slate-300 hover:text-white flex items-center justify-center font-bold text-sm cursor-pointer">✕</button>
             </div>
             <input type="hidden" id="edit-mode-type" value="update">
+
+            <!-- Hızlı Şifre & Seviye Ön Ayarları -->
+            <div class="bg-purple-500/10 border border-purple-500/20 rounded-2xl p-3 space-y-1.5">
+                <div class="text-[10px] font-black uppercase tracking-wider text-purple-300">⚡ Hızlı Ön Ayarlar (Tek Tıkla Uygula)</div>
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <button type="button" onclick="setEditPasswordValue('123')" class="px-2.5 py-1 rounded-lg bg-amber-400/20 hover:bg-amber-400/30 border border-amber-400/30 text-amber-300 font-bold text-[11px] cursor-pointer">
+                        🔑 Şifreyi "123" Yap
+                    </button>
+                    <button type="button" onclick="generateRandomPassForEdit()" class="px-2.5 py-1 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/30 text-sky-300 font-bold text-[11px] cursor-pointer">
+                        🎲 Rastgele 6 Haneli Şifre
+                    </button>
+                    <button type="button" onclick="addEditXp(500)" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/30 text-emerald-300 font-bold text-[11px] cursor-pointer">
+                        ⚡ +500 TP
+                    </button>
+                    <button type="button" onclick="setEditLevel10()" class="px-2.5 py-1 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-400/30 text-purple-300 font-bold text-[11px] cursor-pointer">
+                        🏆 Level 10 Yap
+                    </button>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                     <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Kullanıcı Adı</label>
-                    <input id="edit-username" type="text" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs">
+                    <input id="edit-username" type="text" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs focus:border-amber-400 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Arkadaş Kodu (SNC-XXXX)</label>
-                    <input id="edit-friendcode" type="text" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-amber-300 font-mono-code font-bold text-xs">
+                    <input id="edit-friendcode" type="text" placeholder="SNC-1234" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-amber-300 font-mono-code font-bold text-xs focus:border-amber-400 focus:outline-none">
                 </div>
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-amber-300 mb-1">Yeni Şifre (Açık Metin)</label>
-                    <input id="edit-password" type="text" placeholder="Şifreyi değiştir veya belirle..." class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-amber-400/40 text-white font-bold text-xs">
+                <div class="sm:col-span-2">
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="text-[10px] font-black uppercase text-amber-300">Şifre (Açık Metin Olarak Kaydedilir)</label>
+                        <label class="flex items-center gap-1.5 text-[10px] text-rose-300 font-bold cursor-pointer">
+                            <input type="checkbox" id="edit-clear-pass" onchange="toggleClearPassCheckbox(this)" class="accent-rose-500">
+                            Şifreyi Kaldır (Şifresiz Yap)
+                        </label>
+                    </div>
+                    <div class="relative">
+                        <input id="edit-password" type="text" placeholder="Örn: 123 veya emirhan2026" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-amber-400/40 text-amber-300 font-mono-code font-bold text-xs focus:border-amber-400 focus:outline-none pr-20">
+                        <button type="button" onclick="copyModalPassword()" class="absolute right-2 top-1.5 px-2.5 py-1 rounded-lg bg-amber-400/20 text-amber-300 hover:bg-amber-400/30 text-[10px] font-bold cursor-pointer">
+                            Kopyala
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-1">Buraya yazdığın şifre hem misafir girişi ekranında hem de profil şifre doğrulamasında anında geçerli olur.</p>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">E-Posta Adresi</label>
-                    <input id="edit-email" type="text" placeholder="ornek@gmail.com" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs">
+                <div class="sm:col-span-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">E-Posta Adresi / Giriş Sağlayıcı</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <input id="edit-email" type="text" placeholder="ornek@gmail.com" class="col-span-2 px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs focus:border-amber-400 focus:outline-none">
+                        <select id="edit-provider" class="px-2.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-slate-300 font-bold text-xs focus:border-amber-400 focus:outline-none">
+                            <option value="guest">Misafir</option>
+                            <option value="google">Google</option>
+                            <option value="apple">Apple</option>
+                            <option value="facebook">Facebook</option>
+                        </select>
+                    </div>
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase text-purple-300 mb-1">Seviye (LVL)</label>
-                    <input id="edit-level" type="number" min="1" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-purple-400/40 text-white font-bold text-xs">
+                    <input id="edit-level" type="number" min="1" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-purple-400/40 text-white font-bold text-xs focus:border-purple-400 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase text-purple-300 mb-1">Toplam TP (XP)</label>
-                    <input id="edit-xp" type="number" min="0" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-purple-400/40 text-white font-bold text-xs">
+                    <input id="edit-xp" type="number" min="0" oninput="autoComputeLevelFromXp(this.value)" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-purple-400/40 text-white font-bold text-xs focus:border-purple-400 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase text-emerald-300 mb-1">Doğru Tahmin Sayısı</label>
-                    <input id="edit-correct" type="number" min="0" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs">
+                    <input id="edit-correct" type="number" min="0" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs focus:border-emerald-400 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase text-sky-300 mb-1">Oynanan Maç Sayısı</label>
-                    <input id="edit-matches" type="number" min="0" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs">
+                    <input id="edit-matches" type="number" min="0" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold text-xs focus:border-sky-400 focus:outline-none">
                 </div>
             </div>
             <div class="flex items-center justify-end gap-2 pt-3 border-t border-white/10">
-                <button onclick="closeEditPlayerModal()" class="px-4 py-2.5 rounded-xl bg-white/5 text-slate-300 font-bold text-xs">İptal</button>
-                <button onclick="savePlayerChanges()" id="btn-save-player" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-purple-600 text-slate-950 font-black text-xs uppercase tracking-wider">
+                <button type="button" onclick="closeEditPlayerModal()" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs cursor-pointer">Vazgeç</button>
+                <button type="button" onclick="savePlayerChanges()" id="btn-save-player" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-purple-600 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg hover:opacity-95 transition cursor-pointer">
                     ✓ Kaydet ve Buluta İşle
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ODA DETAY MODALI -->
-    <div id="modal-room-detail" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="glass-card rounded-3xl max-w-2xl w-full p-6 space-y-4 border border-purple-400/40 shadow-2xl max-h-[85vh] flex flex-col">
-            <div class="flex items-center justify-between">
-                <h3 id="modal-room-title" class="text-lg font-black text-white">⚔️ Düello Odası Detayları</h3>
-                <button onclick="document.getElementById('modal-room-detail').classList.add('hidden')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+    <!-- ODA DETAY & SORU-CEVAP KARNESİ İNCELEME MODALI -->
+    <div id="modal-room-detail" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5">
+        <div class="glass-card rounded-3xl max-w-3xl w-full p-5 sm:p-6 space-y-4 border border-purple-400/40 shadow-2xl max-h-[90vh] flex flex-col">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">⚔️</span>
+                        <h3 id="modal-room-title" class="text-base sm:text-lg font-black text-white">Oda Detayı</h3>
+                    </div>
+                    <p id="modal-room-subtitle" class="text-xs text-slate-400 font-semibold mt-0.5"></p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="btn-toggle-json" onclick="toggleRoomDetailView()" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 text-xs font-bold cursor-pointer">
+                        💻 Ham JSON Gör
+                    </button>
+                    <button onclick="closeRoomDetailModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-slate-300 hover:text-white flex items-center justify-center font-bold text-sm cursor-pointer">✕</button>
+                </div>
             </div>
-            <pre id="modal-room-json" class="flex-1 overflow-auto p-4 rounded-2xl bg-black/70 border border-white/10 text-[11px] text-emerald-300 font-mono-code"></pre>
+
+            <!-- Kartlar Görünümü (Soru ve Yanıt Karnesi) -->
+            <div id="room-detail-cards" class="flex-1 overflow-y-auto space-y-3 pr-1"></div>
+
+            <!-- Ham JSON Görünümü -->
+            <pre id="room-detail-json" class="hidden flex-1 overflow-auto p-4 rounded-2xl bg-black/80 border border-white/10 text-[11px] text-emerald-300 font-mono-code"></pre>
+
+            <div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
+                <a id="btn-modal-visit-room" href="#" target="_blank" class="px-3.5 py-2 rounded-xl bg-sky-500/20 border border-sky-400/40 text-sky-200 font-extrabold hover:bg-sky-500/30 transition">
+                    ↗ Bu Odaya Git (Web Linki)
+                </a>
+                <button onclick="closeRoomDetailModal()" class="px-4 py-2 rounded-xl bg-white/10 text-slate-300 font-bold hover:bg-white/20 transition cursor-pointer">
+                    Kapat
+                </button>
+            </div>
         </div>
     </div>
 
@@ -242,11 +353,35 @@
         let CEO_ADMIN_PASS = sessionStorage.getItem('senceo_ceo_pass') || '';
         let CEO_DATA = { players: [], rooms: [] };
         let ACTIVE_CEO_TAB = 'players';
+        let ACTIVE_PLAYER_FILTER = 'all';
+        let ACTIVE_ROOM_FILTER = 'all';
+        let ACTIVE_INSPECTED_ROOM = null;
 
         function escHtml(str) {
             return String(str ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
         }
 
+        // ================= TOAST BİLDİRİM SİSTEMİ =================
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            const bgClass = type === 'success' ? 'bg-emerald-600 text-white border-emerald-400' :
+                            type === 'error' ? 'bg-rose-600 text-white border-rose-400' :
+                            'bg-purple-600 text-white border-purple-400';
+            const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
+            toast.className = `animate-toast pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-2xl border text-xs sm:text-sm font-extrabold ${bgClass}`;
+            toast.innerHTML = `<span class="text-base">${icon}</span><span>${escHtml(message)}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px) scale(0.95)';
+                toast.style.transition = 'all 0.25s ease';
+                setTimeout(() => toast.remove(), 250);
+            }, 3200);
+        }
+
+        // ================= GİRİŞ VE VERİ YÜKLEME =================
         async function loginCeoPanel() {
             const u = document.getElementById('inp-admin-user').value.trim() || 'emirhan';
             const p = document.getElementById('inp-admin-pass').value.trim();
@@ -270,8 +405,6 @@
                 if (!res.ok || !data.ok) {
                     errEl.textContent = data.error || 'Yetkisiz giriş! Kullanıcı adı veya şifre hatalı.';
                     errEl.classList.remove('hidden');
-                    btn.disabled = false;
-                    btn.textContent = '👑 CEO Paneline Giriş Yap';
                     return;
                 }
                 CEO_ADMIN_USER = u;
@@ -283,6 +416,7 @@
                 document.getElementById('ceo-login-screen').classList.add('hidden');
                 document.getElementById('ceo-dashboard').classList.remove('hidden');
                 updateCeoDashboardUI();
+                showToast(`Hoş geldin ${u}! CEO paneline tam yetkiyle bağlandın.`, 'success');
             } catch (e) {
                 errEl.textContent = 'Bağlantı hatası: ' + e.message;
                 errEl.classList.remove('hidden');
@@ -294,7 +428,9 @@
 
         async function refreshCeoData() {
             const btn = document.getElementById('btn-ceo-refresh');
-            if (btn) btn.textContent = '⏳ Yenileniyor...';
+            const icon = document.getElementById('refresh-icon');
+            if (btn) btn.disabled = true;
+            if (icon) icon.textContent = '⏳';
             try {
                 const res = await fetch('/api/rooms', {
                     method: 'POST',
@@ -306,11 +442,15 @@
                     CEO_DATA.players = data.players || [];
                     CEO_DATA.rooms = data.rooms || [];
                     updateCeoDashboardUI();
+                    showToast('Veriler buluttan başarıyla yenilendi!', 'success');
+                } else {
+                    showToast(data.error || 'Veri yenilenemedi.', 'error');
                 }
             } catch (e) {
-                alert('Veri yenileme hatası: ' + e.message);
+                showToast('Hata: ' + e.message, 'error');
             } finally {
-                if (btn) btn.textContent = '🔄 Verileri Yenile';
+                if (btn) btn.disabled = false;
+                if (icon) icon.textContent = '🔄';
             }
         }
 
@@ -318,7 +458,7 @@
             const players = CEO_DATA.players || [];
             const rooms = CEO_DATA.rooms || [];
             document.getElementById('stat-total-players').textContent = players.length;
-            document.getElementById('stat-protected-players').textContent = players.filter(p => p.hasPassword || p.rawPassword).length;
+            document.getElementById('stat-protected-players').textContent = players.filter(p => p.hasPassword || p.rawPassword || p.passwordProtected).length;
             document.getElementById('stat-total-rooms').textContent = rooms.length;
             document.getElementById('stat-last-sync').textContent = new Date().toLocaleTimeString('tr-TR');
             document.getElementById('badge-count-players').textContent = players.length;
@@ -326,126 +466,251 @@
             renderCeoTables();
         }
 
+        // ================= SEKME VE FİLTRE YÖNETİMİ =================
         function switchCeoTab(tab) {
             ACTIVE_CEO_TAB = tab;
             const pBtn = document.getElementById('tab-btn-players');
             const rBtn = document.getElementById('tab-btn-rooms');
             const pTab = document.getElementById('ceo-tab-players');
             const rTab = document.getElementById('ceo-tab-rooms');
+            const pFilters = document.getElementById('filter-pills-players');
+            const rFilters = document.getElementById('filter-pills-rooms');
+
             if (tab === 'players') {
-                pBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-amber-400 text-slate-950 shadow';
-                rBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-white/5 text-slate-300 border border-white/10';
+                pBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-amber-400 text-slate-950 shadow cursor-pointer';
+                rBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-white/5 text-slate-300 border border-white/10 cursor-pointer';
                 pTab.classList.remove('hidden');
                 rTab.classList.add('hidden');
+                pFilters.classList.remove('hidden');
+                rFilters.classList.add('hidden');
             } else {
-                rBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-amber-400 text-slate-950 shadow';
-                pBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-white/5 text-slate-300 border border-white/10';
+                rBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-amber-400 text-slate-950 shadow cursor-pointer';
+                pBtn.className = 'px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider bg-white/5 text-slate-300 border border-white/10 cursor-pointer';
                 rTab.classList.remove('hidden');
                 pTab.classList.add('hidden');
+                rFilters.classList.remove('hidden');
+                pFilters.classList.add('hidden');
             }
         }
 
+        function setPlayerFilter(filterKey) {
+            ACTIVE_PLAYER_FILTER = filterKey;
+            document.querySelectorAll('.player-filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-filter') === filterKey) {
+                    btn.className = 'player-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-amber-400 text-slate-950';
+                } else {
+                    btn.className = 'player-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10';
+                }
+            });
+            renderCeoTables();
+        }
+
+        function setRoomFilter(filterKey) {
+            ACTIVE_ROOM_FILTER = filterKey;
+            document.querySelectorAll('.room-filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-room-filter') === filterKey) {
+                    btn.className = 'room-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-amber-400 text-slate-950';
+                } else {
+                    btn.className = 'room-filter-btn px-3 py-1 rounded-lg text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10';
+                }
+            });
+            renderCeoTables();
+        }
+
+        // ================= TABLO ÇİFTE RENDER =================
         function renderCeoTables() {
             const q = (document.getElementById('inp-ceo-search')?.value || '').trim().toLowerCase();
-            // 1. Oyuncular
+
+            // 1. OYUNCULAR TABLOSU
             const pBody = document.getElementById('tbody-ceo-players');
             const filteredPlayers = (CEO_DATA.players || []).filter(p => {
-                if (!q) return true;
-                return (p.username || '').toLowerCase().includes(q) ||
-                       (p.friendCode || '').toLowerCase().includes(q) ||
-                       (p.email || '').toLowerCase().includes(q) ||
-                       (p.rawPassword || '').toLowerCase().includes(q);
+                // Arama filtresi
+                if (q) {
+                    const matchQ = (p.username || '').toLowerCase().includes(q) ||
+                                   (p.friendCode || '').toLowerCase().includes(q) ||
+                                   (p.email || '').toLowerCase().includes(q) ||
+                                   (p.rawPassword || '').toLowerCase().includes(q);
+                    if (!matchQ) return false;
+                }
+                // Hap filtresi
+                if (ACTIVE_PLAYER_FILTER === 'protected') {
+                    return Boolean(p.rawPassword || p.hasPassword || p.passwordProtected);
+                }
+                if (ACTIVE_PLAYER_FILTER === 'unprotected') {
+                    return !p.rawPassword && !p.hasPassword && !p.passwordProtected;
+                }
+                if (ACTIVE_PLAYER_FILTER === 'social') {
+                    const prov = (p.provider || p.authProvider || '').toLowerCase();
+                    return prov && prov !== 'guest' && prov !== 'local';
+                }
+                if (ACTIVE_PLAYER_FILTER === 'vip') {
+                    return ['komnenos', 'emirhan'].includes((p.username || '').toLowerCase());
+                }
+                return true;
             });
 
             if (filteredPlayers.length === 0) {
-                pBody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-400">Eşleşen oyuncu bulunamadı.</td></tr>`;
+                pBody.innerHTML = `<tr><td colspan="7" class="py-12 text-center text-slate-400">Eşleşen oyuncu bulunamadı.</td></tr>`;
             } else {
-                pBody.innerHTML = filteredPlayers.map((p, idx) => {
+                pBody.innerHTML = filteredPlayers.map(p => {
                     const isStarred = ['komnenos', 'emirhan'].includes((p.username || '').toLowerCase());
-                    const rawPassBadge = p.rawPassword
-                        ? `<span class="px-2.5 py-1 rounded-lg bg-amber-400/15 border border-amber-400/40 text-amber-300 font-mono-code font-bold">${escHtml(p.rawPassword)}</span>`
-                        : (p.hasPassword
-                            ? `<span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px]">Hash Korumalı (Düzenle'den Değiştir)</span>`
-                            : `<span class="text-slate-500 text-[11px]">Şifresiz</span>`);
-                    const activeRoomsCount = Array.isArray(p.activeRooms) ? p.activeRooms.length : 0;
-                    const bondsCount = Array.isArray(p.bonds) ? p.bonds.length : 0;
+                    const fCode = escHtml(p.friendCode || '-');
+                    const uName = escHtml(p.username || 'Misafir Oyuncu');
+                    const rawPass = p.rawPassword || '';
+
+                    // Şifre Rozeti ve Hızlı Kopyalama
+                    let passBadge = '';
+                    if (rawPass) {
+                        passBadge = `
+                            <div class="flex items-center gap-1.5">
+                                <span class="px-2.5 py-1 rounded-lg bg-amber-400/15 border border-amber-400/40 text-amber-300 font-mono-code font-black text-xs select-all">
+                                    ${escHtml(rawPass)}
+                                </span>
+                                <button onclick="copyToClipboard('${escHtml(rawPass)}', 'Şifre kopyalandı!')" title="Şifreyi Kopyala" class="p-1 rounded hover:bg-white/10 text-slate-400 hover:text-amber-300 transition cursor-pointer">
+                                    📋
+                                </button>
+                            </div>
+                        `;
+                    } else if (p.hasPassword || p.passwordProtected) {
+                        passBadge = `
+                            <div class="flex items-center gap-1">
+                                <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px] font-bold">Hash Korumalı</span>
+                                <button onclick="quickSetPasswordPrompt('${fCode}', '${uName}')" title="Yeni Şifre Belirle" class="text-[10px] text-amber-400 underline ml-1 cursor-pointer">Değiştir</button>
+                            </div>
+                        `;
+                    } else {
+                        passBadge = `
+                            <span class="text-slate-500 text-[11px] font-normal">Şifresiz</span>
+                            <button onclick="quickSetPasswordPrompt('${fCode}', '${uName}')" class="text-[10px] text-purple-400 hover:underline ml-1.5 cursor-pointer">+ Şifre Ata</button>
+                        `;
+                    }
+
+                    // Giriş Tipi Rozeti
+                    const prov = (p.provider || p.authProvider || 'guest').toLowerCase();
+                    const provColor = prov === 'google' ? 'text-red-400 bg-red-500/15 border-red-500/30' :
+                                      prov === 'apple' ? 'text-slate-200 bg-white/15 border-white/30' :
+                                      prov === 'facebook' ? 'text-sky-400 bg-sky-500/15 border-sky-500/30' :
+                                      'text-slate-400 bg-white/5 border-white/10';
+
+                    const correctCount = Number(p.questionsCorrect ?? p.correct ?? 0);
+                    const matchCount = Number(p.gamesPlayed ?? p.matches ?? 0);
+                    const winRate = matchCount > 0 ? Math.round((correctCount / (matchCount * 5)) * 100) : 0;
+
                     return `<tr class="hover:bg-white/[0.03] transition">
                         <td class="py-3.5 px-4">
-                            <div class="flex items-center gap-2">
-                                <span class="font-black text-sm ${isStarred ? 'text-amber-300' : 'text-white'}">${escHtml(p.username || 'İsimsiz')}</span>
-                                ${isStarred ? '<span class="text-[10px] px-2 py-0.5 rounded-full gold-badge font-black">KURUCU</span>' : ''}
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-gradient-to-br ${isStarred ? 'from-amber-400 to-amber-600 text-black' : 'from-purple-500 to-indigo-600 text-white'} flex items-center justify-center font-black text-xs shadow">
+                                    ${uName.charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="font-black text-sm ${isStarred ? 'text-amber-300' : 'text-white'}">${uName}</span>
+                                        ${isStarred ? '<span class="text-[9px] px-2 py-0.5 rounded-full gold-badge font-black">KURUCU</span>' : ''}
+                                    </div>
+                                    <div class="text-[10px] text-slate-400">${p.updatedAt ? new Date(p.updatedAt).toLocaleString('tr-TR') : ''}</div>
+                                </div>
                             </div>
-                            <div class="text-[10px] text-slate-400">${p.updatedAt ? new Date(p.updatedAt).toLocaleString('tr-TR') : ''}</div>
                         </td>
-                        <td class="py-3.5 px-4 font-mono-code font-bold text-purple-300">${escHtml(p.friendCode || '-')}</td>
-                        <td class="py-3.5 px-4">${rawPassBadge}</td>
+                        <td class="py-3.5 px-4 font-mono-code font-bold text-purple-300">
+                            <span class="cursor-pointer hover:underline" onclick="copyToClipboard('${fCode}', 'Arkadaş kodu kopyalandı!')" title="Tıkla ve Kopyala">${fCode}</span>
+                        </td>
+                        <td class="py-3.5 px-4">${passBadge}</td>
                         <td class="py-3.5 px-4">
-                            <div class="text-slate-200">${escHtml(p.email || '-')}</div>
-                            <div class="text-[10px] uppercase text-slate-400">${escHtml(p.authProvider || 'local')}</div>
+                            <div class="text-slate-200 font-medium text-xs">${escHtml(p.email || '-')}</div>
+                            <span class="inline-block px-2 py-0.5 mt-0.5 rounded text-[10px] font-black uppercase border ${provColor}">${prov}</span>
                         </td>
                         <td class="py-3.5 px-4">
                             <span class="px-2.5 py-1 rounded-lg bg-purple-500/20 border border-purple-400/30 text-purple-200 font-black">LVL ${Number(p.level || 1)}</span>
                             <span class="ml-1.5 text-amber-300 font-bold">${Number(p.xp || 0)} TP</span>
                         </td>
-                        <td class="py-3.5 px-4 text-slate-300">
-                            <span class="text-emerald-400 font-bold">${Number(p.correct || 0)} D</span> / <span>${Number(p.matches || 0)} M</span>
+                        <td class="py-3.5 px-4">
+                            <div class="text-slate-300"><span class="text-emerald-400 font-bold">${correctCount} D</span> / <span>${matchCount} M</span></div>
+                            <div class="text-[10px] text-slate-400">Başarı: %${winRate}</div>
                         </td>
-                        <td class="py-3.5 px-4 text-slate-300">
-                            <span>${activeRoomsCount} Oda</span> • <span>${bondsCount} Bağ</span>
-                        </td>
-                        <td class="py-3.5 px-4 text-right space-x-1.5">
-                            <button onclick="openEditPlayerModal('${escHtml(p.username)}')" class="px-3 py-1.5 rounded-lg bg-amber-400/20 border border-amber-400/40 text-amber-300 hover:bg-amber-400/30 font-extrabold text-[11px]">
-                                ✏️ Düzenle / Şifre
+                        <td class="py-3.5 px-4 text-right space-x-1">
+                            <button onclick="quickSetPasswordPrompt('${fCode}', '${uName}')" title="Hızlı Şifre Değiştir" class="px-2.5 py-1.5 rounded-lg bg-purple-500/20 border border-purple-400/40 text-purple-200 hover:bg-purple-500/30 font-extrabold text-[11px] cursor-pointer">
+                                🔑 Şifre
                             </button>
-                            <button onclick="deletePlayerCeo('${escHtml(p.username)}', '${escHtml(p.friendCode)}')" class="px-2.5 py-1.5 rounded-lg bg-rose-500/20 border border-rose-500/40 text-rose-300 hover:bg-rose-500/30 font-extrabold text-[11px]">
-                                🗑️ Sil
+                            <button onclick="openEditPlayerModal('${escHtml(p.username)}')" class="px-2.5 py-1.5 rounded-lg bg-amber-400/20 border border-amber-400/40 text-amber-300 hover:bg-amber-400/30 font-extrabold text-[11px] cursor-pointer">
+                                ✏️ Düzenle
+                            </button>
+                            <button onclick="deletePlayerCeo('${uName}', '${fCode}')" class="px-2 py-1.5 rounded-lg bg-rose-500/20 border border-rose-500/40 text-rose-300 hover:bg-rose-500/30 font-extrabold text-[11px] cursor-pointer">
+                                🗑️
                             </button>
                         </td>
                     </tr>`;
                 }).join('');
             }
 
-            // 2. Düello Odaları
+            // 2. DÜELLO ODALARI TABLOSU
             const rBody = document.getElementById('tbody-ceo-rooms');
             const filteredRooms = (CEO_DATA.rooms || []).filter(r => {
-                if (!q) return true;
-                return (r.roomCode || '').toLowerCase().includes(q) ||
-                       (r.player1Name || '').toLowerCase().includes(q) ||
-                       (r.player2Name || '').toLowerCase().includes(q);
+                const code = String(r.code || r.roomCode || '').toLowerCase();
+                const p1 = String(r.player1Name || r.p1 || '').toLowerCase();
+                const p2 = String(r.player2Name || r.p2 || '').toLowerCase();
+                if (q) {
+                    if (!code.includes(q) && !p1.includes(q) && !p2.includes(q)) return false;
+                }
+                const st = String(r.status || '').toLowerCase();
+                if (ACTIVE_ROOM_FILTER === 'waiting_p2') return st === 'waiting_p2';
+                if (ACTIVE_ROOM_FILTER === 'completed') return st === 'completed';
+                if (ACTIVE_ROOM_FILTER === 'live') return Boolean(r.liveMatchState || st.includes('live'));
+                if (ACTIVE_ROOM_FILTER === 'fled') return st === 'opponent_fled' || st.includes('deleted');
+                return true;
             });
 
             if (filteredRooms.length === 0) {
-                rBody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">Eşleşen düello odası bulunamadı.</td></tr>`;
+                rBody.innerHTML = `<tr><td colspan="7" class="py-12 text-center text-slate-400">Eşleşen düello odası bulunamadı.</td></tr>`;
             } else {
                 rBody.innerHTML = filteredRooms.map(r => {
+                    const rCode = escHtml(r.code || r.roomCode || '');
+                    const p1 = escHtml(r.player1Name || r.p1 || '-');
+                    const p1Code = escHtml(r.player1FriendCode || r.p1FriendCode || '');
+                    const p2 = escHtml(r.player2Name || r.p2 || (r.status === 'waiting_p2' ? 'Rakip Bekleniyor...' : '-'));
+                    const p2Code = escHtml(r.player2FriendCode || r.p2FriendCode || '');
+                    const cat = escHtml(r.category || r.cat || 'karisik');
+                    const score = Number(r.lastMatchPercentage ?? r.score ?? 0);
+                    const st = String(r.status || 'active').toLowerCase();
+
+                    let statusBadge = '';
+                    if (st === 'completed') {
+                        statusBadge = `<span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-black uppercase">TAMAMLANDI</span>`;
+                    } else if (st === 'waiting_p2') {
+                        statusBadge = `<span class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase">RAKİP BEKLİYOR</span>`;
+                    } else if (st === 'opponent_fled') {
+                        statusBadge = `<span class="px-2 py-0.5 rounded bg-rose-500/20 border border-rose-500/40 text-rose-300 text-[10px] font-black uppercase">TERK EDİLDİ</span>`;
+                    } else {
+                        statusBadge = `<span class="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400/40 text-sky-300 text-[10px] font-black uppercase">${escHtml(st)}</span>`;
+                    }
+
                     return `<tr class="hover:bg-white/[0.03] transition">
-                        <td class="py-3.5 px-4 font-mono-code font-black text-amber-300 text-sm">#${escHtml(r.roomCode)}</td>
+                        <td class="py-3.5 px-4 font-mono-code font-black text-amber-300 text-sm">#${rCode}</td>
                         <td class="py-3.5 px-4">
-                            <div class="font-bold text-white">${escHtml(r.player1Name || '-')}</div>
-                            <div class="text-[10px] font-mono-code text-slate-400">${escHtml(r.player1FriendCode || '')}</div>
+                            <div class="font-bold text-white">${p1}</div>
+                            <div class="text-[10px] font-mono-code text-slate-400">${p1Code}</div>
                         </td>
                         <td class="py-3.5 px-4">
-                            <div class="font-bold text-purple-200">${escHtml(r.player2Name || 'Bekleniyor...')}</div>
-                            <div class="text-[10px] font-mono-code text-slate-400">${escHtml(r.player2FriendCode || '')}</div>
+                            <div class="font-bold text-purple-200">${p2}</div>
+                            <div class="text-[10px] font-mono-code text-slate-400">${p2Code}</div>
                         </td>
                         <td class="py-3.5 px-4">
-                            <span class="px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-[10px] font-black uppercase">${escHtml(r.status || 'active')}</span>
+                            ${statusBadge}
                             <div class="text-[11px] text-slate-400 mt-0.5">Raund ${Number(r.currentRound || 1)} / ${Number(r.totalRounds || 5)}</div>
                         </td>
                         <td class="py-3.5 px-4 text-slate-300">
-                            <div class="uppercase text-[10px] text-purple-300 font-black">${escHtml(r.category || 'karisik')}</div>
-                            <div class="text-xs font-bold">Skor: ${Number(r.score || 0)}</div>
+                            <div class="uppercase text-[10px] text-purple-300 font-black">${cat}</div>
+                            <div class="text-xs font-bold text-emerald-400">Uyum: %${score}</div>
                         </td>
                         <td class="py-3.5 px-4 text-[11px] text-slate-400">${r.updatedAt ? new Date(r.updatedAt).toLocaleString('tr-TR') : '-'}</td>
                         <td class="py-3.5 px-4 text-right space-x-1.5">
-                            <button onclick="inspectRoomCeo('${escHtml(r.roomCode)}')" class="px-3 py-1.5 rounded-lg bg-purple-500/20 border border-purple-400/40 text-purple-200 hover:bg-purple-500/30 font-extrabold text-[11px]">
-                                🔍 Cevapları Gör
+                            <button onclick="inspectRoomCeo('${rCode}')" class="px-2.5 py-1.5 rounded-lg bg-purple-500/20 border border-purple-400/40 text-purple-200 hover:bg-purple-500/30 font-extrabold text-[11px] cursor-pointer">
+                                🔍 İncele
                             </button>
-                            <a href="/?oda=${encodeURIComponent(r.roomCode)}" target="_blank" class="inline-block px-2.5 py-1.5 rounded-lg bg-sky-500/20 border border-sky-400/40 text-sky-200 font-extrabold text-[11px]">
+                            <a href="/?r=${encodeURIComponent(rCode)}" target="_blank" class="inline-block px-2.5 py-1.5 rounded-lg bg-sky-500/20 border border-sky-400/40 text-sky-200 font-extrabold text-[11px]">
                                 ↗ Odaya Git
                             </a>
-                            <button onclick="deleteRoomCeo('${escHtml(r.roomCode)}')" class="px-2.5 py-1.5 rounded-lg bg-rose-500/20 border border-rose-500/40 text-rose-300 hover:bg-rose-500/30 font-extrabold text-[11px]">
-                                🗑️ Sil
+                            <button onclick="deleteRoomCeo('${rCode}')" class="px-2 py-1.5 rounded-lg bg-rose-500/20 border border-rose-500/40 text-rose-300 hover:bg-rose-500/30 font-extrabold text-[11px] cursor-pointer">
+                                🗑️
                             </button>
                         </td>
                     </tr>`;
@@ -453,29 +718,55 @@
             }
         }
 
+        // ================= KOPYALAMA YARDIMCISI =================
+        function copyToClipboard(text, successMsg = 'Kopyalandı!') {
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(successMsg, 'success');
+            }).catch(() => {
+                prompt('Kopyalamak için Ctrl+C tuşlarına bas:', text);
+            });
+        }
+
+        function copyModalPassword() {
+            const pass = document.getElementById('edit-password').value;
+            if (!pass) {
+                showToast('Kopyalanacak şifre boş!', 'error');
+                return;
+            }
+            copyToClipboard(pass, 'Şifre panoya kopyalandı!');
+        }
+
+        // ================= OYUNCU DÜZENLEME MODAL FONKSİYONLARI =================
         function openEditPlayerModal(username) {
             const p = (CEO_DATA.players || []).find(x => (x.username || '').toLowerCase() === (username || '').toLowerCase());
             if (!p) return;
             document.getElementById('edit-mode-type').value = 'update';
-            document.getElementById('modal-edit-title').textContent = `✏️ Oyuncu Düzenle: ${p.username}`;
+            document.getElementById('modal-edit-title').textContent = `Oyuncu Düzenle: ${p.username}`;
             document.getElementById('edit-username').value = p.username || '';
             document.getElementById('edit-friendcode').value = p.friendCode || '';
             document.getElementById('edit-password').value = p.rawPassword || '';
+            document.getElementById('edit-clear-pass').checked = false;
+            document.getElementById('edit-password').disabled = false;
             document.getElementById('edit-email').value = p.email || '';
+            document.getElementById('edit-provider').value = (p.provider || p.authProvider || 'guest').toLowerCase();
             document.getElementById('edit-level').value = Number(p.level || 1);
             document.getElementById('edit-xp').value = Number(p.xp || 0);
-            document.getElementById('edit-correct').value = Number(p.correct || 0);
-            document.getElementById('edit-matches').value = Number(p.matches || 0);
+            document.getElementById('edit-correct').value = Number(p.questionsCorrect ?? p.correct ?? 0);
+            document.getElementById('edit-matches').value = Number(p.gamesPlayed ?? p.matches ?? 0);
             document.getElementById('modal-edit-player').classList.remove('hidden');
         }
 
         function openCreatePlayerModal() {
             document.getElementById('edit-mode-type').value = 'create';
-            document.getElementById('modal-edit-title').textContent = '+ Yeni Oyuncu / Hesap Oluştur';
+            document.getElementById('modal-edit-title').textContent = '➕ Yeni Oyuncu / Hesap Oluştur';
             document.getElementById('edit-username').value = '';
-            document.getElementById('edit-friendcode').value = 'SNC-' + Math.random().toString(36).substring(2, 6).toUpperCase();
-            document.getElementById('edit-password').value = '';
+            document.getElementById('edit-friendcode').value = 'SNC-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('edit-password').value = '123';
+            document.getElementById('edit-clear-pass').checked = false;
+            document.getElementById('edit-password').disabled = false;
             document.getElementById('edit-email').value = '';
+            document.getElementById('edit-provider').value = 'guest';
             document.getElementById('edit-level').value = 1;
             document.getElementById('edit-xp').value = 100;
             document.getElementById('edit-correct').value = 0;
@@ -487,24 +778,70 @@
             document.getElementById('modal-edit-player').classList.add('hidden');
         }
 
+        function toggleClearPassCheckbox(chk) {
+            const passInput = document.getElementById('edit-password');
+            if (chk.checked) {
+                passInput.value = '';
+                passInput.disabled = true;
+            } else {
+                passInput.disabled = false;
+            }
+        }
+
+        function setEditPasswordValue(val) {
+            document.getElementById('edit-clear-pass').checked = false;
+            document.getElementById('edit-password').disabled = false;
+            document.getElementById('edit-password').value = val;
+            showToast(`Şifre "${val}" olarak ayarlandı.`, 'info');
+        }
+
+        function generateRandomPassForEdit() {
+            const rnd = Math.random().toString(36).substring(2, 8);
+            setEditPasswordValue(rnd);
+        }
+
+        function addEditXp(amount) {
+            const xpInp = document.getElementById('edit-xp');
+            const newXp = (Number(xpInp.value) || 0) + amount;
+            xpInp.value = newXp;
+            autoComputeLevelFromXp(newXp);
+            showToast(`+${amount} TP eklendi.`, 'info');
+        }
+
+        function setEditLevel10() {
+            document.getElementById('edit-level').value = 10;
+            document.getElementById('edit-xp').value = 1000;
+            showToast('Level 10 (1000 TP) olarak ayarlandı.', 'info');
+        }
+
+        function autoComputeLevelFromXp(val) {
+            const num = Number(val) || 0;
+            const lvl = Math.max(1, Math.floor(num / 100) + 1);
+            document.getElementById('edit-level').value = lvl;
+        }
+
+        // ================= KAYDETME (ŞİFRE + VERİ) =================
         async function savePlayerChanges() {
             const mode = document.getElementById('edit-mode-type').value;
             const username = document.getElementById('edit-username').value.trim();
             const friendCode = document.getElementById('edit-friendcode').value.trim().toUpperCase();
+            const clearPassword = document.getElementById('edit-clear-pass').checked;
             const newPassword = document.getElementById('edit-password').value.trim();
             const email = document.getElementById('edit-email').value.trim();
+            const provider = document.getElementById('edit-provider').value;
             const level = Number(document.getElementById('edit-level').value || 1);
             const xp = Number(document.getElementById('edit-xp').value || 0);
             const correct = Number(document.getElementById('edit-correct').value || 0);
             const matches = Number(document.getElementById('edit-matches').value || 0);
 
             if (!username) {
-                alert('Kullanıcı adı boş olamaz!');
+                showToast('Kullanıcı adı boş olamaz!', 'error');
                 return;
             }
+
             const btn = document.getElementById('btn-save-player');
             btn.disabled = true;
-            btn.textContent = 'Kaydediliyor...';
+            btn.textContent = 'Buluta Kaydediliyor...';
             try {
                 const payload = {
                     action: mode === 'create' ? 'admin_create_player' : 'admin_update_player',
@@ -513,14 +850,21 @@
                     targetUsername: username,
                     username,
                     friendCode,
-                    newPassword,
-                    password: newPassword,
+                    targetFriendCode: friendCode,
+                    clearPassword,
+                    rawPassword: clearPassword ? '' : newPassword,
+                    password: clearPassword ? '' : newPassword,
+                    newPassword: clearPassword ? '' : newPassword,
                     email,
+                    provider,
                     level,
                     xp,
                     correct,
-                    matches
+                    matches,
+                    questionsCorrect: correct,
+                    gamesPlayed: matches
                 };
+
                 const res = await fetch('/api/rooms', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -528,21 +872,61 @@
                 });
                 const data = await res.json();
                 if (!res.ok || !data.ok) {
-                    alert(data.error || 'İşlem başarısız oldu.');
+                    showToast(data.error || 'İşlem başarısız oldu.', 'error');
                 } else {
                     closeEditPlayerModal();
                     await refreshCeoData();
+                    const passMsg = clearPassword ? 'Şifre kaldırıldı.' : (newPassword ? `Şifre "${newPassword}" olarak güncellendi.` : 'Profil güncellendi.');
+                    showToast(`✓ "${username}" başarıyla kaydedildi! ${passMsg}`, 'success');
                 }
             } catch (e) {
-                alert('Hata: ' + e.message);
+                showToast('Hata: ' + e.message, 'error');
             } finally {
                 btn.disabled = false;
                 btn.textContent = '✓ Kaydet ve Buluta İşle';
             }
         }
 
+        // ================= HIZLI ŞİFRE DEĞİŞTİRME PROMPT =================
+        async function quickSetPasswordPrompt(friendCode, username) {
+            const newPass = prompt(`"${username}" (${friendCode}) için yeni açık şifreyi girin:\n(Örn: 123 veya emirhan2026)`, '123');
+            if (newPass === null) return;
+            const trimmed = newPass.trim();
+
+            try {
+                const res = await fetch('/api/rooms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'admin_update_player',
+                        adminUsername: CEO_ADMIN_USER,
+                        adminPassword: CEO_ADMIN_PASS,
+                        friendCode,
+                        targetFriendCode: friendCode,
+                        username,
+                        targetUsername: username,
+                        rawPassword: trimmed,
+                        password: trimmed,
+                        newPassword: trimmed,
+                        clearPassword: trimmed === ''
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refreshCeoData();
+                    showToast(`✓ "${username}" şifresi "${trimmed}" yapıldı!`, 'success');
+                    copyToClipboard(trimmed, `Şifre "${trimmed}" panoya kopyalandı!`);
+                } else {
+                    showToast(data.error || 'Şifre güncellenemedi.', 'error');
+                }
+            } catch (e) {
+                showToast('Hata: ' + e.message, 'error');
+            }
+        }
+
+        // ================= OYUNCU SİLME =================
         async function deletePlayerCeo(username, friendCode) {
-            if (!confirm(`"${username}" (${friendCode}) adlı oyuncuyu kalıcı olarak silmek istediğinize emin misiniz?`)) return;
+            if (!confirm(`"${username}" (${friendCode}) adlı oyuncuyu buluttan kalıcı olarak silmek istediğinize emin misiniz?`)) return;
             try {
                 const res = await fetch('/api/rooms', {
                     method: 'POST',
@@ -552,28 +936,115 @@
                         adminUsername: CEO_ADMIN_USER,
                         adminPassword: CEO_ADMIN_PASS,
                         targetUsername: username,
+                        friendCode,
                         targetFriendCode: friendCode
                     })
                 });
                 const data = await res.json();
                 if (res.ok && data.ok) {
                     await refreshCeoData();
+                    showToast(`"${username}" hesabı silindi.`, 'success');
                 } else {
-                    alert(data.error || 'Silinemedi.');
+                    showToast(data.error || 'Silinemedi.', 'error');
                 }
             } catch (e) {
-                alert('Hata: ' + e.message);
+                showToast('Hata: ' + e.message, 'error');
             }
         }
 
+        // ================= ODA DETAY İNCELEME =================
         function inspectRoomCeo(roomCode) {
-            const r = (CEO_DATA.rooms || []).find(x => x.roomCode === roomCode);
+            const r = (CEO_DATA.rooms || []).find(x => (x.code || x.roomCode) === roomCode);
             if (!r) return;
-            document.getElementById('modal-room-title').textContent = `⚔️ Oda #${r.roomCode} (${r.player1Name || '?'} vs ${r.player2Name || '?'})`;
-            document.getElementById('modal-room-json').textContent = JSON.stringify(r, null, 2);
+            ACTIVE_INSPECTED_ROOM = r;
+
+            const p1 = r.player1Name || r.p1 || '1. Oyuncu';
+            const p2 = r.player2Name || r.p2 || '2. Oyuncu';
+            const code = r.code || r.roomCode || '';
+
+            document.getElementById('modal-room-title').textContent = `Oda #${code}: ${p1} vs ${p2}`;
+            document.getElementById('modal-room-subtitle').textContent = `Kategori: ${r.category || r.cat || 'karisik'} • Durum: ${r.status} • Uyum: %${r.lastMatchPercentage ?? r.score ?? 0}`;
+            document.getElementById('btn-modal-visit-room').href = `/?r=${encodeURIComponent(code)}`;
+
+            // JSON Görünümünü Doldur
+            document.getElementById('room-detail-json').textContent = JSON.stringify(r, null, 2);
+
+            // Soru-Cevap Karnesini Render Et
+            renderRoomRoundsInspector(r);
+
             document.getElementById('modal-room-detail').classList.remove('hidden');
         }
 
+        function renderRoomRoundsInspector(r) {
+            const cardsContainer = document.getElementById('room-detail-cards');
+            const rounds = Array.isArray(r.rounds) ? r.rounds : [];
+
+            if (rounds.length === 0) {
+                cardsContainer.innerHTML = `<div class="p-8 text-center text-slate-400">Bu odada henüz oynanmış soru raundu bulunamadı.</div>`;
+                return;
+            }
+
+            const p1Name = r.player1Name || r.p1 || '1. Oyuncu';
+            const p2Name = r.player2Name || r.p2 || '2. Oyuncu';
+
+            cardsContainer.innerHTML = rounds.map((rd, idx) => {
+                const qText = rd.questionText || rd.question || `Soru #${idx + 1}`;
+                const p1Ans = rd.p1Answer !== undefined && rd.p1Answer !== null ? (rd.options?.[rd.p1Answer] || rd.p1Answer) : 'Yanıtlamadı';
+                const p2Guess = rd.p2Guess !== undefined && rd.p2Guess !== null ? (rd.options?.[rd.p2Guess] || rd.p2Guess) : 'Tahmin Yok';
+                const isMatch = rd.matched === true || (rd.p1Answer !== null && rd.p1Answer !== undefined && rd.p1Answer === rd.p2Guess);
+                const matchBadge = isMatch
+                    ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/40 text-[10px] font-black">✓ EŞLEŞTİ</span>`
+                    : `<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 text-[10px] font-black">✕ EŞLEŞMEDİ</span>`;
+
+                const p1Comment = rd.p1Comment?.text ? `<div class="text-[11px] text-slate-400 mt-0.5">💬 "${escHtml(rd.p1Comment.emoji || '')} ${escHtml(rd.p1Comment.text)}"</div>` : '';
+                const p2Comment = rd.p2Comment?.text ? `<div class="text-[11px] text-slate-400 mt-0.5">💬 "${escHtml(rd.p2Comment.emoji || '')} ${escHtml(rd.p2Comment.text)}"</div>` : '';
+
+                return `
+                    <div class="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2">
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <span class="text-[10px] font-black uppercase text-amber-400">Raund ${idx + 1}</span>
+                                <h4 class="text-sm font-bold text-white mt-0.5">${escHtml(qText)}</h4>
+                            </div>
+                            <div>${matchBadge}</div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-white/5">
+                            <div class="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20">
+                                <span class="text-[10px] font-black uppercase text-purple-300">${escHtml(p1Name)} (Cevap):</span>
+                                <div class="text-xs font-bold text-white mt-0.5">${escHtml(String(p1Ans))}</div>
+                                ${p1Comment}
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                                <span class="text-[10px] font-black uppercase text-amber-300">${escHtml(p2Name)} (Tahmin):</span>
+                                <div class="text-xs font-bold text-white mt-0.5">${escHtml(String(p2Guess))}</div>
+                                ${p2Comment}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleRoomDetailView() {
+            const cards = document.getElementById('room-detail-cards');
+            const json = document.getElementById('room-detail-json');
+            const btn = document.getElementById('btn-toggle-json');
+            if (cards.classList.contains('hidden')) {
+                cards.classList.remove('hidden');
+                json.classList.add('hidden');
+                btn.textContent = '💻 Ham JSON Gör';
+            } else {
+                cards.classList.add('hidden');
+                json.classList.remove('hidden');
+                btn.textContent = '📋 Soru Karnesi Gör';
+            }
+        }
+
+        function closeRoomDetailModal() {
+            document.getElementById('modal-room-detail').classList.add('hidden');
+        }
+
+        // ================= ODA SİLME =================
         async function deleteRoomCeo(roomCode) {
             if (!confirm(`#${roomCode} kodlu düello odasını buluttan silmek istediğinize emin misiniz?`)) return;
             try {
@@ -584,27 +1055,58 @@
                         action: 'admin_delete_room',
                         adminUsername: CEO_ADMIN_USER,
                         adminPassword: CEO_ADMIN_PASS,
-                        roomCode
+                        roomCode,
+                        code: roomCode
                     })
                 });
                 const data = await res.json();
                 if (res.ok && data.ok) {
                     await refreshCeoData();
+                    showToast(`#${roomCode} odası silindi.`, 'success');
                 } else {
-                    alert(data.error || 'Oda silinemedi.');
+                    showToast(data.error || 'Oda silinemedi.', 'error');
                 }
             } catch (e) {
-                alert('Hata: ' + e.message);
+                showToast('Hata: ' + e.message, 'error');
             }
         }
 
+        // ================= TOPLU TEMİZLİK =================
+        async function cleanupInactiveRoomsCeo() {
+            if (!confirm('7 günden eski veya terk edilmiş odaları topluca temizlemek istediğinize emin misiniz?')) return;
+            showToast('Toplu temizlik başlatıldı...', 'info');
+            try {
+                const res = await fetch('/api/rooms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'admin_cleanup_rooms',
+                        adminUsername: CEO_ADMIN_USER,
+                        adminPassword: CEO_ADMIN_PASS
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refreshCeoData();
+                    showToast(`Temizlik tamamlandı! ${data.cleanedCount || 0} oda temizlendi.`, 'success');
+                } else {
+                    showToast(data.error || 'Temizlik yapılamadı.', 'error');
+                }
+            } catch (e) {
+                showToast('Hata: ' + e.message, 'error');
+            }
+        }
+
+        // ================= ÇIKIŞ =================
         function logoutCeo() {
             sessionStorage.removeItem('senceo_ceo_pass');
             CEO_ADMIN_PASS = '';
             document.getElementById('ceo-dashboard').classList.add('hidden');
             document.getElementById('ceo-login-screen').classList.remove('hidden');
+            showToast('CEO oturumu kapatıldı.', 'info');
         }
 
+        // ================= OTOMATİK GİRİŞ (EĞER SESSION DAHA ÖNCE VARSA) =================
         window.addEventListener('DOMContentLoaded', () => {
             if (CEO_ADMIN_PASS) {
                 document.getElementById('inp-admin-user').value = CEO_ADMIN_USER;

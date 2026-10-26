@@ -2965,9 +2965,16 @@ export default async function handler(req, res) {
           const playersMap = new Map();
           lbPlayers.forEach((p) => {
             if (!p || !p.friendCode) return;
-            playersMap.set(p.friendCode.toUpperCase(), {
+            const code = String(p.friendCode).toUpperCase();
+            playersMap.set(code, {
               ...p,
+              friendCode: code,
               rawPassword: p.rawPassword || "",
+              hasPassword: Boolean(p.rawPassword || p.passwordHash || p.passwordProtected),
+              gamesPlayed: Math.max(Number(p.gamesPlayed) || 0, Number(p.matches) || 0),
+              questionsCorrect: Math.max(Number(p.questionsCorrect) || 0, Number(p.correct) || 0),
+              matches: Math.max(Number(p.gamesPlayed) || 0, Number(p.matches) || 0),
+              correct: Math.max(Number(p.questionsCorrect) || 0, Number(p.correct) || 0),
               activeRooms: [],
               acceptedFriends: []
             });
@@ -2988,15 +2995,22 @@ export default async function handler(req, res) {
               } catch (e) {}
             }
             const prev = playersMap.get(code) || {};
+            const finalPass = decodedPass || prev.rawPassword || "";
+            const gPlayed = Math.max(Number(d.gamesPlayed) || 0, Number(prev.gamesPlayed) || Number(d.matches) || 0);
+            const qCorrect = Math.max(Number(d.questionsCorrect) || 0, Number(prev.questionsCorrect) || Number(d.correct) || 0);
             playersMap.set(code, {
               ...prev,
               ...d,
               friendCode: code,
-              rawPassword: decodedPass,
+              username: d.username || prev.username || "Misafir Oyuncu",
+              rawPassword: finalPass,
+              hasPassword: Boolean(finalPass || d.passwordHash || d.passwordProtected || prev.hasPassword),
               level: Math.max(1, Number(d.level) || Number(prev.level) || 1),
               xp: Math.max(Number(d.xp) || 0, Number(prev.xp) || 0),
-              gamesPlayed: Math.max(Number(d.gamesPlayed) || 0, Number(prev.gamesPlayed) || 0),
-              questionsCorrect: Math.max(Number(d.questionsCorrect) || 0, Number(prev.questionsCorrect) || 0)
+              gamesPlayed: gPlayed,
+              questionsCorrect: qCorrect,
+              matches: gPlayed,
+              correct: qCorrect
             });
           });
 
@@ -3004,7 +3018,25 @@ export default async function handler(req, res) {
             roomFiles.map((rf) => getJsonFromCloudPath(`rooms/${rf.name}`).catch(() => null))
           );
           const allRooms = roomDetails
-            .map((r) => (r && r.data ? r.data : null))
+            .map((r) => {
+              if (!r || !r.data) return null;
+              const rd = r.data;
+              const code = String(rd.code || rd.roomCode || "").toUpperCase();
+              return {
+                ...rd,
+                code,
+                roomCode: code,
+                player1Name: rd.p1 || rd.player1Name || (rd.players && rd.players[0]?.name) || "-",
+                player1FriendCode: rd.p1FriendCode || rd.player1FriendCode || (rd.players && rd.players[0]?.code) || "",
+                player2Name: rd.p2 || rd.player2Name || (rd.players && rd.players[1]?.name) || (rd.status === "waiting_p2" ? "Bekleniyor..." : "-"),
+                player2FriendCode: rd.p2FriendCode || rd.player2FriendCode || (rd.players && rd.players[1]?.code) || "",
+                category: rd.cat || rd.category || "karisik",
+                score: rd.lastMatchPercentage ?? rd.score ?? 0,
+                status: rd.status || "active",
+                currentRound: Number(rd.currentRound || 1),
+                totalRounds: Number(rd.totalRounds || (Array.isArray(rd.rounds) ? rd.rounds.length : 5))
+              };
+            })
             .filter(Boolean)
             .sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0));
 
@@ -3018,38 +3050,64 @@ export default async function handler(req, res) {
         }
 
         if (body.action === "admin_update_player" || body.action === "admin_create_player") {
-          const friendCode = String(body.friendCode || "").trim().toUpperCase();
-          const username = String(body.username || "Oyuncu").trim();
-          const rawPassword = String(body.rawPassword || "").trim();
+          let friendCode = String(body.friendCode || body.targetFriendCode || "").trim().toUpperCase();
+          const username = String(body.username || body.targetUsername || "Oyuncu").trim();
+          const clearPass = Boolean(body.clearPassword);
+          const rawPassword = clearPass ? "" : String(body.rawPassword ?? body.password ?? body.newPassword ?? "").trim();
           const email = String(body.email || "").trim();
           const provider = String(body.provider || "guest").trim();
           const xp = Math.max(0, Number(body.xp) || 0);
           const level = Math.max(1, Number(body.level) || Math.floor(xp / 100) + 1);
-          const gamesPlayed = Math.max(0, Number(body.gamesPlayed) || 0);
-          const questionsCorrect = Math.max(0, Number(body.questionsCorrect) || 0);
+          const gamesPlayed = Math.max(0, Number(body.gamesPlayed ?? body.matches) || 0);
+          const questionsCorrect = Math.max(0, Number(body.questionsCorrect ?? body.correct) || 0);
 
-          if (!/^SNC-\d{4}$/.test(friendCode)) {
-            return res.status(400).json({ error: "Geçersiz SNC-XXXX arkadaş kodu." });
+          // Eğer friendCode girilmemişse, kullanıcı adından tespit et
+          if (!friendCode && username) {
+            const lb = await getJsonFromCloudPath("leaderboard/global.json");
+            const existingP = (lb?.data?.players || []).find(
+              (p) => p && String(p.username || "").trim().toLowerCase() === username.toLowerCase()
+            );
+            if (existingP && existingP.friendCode) {
+              friendCode = String(existingP.friendCode).toUpperCase();
+            }
           }
 
-          const hasPass = Boolean(rawPassword);
-          const encodedPass = hasPass ? Buffer.from(rawPassword, "utf-8").toString("base64") : "";
+          // Yeni oluşturuluyorsa ve kod hala yoksa otomatik üret
+          if (!friendCode && body.action === "admin_create_player") {
+            const rndNum = Math.floor(1000 + Math.random() * 9000);
+            friendCode = `SNC-${rndNum}`;
+          }
+
+          if (!/^SNC-\d{4}$/.test(friendCode)) {
+            return res.status(400).json({ error: "Geçersiz SNC-XXXX arkadaş kodu: " + (friendCode || "boş") });
+          }
+
+          const hasPasswordInput = Boolean(body.rawPassword !== undefined || body.password !== undefined || body.newPassword !== undefined || clearPass);
 
           const updatedRec = await putJsonToCloudPath(
             `friends/${friendCode}.json`,
             (existing) => {
               const rec = Object.assign(createDefaultFriendRecord(friendCode, username), existing || {});
               rec.username = username;
-              rec.email = email;
-              rec.provider = provider;
+              if (email) rec.email = email;
+              if (provider) rec.provider = provider;
               rec.xp = xp;
               rec.level = level;
               rec.gamesPlayed = gamesPlayed;
               rec.questionsCorrect = questionsCorrect;
-              rec.passwordProtected = hasPass;
-              rec.isPasswordProtected = hasPass;
-              rec.passwordHash = encodedPass;
-              rec.rawPassword = rawPassword;
+
+              if (clearPass) {
+                rec.passwordProtected = false;
+                rec.isPasswordProtected = false;
+                rec.passwordHash = "";
+                rec.rawPassword = "";
+              } else if (hasPasswordInput) {
+                const hasPass = Boolean(rawPassword);
+                rec.passwordProtected = hasPass;
+                rec.isPasswordProtected = hasPass;
+                rec.passwordHash = hasPass ? Buffer.from(rawPassword, "utf-8").toString("base64") : "";
+                rec.rawPassword = rawPassword;
+              }
               rec.lastXpActivityAt = Date.now();
               rec.updatedAt = new Date().toISOString();
               return rec;
@@ -3062,18 +3120,35 @@ export default async function handler(req, res) {
             (existing) => {
               const list = Array.isArray(existing?.players) ? existing.players : [];
               const idx = list.findIndex((p) => p && String(p.friendCode || "").toUpperCase() === friendCode);
+              const prev = idx >= 0 ? list[idx] : {};
+              let passProt = prev.passwordProtected;
+              let passHash = prev.passwordHash;
+              let rawPass = prev.rawPassword;
+
+              if (clearPass) {
+                passProt = false;
+                passHash = "";
+                rawPass = "";
+              } else if (hasPasswordInput) {
+                passProt = Boolean(rawPassword);
+                passHash = passProt ? Buffer.from(rawPassword, "utf-8").toString("base64") : "";
+                rawPass = rawPassword;
+              }
+
               const entry = {
-                ...(idx >= 0 ? list[idx] : {}),
+                ...prev,
                 friendCode,
                 username,
-                email,
-                provider,
+                email: email || prev.email || "",
+                provider: provider || prev.provider || "guest",
                 xp,
                 level,
                 gamesPlayed,
                 questionsCorrect,
-                passwordProtected: hasPass,
-                isPasswordProtected: hasPass,
+                passwordProtected: passProt,
+                isPasswordProtected: passProt,
+                passwordHash: passHash,
+                rawPassword: rawPass,
                 lastXpActivityAt: Date.now(),
                 updatedAt: new Date().toISOString()
               };
@@ -3089,7 +3164,7 @@ export default async function handler(req, res) {
         }
 
         if (body.action === "admin_delete_player") {
-          const friendCode = String(body.friendCode || "").trim().toUpperCase();
+          const friendCode = String(body.friendCode || body.targetFriendCode || "").trim().toUpperCase();
           if (/^SNC-\d{4}$/.test(friendCode)) {
             await putJsonToCloudPath(
               `friends/${friendCode}.json`,
@@ -3119,7 +3194,7 @@ export default async function handler(req, res) {
         }
 
         if (body.action === "admin_delete_room") {
-          const roomCode = String(body.roomCode || "").trim().toUpperCase();
+          const roomCode = String(body.roomCode || body.code || "").trim().toUpperCase();
           if (roomCode) {
             await putJsonToCloudPath(
               `rooms/${roomCode}.json`,
@@ -3133,6 +3208,53 @@ export default async function handler(req, res) {
             );
           }
           return res.status(200).json({ ok: true, roomCode });
+        }
+
+        if (body.action === "admin_cleanup_rooms") {
+          let cleanedCount = 0;
+          if (GH_TOKEN) {
+            try {
+              const rRes = await fetch(
+                `https://api.github.com/repos/${GH_REPO}/contents/rooms?ref=${GH_BRANCH}&t=${Date.now()}`,
+                {
+                  headers: {
+                    Authorization: `token ${GH_TOKEN}`,
+                    Accept: "application/vnd.github.v3+json",
+                    "User-Agent": "senceo-cloud-db"
+                  }
+                }
+              );
+              if (rRes.ok) {
+                const rArr = await rRes.json();
+                if (Array.isArray(rArr)) {
+                  for (const rf of rArr.slice(0, 30)) {
+                    if (!rf || !rf.name) continue;
+                    const rData = await getJsonFromCloudPath(`rooms/${rf.name}`);
+                    const d = rData?.data;
+                    if (d) {
+                      const updated = new Date(d.updatedAt || d.createdAt || 0).getTime();
+                      const isOld = Date.now() - updated > 7 * 24 * 60 * 60 * 1000;
+                      const isAbandoned = d.status === "opponent_fled" || (!d.p2 && isOld);
+                      if (isAbandoned) {
+                        await putJsonToCloudPath(
+                          `rooms/${rf.name}`,
+                          (existing) => ({
+                            ...(existing || {}),
+                            status: "opponent_fled",
+                            deletedByAdminAt: new Date().toISOString(),
+                            purgedByCleanup: true
+                          }),
+                          `Admin cleanup room ${rf.name}`
+                        );
+                        cleanedCount++;
+                      }
+                    }
+                  }
+                }
+              }
+            } catch (e) {}
+          }
+          return res.status(200).json({ ok: true, cleanedCount });
         }
       }
 
