@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-26T20:10:57.722Z",
+  "updatedAt": "2026-10-26T20:11:37.845Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -586,10 +586,10 @@
       "level": 1,
       "gamesPlayed": 0,
       "questionsCorrect": 0,
-      "passwordProtected": false,
-      "isPasswordProtected": false,
-      "lastXpActivityAt": 1793045457722,
-      "updatedAt": "2026-10-26T20:10:57.722Z"
+      "passwordProtected": true,
+      "isPasswordProtected": true,
+      "lastXpActivityAt": 1793045497845,
+      "updatedAt": "2026-10-26T20:11:37.845Z"
     }
   ]
 }
