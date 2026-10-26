@@ -9,7 +9,7 @@
   "isPermanentMember": true,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1793044745865,
+  "lastXpActivityAt": 1793044757298,
   "latestRoomCode": "SNC7TY",
   "activeRooms": [
     {
@@ -45,8 +45,8 @@
       "createdAt": "2026-10-25T19:22:45.952Z"
     }
   ],
-  "updatedAt": "2026-10-26T19:59:05.865Z",
-  "email": "periheltry@gmail.com",
+  "updatedAt": "2026-10-26T19:59:17.298Z",
+  "email": "",
   "googleSub": "108291569470125462549",
   "picture": "https://lh3.googleusercontent.com/a/ACg8ocLZEjJf70n2QDoNdTudca6tNZi_4CRSRs4AkuixkCcySXIRPlW3=s96-c",
   "authProvider": "Google",
