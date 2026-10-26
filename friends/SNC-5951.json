@@ -1,0 +1,21 @@
+{
+  "friendCode": "SNC-5951",
+  "username": "CeoTestBot_4791",
+  "level": 3,
+  "xp": 250,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": true,
+  "passwordHash": "Ym90cGFzczIwMjY=",
+  "lastXpActivityAt": 1793052383122,
+  "latestRoomCode": "",
+  "activeRooms": [],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-10-26T22:06:23.122Z",
+  "isPasswordProtected": true,
+  "rawPassword": "botpass2026"
+}
