@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-26T19:56:43.548Z",
+  "updatedAt": "2026-10-26T19:58:49.778Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -217,11 +217,13 @@
       "xp": 180,
       "gamesPlayed": 0,
       "questionsCorrect": 0,
-      "provider": "Google",
+      "provider": "guest",
       "isPermanentMember": true,
-      "passwordProtected": true,
-      "lastXpActivityAt": 1792970853552,
-      "updatedAt": "2026-10-26T19:56:43.548Z"
+      "passwordProtected": false,
+      "lastXpActivityAt": 1793044729777,
+      "updatedAt": "2026-10-26T19:58:49.777Z",
+      "email": "periheltry@gmail.com",
+      "isPasswordProtected": false
     },
     {
       "friendCode": "SNC-1265",
