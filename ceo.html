@@ -352,6 +352,51 @@
         </div>
     </div>
 
+    <!-- ÖZEL CEO ONAY MODALI (TARAYICI CONFIRM YERİNE) -->
+    <div id="ceo-confirm-modal" class="hidden fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card rounded-3xl max-w-md w-full p-6 space-y-4 border border-rose-500/40 shadow-2xl animate-toast">
+            <div class="flex items-center gap-3">
+                <div id="ceo-confirm-icon" class="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-2xl flex-shrink-0">🗑️</div>
+                <div>
+                    <h3 id="ceo-confirm-title" class="text-base font-black text-white">Emin misiniz?</h3>
+                    <p id="ceo-confirm-desc" class="text-xs text-slate-300 font-medium mt-0.5 leading-relaxed"></p>
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-white/10">
+                <button type="button" id="btn-ceo-confirm-cancel" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-300 font-bold text-xs cursor-pointer transition">
+                    Vazgeç
+                </button>
+                <button type="button" id="btn-ceo-confirm-ok" class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-xs shadow-lg cursor-pointer transition">
+                    Evet, Sil
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÖZEL CEO PROMPT MODALI (TARAYICI PROMPT YERİNE) -->
+    <div id="ceo-prompt-modal" class="hidden fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card rounded-3xl max-w-md w-full p-6 space-y-4 border border-amber-500/40 shadow-2xl animate-toast">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl flex-shrink-0">🔑</div>
+                <div>
+                    <h3 id="ceo-prompt-title" class="text-base font-black text-white">Hızlı Şifre Belirle</h3>
+                    <p id="ceo-prompt-desc" class="text-xs text-slate-300 font-medium mt-0.5"></p>
+                </div>
+            </div>
+            <div>
+                <input id="ceo-prompt-input" type="text" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-amber-400/40 text-amber-300 font-mono-code font-bold text-sm focus:border-amber-400 focus:outline-none">
+            </div>
+            <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-white/10">
+                <button type="button" id="btn-ceo-prompt-cancel" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-300 font-bold text-xs cursor-pointer transition">
+                    Vazgeç
+                </button>
+                <button type="button" id="btn-ceo-prompt-ok" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:opacity-95 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg cursor-pointer transition">
+                    ✓ Kaydet
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let CEO_ADMIN_USER = sessionStorage.getItem('senceo_ceo_user') || 'emirhan';
         let CEO_ADMIN_PASS = sessionStorage.getItem('senceo_ceo_pass') || '';
@@ -385,6 +430,80 @@
             }, 3200);
         }
 
+        // ================= ÖZEL MODAL SİSTEMİ (TARAYICI CONFIRM / PROMPT YERİNE) =================
+        let _ceoConfirmResolve = null;
+        function openCeoConfirm({ title = 'Emin misiniz?', desc = 'Bu işlemi onaylıyor musunuz?', okText = 'Evet, Onayla', icon = '🗑️', isDanger = true }) {
+            return new Promise((resolve) => {
+                _ceoConfirmResolve = resolve;
+                document.getElementById('ceo-confirm-title').textContent = title;
+                document.getElementById('ceo-confirm-desc').textContent = desc;
+                const iconEl = document.getElementById('ceo-confirm-icon');
+                if (iconEl) iconEl.textContent = icon;
+                const okBtn = document.getElementById('btn-ceo-confirm-ok');
+                if (okBtn) {
+                    okBtn.textContent = okText;
+                    if (isDanger) {
+                        okBtn.className = 'px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-xs shadow-lg cursor-pointer transition';
+                    } else {
+                        okBtn.className = 'px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg cursor-pointer transition';
+                    }
+                }
+                document.getElementById('ceo-confirm-modal').classList.remove('hidden');
+            });
+        }
+
+        function closeCeoConfirm(result) {
+            document.getElementById('ceo-confirm-modal').classList.add('hidden');
+            if (_ceoConfirmResolve) {
+                const cb = _ceoConfirmResolve;
+                _ceoConfirmResolve = null;
+                cb(result);
+            }
+        }
+
+        let _ceoPromptResolve = null;
+        function openCeoPrompt({ title = 'Bilgi Girin', desc = 'Lütfen değeri girin:', defaultValue = '', placeholder = '' }) {
+            return new Promise((resolve) => {
+                _ceoPromptResolve = resolve;
+                document.getElementById('ceo-prompt-title').textContent = title;
+                document.getElementById('ceo-prompt-desc').textContent = desc;
+                const inp = document.getElementById('ceo-prompt-input');
+                inp.value = defaultValue;
+                inp.placeholder = placeholder;
+                document.getElementById('ceo-prompt-modal').classList.remove('hidden');
+                setTimeout(() => {
+                    inp.focus();
+                    inp.select();
+                }, 50);
+            });
+        }
+
+        function closeCeoPrompt(val) {
+            document.getElementById('ceo-prompt-modal').classList.add('hidden');
+            if (_ceoPromptResolve) {
+                const cb = _ceoPromptResolve;
+                _ceoPromptResolve = null;
+                cb(val);
+            }
+        }
+
+        // Modal Buton Olayları
+        document.getElementById('btn-ceo-confirm-cancel').onclick = () => closeCeoConfirm(false);
+        document.getElementById('btn-ceo-confirm-ok').onclick = () => closeCeoConfirm(true);
+        document.getElementById('btn-ceo-prompt-cancel').onclick = () => closeCeoPrompt(null);
+        document.getElementById('btn-ceo-prompt-ok').onclick = () => {
+            const val = document.getElementById('ceo-prompt-input').value;
+            closeCeoPrompt(val);
+        };
+        document.getElementById('ceo-prompt-input').onkeydown = (e) => {
+            if (e.key === 'Enter') {
+                const val = document.getElementById('ceo-prompt-input').value;
+                closeCeoPrompt(val);
+            } else if (e.key === 'Escape') {
+                closeCeoPrompt(null);
+            }
+        };
+
         // ================= GİRİŞ VE VERİ YÜKLEME =================
         async function loginCeoPanel() {
             const u = document.getElementById('inp-admin-user').value.trim() || 'emirhan';
@@ -398,13 +517,19 @@
                 return;
             }
             btn.disabled = true;
-            btn.textContent = 'Doğrulanıyor...';
+            btn.textContent = '👑 Doğrulanıyor...';
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 8000);
+
             try {
                 const res = await fetch('/api/rooms', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'admin_get_overview', adminUsername: u, adminPassword: p })
+                    body: JSON.stringify({ action: 'admin_get_overview', adminUsername: u, adminPassword: p }),
+                    signal: controller.signal
                 });
+                clearTimeout(timeoutId);
                 const data = await res.json();
                 if (!res.ok || !data.ok) {
                     errEl.textContent = data.error || 'Yetkisiz giriş! Kullanıcı adı veya şifre hatalı.';
@@ -422,7 +547,12 @@
                 updateCeoDashboardUI();
                 showToast(`Hoş geldin ${u}! CEO paneline tam yetkiyle bağlandın.`, 'success');
             } catch (e) {
-                errEl.textContent = 'Bağlantı hatası: ' + e.message;
+                clearTimeout(timeoutId);
+                if (e.name === 'AbortError') {
+                    errEl.textContent = 'Sunucu yanıtı zaman aşımına uğradı (8sn). Lütfen tekrar deneyin.';
+                } else {
+                    errEl.textContent = 'Bağlantı hatası: ' + e.message;
+                }
                 errEl.classList.remove('hidden');
             } finally {
                 btn.disabled = false;
@@ -435,12 +565,18 @@
             const icon = document.getElementById('refresh-icon');
             if (btn) btn.disabled = true;
             if (icon) icon.textContent = '⏳';
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 8000);
+
             try {
                 const res = await fetch('/api/rooms', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'admin_get_overview', adminUsername: CEO_ADMIN_USER, adminPassword: CEO_ADMIN_PASS })
+                    body: JSON.stringify({ action: 'admin_get_overview', adminUsername: CEO_ADMIN_USER, adminPassword: CEO_ADMIN_PASS }),
+                    signal: controller.signal
                 });
+                clearTimeout(timeoutId);
                 const data = await res.json();
                 if (res.ok && data.ok) {
                     CEO_DATA.players = data.players || [];
@@ -451,7 +587,12 @@
                     showToast(data.error || 'Veri yenilenemedi.', 'error');
                 }
             } catch (e) {
-                showToast('Hata: ' + e.message, 'error');
+                clearTimeout(timeoutId);
+                if (e.name === 'AbortError') {
+                    showToast('Yenileme zaman aşımına uğradı (8sn).', 'error');
+                } else {
+                    showToast('Hata: ' + e.message, 'error');
+                }
             } finally {
                 if (btn) btn.disabled = false;
                 if (icon) icon.textContent = '🔄';
@@ -725,11 +866,31 @@
         // ================= KOPYALAMA YARDIMCISI =================
         function copyToClipboard(text, successMsg = 'Kopyalandı!') {
             if (!text) return;
-            navigator.clipboard.writeText(text).then(() => {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(successMsg, 'success');
+                }).catch(() => {
+                    fallbackCopyText(text, successMsg);
+                });
+            } else {
+                fallbackCopyText(text, successMsg);
+            }
+        }
+
+        function fallbackCopyText(text, successMsg) {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
                 showToast(successMsg, 'success');
-            }).catch(() => {
-                prompt('Kopyalamak için Ctrl+C tuşlarına bas:', text);
-            });
+            } catch (e) {
+                showToast(successMsg, 'info');
+            }
         }
 
         function copyModalPassword() {
@@ -844,8 +1005,34 @@
             }
 
             const btn = document.getElementById('btn-save-player');
-            btn.disabled = true;
-            btn.textContent = 'Buluta Kaydediliyor...';
+            // İyimser UI güncellemesi (modalı hemen kapat ve arayüzü güncelle)
+            const passMsg = clearPassword ? 'Şifre kaldırıldı.' : (newPassword ? `Şifre "${newPassword}" olarak güncellendi.` : 'Profil güncellendi.');
+            let existingIdx = (CEO_DATA.players || []).findIndex(x => x.friendCode === friendCode || (x.username || '').toLowerCase() === username.toLowerCase());
+            const updatedPlayerObj = {
+                friendCode,
+                username,
+                email,
+                provider,
+                level,
+                xp,
+                correct,
+                questionsCorrect: correct,
+                matches,
+                gamesPlayed: matches,
+                rawPassword: clearPassword ? '' : newPassword,
+                hasPassword: clearPassword ? false : Boolean(newPassword),
+                passwordProtected: clearPassword ? false : Boolean(newPassword)
+            };
+            if (existingIdx >= 0) {
+                CEO_DATA.players[existingIdx] = { ...CEO_DATA.players[existingIdx], ...updatedPlayerObj };
+            } else {
+                CEO_DATA.players.unshift(updatedPlayerObj);
+            }
+            renderCeoTables();
+            updateCeoDashboardUI();
+            closeEditPlayerModal();
+            showToast(`Buluta kaydediliyor...`, 'info');
+
             try {
                 const payload = {
                     action: mode === 'create' ? 'admin_create_player' : 'admin_update_player',
@@ -877,14 +1064,13 @@
                 const data = await res.json();
                 if (!res.ok || !data.ok) {
                     showToast(data.error || 'İşlem başarısız oldu.', 'error');
-                } else {
-                    closeEditPlayerModal();
                     await refreshCeoData();
-                    const passMsg = clearPassword ? 'Şifre kaldırıldı.' : (newPassword ? `Şifre "${newPassword}" olarak güncellendi.` : 'Profil güncellendi.');
+                } else {
                     showToast(`✓ "${username}" başarıyla kaydedildi! ${passMsg}`, 'success');
                 }
             } catch (e) {
                 showToast('Hata: ' + e.message, 'error');
+                await refreshCeoData();
             } finally {
                 btn.disabled = false;
                 btn.textContent = '✓ Kaydet ve Buluta İşle';
@@ -893,9 +1079,24 @@
 
         // ================= HIZLI ŞİFRE DEĞİŞTİRME PROMPT =================
         async function quickSetPasswordPrompt(friendCode, username) {
-            const newPass = prompt(`"${username}" (${friendCode}) için yeni açık şifreyi girin:\n(Örn: 123 veya emirhan2026)`, '123');
+            const newPass = await openCeoPrompt({
+                title: `Hızlı Şifre Ata: ${username}`,
+                desc: `"${username}" (${friendCode}) için yeni açık şifreyi girin:\n(Örn: 123 veya emirhan2026)`,
+                defaultValue: '123',
+                placeholder: 'Yeni şifre...'
+            });
             if (newPass === null) return;
             const trimmed = newPass.trim();
+
+            // İyimser UI güncellemesi (anında arayüzde göster)
+            const targetPlayer = (CEO_DATA.players || []).find(x => x.friendCode === friendCode);
+            if (targetPlayer) {
+                targetPlayer.rawPassword = trimmed;
+                targetPlayer.hasPassword = Boolean(trimmed);
+                targetPlayer.passwordProtected = Boolean(trimmed);
+                renderCeoTables();
+            }
+            showToast(`Şifre buluta kaydediliyor...`, 'info');
 
             try {
                 const res = await fetch('/api/rooms', {
@@ -917,20 +1118,36 @@
                 });
                 const data = await res.json();
                 if (res.ok && data.ok) {
-                    await refreshCeoData();
                     showToast(`✓ "${username}" şifresi "${trimmed}" yapıldı!`, 'success');
-                    copyToClipboard(trimmed, `Şifre "${trimmed}" panoya kopyalandı!`);
+                    if (trimmed) copyToClipboard(trimmed, `Şifre "${trimmed}" panoya kopyalandı!`);
                 } else {
                     showToast(data.error || 'Şifre güncellenemedi.', 'error');
+                    await refreshCeoData();
                 }
             } catch (e) {
                 showToast('Hata: ' + e.message, 'error');
+                await refreshCeoData();
             }
         }
 
         // ================= OYUNCU SİLME =================
         async function deletePlayerCeo(username, friendCode) {
-            if (!confirm(`"${username}" (${friendCode}) adlı oyuncuyu buluttan kalıcı olarak silmek istediğinize emin misiniz?`)) return;
+            const confirmed = await openCeoConfirm({
+                title: 'Oyuncuyu Buluttan Sil',
+                desc: `"${username}" (${friendCode}) adlı oyuncuyu buluttan kalıcı olarak silmek istediğinize emin misiniz? Leaderboard ve profil kaydı kalıcı olarak kaldırılacaktır.`,
+                okText: 'Evet, Kalıcı Olarak Sil',
+                icon: '⚠️',
+                isDanger: true
+            });
+            if (!confirmed) return;
+
+            // İyimser UI güncellemesi
+            CEO_DATA.players = (CEO_DATA.players || []).filter(x => x.friendCode !== friendCode);
+            renderCeoTables();
+            document.getElementById('stat-total-players').textContent = (CEO_DATA.players || []).length;
+            document.getElementById('badge-count-players').textContent = (CEO_DATA.players || []).length;
+            showToast(`"${username}" hesabı siliniyor...`, 'info');
+
             try {
                 const res = await fetch('/api/rooms', {
                     method: 'POST',
@@ -946,13 +1163,14 @@
                 });
                 const data = await res.json();
                 if (res.ok && data.ok) {
-                    await refreshCeoData();
-                    showToast(`"${username}" hesabı silindi.`, 'success');
+                    showToast(`✓ "${username}" hesabı başarıyla silindi.`, 'success');
                 } else {
                     showToast(data.error || 'Silinemedi.', 'error');
+                    await refreshCeoData();
                 }
             } catch (e) {
                 showToast('Hata: ' + e.message, 'error');
+                await refreshCeoData();
             }
         }
 
@@ -1050,7 +1268,22 @@
 
         // ================= ODA SİLME =================
         async function deleteRoomCeo(roomCode) {
-            if (!confirm(`#${roomCode} kodlu düello odasını buluttan silmek istediğinize emin misiniz?`)) return;
+            const confirmed = await openCeoConfirm({
+                title: 'Düello Odasını Buluttan Sil',
+                desc: `#${roomCode} kodlu düello odasını buluttan kalıcı olarak silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`,
+                okText: 'Evet, Kalıcı Olarak Sil',
+                icon: '🗑️',
+                isDanger: true
+            });
+            if (!confirmed) return;
+
+            // İyimser UI güncellemesi: Odalardan hemen çıkar ve tabloyu render et
+            CEO_DATA.rooms = (CEO_DATA.rooms || []).filter(x => (x.code || x.roomCode) !== roomCode);
+            renderCeoTables();
+            document.getElementById('stat-total-rooms').textContent = (CEO_DATA.rooms || []).length;
+            document.getElementById('badge-count-rooms').textContent = (CEO_DATA.rooms || []).length;
+            showToast(`#${roomCode} odası buluttan siliniyor...`, 'info');
+
             try {
                 const res = await fetch('/api/rooms', {
                     method: 'POST',
@@ -1065,19 +1298,28 @@
                 });
                 const data = await res.json();
                 if (res.ok && data.ok) {
-                    await refreshCeoData();
-                    showToast(`#${roomCode} odası silindi.`, 'success');
+                    showToast(`✓ #${roomCode} odası buluttan kalıcı olarak silindi.`, 'success');
                 } else {
                     showToast(data.error || 'Oda silinemedi.', 'error');
+                    await refreshCeoData();
                 }
             } catch (e) {
                 showToast('Hata: ' + e.message, 'error');
+                await refreshCeoData();
             }
         }
 
         // ================= TOPLU TEMİZLİK =================
         async function cleanupInactiveRoomsCeo() {
-            if (!confirm('7 günden eski veya terk edilmiş odaları topluca temizlemek istediğinize emin misiniz?')) return;
+            const confirmed = await openCeoConfirm({
+                title: 'Terk Edilmiş Odaları Temizle',
+                desc: '7 günden eski veya terk edilmiş odaları topluca temizlemek istediğinize emin misiniz?',
+                okText: '🧹 Temizliği Başlat',
+                icon: '🧹',
+                isDanger: false
+            });
+            if (!confirmed) return;
+
             showToast('Toplu temizlik başlatıldı...', 'info');
             try {
                 const res = await fetch('/api/rooms', {

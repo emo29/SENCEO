@@ -2904,6 +2904,47 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, deletedCode: friendCode });
       }
 
+      // Helper: GitHub'dan dosyay kalc olarak sil (DELETE /contents)
+      async function deleteCloudFile(path, commitMessage = "Delete file") {
+        if (!GH_TOKEN) return false;
+        try {
+          const getRes = await fetch(
+            `https://api.github.com/repos/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}&t=${Date.now()}`,
+            {
+              headers: {
+                Authorization: `token ${GH_TOKEN}`,
+                Accept: "application/vnd.github.v3+json",
+                "User-Agent": "senceo-cloud-db"
+              }
+            }
+          );
+          if (!getRes.ok) return false;
+          const fileInfo = await getRes.json();
+          if (!fileInfo || !fileInfo.sha) return false;
+
+          const delRes = await fetch(
+            `https://api.github.com/repos/${GH_REPO}/contents/${path}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: `token ${GH_TOKEN}`,
+                Accept: "application/vnd.github.v3+json",
+                "Content-Type": "application/json",
+                "User-Agent": "senceo-cloud-db"
+              },
+              body: JSON.stringify({
+                message: commitMessage,
+                sha: fileInfo.sha,
+                branch: GH_BRANCH
+              })
+            }
+          );
+          return delRes.ok;
+        } catch (e) {
+          return false;
+        }
+      }
+
       // v0.15 (#9): /ceo ADMİNLİK & OYUNCU / DÜELLO YÖNETİM PANELİ API UÇLARI
       if (typeof body.action === "string" && body.action.startsWith("admin_")) {
         const adminPass = String(body.adminPassword || "").trim();
@@ -2920,28 +2961,38 @@ export default async function handler(req, res) {
           const lb = await getJsonFromCloudPath("leaderboard/global.json");
           const lbPlayers = Array.isArray(lb?.data?.players) ? lb.data.players : [];
 
-          let friendFiles = [];
+          const allPlayers = lbPlayers
+            .filter((p) => p && p.friendCode && p.username !== "Misafir Oyuncu" && !p.deletedAccountAt)
+            .map((p) => {
+              const code = String(p.friendCode).toUpperCase();
+              let rawPass = p.rawPassword || "";
+              if (!rawPass && p.passwordHash) {
+                try {
+                  rawPass = Buffer.from(p.passwordHash, "base64").toString("utf-8");
+                } catch (e) {}
+              }
+              const gPlayed = Math.max(Number(p.gamesPlayed) || 0, Number(p.matches) || 0);
+              const qCorrect = Math.max(Number(p.questionsCorrect) || 0, Number(p.correct) || 0);
+              return {
+                ...p,
+                friendCode: code,
+                username: p.username || "Oyuncu",
+                rawPassword: rawPass,
+                hasPassword: Boolean(rawPass || p.passwordHash || p.passwordProtected),
+                passwordProtected: Boolean(rawPass || p.passwordHash || p.passwordProtected),
+                level: Math.max(1, Number(p.level) || Math.floor((Number(p.xp) || 0) / 100) + 1),
+                xp: Math.max(0, Number(p.xp) || 0),
+                gamesPlayed: gPlayed,
+                questionsCorrect: qCorrect,
+                matches: gPlayed,
+                correct: qCorrect,
+                provider: p.provider || p.authProvider || "guest"
+              };
+            })
+            .sort((a, b) => (Number(b.xp) || 0) - (Number(a.xp) || 0));
+
           let roomFiles = [];
           if (GH_TOKEN) {
-            try {
-              const fRes = await fetch(
-                `https://api.github.com/repos/${GH_REPO}/contents/friends?ref=${GH_BRANCH}&t=${Date.now()}`,
-                {
-                  headers: {
-                    Authorization: `token ${GH_TOKEN}`,
-                    Accept: "application/vnd.github.v3+json",
-                    "User-Agent": "senceo-cloud-db"
-                  }
-                }
-              );
-              if (fRes.ok) {
-                const fArr = await fRes.json();
-                if (Array.isArray(fArr)) {
-                  friendFiles = fArr.filter((x) => x && x.name && x.name.endsWith(".json")).slice(0, 60);
-                }
-              }
-            } catch (e) {}
-
             try {
               const rRes = await fetch(
                 `https://api.github.com/repos/${GH_REPO}/contents/rooms?ref=${GH_BRANCH}&t=${Date.now()}`,
@@ -2956,63 +3007,11 @@ export default async function handler(req, res) {
               if (rRes.ok) {
                 const rArr = await rRes.json();
                 if (Array.isArray(rArr)) {
-                  roomFiles = rArr.filter((x) => x && x.name && x.name.endsWith(".json")).slice(0, 60);
+                  roomFiles = rArr.filter((x) => x && x.name && x.name.endsWith(".json")).slice(-25).reverse();
                 }
               }
             } catch (e) {}
           }
-
-          const playersMap = new Map();
-          lbPlayers.forEach((p) => {
-            if (!p || !p.friendCode) return;
-            const code = String(p.friendCode).toUpperCase();
-            playersMap.set(code, {
-              ...p,
-              friendCode: code,
-              rawPassword: p.rawPassword || "",
-              hasPassword: Boolean(p.rawPassword || p.passwordHash || p.passwordProtected),
-              gamesPlayed: Math.max(Number(p.gamesPlayed) || 0, Number(p.matches) || 0),
-              questionsCorrect: Math.max(Number(p.questionsCorrect) || 0, Number(p.correct) || 0),
-              matches: Math.max(Number(p.gamesPlayed) || 0, Number(p.matches) || 0),
-              correct: Math.max(Number(p.questionsCorrect) || 0, Number(p.correct) || 0),
-              activeRooms: [],
-              acceptedFriends: []
-            });
-          });
-
-          const friendDetails = await Promise.all(
-            friendFiles.map((f) => getJsonFromCloudPath(`friends/${f.name}`).catch(() => null))
-          );
-          friendDetails.forEach((found) => {
-            if (!found || !found.data || !found.data.friendCode) return;
-            const d = found.data;
-            if (d.deletedAccountAt && d.username === "Misafir Oyuncu") return;
-            const code = String(d.friendCode).toUpperCase();
-            let decodedPass = d.rawPassword || "";
-            if (!decodedPass && d.passwordHash) {
-              try {
-                decodedPass = Buffer.from(d.passwordHash, "base64").toString("utf-8");
-              } catch (e) {}
-            }
-            const prev = playersMap.get(code) || {};
-            const finalPass = decodedPass || prev.rawPassword || "";
-            const gPlayed = Math.max(Number(d.gamesPlayed) || 0, Number(prev.gamesPlayed) || Number(d.matches) || 0);
-            const qCorrect = Math.max(Number(d.questionsCorrect) || 0, Number(prev.questionsCorrect) || Number(d.correct) || 0);
-            playersMap.set(code, {
-              ...prev,
-              ...d,
-              friendCode: code,
-              username: d.username || prev.username || "Misafir Oyuncu",
-              rawPassword: finalPass,
-              hasPassword: Boolean(finalPass || d.passwordHash || d.passwordProtected || prev.hasPassword),
-              level: Math.max(1, Number(d.level) || Number(prev.level) || 1),
-              xp: Math.max(Number(d.xp) || 0, Number(prev.xp) || 0),
-              gamesPlayed: gPlayed,
-              questionsCorrect: qCorrect,
-              matches: gPlayed,
-              correct: qCorrect
-            });
-          });
 
           const roomDetails = await Promise.all(
             roomFiles.map((rf) => getJsonFromCloudPath(`rooms/${rf.name}`).catch(() => null))
@@ -3039,8 +3038,6 @@ export default async function handler(req, res) {
             })
             .filter(Boolean)
             .sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0));
-
-          const allPlayers = Array.from(playersMap.values()).sort((a, b) => (Number(b.xp) || 0) - (Number(a.xp) || 0));
 
           return res.status(200).json({
             ok: true,
@@ -3166,18 +3163,7 @@ export default async function handler(req, res) {
         if (body.action === "admin_delete_player") {
           const friendCode = String(body.friendCode || body.targetFriendCode || "").trim().toUpperCase();
           if (/^SNC-\d{4}$/.test(friendCode)) {
-            await putJsonToCloudPath(
-              `friends/${friendCode}.json`,
-              () => ({
-                ...createDefaultFriendRecord(friendCode, "Misafir Oyuncu"),
-                deletedAccountAt: new Date().toISOString(),
-                passwordProtected: false,
-                isPasswordProtected: false,
-                passwordHash: "",
-                rawPassword: ""
-              }),
-              `Admin delete player ${friendCode}`
-            );
+            await deleteCloudFile(`friends/${friendCode}.json`, `Admin permanently delete player ${friendCode}`);
           }
           await putJsonToCloudPath(
             "leaderboard/global.json",
@@ -3195,19 +3181,11 @@ export default async function handler(req, res) {
 
         if (body.action === "admin_delete_room") {
           const roomCode = String(body.roomCode || body.code || "").trim().toUpperCase();
+          let deletedPermanently = false;
           if (roomCode) {
-            await putJsonToCloudPath(
-              `rooms/${roomCode}.json`,
-              (existing) => ({
-                ...(existing || { code: roomCode }),
-                status: "opponent_fled",
-                deletedByAdminAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-              }),
-              `Admin close/delete room ${roomCode}`
-            );
+            deletedPermanently = await deleteCloudFile(`rooms/${roomCode}.json`, `Admin permanently delete room ${roomCode}`);
           }
-          return res.status(200).json({ ok: true, roomCode });
+          return res.status(200).json({ ok: true, roomCode, deletedPermanently, message: `#${roomCode} odası buluttan kalıcı olarak silindi.` });
         }
 
         if (body.action === "admin_cleanup_rooms") {
@@ -3234,18 +3212,9 @@ export default async function handler(req, res) {
                     if (d) {
                       const updated = new Date(d.updatedAt || d.createdAt || 0).getTime();
                       const isOld = Date.now() - updated > 7 * 24 * 60 * 60 * 1000;
-                      const isAbandoned = d.status === "opponent_fled" || (!d.p2 && isOld);
+                      const isAbandoned = d.status === "opponent_fled" || (!d.p2 && isOld) || d.deletedByAdminAt;
                       if (isAbandoned) {
-                        await putJsonToCloudPath(
-                          `rooms/${rf.name}`,
-                          (existing) => ({
-                            ...(existing || {}),
-                            status: "opponent_fled",
-                            deletedByAdminAt: new Date().toISOString(),
-                            purgedByCleanup: true
-                          }),
-                          `Admin cleanup room ${rf.name}`
-                        );
+                        await deleteCloudFile(`rooms/${rf.name}`, `Admin cleanup room ${rf.name}`);
                         cleanedCount++;
                       }
                     }
