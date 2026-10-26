@@ -7,16 +7,16 @@
   "questionsCorrect": 0,
   "provider": "guest",
   "isPermanentMember": false,
-  "passwordProtected": false,
-  "passwordHash": "",
-  "lastXpActivityAt": 1793045456702,
+  "passwordProtected": true,
+  "passwordHash": "MTIz",
+  "lastXpActivityAt": 1793045496584,
   "latestRoomCode": "",
   "activeRooms": [],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-26T20:10:56.702Z",
+  "updatedAt": "2026-10-26T20:11:36.584Z",
   "email": "",
-  "isPasswordProtected": false,
-  "rawPassword": ""
+  "isPasswordProtected": true,
+  "rawPassword": "123"
 }
