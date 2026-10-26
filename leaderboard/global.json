@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-26T22:05:16.341Z",
+  "updatedAt": "2026-10-26T22:05:18.430Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -208,22 +208,6 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792949499862,
       "updatedAt": "2026-10-25T17:31:39.862Z"
-    },
-    {
-      "friendCode": "SNC-9051",
-      "username": "CeoTestBot_6989",
-      "email": "",
-      "provider": "guest",
-      "xp": 250,
-      "level": 3,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "passwordProtected": true,
-      "isPasswordProtected": true,
-      "passwordHash": "Ym90cGFzczIwMjY=",
-      "rawPassword": "botpass2026",
-      "lastXpActivityAt": 1793052316341,
-      "updatedAt": "2026-10-26T22:05:16.341Z"
     },
     {
       "friendCode": "SNC-1265",
