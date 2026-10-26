@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-26T19:58:49.778Z",
+  "updatedAt": "2026-10-26T19:59:06.718Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -220,8 +220,8 @@
       "provider": "guest",
       "isPermanentMember": true,
       "passwordProtected": false,
-      "lastXpActivityAt": 1793044729777,
-      "updatedAt": "2026-10-26T19:58:49.777Z",
+      "lastXpActivityAt": 1793044746718,
+      "updatedAt": "2026-10-26T19:59:06.718Z",
       "email": "periheltry@gmail.com",
       "isPasswordProtected": false
     },
