@@ -1,21 +1,22 @@
 {
   "friendCode": "SNC-6057",
-  "username": "Misafir",
+  "username": "Misafir Oyuncu",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
-  "provider": "Misafir",
+  "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1792959726116,
+  "lastXpActivityAt": 1793084164647,
   "latestRoomCode": "",
   "activeRooms": [],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-25T20:24:27.390Z",
+  "updatedAt": "2026-10-27T06:56:04.647Z",
+  "deletedAccountAt": "2026-10-27T06:56:04.647Z",
   "isPasswordProtected": false,
-  "lastPropagatedName": "Misafir"
+  "rawPassword": ""
 }
