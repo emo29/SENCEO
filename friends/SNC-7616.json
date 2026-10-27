@@ -20,19 +20,32 @@
       "p2FriendCode": "SNC-7616",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-7616",
       "cat": "genel",
-      "updatedAt": "2026-10-27T07:39:12.399Z"
+      "lastMatchPercentage": 60,
+      "updatedAt": "2026-10-27T07:41:33.891Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-27T07:39:12.399Z",
+  "notifications": [
+    {
+      "id": "DONE_P2_SNCXVM_R1",
+      "type": "completed",
+      "title": "🏆 Timur Tahminlerini Tamamladı!",
+      "message": "#SNCXVM düellosu bitti! Uyum skorunuz: %60",
+      "fromCode": "SNC-6048",
+      "fromName": "Timur",
+      "roomCode": "SNCXVM",
+      "read": false,
+      "createdAt": "2026-10-27T07:41:33.891Z"
+    }
+  ],
+  "updatedAt": "2026-10-27T07:41:33.891Z",
   "lastPropagatedName": "Emre",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
