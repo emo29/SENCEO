@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-27T22:33:14.488Z",
+  "updatedAt": "2026-10-27T22:33:17.283Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -327,20 +327,6 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792846542025,
       "updatedAt": "2026-10-25T15:03:45.542Z"
-    },
-    {
-      "friendCode": "SNC-2002",
-      "username": "komnenos",
-      "avatar": "­şİÄ",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "guest",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1792867959656,
-      "updatedAt": "2026-10-24T18:52:39.656Z"
     },
     {
       "friendCode": "SNC-6682",
