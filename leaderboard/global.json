@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-27T22:33:22.945Z",
+  "updatedAt": "2026-10-27T22:33:25.388Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -252,20 +252,6 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792842660619,
       "updatedAt": "2026-10-24T11:51:00.619Z"
-    },
-    {
-      "friendCode": "SNC-5606",
-      "username": "ibo",
-      "avatar": "­şİÄ",
-      "level": 2,
-      "xp": 150,
-      "gamesPlayed": 1,
-      "questionsCorrect": 5,
-      "provider": "guest",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1792860867335,
-      "updatedAt": "2026-10-24T16:54:27.335Z"
     },
     {
       "friendCode": "SNC-7224",
