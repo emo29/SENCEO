@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-27T06:57:23.013Z",
+  "updatedAt": "2026-10-27T07:19:44.991Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -254,17 +254,17 @@
     {
       "friendCode": "SNC-7224",
       "username": "emirhan_7224",
-      "email": "periheltry@gmail.com",
+      "email": "",
       "avatar": "🔥",
       "level": 1,
       "xp": 0,
       "gamesPlayed": 0,
       "questionsCorrect": 0,
-      "provider": "Google",
-      "isPermanentMember": true,
+      "provider": "Şifreli Üye",
+      "isPermanentMember": false,
       "passwordProtected": true,
       "lastXpActivityAt": 1793084214098,
-      "updatedAt": "2026-10-27T06:57:23.013Z"
+      "updatedAt": "2026-10-27T07:19:44.991Z"
     },
     {
       "friendCode": "SNC-4741",
