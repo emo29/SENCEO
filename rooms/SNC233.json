@@ -47,7 +47,7 @@
     26
   ],
   "createdAt": "2026-10-27T09:09:36.865Z",
-  "updatedAt": "2026-10-27T09:11:30.591Z",
+  "updatedAt": "2026-10-27T09:11:50.669Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,19 +89,31 @@
     "activeAnswererName": "Harun",
     "activeGuesserCode": "SNC-1506",
     "activeGuesserName": "Emirhan",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 1,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 1,
     "currentGuessComment": {
-      "emoji": "",
+      "emoji": "😎",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-1506": {
+        "code": "SNC-1506",
+        "name": "Emirhan",
+        "guessIndex": 1,
+        "comment": {
+          "emoji": "😎",
+          "text": ""
+        },
+        "isCorrect": true,
+        "submittedAt": 1793092310668
+      }
+    },
     "history": [],
     "scores": {
       "SNC-4888": {
@@ -116,9 +128,9 @@
         "code": "SNC-1506",
         "name": "Emirhan",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       }
     },
     "scoresByPlayer": {
@@ -134,12 +146,12 @@
         "code": "SNC-1506",
         "name": "Emirhan",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       }
     },
-    "phaseStartedAt": 1793092290591,
-    "updatedAt": 1793092290591
+    "phaseStartedAt": 1793092310669,
+    "updatedAt": 1793092310669
   }
 }
