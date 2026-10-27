@@ -47,7 +47,7 @@
     26
   ],
   "createdAt": "2026-10-27T09:09:36.865Z",
-  "updatedAt": "2026-10-27T09:12:46.747Z",
+  "updatedAt": "2026-10-27T09:12:53.218Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,19 +89,31 @@
     "activeAnswererName": "Emirhan",
     "activeGuesserCode": "SNC-4888",
     "activeGuesserName": "Harun",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 0,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-4888": {
+        "code": "SNC-4888",
+        "name": "Harun",
+        "guessIndex": 0,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "submittedAt": 1793092373218
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -144,7 +156,7 @@
         "name": "Harun",
         "team": "common",
         "correct": 0,
-        "total": 0,
+        "total": 1,
         "points": 0
       },
       "SNC-1506": {
@@ -162,7 +174,7 @@
         "name": "Harun",
         "team": "common",
         "correct": 0,
-        "total": 0,
+        "total": 1,
         "points": 0
       },
       "SNC-1506": {
@@ -174,7 +186,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1793092366747,
-    "updatedAt": 1793092366747
+    "phaseStartedAt": 1793092373218,
+    "updatedAt": 1793092373218
   }
 }
