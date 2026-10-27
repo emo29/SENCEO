@@ -47,7 +47,7 @@
     26
   ],
   "createdAt": "2026-10-27T09:09:36.865Z",
-  "updatedAt": "2026-10-27T09:12:20.404Z",
+  "updatedAt": "2026-10-27T09:12:46.747Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,8 +89,8 @@
     "activeAnswererName": "Emirhan",
     "activeGuesserCode": "SNC-4888",
     "activeGuesserName": "Harun",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
@@ -174,7 +174,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1793092340404,
-    "updatedAt": 1793092340404
+    "phaseStartedAt": 1793092366747,
+    "updatedAt": 1793092366747
   }
 }
