@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-1506",
-  "username": "Misafir Oyuncu",
+  "username": "Emirhan",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
@@ -45,7 +45,8 @@
       "createdAt": "2026-10-27T09:07:22.746Z"
     }
   ],
-  "updatedAt": "2026-10-27T09:07:22.746Z",
+  "updatedAt": "2026-10-27T09:09:30.288Z",
   "isPasswordProtected": false,
-  "deletedRoomCodes": []
+  "deletedRoomCodes": [],
+  "lastPropagatedName": "Emirhan"
 }
