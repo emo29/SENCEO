@@ -41,11 +41,11 @@
       "fromCode": "SNC-6048",
       "fromName": "Timur",
       "roomCode": "SNCXVM",
-      "read": false,
+      "read": true,
       "createdAt": "2026-10-27T07:41:33.891Z"
     }
   ],
-  "updatedAt": "2026-10-27T07:41:33.891Z",
+  "updatedAt": "2026-10-27T07:42:58.503Z",
   "lastPropagatedName": "Emre",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
