@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-4888",
   "username": "Harun",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "level": 2,
+  "xp": 180,
+  "gamesPlayed": 1,
+  "questionsCorrect": 6,
   "provider": "Misafir",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1793091442094,
+  "lastXpActivityAt": 1793092043787,
   "latestRoomCode": "SNCBR4",
   "activeRooms": [
     {
@@ -45,7 +45,7 @@
       "createdAt": "2026-10-27T09:04:21.900Z"
     }
   ],
-  "updatedAt": "2026-10-27T09:07:21.854Z",
+  "updatedAt": "2026-10-27T09:07:23.787Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Harun",
   "deletedRoomCodes": []
