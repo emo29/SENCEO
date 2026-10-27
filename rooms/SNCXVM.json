@@ -4,16 +4,17 @@
   "p1FriendCode": "SNC-6048",
   "p2Id": "USR_CKXTE6E",
   "p2FriendCode": "SNC-7616",
+  "nextRoundStarterCode": "SNC-7616",
+  "nextRoundStarterName": "Emre",
   "roomType": "classic",
   "gameMode": "link",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "Timur",
   "p2": "Emre",
   "cat": "genel",
-  "thm": "luminous",
+  "thm": "obsidian",
   "qIds": [
     2,
     25,
@@ -129,7 +130,42 @@
       "text": "Hahah"
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-10-27T07:39:10.564Z"
+  "p1Half2Guesses": [
+    0,
+    3,
+    1,
+    2,
+    0
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "😂",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 60,
+  "lastCorrectCount": 6,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-10-27T07:41:31.911Z",
+  "updatedAt": "2026-10-27T07:41:32.112Z",
+  "nextRoundSecondCode": "SNC-6048",
+  "nextRoundSecondName": "Timur"
 }
