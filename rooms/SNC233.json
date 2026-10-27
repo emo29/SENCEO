@@ -47,7 +47,7 @@
     26
   ],
   "createdAt": "2026-10-27T09:09:36.865Z",
-  "updatedAt": "2026-10-27T09:11:50.669Z",
+  "updatedAt": "2026-10-27T09:12:20.404Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -68,8 +68,8 @@
       58,
       26
     ],
-    "qIndex": 0,
-    "currentQIndex": 0,
+    "qIndex": 1,
+    "currentQIndex": 1,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -84,37 +84,60 @@
         "team": "common"
       }
     ],
-    "activeTurnOrderIdx": 0,
-    "activeAnswererCode": "SNC-4888",
-    "activeAnswererName": "Harun",
-    "activeGuesserCode": "SNC-1506",
-    "activeGuesserName": "Emirhan",
-    "subPhase": "reveal",
-    "currentAnswer": 1,
+    "activeTurnOrderIdx": 1,
+    "activeAnswererCode": "SNC-1506",
+    "activeAnswererName": "Emirhan",
+    "activeGuesserCode": "SNC-4888",
+    "activeGuesserName": "Harun",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 1,
+    "currentGuess": null,
     "currentGuessComment": {
-      "emoji": "😎",
+      "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-1506": {
-        "code": "SNC-1506",
-        "name": "Emirhan",
-        "guessIndex": 1,
-        "comment": {
+    "guessesByPlayer": {},
+    "history": [
+      {
+        "qIndex": 0,
+        "qId": 55,
+        "answererCode": "SNC-4888",
+        "answererName": "Harun",
+        "guesserCode": "SNC-1506",
+        "guesserName": "Emirhan",
+        "answerIdx": 1,
+        "guessIdx": 1,
+        "answerIndex": 1,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
           "emoji": "😎",
           "text": ""
         },
         "isCorrect": true,
-        "submittedAt": 1793092310668
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-1506": {
+            "code": "SNC-1506",
+            "name": "Emirhan",
+            "guessIndex": 1,
+            "comment": {
+              "emoji": "😎",
+              "text": ""
+            },
+            "isCorrect": true,
+            "submittedAt": 1793092310668
+          }
+        }
       }
-    },
-    "history": [],
+    ],
     "scores": {
       "SNC-4888": {
         "code": "SNC-4888",
@@ -151,7 +174,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1793092310669,
-    "updatedAt": 1793092310669
+    "phaseStartedAt": 1793092340404,
+    "updatedAt": 1793092340404
   }
 }
