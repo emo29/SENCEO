@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-27T08:58:20.546Z",
+  "updatedAt": "2026-10-27T08:58:46.910Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -620,8 +620,8 @@
       "provider": "Misafir",
       "isPermanentMember": false,
       "passwordProtected": false,
-      "lastXpActivityAt": 1793091500546,
-      "updatedAt": "2026-10-27T08:58:20.546Z"
+      "lastXpActivityAt": 1793091418398,
+      "updatedAt": "2026-10-27T08:58:46.910Z"
     }
   ]
 }
