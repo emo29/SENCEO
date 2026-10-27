@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-27T22:32:34.995Z",
+  "updatedAt": "2026-10-27T22:32:43.210Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -467,20 +467,6 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792845741320,
       "updatedAt": "2026-10-24T12:42:21.320Z"
-    },
-    {
-      "friendCode": "SNC-6189",
-      "username": "Hakan",
-      "avatar": "­şİÄ",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "guest",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1792845832715,
-      "updatedAt": "2026-10-24T12:43:52.715Z"
     },
     {
       "friendCode": "SNC-6754",
