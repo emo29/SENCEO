@@ -34,6 +34,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "LIVE_PULL_SNC233_1793092179419",
+      "type": "instant_live_invite",
+      "title": "⚔️ Harun Seni Canlı Odaya Çekiyor!",
+      "message": "Harun (#SNC233) canlı düello masasını kurdu ve şu an lobide seni bekliyor!",
+      "fromCode": "SNC-4888",
+      "fromName": "Harun",
+      "roomCode": "SNC233",
+      "read": false,
+      "createdAt": "2026-10-27T09:09:39.419Z"
+    },
+    {
       "id": "DONE_P2_SNCBR4_R1",
       "type": "completed",
       "title": "🏆 Harun Tahminlerini Tamamladı!",
@@ -45,7 +56,7 @@
       "createdAt": "2026-10-27T09:07:22.746Z"
     }
   ],
-  "updatedAt": "2026-10-27T09:09:30.288Z",
+  "updatedAt": "2026-10-27T09:09:39.419Z",
   "isPasswordProtected": false,
   "deletedRoomCodes": [],
   "lastPropagatedName": "Emirhan"
