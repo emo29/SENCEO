@@ -14,7 +14,7 @@
     "starterMode": "random",
     "selectedStarterCode": ""
   },
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "currentRound": 1,
   "p1": "Harun",
   "p2": "Emirhan",
@@ -39,7 +39,107 @@
   ],
   "cat": "genel",
   "thm": "luminous",
-  "qIds": [],
+  "qIds": [
+    55,
+    25,
+    7,
+    58,
+    26
+  ],
   "createdAt": "2026-10-27T09:09:36.865Z",
-  "updatedAt": "2026-10-27T09:09:53.199Z"
+  "updatedAt": "2026-10-27T09:11:03.896Z",
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
+  "usedQuestionIds": [
+    55,
+    25,
+    7,
+    58,
+    26
+  ],
+  "liveMatchState": {
+    "qIds": [
+      55,
+      25,
+      7,
+      58,
+      26
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-4888",
+        "name": "Harun",
+        "team": "common"
+      },
+      {
+        "code": "SNC-1506",
+        "name": "Emirhan",
+        "team": "common"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-4888",
+    "activeAnswererName": "Harun",
+    "activeGuesserCode": "SNC-1506",
+    "activeGuesserName": "Emirhan",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-4888": {
+        "code": "SNC-4888",
+        "name": "Harun",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1506": {
+        "code": "SNC-1506",
+        "name": "Emirhan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-4888": {
+        "code": "SNC-4888",
+        "name": "Harun",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-1506": {
+        "code": "SNC-1506",
+        "name": "Emirhan",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1793092263896,
+    "updatedAt": 1793092263896
+  }
 }
