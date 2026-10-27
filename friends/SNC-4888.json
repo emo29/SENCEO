@@ -15,18 +15,18 @@
     {
       "code": "SNC9PL",
       "p1": "Harun",
-      "p2": "",
+      "p2": "Timur",
       "p1FriendCode": "SNC-4888",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-6048",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-27T09:37:42.689Z"
+      "updatedAt": "2026-10-27T09:42:16.177Z"
     },
     {
       "code": "SNC233",
@@ -66,6 +66,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "TURN_P1_SNC9PL_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "Timur 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNC9PL)",
+      "fromCode": "SNC-6048",
+      "fromName": "Timur",
+      "roomCode": "SNC9PL",
+      "read": false,
+      "createdAt": "2026-10-27T09:42:16.177Z"
+    },
+    {
       "id": "TURN_P1_SNCBR4_R1",
       "type": "turn",
       "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
@@ -77,7 +88,7 @@
       "createdAt": "2026-10-27T09:04:21.900Z"
     }
   ],
-  "updatedAt": "2026-10-27T09:37:42.689Z",
+  "updatedAt": "2026-10-27T09:42:16.177Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Harun",
   "deletedRoomCodes": []
