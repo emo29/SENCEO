@@ -2,18 +2,18 @@
   "code": "SNC9PL",
   "p1Id": "USR_2KCF94J",
   "p1FriendCode": "SNC-4888",
-  "p2Id": "USR_BLSQ8ZQ",
-  "p2FriendCode": "",
+  "p2Id": "USR_PJ2ZJKX",
+  "p2FriendCode": "SNC-6048",
   "roomType": "classic",
   "gameMode": "link",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
-  "whoseTurn": "p2",
+  "whoseTurn": "p1",
   "p1": "Harun",
-  "p2": "",
+  "p2": "Timur",
   "cat": "genel",
-  "thm": "luminous",
+  "thm": "cosmic",
   "qIds": [
     55,
     28,
@@ -36,7 +36,12 @@
     28,
     9,
     29,
-    1
+    1,
+    2,
+    25,
+    27,
+    3,
+    70
   ],
   "customOptionsMap": {},
   "p1Answers": [
@@ -68,13 +73,73 @@
       "text": ""
     }
   ],
-  "p2Guesses": [],
-  "p2Comments": [],
-  "p2Half2QIds": [],
+  "p2Guesses": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Half2QIds": [
+    2,
+    25,
+    27,
+    3,
+    70
+  ],
   "p2Half2CustomMap": {},
-  "p2Half2Answers": [],
-  "p2Half2Comments": [],
+  "p2Half2Answers": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-27T09:37:41.677Z"
+  "updatedAt": "2026-10-27T09:42:15.186Z"
 }
