@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-27T22:32:49.695Z",
+  "updatedAt": "2026-10-27T22:32:51.747Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -425,20 +425,6 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792845186701,
       "updatedAt": "2026-10-24T12:33:06.701Z"
-    },
-    {
-      "friendCode": "SNC-7715",
-      "username": "ZZerban",
-      "avatar": "­şİÄ",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "guest",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1792845210272,
-      "updatedAt": "2026-10-24T12:33:30.272Z"
     },
     {
       "friendCode": "SNC-4396",
