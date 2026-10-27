@@ -10,12 +10,30 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1793086661122,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCXVM",
+  "activeRooms": [
+    {
+      "code": "SNCXVM",
+      "p1": "Timur",
+      "p2": "Emre",
+      "p1FriendCode": "SNC-6048",
+      "p2FriendCode": "SNC-7616",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-10-27T07:39:12.399Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-27T07:37:41.122Z",
+  "updatedAt": "2026-10-27T07:39:12.399Z",
   "lastPropagatedName": "Emre",
-  "isPasswordProtected": false
+  "isPasswordProtected": false,
+  "deletedRoomCodes": []
 }
