@@ -15,24 +15,36 @@
     {
       "code": "SNCBR4",
       "p1": "Harun",
-      "p2": "",
+      "p2": "Emirhan",
       "p1FriendCode": "SNC-4888",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-1506",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-27T09:00:15.958Z"
+      "updatedAt": "2026-10-27T09:04:21.900Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-27T09:00:15.958Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCBR4_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "Emirhan 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCBR4)",
+      "fromCode": "SNC-1506",
+      "fromName": "Emirhan",
+      "roomCode": "SNCBR4",
+      "read": false,
+      "createdAt": "2026-10-27T09:04:21.900Z"
+    }
+  ],
+  "updatedAt": "2026-10-27T09:04:21.900Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Harun",
   "deletedRoomCodes": []
