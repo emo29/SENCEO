@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-6048",
   "username": "Timur",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "level": 2,
+  "xp": 180,
+  "gamesPlayed": 1,
+  "questionsCorrect": 6,
   "provider": "Misafir",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1793086446851,
+  "lastXpActivityAt": 1793086895035,
   "latestRoomCode": "SNCXVM",
   "activeRooms": [
     {
@@ -45,7 +45,7 @@
       "createdAt": "2026-10-27T07:39:11.552Z"
     }
   ],
-  "updatedAt": "2026-10-27T07:41:33.026Z",
+  "updatedAt": "2026-10-27T07:41:35.035Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Timur",
   "deletedRoomCodes": []
