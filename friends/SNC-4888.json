@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-6048",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-6048",
       "cat": "genel",
-      "updatedAt": "2026-10-27T09:42:16.177Z"
+      "lastMatchPercentage": 90,
+      "updatedAt": "2026-10-27T09:45:48.124Z"
     },
     {
       "code": "SNC233",
@@ -88,7 +89,7 @@
       "createdAt": "2026-10-27T09:04:21.900Z"
     }
   ],
-  "updatedAt": "2026-10-27T09:42:16.177Z",
+  "updatedAt": "2026-10-27T09:45:48.124Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Harun",
   "deletedRoomCodes": []
