@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-27T07:37:42.043Z",
+  "updatedAt": "2026-10-27T07:41:35.785Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -208,6 +208,21 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792949499862,
       "updatedAt": "2026-10-25T17:31:39.862Z"
+    },
+    {
+      "friendCode": "SNC-6048",
+      "username": "Timur",
+      "email": "",
+      "avatar": "🔥",
+      "level": 2,
+      "xp": 180,
+      "gamesPlayed": 1,
+      "questionsCorrect": 6,
+      "provider": "Misafir",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1793086895784,
+      "updatedAt": "2026-10-27T07:41:35.785Z"
     },
     {
       "friendCode": "SNC-1265",
@@ -577,21 +592,6 @@
       "isPasswordProtected": true,
       "lastXpActivityAt": 1793045497845,
       "updatedAt": "2026-10-26T20:11:37.845Z"
-    },
-    {
-      "friendCode": "SNC-6048",
-      "username": "Timur",
-      "email": "",
-      "avatar": "🔥",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "Misafir",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1793085586048,
-      "updatedAt": "2026-10-27T07:36:21.404Z"
     },
     {
       "friendCode": "SNC-7616",
