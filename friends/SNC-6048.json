@@ -15,24 +15,36 @@
     {
       "code": "SNCXVM",
       "p1": "Timur",
-      "p2": "",
+      "p2": "Emre",
       "p1FriendCode": "SNC-6048",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-7616",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "genel",
-      "updatedAt": "2026-10-27T07:36:56.883Z"
+      "updatedAt": "2026-10-27T07:39:11.552Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-27T07:36:56.883Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCXVM_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "Emre 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCXVM)",
+      "fromCode": "SNC-7616",
+      "fromName": "Emre",
+      "roomCode": "SNCXVM",
+      "read": false,
+      "createdAt": "2026-10-27T07:39:11.552Z"
+    }
+  ],
+  "updatedAt": "2026-10-27T07:39:11.552Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Timur",
   "deletedRoomCodes": []
