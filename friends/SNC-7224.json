@@ -5,7 +5,7 @@
   "xp": 0,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
-  "provider": "guest",
+  "provider": "Google",
   "isPermanentMember": true,
   "passwordProtected": true,
   "passwordHash": "MTIz",
@@ -235,7 +235,7 @@
       "createdAt": "2026-10-24T04:08:29.689Z"
     }
   ],
-  "updatedAt": "2026-10-26T22:06:20.898Z",
+  "updatedAt": "2026-10-27T06:56:51.528Z",
   "deletedRoomCodes": [],
   "isPasswordProtected": true,
   "lastPropagatedName": "emirhan",
@@ -243,5 +243,6 @@
   "googleSub": "108291569470125462549",
   "picture": "https://lh3.googleusercontent.com/a/ACg8ocLZEjJf70n2QDoNdTudca6tNZi_4CRSRs4AkuixkCcySXIRPlW3=s96-c",
   "authProvider": "Google",
-  "rawPassword": "123"
+  "rawPassword": "123",
+  "linkedSocialAt": "2026-10-27T06:56:51.528Z"
 }
