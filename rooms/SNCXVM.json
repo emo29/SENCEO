@@ -159,13 +159,15 @@
       "text": ""
     }
   ],
-  "p2WatchingSlides": false,
+  "p2WatchingSlides": true,
   "p2WatchedSlides": false,
   "lastMatchPercentage": 60,
   "lastCorrectCount": 6,
   "lastTotalQuestions": 10,
   "completedAt": "2026-10-27T07:41:31.911Z",
-  "updatedAt": "2026-10-27T07:41:32.112Z",
+  "updatedAt": "2026-10-27T07:43:04.616Z",
   "nextRoundSecondCode": "SNC-6048",
-  "nextRoundSecondName": "Timur"
+  "nextRoundSecondName": "Timur",
+  "p2WatchingBy": "Emre",
+  "slideStatusUpdatedAt": 1793086984616
 }
