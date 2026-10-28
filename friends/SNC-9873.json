@@ -10,12 +10,30 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1793213635839,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCCKV",
+  "activeRooms": [
+    {
+      "code": "SNCCKV",
+      "p1": "Emirhan",
+      "p2": "Hasan",
+      "p1FriendCode": "SNC-9806",
+      "p2FriendCode": "SNC-9873",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "ekstrem",
+      "updatedAt": "2026-10-28T18:57:20.023Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-28T18:54:47.346Z",
+  "updatedAt": "2026-10-28T18:57:20.023Z",
   "isPasswordProtected": false,
-  "lastPropagatedName": "Hasan"
+  "lastPropagatedName": "Hasan",
+  "deletedRoomCodes": []
 }
