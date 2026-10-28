@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-9806",
-  "username": "Oyuncu",
+  "username": "Emirhan",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
@@ -15,6 +15,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-28T18:53:54.929Z",
-  "isPasswordProtected": false
+  "updatedAt": "2026-10-28T18:54:16.430Z",
+  "isPasswordProtected": false,
+  "lastPropagatedName": "Emirhan"
 }
