@@ -11,8 +11,8 @@
     "teamSubMode": "",
     "turnStep": 10,
     "timerSeconds": 10,
-    "starterMode": "random",
-    "selectedStarterCode": ""
+    "starterMode": "manual",
+    "selectedStarterCode": "SNC-7390"
   },
   "status": "lobby_open",
   "currentRound": 1,
@@ -41,5 +41,5 @@
   "thm": "obsidian",
   "qIds": [],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:01:45.693Z"
+  "updatedAt": "2026-10-28T22:02:21.109Z"
 }
