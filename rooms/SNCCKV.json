@@ -2,18 +2,18 @@
   "code": "SNCCKV",
   "p1Id": "USR_TIAGRA1",
   "p1FriendCode": "SNC-9806",
-  "p2Id": "",
-  "p2FriendCode": "",
+  "p2Id": "USR_9PC6TYT",
+  "p2FriendCode": "SNC-9873",
   "roomType": "classic",
   "gameMode": "link",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "waiting_p1_half2",
   "currentRound": 1,
-  "whoseTurn": "p2",
+  "whoseTurn": "p1",
   "p1": "Emirhan",
-  "p2": "",
+  "p2": "Hasan",
   "cat": "ekstrem",
-  "thm": "cosmic",
+  "thm": "crimson",
   "qIds": [
     24,
     48,
@@ -26,7 +26,12 @@
     48,
     61,
     73,
-    52
+    52,
+    20,
+    21,
+    50,
+    5,
+    49
   ],
   "customOptionsMap": {},
   "p1Answers": [
@@ -58,13 +63,73 @@
       "text": ""
     }
   ],
-  "p2Guesses": [],
-  "p2Comments": [],
-  "p2Half2QIds": [],
+  "p2Guesses": [
+    2,
+    3,
+    0,
+    3,
+    0
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Half2QIds": [
+    20,
+    21,
+    50,
+    5,
+    49
+  ],
   "p2Half2CustomMap": {},
-  "p2Half2Answers": [],
-  "p2Half2Comments": [],
+  "p2Half2Answers": [
+    1,
+    2,
+    0,
+    2,
+    0
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-28T18:55:04.010Z"
+  "updatedAt": "2026-10-28T18:57:16.632Z"
 }
