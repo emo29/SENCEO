@@ -3,7 +3,7 @@
   "p1Id": "USR_RCA2WD7",
   "hostCode": "SNC-5598",
   "p1FriendCode": "SNC-5598",
-  "p2FriendCode": "",
+  "p2FriendCode": "SNC-7390",
   "roomType": "live_arena",
   "arenaFormat": "1v1",
   "liveSettings": {
@@ -17,7 +17,7 @@
   "status": "lobby_open",
   "currentRound": 1,
   "p1": "Emirhan Turan",
-  "p2": "",
+  "p2": "ntal",
   "participants": [
     {
       "name": "Emirhan Turan",
@@ -25,11 +25,21 @@
       "role": "host",
       "team": "common",
       "isHost": true
+    },
+    {
+      "name": "ntal",
+      "code": "SNC-7390",
+      "role": "member",
+      "isHost": false,
+      "team": "common",
+      "score": 0,
+      "correct": 0,
+      "joinedAt": "2026-10-28T22:01:45.693Z"
     }
   ],
   "cat": "cift",
   "thm": "obsidian",
   "qIds": [],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:01:01.265Z"
+  "updatedAt": "2026-10-28T22:01:45.693Z"
 }
