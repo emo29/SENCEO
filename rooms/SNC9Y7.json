@@ -47,7 +47,7 @@
     52
   ],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:04:17.426Z",
+  "updatedAt": "2026-10-28T22:04:22.100Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -68,8 +68,8 @@
       2,
       52
     ],
-    "qIndex": 2,
-    "currentQIndex": 2,
+    "qIndex": 3,
+    "currentQIndex": 3,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -84,36 +84,24 @@
         "team": "blue"
       }
     ],
-    "activeTurnOrderIdx": 0,
-    "activeAnswererCode": "SNC-7390",
-    "activeAnswererName": "ntal",
-    "activeGuesserCode": "SNC-5598",
-    "activeGuesserName": "Emirhan Turan",
-    "subPhase": "reveal",
-    "currentAnswer": 3,
+    "activeTurnOrderIdx": 1,
+    "activeAnswererCode": "SNC-5598",
+    "activeAnswererName": "Emirhan Turan",
+    "activeGuesserCode": "SNC-7390",
+    "activeGuesserName": "ntal",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 2,
+    "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-5598": {
-        "code": "SNC-5598",
-        "name": "Emirhan Turan",
-        "guessIndex": 2,
-        "comment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": false,
-        "submittedAt": 1793225057426
-      }
-    },
+    "guessesByPlayer": {},
     "history": [
       {
         "qIndex": 0,
@@ -182,6 +170,40 @@
             "submittedAt": 1793225026448
           }
         }
+      },
+      {
+        "qIndex": 2,
+        "qId": 66,
+        "answererCode": "SNC-7390",
+        "answererName": "ntal",
+        "guesserCode": "SNC-5598",
+        "guesserName": "Emirhan Turan",
+        "answerIdx": 3,
+        "guessIdx": 2,
+        "answerIndex": 3,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-5598": {
+            "code": "SNC-5598",
+            "name": "Emirhan Turan",
+            "guessIndex": 2,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": false,
+            "submittedAt": 1793225057426
+          }
+        }
       }
     ],
     "scores": {
@@ -220,7 +242,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1793225057426,
-    "updatedAt": 1793225057426
+    "phaseStartedAt": 1793225062100,
+    "updatedAt": 1793225062100
   }
 }
