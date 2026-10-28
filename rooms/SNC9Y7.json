@@ -9,7 +9,7 @@
   "liveSettings": {
     "ffaSubMode": "ebe",
     "teamSubMode": "",
-    "turnStep": 10,
+    "turnStep": 1,
     "timerSeconds": 10,
     "starterMode": "manual",
     "selectedStarterCode": "SNC-7390"
@@ -41,5 +41,5 @@
   "thm": "obsidian",
   "qIds": [],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:02:53.682Z"
+  "updatedAt": "2026-10-28T22:02:57.008Z"
 }
