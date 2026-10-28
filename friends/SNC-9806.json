@@ -5,9 +5,9 @@
   "xp": 0,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
-  "provider": "Misafir",
-  "isPermanentMember": false,
-  "passwordProtected": false,
+  "provider": "Google",
+  "isPermanentMember": true,
+  "passwordProtected": true,
   "passwordHash": "",
   "lastXpActivityAt": 1793213597851,
   "latestRoomCode": "SNCCKV",
@@ -44,8 +44,13 @@
       "createdAt": "2026-10-28T18:57:17.874Z"
     }
   ],
-  "updatedAt": "2026-10-28T18:58:58.464Z",
-  "isPasswordProtected": false,
+  "updatedAt": "2026-10-28T19:01:24.689Z",
+  "isPasswordProtected": true,
   "lastPropagatedName": "Emirhan",
-  "deletedRoomCodes": []
+  "deletedRoomCodes": [],
+  "email": "hasannturan29@gmail.com",
+  "googleSub": "114803124592026651958",
+  "picture": "https://lh3.googleusercontent.com/a/ACg8ocKyImS1ajOEfF_Cg1U62i1cktEMq-vKpHQWb56NjTCqJJHKZ8Dw=s96-c",
+  "authProvider": "Google",
+  "linkedSocialAt": "2026-10-28T19:01:24.689Z"
 }
