@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-28T12:35:10.054Z",
+  "updatedAt": "2026-10-28T12:37:42.026Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -209,20 +209,6 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1792845371542,
       "updatedAt": "2026-10-24T12:36:11.542Z"
-    },
-    {
-      "friendCode": "SNC-2603",
-      "username": "epsaniol",
-      "avatar": "😎",
-      "level": 4,
-      "xp": 300,
-      "gamesPlayed": 1,
-      "questionsCorrect": 10,
-      "provider": "Misafir",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1792949499862,
-      "updatedAt": "2026-10-25T17:31:39.862Z"
     },
     {
       "friendCode": "SNC-6048",
