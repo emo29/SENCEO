@@ -10,7 +10,7 @@
     "ffaSubMode": "ebe",
     "teamSubMode": "",
     "turnStep": 1,
-    "timerSeconds": 10,
+    "timerSeconds": 0,
     "starterMode": "manual",
     "selectedStarterCode": "SNC-7390"
   },
@@ -31,5 +31,5 @@
   "thm": "obsidian",
   "qIds": [],
   "createdAt": "2026-10-28T22:06:35.967Z",
-  "updatedAt": "2026-10-28T22:06:36.436Z"
+  "updatedAt": "2026-10-28T22:06:42.984Z"
 }
