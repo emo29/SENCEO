@@ -5,7 +5,7 @@
   "xp": 0,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
-  "provider": "guest",
+  "provider": "Misafir",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
@@ -15,5 +15,6 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-28T18:53:23.299Z"
+  "updatedAt": "2026-10-28T18:53:54.929Z",
+  "isPasswordProtected": false
 }
