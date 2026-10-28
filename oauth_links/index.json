@@ -1,4 +1,12 @@
 {
-  "updatedAt": "2026-10-28T19:02:01.801Z",
-  "links": {}
+  "updatedAt": "2026-10-28T21:57:22.718Z",
+  "links": {
+    "periheltry@gmail.com": {
+      "friendCode": "SNC-5598",
+      "username": "Emirhan Turan",
+      "provider": "Google",
+      "email": "periheltry@gmail.com",
+      "updatedAt": "2026-10-28T21:57:22.718Z"
+    }
+  }
 }
