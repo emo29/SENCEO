@@ -1,1 +1,35 @@
-null
+{
+  "code": "SNC9Y7",
+  "p1Id": "USR_RCA2WD7",
+  "hostCode": "SNC-5598",
+  "p1FriendCode": "SNC-5598",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "liveSettings": {
+    "ffaSubMode": "ebe",
+    "teamSubMode": "",
+    "turnStep": 1,
+    "timerSeconds": 0,
+    "starterMode": "random",
+    "selectedStarterCode": ""
+  },
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "Emirhan Turan",
+  "p2": "",
+  "participants": [
+    {
+      "name": "Emirhan Turan",
+      "code": "SNC-5598",
+      "role": "host",
+      "team": "common",
+      "isHost": true
+    }
+  ],
+  "cat": "cift",
+  "thm": "obsidian",
+  "qIds": [],
+  "createdAt": "2026-10-28T22:00:44.007Z",
+  "updatedAt": "2026-10-28T22:00:44.515Z"
+}
