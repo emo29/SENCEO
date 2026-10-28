@@ -10,7 +10,7 @@
     "ffaSubMode": "ebe",
     "teamSubMode": "",
     "turnStep": 10,
-    "timerSeconds": 30,
+    "timerSeconds": 90,
     "starterMode": "random",
     "selectedStarterCode": ""
   },
@@ -31,5 +31,5 @@
   "thm": "obsidian",
   "qIds": [],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:00:56.770Z"
+  "updatedAt": "2026-10-28T22:00:57.539Z"
 }
