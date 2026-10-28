@@ -1,0 +1,70 @@
+{
+  "code": "SNCCKV",
+  "p1Id": "USR_TIAGRA1",
+  "p1FriendCode": "SNC-9806",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "gameMode": "link",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "Emirhan",
+  "p2": "",
+  "cat": "ekstrem",
+  "thm": "cosmic",
+  "qIds": [
+    24,
+    48,
+    61,
+    73,
+    52
+  ],
+  "usedQuestionIds": [
+    24,
+    48,
+    61,
+    73,
+    52
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    3,
+    1,
+    3,
+    3
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": "Oıı"
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-10-28T18:55:04.010Z"
+}
