@@ -14,7 +14,7 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-7390"
   },
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "currentRound": 1,
   "p1": "Emirhan Turan",
   "p2": "ntal",
@@ -39,7 +39,107 @@
   ],
   "cat": "cift",
   "thm": "obsidian",
-  "qIds": [],
+  "qIds": [
+    17,
+    74,
+    66,
+    2,
+    52
+  ],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:02:57.008Z"
+  "updatedAt": "2026-10-28T22:03:00.589Z",
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
+  "usedQuestionIds": [
+    17,
+    74,
+    66,
+    2,
+    52
+  ],
+  "liveMatchState": {
+    "qIds": [
+      17,
+      74,
+      66,
+      2,
+      52
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-7390",
+        "name": "ntal",
+        "team": "red"
+      },
+      {
+        "code": "SNC-5598",
+        "name": "Emirhan Turan",
+        "team": "blue"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-7390",
+    "activeAnswererName": "ntal",
+    "activeGuesserCode": "SNC-5598",
+    "activeGuesserName": "Emirhan Turan",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-7390": {
+        "code": "SNC-7390",
+        "name": "ntal",
+        "team": "red",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-5598": {
+        "code": "SNC-5598",
+        "name": "Emirhan Turan",
+        "team": "blue",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-7390": {
+        "code": "SNC-7390",
+        "name": "ntal",
+        "team": "red",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-5598": {
+        "code": "SNC-5598",
+        "name": "Emirhan Turan",
+        "team": "blue",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1793224980589,
+    "updatedAt": 1793224980589
+  }
 }
