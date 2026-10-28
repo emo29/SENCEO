@@ -1,8 +1,8 @@
 {
   "code": "SNC9Y7",
   "p1Id": "USR_RCA2WD7",
-  "hostCode": "SNC-5598",
-  "p1FriendCode": "SNC-5598",
+  "hostCode": "SNC-7390",
+  "p1FriendCode": "SNC-7390",
   "p2FriendCode": "SNC-7390",
   "roomType": "live_arena",
   "arenaFormat": "1v1",
@@ -16,21 +16,14 @@
   },
   "status": "completed",
   "currentRound": 1,
-  "p1": "Emirhan Turan",
+  "p1": "ntal",
   "p2": "ntal",
   "participants": [
     {
-      "name": "Emirhan Turan",
-      "code": "SNC-5598",
-      "role": "host",
-      "team": "blue",
-      "isHost": true
-    },
-    {
       "name": "ntal",
       "code": "SNC-7390",
-      "role": "member",
-      "isHost": false,
+      "role": "host",
+      "isHost": true,
       "team": "red",
       "score": 0,
       "correct": 0,
@@ -47,7 +40,7 @@
     52
   ],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:06:22.563Z",
+  "updatedAt": "2026-10-28T22:06:39.264Z",
   "liveLeaderboard": [
     {
       "code": "SNC-7390",
