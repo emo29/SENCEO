@@ -15,24 +15,36 @@
     {
       "code": "SNCCKV",
       "p1": "Emirhan",
-      "p2": "",
+      "p2": "Hasan",
       "p1FriendCode": "SNC-9806",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-9873",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "ekstrem",
-      "updatedAt": "2026-10-28T18:55:05.099Z"
+      "updatedAt": "2026-10-28T18:57:17.874Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-10-28T18:55:05.099Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCCKV_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "Hasan 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCCKV)",
+      "fromCode": "SNC-9873",
+      "fromName": "Hasan",
+      "roomCode": "SNCCKV",
+      "read": false,
+      "createdAt": "2026-10-28T18:57:17.874Z"
+    }
+  ],
+  "updatedAt": "2026-10-28T18:57:17.874Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Emirhan",
   "deletedRoomCodes": []
