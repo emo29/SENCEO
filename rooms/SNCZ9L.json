@@ -7,7 +7,7 @@
   "roomType": "classic",
   "gameMode": "link",
   "arenaFormat": "1v1",
-  "status": "waiting_p2",
+  "status": "opponent_fled",
   "currentRound": 1,
   "whoseTurn": "p2",
   "p1": "Emirhan Turan",
@@ -66,5 +66,8 @@
   "p2Half2Comments": [],
   "p1Half2Guesses": [],
   "p1Half2Comments": [],
-  "updatedAt": "2026-10-28T21:59:09.083Z"
+  "updatedAt": "2026-10-28T22:06:30.563Z",
+  "abandonedByCode": "",
+  "abandonedByName": "Rakibin",
+  "abandonedAt": 1793225190563
 }
