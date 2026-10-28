@@ -9,7 +9,7 @@
   "liveSettings": {
     "ffaSubMode": "ebe",
     "teamSubMode": "",
-    "turnStep": 1,
+    "turnStep": 3,
     "timerSeconds": 0,
     "starterMode": "random",
     "selectedStarterCode": ""
@@ -31,5 +31,5 @@
   "thm": "obsidian",
   "qIds": [],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:00:44.515Z"
+  "updatedAt": "2026-10-28T22:00:53.180Z"
 }
