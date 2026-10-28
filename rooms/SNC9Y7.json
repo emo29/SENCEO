@@ -47,7 +47,7 @@
     52
   ],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:04:06.374Z",
+  "updatedAt": "2026-10-28T22:04:17.426Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,19 +89,31 @@
     "activeAnswererName": "ntal",
     "activeGuesserCode": "SNC-5598",
     "activeGuesserName": "Emirhan Turan",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 3,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 2,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-5598": {
+        "code": "SNC-5598",
+        "name": "Emirhan Turan",
+        "guessIndex": 2,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "submittedAt": 1793225057426
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -186,7 +198,7 @@
         "name": "Emirhan Turan",
         "team": "blue",
         "correct": 1,
-        "total": 1,
+        "total": 2,
         "points": 100
       }
     },
@@ -204,11 +216,11 @@
         "name": "Emirhan Turan",
         "team": "blue",
         "correct": 1,
-        "total": 1,
+        "total": 2,
         "points": 100
       }
     },
-    "phaseStartedAt": 1793225046374,
-    "updatedAt": 1793225046374
+    "phaseStartedAt": 1793225057426,
+    "updatedAt": 1793225057426
   }
 }
