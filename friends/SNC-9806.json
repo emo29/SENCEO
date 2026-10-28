@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-9806",
-  "username": "Emirhan",
+  "username": "Misafir Oyuncu",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
@@ -9,51 +9,14 @@
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1793213597851,
-  "latestRoomCode": "SNCCKV",
-  "activeRooms": [
-    {
-      "code": "SNCCKV",
-      "p1": "Emirhan",
-      "p2": "Hasan",
-      "p1FriendCode": "SNC-9806",
-      "p2FriendCode": "SNC-9873",
-      "roomType": "classic",
-      "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
-      "abandonedByCode": "",
-      "abandonedByName": "",
-      "currentRound": 1,
-      "nextRoundStarterCode": "",
-      "cat": "ekstrem",
-      "updatedAt": "2026-10-28T18:57:17.874Z"
-    }
-  ],
+  "lastXpActivityAt": 1793214140884,
+  "latestRoomCode": "",
+  "activeRooms": [],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [
-    {
-      "id": "TURN_P1_SNCCKV_R1",
-      "type": "turn",
-      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
-      "message": "Hasan 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCCKV)",
-      "fromCode": "SNC-9873",
-      "fromName": "Hasan",
-      "roomCode": "SNCCKV",
-      "read": false,
-      "createdAt": "2026-10-28T18:57:17.874Z"
-    }
-  ],
-  "updatedAt": "2026-10-28T19:02:00.955Z",
+  "notifications": [],
+  "updatedAt": "2026-10-28T19:02:20.884Z",
+  "deletedAccountAt": "2026-10-28T19:02:20.884Z",
   "isPasswordProtected": false,
-  "lastPropagatedName": "Emirhan",
-  "deletedRoomCodes": [],
-  "email": "",
-  "googleSub": "",
-  "picture": "https://lh3.googleusercontent.com/a/ACg8ocKyImS1ajOEfF_Cg1U62i1cktEMq-vKpHQWb56NjTCqJJHKZ8Dw=s96-c",
-  "authProvider": "guest",
-  "linkedSocialAt": "2026-10-28T19:01:24.689Z",
-  "unlinkedEmail": "hasannturan29@gmail.com",
-  "facebookId": "",
-  "appleSub": ""
+  "rawPassword": ""
 }
