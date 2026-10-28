@@ -23,7 +23,7 @@
       "name": "Emirhan Turan",
       "code": "SNC-5598",
       "role": "host",
-      "team": "common",
+      "team": "blue",
       "isHost": true
     },
     {
@@ -41,5 +41,5 @@
   "thm": "obsidian",
   "qIds": [],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:02:41.980Z"
+  "updatedAt": "2026-10-28T22:02:45.286Z"
 }
