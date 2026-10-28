@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-28T12:38:23.636Z",
+  "updatedAt": "2026-10-28T18:54:04.977Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -252,6 +252,21 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1793180797367,
       "updatedAt": "2026-10-28T09:47:32.301Z"
+    },
+    {
+      "friendCode": "SNC-9873",
+      "username": "Hasan",
+      "email": "",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "Misafir",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1793213644977,
+      "updatedAt": "2026-10-28T18:54:04.977Z"
     }
   ]
 }
