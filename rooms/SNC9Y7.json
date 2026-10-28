@@ -47,7 +47,7 @@
     52
   ],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:03:46.448Z",
+  "updatedAt": "2026-10-28T22:03:55.477Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -68,8 +68,8 @@
       2,
       52
     ],
-    "qIndex": 1,
-    "currentQIndex": 1,
+    "qIndex": 2,
+    "currentQIndex": 2,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -84,36 +84,24 @@
         "team": "blue"
       }
     ],
-    "activeTurnOrderIdx": 1,
-    "activeAnswererCode": "SNC-5598",
-    "activeAnswererName": "Emirhan Turan",
-    "activeGuesserCode": "SNC-7390",
-    "activeGuesserName": "ntal",
-    "subPhase": "reveal",
-    "currentAnswer": 1,
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-7390",
+    "activeAnswererName": "ntal",
+    "activeGuesserCode": "SNC-5598",
+    "activeGuesserName": "Emirhan Turan",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 1,
+    "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-7390": {
-        "code": "SNC-7390",
-        "name": "ntal",
-        "guessIndex": 1,
-        "comment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": true,
-        "submittedAt": 1793225026448
-      }
-    },
+    "guessesByPlayer": {},
     "history": [
       {
         "qIndex": 0,
@@ -146,6 +134,40 @@
             },
             "isCorrect": true,
             "submittedAt": 1793225005367
+          }
+        }
+      },
+      {
+        "qIndex": 1,
+        "qId": 74,
+        "answererCode": "SNC-5598",
+        "answererName": "Emirhan Turan",
+        "guesserCode": "SNC-7390",
+        "guesserName": "ntal",
+        "answerIdx": 1,
+        "guessIdx": 1,
+        "answerIndex": 1,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-7390": {
+            "code": "SNC-7390",
+            "name": "ntal",
+            "guessIndex": 1,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": true,
+            "submittedAt": 1793225026448
           }
         }
       }
@@ -186,7 +208,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1793225026448,
-    "updatedAt": 1793225026448
+    "phaseStartedAt": 1793225035477,
+    "updatedAt": 1793225035477
   }
 }
