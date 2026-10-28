@@ -47,7 +47,7 @@
     52
   ],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:03:42.602Z",
+  "updatedAt": "2026-10-28T22:03:46.448Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,19 +89,31 @@
     "activeAnswererName": "Emirhan Turan",
     "activeGuesserCode": "SNC-7390",
     "activeGuesserName": "ntal",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 1,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 1,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-7390": {
+        "code": "SNC-7390",
+        "name": "ntal",
+        "guessIndex": 1,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "submittedAt": 1793225026448
+      }
+    },
     "history": [
       {
         "qIndex": 0,
@@ -143,9 +155,9 @@
         "code": "SNC-7390",
         "name": "ntal",
         "team": "red",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       },
       "SNC-5598": {
         "code": "SNC-5598",
@@ -161,9 +173,9 @@
         "code": "SNC-7390",
         "name": "ntal",
         "team": "red",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       },
       "SNC-5598": {
         "code": "SNC-5598",
@@ -174,7 +186,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1793225022602,
-    "updatedAt": 1793225022602
+    "phaseStartedAt": 1793225026448,
+    "updatedAt": 1793225026448
   }
 }
