@@ -47,7 +47,7 @@
     52
   ],
   "createdAt": "2026-10-28T22:00:44.007Z",
-  "updatedAt": "2026-10-28T22:04:22.100Z",
+  "updatedAt": "2026-10-28T22:04:31.743Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -89,8 +89,8 @@
     "activeAnswererName": "Emirhan Turan",
     "activeGuesserCode": "SNC-7390",
     "activeGuesserName": "ntal",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
@@ -242,7 +242,7 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1793225062100,
-    "updatedAt": 1793225062100
+    "phaseStartedAt": 1793225071743,
+    "updatedAt": 1793225071743
   }
 }
