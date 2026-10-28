@@ -10,12 +10,30 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1793219284654,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNC4QU",
+  "activeRooms": [
+    {
+      "code": "SNC4QU",
+      "p1": "ntal",
+      "p2": "",
+      "p1FriendCode": "SNC-7390",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "cift",
+      "updatedAt": "2026-10-28T20:28:55.440Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-10-28T20:28:14.393Z",
+  "updatedAt": "2026-10-28T20:28:55.440Z",
   "isPasswordProtected": false,
-  "lastPropagatedName": "ntal"
+  "lastPropagatedName": "ntal",
+  "deletedRoomCodes": []
 }
