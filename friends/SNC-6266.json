@@ -10,12 +10,30 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1793549311334,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCQ8K",
+  "activeRooms": [
+    {
+      "code": "SNCQ8K",
+      "p1": "aaaaaaa",
+      "p2": "",
+      "p1FriendCode": "SNC-6266",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "updatedAt": "2026-11-01T16:08:42.829Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-01T16:08:34.930Z",
+  "updatedAt": "2026-11-01T16:08:42.829Z",
   "isPasswordProtected": false,
-  "lastPropagatedName": "aaaaaaa"
+  "lastPropagatedName": "aaaaaaa",
+  "deletedRoomCodes": []
 }
