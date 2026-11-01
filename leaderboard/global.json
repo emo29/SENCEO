@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-28T22:07:38.764Z",
+  "updatedAt": "2026-11-01T16:08:17.989Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -197,48 +197,6 @@
       "updatedAt": "2026-10-25T13:42:09.9101086Z"
     },
     {
-      "friendCode": "SNC-2389",
-      "username": "Selin",
-      "avatar": "­şİÄ",
-      "level": 4,
-      "xp": 300,
-      "gamesPlayed": 1,
-      "questionsCorrect": 10,
-      "provider": "guest",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1792845371542,
-      "updatedAt": "2026-10-24T12:36:11.542Z"
-    },
-    {
-      "friendCode": "SNC-4396",
-      "username": "Hakan",
-      "avatar": "­şİÄ",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "guest",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1792845741320,
-      "updatedAt": "2026-10-24T12:42:21.320Z"
-    },
-    {
-      "friendCode": "SNC-6754",
-      "username": "Burak",
-      "avatar": "­şİÄ",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "guest",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1792845321725,
-      "updatedAt": "2026-10-24T12:35:21.725Z"
-    },
-    {
       "friendCode": "SNC-6536",
       "username": "ibrahim",
       "email": "",
@@ -252,6 +210,21 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1793180797367,
       "updatedAt": "2026-10-28T09:47:32.301Z"
+    },
+    {
+      "friendCode": "SNC-5598",
+      "username": "Emirhan Turan",
+      "email": "periheltry@gmail.com",
+      "avatar": "🔥",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "Google",
+      "isPermanentMember": true,
+      "passwordProtected": true,
+      "lastXpActivityAt": 1793549297988,
+      "updatedAt": "2026-11-01T16:08:17.989Z"
     }
   ]
 }
