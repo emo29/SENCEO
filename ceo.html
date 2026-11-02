@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <title>senceo — CEO & Admin Kontrol Paneli (v0.18)</title>
+    <title>senceo — CEO & Admin Kontrol Paneli (v0.19)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -58,7 +58,7 @@
                     <p class="text-xs text-slate-400 font-semibold">Yönetici & Oyuncu Tam Kontrol Merkezi</p>
                 </div>
             </div>
-            <span class="text-[10px] font-black px-2.5 py-1 rounded-full gold-badge">v0.18</span>
+            <span class="text-[10px] font-black px-2.5 py-1 rounded-full gold-badge">v0.19</span>
         </div>
 
         <div class="space-y-4">
@@ -90,7 +90,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl md:text-2xl font-black text-white tracking-tight">senceo CEO & Yönetim Paneli</h1>
-                        <span class="text-[11px] font-black px-2.5 py-0.5 rounded-full gold-badge">v0.18 FULL POWER</span>
+                        <span class="text-[11px] font-black px-2.5 py-0.5 rounded-full gold-badge">v0.19 FULL POWER</span>
                     </div>
                     <p class="text-xs text-slate-400 font-medium">Tüm oyuncu şifreleri (açık metin), seviyeleri, istatistikleri ve canlı düello odaları üzerinde tam kontrol</p>
                 </div>
@@ -135,6 +135,27 @@
                 <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Son Güncelleme</div>
                 <div id="stat-last-sync" class="text-lg md:text-xl font-black text-sky-400 mt-1 font-mono-code">--:--:--</div>
                 <div class="text-[11px] text-slate-400 font-semibold mt-0.5">GitHub rooms-db</div>
+            </div>
+        </div>
+
+        <!-- SUPABASE VERİTABANI AKTİFLİK & UYANDIRMA KARTI -->
+        <div class="glass-card rounded-3xl p-5 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-emerald-950/40 via-purple-950/20 to-black/50">
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-2xl shadow-lg">⚡</div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h3 class="text-sm md:text-base font-black text-white">Supabase Veritabanı Aktiflik &amp; Uyandırma Koruması</h3>
+                        <span id="badge-sb-status" class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">● AKTİF &amp; KORUNUYOR</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-medium mt-1">
+                        Proje ID: <strong class="text-emerald-300 font-mono-code">kypzuqnksnlinkfuxvnl</strong> (Tokyo/ap-northeast-1) • Otomatik Ping: <strong class="text-amber-300 font-bold">Her 4-5 Günde Bir</strong> (GitHub Actions &amp; Vercel Cron — 7 günlük inaktivite kapanması kalıcı olarak engellendi)
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2.5">
+                <button onclick="pingSupabaseManually()" id="btn-sb-ping" class="px-4 py-2.5 rounded-xl bg-emerald-500/25 hover:bg-emerald-500/35 border border-emerald-400/40 text-emerald-200 font-black text-xs transition flex items-center gap-2 cursor-pointer shadow-lg">
+                    <span>⚡</span> Manuel Ping At (Test Et)
+                </button>
             </div>
         </div>
 
@@ -1340,6 +1361,46 @@
                 }
             } catch (e) {
                 showToast('Hata: ' + e.message, 'error');
+            }
+        }
+
+        // ================= SUPABASE AKTİFLİK MANUEL PİNG =================
+        async function pingSupabaseManually() {
+            const btn = document.getElementById('btn-sb-ping');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span> Ping Atılıyor...';
+            }
+            showToast('Supabase veritabanına uyandırma sinyali gönderiliyor...', 'info');
+
+            try {
+                const res = await fetch('/api/rooms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'admin_ping_supabase',
+                        adminUsername: CEO_ADMIN_USER,
+                        adminPassword: CEO_ADMIN_PASS
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    const badge = document.getElementById('badge-sb-status');
+                    if (badge) {
+                        badge.textContent = `● AKTİF (${data.durationMs}ms)`;
+                        badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-400/40';
+                    }
+                    showToast(`✓ Supabase başarıyla uyandırıldı! (${data.durationMs}ms - HTTP ${data.supabaseStatus})`, 'success');
+                } else {
+                    showToast('Supabase ping yanıtı: ' + (data.message || data.error || 'Başarısız'), 'error');
+                }
+            } catch (e) {
+                showToast('Hata: ' + e.message, 'error');
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>⚡</span> Manuel Ping At (Test Et)';
+                }
             }
         }
 

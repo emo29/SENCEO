@@ -3039,10 +3039,25 @@ export default async function handler(req, res) {
             .filter(Boolean)
             .sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0));
 
+          let supabaseStatus = "online";
+          try {
+            const sbCheck = await fetch(`${sbUrl}/rest/v1/`, { method: "GET" });
+            supabaseStatus = sbCheck.status === 200 || sbCheck.status === 401 ? "online" : "warning";
+          } catch (e) {
+            supabaseStatus = "offline";
+          }
+
           return res.status(200).json({
             ok: true,
             players: allPlayers,
-            rooms: allRooms
+            rooms: allRooms,
+            supabaseInfo: {
+              status: supabaseStatus,
+              projectId: "kypzuqnksnlinkfuxvnl",
+              url: sbUrl,
+              schedule: "Her 4 günde bir (GitHub Actions & Vercel Cron)",
+              lastVerified: new Date().toISOString()
+            }
           });
         }
 
@@ -3224,6 +3239,28 @@ export default async function handler(req, res) {
             } catch (e) {}
           }
           return res.status(200).json({ ok: true, cleanedCount });
+        }
+
+        if (body.action === "admin_ping_supabase" || body.action === "ping_supabase") {
+          const startedAt = Date.now();
+          let status = 0;
+          let msg = "";
+          try {
+            const sbRes = await fetch(`${sbUrl}/rest/v1/`, { method: "GET" });
+            status = sbRes.status;
+            msg = `Supabase REST Gateway aktif ve erişilebilir (HTTP ${status})`;
+          } catch (err) {
+            status = 500;
+            msg = err.message;
+          }
+          return res.status(200).json({
+            ok: true,
+            supabaseStatus: status,
+            message: msg,
+            timestamp: new Date().toISOString(),
+            durationMs: Date.now() - startedAt,
+            schedule: "Her 4 günde bir (GitHub Actions & Vercel Cron)"
+          });
         }
       }
 

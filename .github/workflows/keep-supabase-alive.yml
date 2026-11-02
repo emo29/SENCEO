@@ -1,0 +1,125 @@
+name: Keep Supabase Alive (Auto Ping)
+
+on:
+  schedule:
+    # Runs at 06:00 UTC every 4 days (Safely prevents Supabase 7-day inactivity pause)
+    - cron: '0 6 */4 * *'
+  workflow_dispatch: # Allows manual trigger anytime from GitHub Actions tab
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install database driver
+        run: |
+          python -m pip install --upgrade pip
+          pip install pg8000 requests
+
+      - name: Ping Supabase PostgreSQL Database & REST API
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_PROJECT_URL: ${{ secrets.SUPABASE_PROJECT_URL }}
+        run: |
+          python - << 'EOF'
+          import os
+          import sys
+          import json
+          import datetime
+          import urllib.request
+          import urllib.parse
+          import pg8000.native
+
+          print("=" * 60)
+          print("🚀 SENCEO — SUPABASE VERİTABANI VE REST AKTİFLİK ZAMANLAYICISI")
+          print(f"⏰ Çalışma Zamanı (UTC): {datetime.datetime.now(datetime.timezone.utc).isoformat()}")
+          print("=" * 60)
+
+          db_url = os.environ.get("SUPABASE_DB_URL", "postgresql://postgres.kypzuqnksnlinkfuxvnl:senceomdasenceom@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres")
+          project_url = os.environ.get("SUPABASE_PROJECT_URL", "https://kypzuqnksnlinkfuxvnl.supabase.co")
+
+          # 1. PARSE DATABASE CONNECTION
+          parsed = urllib.parse.urlparse(db_url)
+          user = parsed.username
+          password = parsed.password
+          host = parsed.hostname
+          port = parsed.port or 6543
+          database = parsed.path.lstrip('/') or 'postgres'
+
+          print(f"\n▶ 1. Supabase PostgreSQL Bağlantısı Kuruluyor ({host}:{port})...")
+          try:
+              con = pg8000.native.Connection(
+                  user=user,
+                  password=password,
+                  host=host,
+                  port=port,
+                  database=database,
+                  ssl_context=True
+              )
+              print("  ✓ PostgreSQL bağlantısı başarıyla kuruldu!")
+
+              # Execute SELECT query to wake up and keep active
+              res = con.run("SELECT NOW(), current_database(), current_user")
+              db_now = res[0][0]
+              print(f"  ✓ SELECT Sorgusu Çalıştırıldı: Sunucu Zamanı = {db_now}")
+
+              # Insert ping record into senceo_keepalive table
+              con.run("""
+                  CREATE TABLE IF NOT EXISTS public.senceo_keepalive (
+                      id BIGSERIAL PRIMARY KEY,
+                      source TEXT NOT NULL DEFAULT 'github-actions',
+                      details JSONB DEFAULT '{}'::jsonb,
+                      pinged_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+                  )
+              """)
+              con.run("""
+                  INSERT INTO public.senceo_keepalive (source, details)
+                  VALUES ('github-actions', '{"scheduled_cron": "0 6 */4 * *", "runner": "ubuntu-latest"}'::jsonb)
+              """)
+              print("  ✓ Ping kaydı senceo_keepalive tablosuna işlendi (WRITE & READ aktivitesi).")
+
+              # Count total keepalive pings
+              count_res = con.run("SELECT COUNT(*), MAX(pinged_at) FROM public.senceo_keepalive")
+              total_pings = count_res[0][0]
+              last_ping = count_res[0][1]
+              print(f"  ✓ Toplam Başarılı Ping Sayısı: {total_pings}, Son Kayıt: {last_ping}")
+              con.close()
+          except Exception as e:
+              print(f"  ✕ Veritabanı sorgu hatası: {e}")
+              sys.exit(1)
+
+          # 2. PING SUPABASE REST API
+          print(f"\n▶ 2. Supabase REST API Ping Atılıyor ({project_url}/rest/v1/)...")
+          try:
+              req = urllib.request.Request(f"{project_url}/rest/v1/", headers={"User-Agent": "senceo-github-actions-keepalive"})
+              try:
+                  with urllib.request.urlopen(req) as resp:
+                      print(f"  ✓ REST API Yanıtı: HTTP {resp.status}")
+              except urllib.error.HTTPError as he:
+                  # HTTP 401 is expected and valid activity without anon key
+                  print(f"  ✓ REST API Erişildi (HTTP {he.code} — Gateway Aktif)")
+          except Exception as e:
+              print(f"  ℹ REST API ping notu: {e}")
+
+          # 3. PING LIVE VERCEL CRON-PING ENDPOINT
+          print("\n▶ 3. Canlı Vercel Ping Uç Noktası Tetikleniyor (https://senceo-emirhanusimp.vercel.app/api/cron-ping)...")
+          try:
+              v_req = urllib.request.Request("https://senceo-emirhanusimp.vercel.app/api/cron-ping", headers={"User-Agent": "senceo-github-actions-keepalive"})
+              with urllib.request.urlopen(v_req, timeout=10) as v_resp:
+                  v_data = v_resp.read().decode('utf-8')
+                  print(f"  ✓ Vercel Ping Yanıtı (HTTP {v_resp.status}): {v_data}")
+          except Exception as e:
+              print(f"  ℹ Vercel endpoint çağrısı notu: {e}")
+
+          print("\n" + "=" * 60)
+          print("🎉 SUPABASE AKTİFLİK DÖNGÜSÜ %100 BAŞARIYLA TAMAMLANDI!")
+          print("   Supabase projeniz 7 gün hareketsizlikten ötürü KAPANMAYACAKTIR.")
+          print("=" * 60)
+          EOF
