@@ -2,7 +2,7 @@
 // 4 Tam Kapsamlı Tema (1. Luminous Beyaz Varsayılan, 2. Obsidian Koyu, 3. Cosmic Neon Eski Varsayılan, 4. Neo-Brutal Acid)
 // v0.10: Player 2 Tahmin Slaytı İzleme Butonu, Player 1 Rapor Ekranında Canlı "X Tahminlerini İzliyor" Animasyonu, Raund Bazlı Rol Kilidi ve Tüm Modlar E2E Doğrulaması
 
-const APP_VERSION = 'v0.19';
+const APP_VERSION = 'v0.20';
 const DEFAULT_SUPABASE_URL = 'https://kypzuqnksnlinkfuxvnl.supabase.co';
 const TOTAL_QUESTIONS = 5;
 const CIRCLE_CIRCUMFERENCE = 414.69;

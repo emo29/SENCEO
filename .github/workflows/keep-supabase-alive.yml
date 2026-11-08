@@ -2,8 +2,8 @@ name: Keep Supabase Alive (Auto Ping)
 
 on:
   schedule:
-    # Runs at 06:00 UTC every 4 days (Safely prevents Supabase 7-day inactivity pause)
-    - cron: '0 6 */4 * *'
+    # Runs twice daily at 06:00 UTC and 18:00 UTC (Guarantees active daily database operations)
+    - cron: '0 6,18 * * *'
   workflow_dispatch: # Allows manual trigger anytime from GitHub Actions tab
 
 jobs:
@@ -31,15 +31,14 @@ jobs:
           python - << 'EOF'
           import os
           import sys
-          import json
           import datetime
           import urllib.request
           import urllib.parse
           import pg8000.native
 
           print("=" * 60)
-          print("🚀 SENCEO — SUPABASE VERİTABANI VE REST AKTİFLİK ZAMANLAYICISI")
-          print(f"⏰ Çalışma Zamanı (UTC): {datetime.datetime.now(datetime.timezone.utc).isoformat()}")
+          print("SENCEO - SUPABASE VERITABANI VE REST AKTIFLIK ZAMANLAYICISI")
+          print(f"Calisma Zamani (UTC): {datetime.datetime.now(datetime.timezone.utc).isoformat()}")
           print("=" * 60)
 
           db_url = os.environ.get("SUPABASE_DB_URL", "postgresql://postgres.kypzuqnksnlinkfuxvnl:senceomdasenceom@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres")
@@ -53,7 +52,7 @@ jobs:
           port = parsed.port or 6543
           database = parsed.path.lstrip('/') or 'postgres'
 
-          print(f"\n▶ 1. Supabase PostgreSQL Bağlantısı Kuruluyor ({host}:{port})...")
+          print(f"\n1. Supabase PostgreSQL Baglantisi Kuruluyor ({host}:{port})...")
           try:
               con = pg8000.native.Connection(
                   user=user,
@@ -63,14 +62,22 @@ jobs:
                   database=database,
                   ssl_context=True
               )
-              print("  ✓ PostgreSQL bağlantısı başarıyla kuruldu!")
+              print("  PostgreSQL baglantisi basariyla kuruldu!")
 
-              # Execute SELECT query to wake up and keep active
+              # Operation A: Core SELECT query
               res = con.run("SELECT NOW(), current_database(), current_user")
               db_now = res[0][0]
-              print(f"  ✓ SELECT Sorgusu Çalıştırıldı: Sunucu Zamanı = {db_now}")
+              print(f"  A. SELECT Sorgusu: Sunucu Zamani = {db_now}")
 
-              # Insert ping record into senceo_keepalive table
+              # Operation B: Scan application tables (Generates table read IOPS)
+              for tbl in ['profiles', 'senceo_rooms', 'match_history', 'senceo_keepalive']:
+                  try:
+                      cnt = con.run(f"SELECT COUNT(*) FROM public.{tbl}")
+                      print(f"  B. Tablo public.{tbl} kayit sayisi: {cnt[0][0]}")
+                  except Exception as te:
+                      print(f"  B. Tablo {tbl} kontrol: {te}")
+
+              # Operation C: INSERT active heartbeat record
               con.run("""
                   CREATE TABLE IF NOT EXISTS public.senceo_keepalive (
                       id BIGSERIAL PRIMARY KEY,
@@ -81,45 +88,58 @@ jobs:
               """)
               con.run("""
                   INSERT INTO public.senceo_keepalive (source, details)
-                  VALUES ('github-actions', '{"scheduled_cron": "0 6 */4 * *", "runner": "ubuntu-latest"}'::jsonb)
+                  VALUES ('github-actions-daily', '{"cron": "0 6,18 * * *", "runner": "ubuntu-latest"}'::jsonb)
               """)
-              print("  ✓ Ping kaydı senceo_keepalive tablosuna işlendi (WRITE & READ aktivitesi).")
+              print("  C. Ping kaydi senceo_keepalive tablosuna INSERT edildi.")
 
-              # Count total keepalive pings
+              # Operation D: UPDATE record to trigger write modification
+              con.run("""
+                  UPDATE public.senceo_keepalive
+                  SET details = jsonb_set(details, '{verified_at}', to_jsonb(NOW()::text))
+                  WHERE id = (SELECT MAX(id) FROM public.senceo_keepalive)
+              """)
+              print("  D. Heartbeat kaydi UPDATE edildi (write activity).")
+
+              # Operation E: Prune logs older than 30 days
+              try:
+                  con.run("DELETE FROM public.senceo_keepalive WHERE pinged_at < NOW() - INTERVAL '30 days'")
+                  print("  E. 30 gunden eski loglar temizlendi (DELETE maintenance).")
+              except Exception as de:
+                  pass
+
+              # Operation F: Read total keepalive count
               count_res = con.run("SELECT COUNT(*), MAX(pinged_at) FROM public.senceo_keepalive")
               total_pings = count_res[0][0]
               last_ping = count_res[0][1]
-              print(f"  ✓ Toplam Başarılı Ping Sayısı: {total_pings}, Son Kayıt: {last_ping}")
+              print(f"  F. Toplam Basarili Ping Sayisi: {total_pings}, Son Kayit: {last_ping}")
               con.close()
           except Exception as e:
-              print(f"  ✕ Veritabanı sorgu hatası: {e}")
+              print(f"  Veritabani sorgu hatasi: {e}")
               sys.exit(1)
 
           # 2. PING SUPABASE REST API
-          print(f"\n▶ 2. Supabase REST API Ping Atılıyor ({project_url}/rest/v1/)...")
+          print(f"\n2. Supabase REST API Ping Atiliyor ({project_url}/rest/v1/)...")
           try:
               req = urllib.request.Request(f"{project_url}/rest/v1/", headers={"User-Agent": "senceo-github-actions-keepalive"})
               try:
                   with urllib.request.urlopen(req) as resp:
-                      print(f"  ✓ REST API Yanıtı: HTTP {resp.status}")
+                      print(f"  REST API Yaniti: HTTP {resp.status}")
               except urllib.error.HTTPError as he:
-                  # HTTP 401 is expected and valid activity without anon key
-                  print(f"  ✓ REST API Erişildi (HTTP {he.code} — Gateway Aktif)")
+                  print(f"  REST API Gateway Aktif (HTTP {he.code})")
           except Exception as e:
-              print(f"  ℹ REST API ping notu: {e}")
+              print(f"  REST API ping notu: {e}")
 
           # 3. PING LIVE VERCEL CRON-PING ENDPOINT
-          print("\n▶ 3. Canlı Vercel Ping Uç Noktası Tetikleniyor (https://senceo-emirhanusimp.vercel.app/api/cron-ping)...")
+          print("\n3. Canli Vercel Ping Uc Noktasi Tetikleniyor (https://senceo-emirhanusimp.vercel.app/api/cron-ping)...")
           try:
               v_req = urllib.request.Request("https://senceo-emirhanusimp.vercel.app/api/cron-ping", headers={"User-Agent": "senceo-github-actions-keepalive"})
               with urllib.request.urlopen(v_req, timeout=10) as v_resp:
                   v_data = v_resp.read().decode('utf-8')
-                  print(f"  ✓ Vercel Ping Yanıtı (HTTP {v_resp.status}): {v_data}")
+                  print(f"  Vercel Ping Yaniti (HTTP {v_resp.status}): {v_data}")
           except Exception as e:
-              print(f"  ℹ Vercel endpoint çağrısı notu: {e}")
+              print(f"  Vercel endpoint cagrisi notu: {e}")
 
           print("\n" + "=" * 60)
-          print("🎉 SUPABASE AKTİFLİK DÖNGÜSÜ %100 BAŞARIYLA TAMAMLANDI!")
-          print("   Supabase projeniz 7 gün hareketsizlikten ötürü KAPANMAYACAKTIR.")
+          print("SUPABASE GUNLUK AKTIFLIK DONGUSU BASARIYLA TAMAMLANDI!")
           print("=" * 60)
           EOF

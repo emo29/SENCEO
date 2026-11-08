@@ -1,5 +1,5 @@
 // ============================================================================
-// SENCEO (v0.19) — SUPABASE AKTİFLİK ZAMANLAYICISI & PING SERVİSİ
+// SENCEO (v0.20) — SUPABASE AKTİFLİK ZAMANLAYICISI & PING SERVİSİ
 // Vercel Cron Jobs ve Dış Ping Tetikleyicileri İçin Otomatik Uç Nokta
 // ============================================================================
 
@@ -20,12 +20,12 @@ export default async function handler(req, res) {
   let supabaseRestStatus = 0;
   let supabaseRestMessage = "";
 
-  // 1. Supabase REST API'ye canlandırma / aktiflik isteği gönder
+  // 1. Supabase REST API gateway canlandırma isteği
   try {
     const sbRes = await fetch(`${SUPABASE_URL}/rest/v1/`, {
       method: "GET",
       headers: {
-        "User-Agent": "senceo-cron-keepalive/v0.19",
+        "User-Agent": "senceo-cron-keepalive/v0.20",
         "Cache-Control": "no-cache"
       }
     });
@@ -42,10 +42,10 @@ export default async function handler(req, res) {
   const responseData = {
     ok: true,
     service: "senceo-supabase-keepalive",
-    version: "v0.19",
+    version: "v0.20",
     timestamp: timestampIso,
     durationMs,
-    cronSchedule: "Every 4 days (0 6 */4 * *)",
+    cronSchedule: "Twice daily (0 6,18 * * *) via GitHub Actions + Daily Vercel Cron",
     supabase: {
       projectId: SUPABASE_PROJECT_ID,
       url: SUPABASE_URL,

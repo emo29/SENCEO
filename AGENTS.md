@@ -51,6 +51,11 @@ Bu dosya, **senceo** projesinde çalışan yapay zeka ajanlarının (Agent) uyma
 
 ## 📊 Sürüm Geçmişi (Version Log)
 
+- **v0.20** — **(20. Sürüm Kilometre Taşı) Günde 2 Kez Çok Tablolu Aktiflik Kalp Atışı (`0 6,18 * * *`), Günlük Vercel Cron & Supabase Durdurma Alarmı Kökten Çözümü**:
+  1. **Supabase Durdurma Uyarısının Kök Neden Tespiti & Çözümü:** Supabase'in 7 günlük uyku mekanizmasının haftalık ortalama değil, her gün düzenli kullanıcı veritabanı sorgusu ("sufficient daily activity") aradığı tespit edildi. 4 günlük periyot gün aşırı boşluk bıraktığı ve 24 Ekim - 2 Kasım arasındaki 9 günlük hareketsizlik taramada tetiklendiği için sistem günde 2 kez (`06:00` ve `18:00` UTC) çalışacak şekilde güçlendirildi.
+  2. **Gelişmiş Çok Tablolu SQL Kalp Atışı (`.github/workflows/keep-supabase-alive.yml`):** Yalnızca tek bir tabloya ping atmak yerine; `profiles`, `senceo_rooms`, `match_history` ve `senceo_keepalive` tabloları üzerinde `SELECT COUNT(*)`, yeni kayıt `INSERT`, `UPDATE` ve 30 günden eski kayıtları temizleme (`DELETE`) işlemlerini içeren tam kapsamlı SQL transaction akışı kuruldu.
+  3. **Günlük Vercel Cron (`vercel.json` & `api/cron-ping.js`):** `vercel.json` içerisine günlük (`0 6 * * *`) `/api/cron-ping` cron işi tanımlandı; canlı sunucu uç noktası `v0.20` sürümüne güncellenip test edildi.
+  4. **CEO Paneli (`/ceo`) ve Sürüm Senkronizasyonu:** CEO panelindeki durum kartı "Günde 2 Kez (06:00 & 18:00 UTC)" olarak güncellendi; `index.html`, `app.js` ve `ceo.html` sürümü `v0.20` olarak senkronize edildi.
 - **v0.19** — **Supabase 5 Günde Bir Aktiflik & Otomatik Zamanlayıcı (GitHub Actions Workflow + Vercel Cron Jobs + `public.senceo_keepalive` Tablosu & CEO Paneli Canlı Ping)**:
   1. **GitHub Actions Otomatik Zamanlayıcısı (`.github/workflows/keep-supabase-alive.yml`):** `0 6 */4 * *` (Her 4 günde bir) çalışan otomatik zamanlayıcı ile Supabase'in 7 günlük inaktivite nedeniyle durdurulması engellendi; `workflow_dispatch` ile manuel tetikleme desteği sağlandı.
   2. **Supabase PostgreSQL & REST Gateway Ping:** `aws-0-ap-northeast-1.pooler.supabase.com:6543` üzerinden doğrudan `SELECT NOW()` ve `public.senceo_keepalive` tablosuna INSERT (READ + WRITE) yapılarak aktiflik sağlandı; REST gateway ve canlı Vercel ping uç noktası tetiklendi.
