@@ -1,0 +1,21 @@
+{
+  "friendCode": "SNC-2325",
+  "username": "Oyuncu 1",
+  "level": 1,
+  "xp": 35,
+  "gamesPlayed": 0,
+  "questionsCorrect": 0,
+  "provider": "guest",
+  "isPermanentMember": false,
+  "passwordProtected": false,
+  "passwordHash": "",
+  "lastXpActivityAt": 1794672336707,
+  "latestRoomCode": "",
+  "activeRooms": [],
+  "incomingRequests": [],
+  "acceptedFriends": [],
+  "notifications": [],
+  "updatedAt": "2026-11-14T16:05:36.707Z",
+  "lastPropagatedName": "Oyuncu 1",
+  "isPasswordProtected": false
+}
