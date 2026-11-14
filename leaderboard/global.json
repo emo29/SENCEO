@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T16:08:35.692Z",
+  "updatedAt": "2026-11-14T16:05:26.742Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -137,21 +137,6 @@
       "updatedAt": "2026-10-25T13:42:09.9090695Z"
     },
     {
-      "friendCode": "SNC-4888",
-      "username": "Harun",
-      "email": "",
-      "avatar": "😎",
-      "level": 5,
-      "xp": 450,
-      "gamesPlayed": 2,
-      "questionsCorrect": 15,
-      "provider": "Misafir",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1793094351568,
-      "updatedAt": "2026-10-27T09:45:51.568Z"
-    },
-    {
       "friendCode": "SNC-8811",
       "username": "Pelin",
       "avatar": "🌙",
@@ -197,49 +182,19 @@
       "updatedAt": "2026-10-25T13:42:09.9101086Z"
     },
     {
-      "friendCode": "SNC-6536",
-      "username": "ibrahim",
+      "friendCode": "SNC-3971",
+      "username": "Oyuncu 1",
       "email": "",
       "avatar": "😎",
       "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "Misafir",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1793180797367,
-      "updatedAt": "2026-10-28T09:47:32.301Z"
-    },
-    {
-      "friendCode": "SNC-5598",
-      "username": "Emirhan Turan",
-      "email": "",
-      "avatar": "🔥",
-      "level": 1,
-      "xp": 0,
+      "xp": 35,
       "gamesPlayed": 0,
       "questionsCorrect": 0,
       "provider": "guest",
       "isPermanentMember": false,
       "passwordProtected": false,
-      "lastXpActivityAt": 1793549297988,
-      "updatedAt": "2026-11-01T16:08:25.396Z"
-    },
-    {
-      "friendCode": "SNC-6266",
-      "username": "aaaaaaa",
-      "email": "",
-      "avatar": "🔥",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "Misafir",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1793549306120,
-      "updatedAt": "2026-11-01T16:08:35.692Z"
+      "lastXpActivityAt": 1794672326742,
+      "updatedAt": "2026-11-14T16:05:26.742Z"
     }
   ]
 }
