@@ -2,7 +2,7 @@
 // 4 Tam Kapsamlı Tema (1. Luminous Beyaz Varsayılan, 2. Obsidian Koyu, 3. Cosmic Neon Eski Varsayılan, 4. Neo-Brutal Acid)
 // v0.10: Player 2 Tahmin Slaytı İzleme Butonu, Player 1 Rapor Ekranında Canlı "X Tahminlerini İzliyor" Animasyonu, Raund Bazlı Rol Kilidi ve Tüm Modlar E2E Doğrulaması
 
-const APP_VERSION = 'v0.20';
+const APP_VERSION = 'v0.21';
 const DEFAULT_SUPABASE_URL = 'https://kypzuqnksnlinkfuxvnl.supabase.co';
 const TOTAL_QUESTIONS = 5;
 const CIRCLE_CIRCUMFERENCE = 414.69;
@@ -5068,6 +5068,137 @@ function initDailyQuestionBanner() {
       btnLabelEl.textContent = st.lastCompletedDate === todayKey ? '⚡ Günün Sorusunu Tekrar Oyna' : '🔥 Günün Sorusunu Çöz (+1 Seri)';
     }
   }
+
+  // v0.21: iOS Kilit Ekranı Bildirim Kartını Güncelle (Duolingo Stili "At Havanı!" Bildirimi)
+  renderIosStreakNotificationCard();
+}
+
+// ---------------- iOS KİLİT EKRANI BİLDİRİM & HAFTALIK SERİ MOTORU (v0.21) ----------------
+let currentIosNotifScenario = 1;
+
+function getIosNotificationScenarios() {
+  const pName = (userProfile.username && userProfile.username !== 'Misafir Oyuncu')
+    ? userProfile.username
+    : ((document.getElementById('input-p1-name') && document.getElementById('input-p1-name').value.trim()) || 'Salihcan TURAN');
+
+  let friendName = 'Emirhan';
+  try {
+    if (Array.isArray(userProfile.friends) && userProfile.friends.length > 0) {
+      const f = userProfile.friends[0];
+      if (f && f.name) friendName = f.name;
+    } else if (gameState.player2Name && gameState.player2Name !== 'Rakip') {
+      friendName = gameState.player2Name;
+    }
+  } catch (e) {}
+
+  const st = getDailyStreakState();
+  const streakCount = Math.max(1, Number(st.count) || Number(userProfile.dailyStreak) || 59);
+
+  return {
+    1: {
+      badge: '🔥 Haftalık Seri',
+      line1: `${pName}, at havanı. Ya da atma, a...`,
+      line2: 'İlerlemene bir göz at. Kaptırdın gidiyorsun!',
+      cta: 'TAHMİNLERE DEVAM ET',
+      sub: 'Haftalık ilerlemen',
+      days: 'Ct Pa Pt Sa Ça Pe Cu',
+      streak: `${streakCount} günlük seri!`,
+      teaser: 'Gelec...',
+      topStreak: `${streakCount} Gün 🔥`
+    },
+    2: {
+      badge: '👀 Uyum İfşası',
+      line1: `${pName}, ${friendName} senin hakkında öyle bir şey dedi ki... 👀`,
+      line2: `5 sorudan 4'ünü doğru bildi! %80 Uyumla Kanka seviyesine çıktınız.`,
+      cta: 'RÖVANŞI BAŞLAT',
+      sub: '2. Raund sırası sende!',
+      days: 'Pt Sa Ça Pe Cu Ct Pa',
+      streak: `🔥 ${streakCount} günlük bağ serisi`,
+      teaser: 'Sonuçlar...',
+      topStreak: `%80 Uyum 💖`
+    },
+    3: {
+      badge: '⚔️ Sıra Sende',
+      line1: `${pName}, ${friendName} seni bekliyor. Ya da unuttun mu? ⏳`,
+      line2: `Düelloda son 4 saat! Hamleni yapmazsan pes etmiş sayılırsın.`,
+      cta: 'SIRANI AL',
+      sub: 'Son 5 tahminin kaldı',
+      days: 'Ct Pa Pt Sa Ça Pe Cu',
+      streak: `🔥 ${streakCount} günlük seri`,
+      teaser: 'Hamle b...',
+      topStreak: `Sıra Sende ⏳`
+    },
+    4: {
+      badge: '🧊 Seri Kurtarma',
+      line1: `${pName}, ${streakCount} günlük serin az önce titremeye başladı! 🧊🔥`,
+      line2: `Günün sorusu hazır: "Sence o hangisini asla affetmez?"`,
+      cta: 'SERİYİ KURTAR',
+      sub: '1 dakikanı bile almaz',
+      days: 'Ct Pa Pt Sa Ça Pe Cu',
+      streak: `⚠️ Gece 00:00'da sıfırlanır!`,
+      teaser: 'Kurtar...',
+      topStreak: `Kurtar 🧊`
+    }
+  };
+}
+
+function renderIosStreakNotificationCard() {
+  const cardEl = document.getElementById('active-games-ios-streak-notification-card');
+  if (!cardEl) return;
+
+  const scenarios = getIosNotificationScenarios();
+  const sc = scenarios[currentIosNotifScenario] || scenarios[1];
+
+  const badgeEl = document.getElementById('ios-notif-scenario-badge');
+  const topStreakEl = document.getElementById('ios-card-top-streak');
+  const line1El = document.getElementById('ios-card-line1');
+  const line2El = document.getElementById('ios-card-line2');
+  const ctaEl = document.getElementById('ios-card-cta');
+  const subEl = document.getElementById('ios-card-sub');
+  const daysEl = document.getElementById('ios-card-days');
+  const streakEl = document.getElementById('ios-card-streak');
+  const teaserEl = document.getElementById('ios-card-teaser');
+
+  if (badgeEl) badgeEl.textContent = sc.badge;
+  if (topStreakEl) topStreakEl.textContent = sc.topStreak;
+  if (line1El) line1El.textContent = sc.line1;
+  if (line2El) line2El.textContent = sc.line2;
+  if (ctaEl) ctaEl.textContent = sc.cta;
+  if (subEl) subEl.textContent = sc.sub;
+  if (daysEl) daysEl.textContent = sc.days;
+  if (streakEl) streakEl.textContent = sc.streak;
+  if (teaserEl) teaserEl.textContent = sc.teaser;
+}
+
+function cycleIosNotificationScenario(delta) {
+  currentIosNotifScenario = currentIosNotifScenario + delta;
+  if (currentIosNotifScenario > 4) currentIosNotifScenario = 1;
+  if (currentIosNotifScenario < 1) currentIosNotifScenario = 4;
+  renderIosStreakNotificationCard();
+}
+
+function copyIosStreakNotificationText() {
+  const scenarios = getIosNotificationScenarios();
+  const sc = scenarios[currentIosNotifScenario] || scenarios[1];
+
+  const fullText = `🔔 SENCEO BİLDİRİMİ:\n\n${sc.line1}\n${sc.line2}\n\n👉 ${sc.cta} ${sc.sub}\n🔥 ${sc.days} • ${sc.streak}\n\nSen beni ne kadar tanıyorsun? Hadi test et: https://senceo-xi.vercel.app`;
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(fullText).then(() => {
+      const lbl = document.getElementById('btn-copy-ios-streak-label');
+      if (lbl) {
+        lbl.textContent = '✓ Kopyalandı!';
+        setTimeout(() => (lbl.textContent = 'Metni Kopyala'), 2000);
+      }
+    }).catch(() => {});
+  }
+}
+
+function shareIosStreakNotificationWhatsApp() {
+  const scenarios = getIosNotificationScenarios();
+  const sc = scenarios[currentIosNotifScenario] || scenarios[1];
+  const text = encodeURIComponent(`🔥 SENCE O — ${sc.line1}\n${sc.line2}\n(${sc.streak})\n\nSen beni ne kadar tanıyorsun? Hadi test et: https://senceo-xi.vercel.app`);
+  window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
 }
 
 async function handleDailyStreakActionBtn() {
