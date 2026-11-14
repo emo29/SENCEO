@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-14T16:05:28.976Z",
+  "updatedAt": "2026-11-14T16:05:37.649Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -195,6 +195,21 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1794672327323,
       "updatedAt": "2026-11-14T16:05:28.976Z"
+    },
+    {
+      "friendCode": "SNC-2325",
+      "username": "Oyuncu 1",
+      "email": "",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 35,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1794672337649,
+      "updatedAt": "2026-11-14T16:05:37.649Z"
     }
   ]
 }
