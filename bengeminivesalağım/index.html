@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SENCEO iOS Bildirim ve Haftalık Seri Kartı (Duolingo Stili)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=SF+Pro+Display:wght@400;500;600;700;800&display=swap">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Plus Jakarta Sans", sans-serif;
+      background: #09090b;
+      color: #fafafa;
+    }
+    .ios-glass {
+      background: rgba(28, 28, 30, 0.88);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7), 0 0 1px 1px rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="p-4 sm:p-6 min-h-screen flex flex-col items-center justify-center">
+
+  <div class="w-full max-w-xl mx-auto space-y-6">
+
+    <!-- Üst Başlık & Kontrol Çubuğu -->
+    <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-rose-500/20">
+          <span class="text-sm">🔥</span>
+        </div>
+        <div>
+          <h1 class="text-base font-bold tracking-tight text-white flex items-center gap-1.5">
+            <span>SENCEO</span>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-semibold border border-amber-500/30">iOS Bildirim Simülatörü</span>
+          </h1>
+          <p class="text-xs text-zinc-400">Duolingo bildirim formatının SENCEO dinamikleriyle uyarlanmış hali</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-1 bg-zinc-900 border border-zinc-800 p-1 rounded-xl text-xs">
+        <button id="view-mode-senceo" onclick="setAppView('senceo')" class="px-2.5 py-1 rounded-lg bg-zinc-700 font-semibold text-white transition">senceo</button>
+        <button id="view-mode-duo" onclick="setAppView('duolingo')" class="px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition">duolingo</button>
+      </div>
+    </div>
+
+    <!-- Canlı Önizleme Alanı: iOS Kilit Ekranı Kartı -->
+    <div class="relative w-full rounded-3xl p-5 sm:p-7 overflow-hidden flex flex-col items-center justify-center"
+         style="background: radial-gradient(circle at 50% 20%, #1f1b2e 0%, #0c0a12 100%); border: 1px solid rgba(255,255,255,0.07);">
+      
+      <!-- iOS Saati & Kilit Simgesi -->
+      <div class="w-full flex items-center justify-between text-zinc-500 text-xs mb-3 px-2">
+        <span class="flex items-center gap-1">
+          <svg class="w-3.5 h-3.5 text-zinc-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd"></path></svg>
+          <span class="font-medium text-zinc-400">Kilit Ekranı</span>
+        </span>
+        <span class="font-mono text-zinc-400">09:41</span>
+        <span class="text-zinc-500">Bildirim Merkezi</span>
+      </div>
+
+      <!-- ⭐️ BİREBİR GÖRSELDEKİ BİLDİRİM KARTI ⭐️ -->
+      <div id="ios-notification-banner" class="w-full ios-glass rounded-[24px] p-3.5 sm:p-4 transition-all duration-300 hover:scale-[1.01]">
+        <div class="flex items-start gap-3">
+          
+          <!-- Sol Simge: Mail / SENCEO Squircle -->
+          <div id="notif-app-icon" class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl shrink-0 flex items-center justify-center shadow-md overflow-hidden relative"
+               style="background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #1d4ed8 100%);">
+            <svg id="icon-mail-svg" class="hidden w-6 h-6 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
+              <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
+            </svg>
+            <div id="icon-senceo-box" class="w-full h-full bg-gradient-to-br from-amber-500 via-rose-500 to-indigo-600 flex items-center justify-center text-xl">
+              🔥
+            </div>
+          </div>
+
+          <!-- Sağ Metin Gövdesi -->
+          <div class="flex-1 min-w-0 pr-1">
+            <div class="flex items-center justify-between mb-0.5">
+              <span id="notif-app-name" class="text-[12px] sm:text-[13px] font-semibold text-zinc-300 tracking-tight">senceo</span>
+              <span class="text-[11px] text-zinc-500 font-normal">şimdi</span>
+            </div>
+
+            <!-- 1. Satır: İsim + Kışkırtıcı Hook -->
+            <div id="notif-line-1" class="text-[14px] sm:text-[15px] font-bold text-white tracking-tight leading-snug truncate">
+              Salihcan TURAN, at havanı. Ya da atma, a...
+            </div>
+
+            <!-- 2. Satır: İlerlemene bir göz at. Kaptırdın gidiyorsun! -->
+            <div id="notif-line-2" class="text-[13px] sm:text-[14px] text-zinc-300 font-normal leading-snug mt-0.5 truncate">
+              İlerlemene bir göz at. Kaptırdın gidiyorsun!
+            </div>
+
+            <!-- 3. Satır: CTA Action -->
+            <div id="notif-line-3" class="text-[12px] sm:text-[13px] text-zinc-400 font-medium leading-snug mt-1 truncate">
+              <span id="notif-cta-action" class="font-bold text-zinc-200 tracking-wide">ÖĞRENMEYE DEVAM ET</span>
+              <span id="notif-cta-sub" class="ml-1 text-zinc-400">Haftalık ilerlemen</span>
+            </div>
+
+            <!-- 4. Satır: Günler + Seri Sayısı + Devamı -->
+            <div id="notif-line-4" class="text-[12px] sm:text-[13px] text-zinc-300 font-medium leading-snug mt-1 flex items-center gap-1.5 flex-wrap">
+              <span id="notif-days-row" class="text-zinc-400 font-mono tracking-tight">Ct Pa Pt Sa Ça Pe Cu</span>
+              <span id="notif-streak-badge" class="font-bold text-amber-400 flex items-center gap-0.5">
+                <span>59 günlük seri!</span>
+              </span>
+              <span id="notif-teaser-tail" class="text-zinc-500 truncate">Gelec...</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 text-center">
+        <span class="text-[11px] text-zinc-500 font-medium">Kilidi açmak için yukarı kaydırın</span>
+      </div>
+    </div>
+
+    <!-- Senaryo Seçici & Kontroller -->
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 sm:p-5 space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-bold text-white flex items-center gap-1.5">
+          <span>⚡ SENCEO Bildirim Senaryoları</span>
+        </h2>
+        <span class="text-xs text-zinc-400">Görsel tarzı 4 farklı dinamik</span>
+      </div>
+
+      <!-- Senaryo Butonları Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-left">
+        <button onclick="applyScenario(1)" class="p-3 rounded-xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700 text-left transition">
+          <div class="text-xs font-bold text-amber-400 flex items-center justify-between">
+            <span>🔥 1. Duolingo Tarzı Haftalık Seri</span>
+            <span class="text-[10px] bg-amber-500/20 px-1.5 py-0.5 rounded text-amber-300">Görselin Aynısı</span>
+          </div>
+          <div class="text-[11px] text-zinc-300 mt-1 line-clamp-1">"Salihcan TURAN, at havanı. Ya da atma..."</div>
+        </button>
+
+        <button onclick="applyScenario(2)" class="p-3 rounded-xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700 text-left transition">
+          <div class="text-xs font-bold text-rose-400 flex items-center justify-between">
+            <span>👀 2. Sır & Uyum İfşası</span>
+            <span class="text-[10px] bg-rose-500/20 px-1.5 py-0.5 rounded text-rose-300">İkili Bağ</span>
+          </div>
+          <div class="text-[11px] text-zinc-300 mt-1 line-clamp-1">"Salihcan, Emirhan senin hakkında öyle bir şey dedi ki..."</div>
+        </button>
+
+        <button onclick="applyScenario(3)" class="p-3 rounded-xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700 text-left transition">
+          <div class="text-xs font-bold text-indigo-400 flex items-center justify-between">
+            <span>⚔️ 3. Bekleyen Düello (#SNC7TY)</span>
+            <span class="text-[10px] bg-indigo-500/20 px-1.5 py-0.5 rounded text-indigo-300">Sıra Sende</span>
+          </div>
+          <div class="text-[11px] text-zinc-300 mt-1 line-clamp-1">"Salihcan, emirhan seni bekliyor. Ya da unuttun mu? ⏳"</div>
+        </button>
+
+        <button onclick="applyScenario(4)" class="p-3 rounded-xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700 text-left transition">
+          <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
+            <span>🧊 4. 24 Saat Seri Kurtarma</span>
+            <span class="text-[10px] bg-emerald-500/20 px-1.5 py-0.5 rounded text-emerald-300">Günün Sorusu</span>
+          </div>
+          <div class="text-[11px] text-zinc-300 mt-1 line-clamp-1">"Salihcan, 59 günlük serin titremeye başladı! 1 dk'nı almaz"</div>
+        </button>
+      </div>
+
+      <!-- Düzenleme Alanları -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-zinc-800">
+        <div>
+          <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Oyuncu Adı (Hitap):</label>
+          <input id="input-username" type="text" value="Salihcan TURAN" oninput="updateLiveCard()"
+                 class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Rakip / Arkadaş Adı:</label>
+          <input id="input-friendname" type="text" value="Emirhan" oninput="updateLiveCard()"
+                 class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Seri Sayısı (Gün):</label>
+          <input id="input-streak" type="number" value="59" oninput="updateLiveCard()"
+                 class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
+        </div>
+      </div>
+
+      <!-- Aksiyon Butonları -->
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="copyNotificationText()" class="flex-1 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white font-semibold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition">
+          <span>📋</span>
+          <span id="btn-copy-label">Bildirim Metnini Kopyala</span>
+        </button>
+        <button onclick="shareWhatsApp()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-emerald-900/30">
+          <span>💬</span>
+          <span>WhatsApp'tan Paylaş</span>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    let currentApp = 'senceo';
+    let currentScenarioId = 1;
+
+    const scenarios = {
+      1: {
+        appName: 'senceo',
+        line1: (u) => `${u}, at havanı. Ya da atma, a...`,
+        line2: 'İlerlemene bir göz at. Kaptırdın gidiyorsun!',
+        ctaAction: 'TAHMİNLERE DEVAM ET',
+        ctaSub: 'Haftalık ilerlemen',
+        days: 'Ct Pa Pt Sa Ça Pe Cu',
+        streak: (s) => `${s} günlük seri!`,
+        teaser: 'Gelec...'
+      },
+      2: {
+        appName: 'senceo',
+        line1: (u, f) => `${u}, ${f} senin hakkında öyle bir şey dedi ki... 👀`,
+        line2: '5 sorudan 4\'ünü doğru bildi! %80 Uyumla Kanka seviyesine çıktınız.',
+        ctaAction: 'RÖVANŞI BAŞLAT',
+        ctaSub: '2. Raund sırası sende!',
+        days: 'Pt Sa Ça Pe Cu Ct Pa',
+        streak: (s) => `🔥 ${s} günlük bağ serisi`,
+        teaser: 'Sonuçlar...'
+      },
+      3: {
+        appName: 'senceo',
+        line1: (u, f) => `${u}, ${f} seni bekliyor. Ya da unuttun mu? ⏳`,
+        line2: '#SNC7TY odasında son 4 saat. Hamleni yapmazsan pes etmiş sayılırsın!',
+        ctaAction: 'SIRANI AL',
+        ctaSub: 'Son 5 tahminin kaldı',
+        days: 'Ct Pa Pt Sa Ça Pe Cu',
+        streak: (s) => `🔥 ${s} günlük seri`,
+        teaser: 'Hamle b...'
+      },
+      4: {
+        appName: 'senceo',
+        line1: (u) => `${u}, 59 günlük serin az önce titremeye başladı! 🧊🔥`,
+        line2: 'Günün sorusu hazır: "Sence o hangisini asla affetmez?"',
+        ctaAction: 'SERİYİ KURTAR',
+        ctaSub: '1 dakikanı bile almaz',
+        days: 'Ct Pa Pt Sa Ça Pe Cu',
+        streak: (s) => `⚠️ ${s}. gün tehlikede!`,
+        teaser: 'Gece sı...'
+      }
+    };
+
+    function setAppView(mode) {
+      currentApp = mode;
+      const btnSenceo = document.getElementById('view-mode-senceo');
+      const btnDuo = document.getElementById('view-mode-duo');
+      const iconMail = document.getElementById('icon-mail-svg');
+      const iconSenceo = document.getElementById('icon-senceo-box');
+      const appNameEl = document.getElementById('notif-app-name');
+
+      if (mode === 'duolingo') {
+        btnDuo.className = 'px-2.5 py-1 rounded-lg bg-zinc-700 font-semibold text-white transition';
+        btnSenceo.className = 'px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition';
+        iconMail.classList.remove('hidden');
+        iconSenceo.classList.add('hidden');
+        appNameEl.textContent = 'duolingo';
+      } else {
+        btnSenceo.className = 'px-2.5 py-1 rounded-lg bg-zinc-700 font-semibold text-white transition';
+        btnDuo.className = 'px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition';
+        iconMail.classList.add('hidden');
+        iconSenceo.classList.remove('hidden');
+        appNameEl.textContent = 'senceo';
+      }
+      updateLiveCard();
+    }
+
+    function applyScenario(id) {
+      currentScenarioId = id;
+      updateLiveCard();
+    }
+
+    function updateLiveCard() {
+      const u = document.getElementById('input-username').value.trim() || 'Salihcan TURAN';
+      const f = document.getElementById('input-friendname').value.trim() || 'Emirhan';
+      const s = document.getElementById('input-streak').value.trim() || '59';
+
+      const sc = scenarios[currentScenarioId] || scenarios[1];
+      document.getElementById('notif-line-1').textContent = sc.line1(u, f);
+      document.getElementById('notif-line-2').textContent = sc.line2;
+      document.getElementById('notif-cta-action').textContent = sc.ctaAction;
+      document.getElementById('notif-cta-sub').textContent = sc.ctaSub;
+      document.getElementById('notif-days-row').textContent = sc.days;
+      document.getElementById('notif-streak-badge').innerHTML = `<span>${sc.streak(s)}</span>`;
+      document.getElementById('notif-teaser-tail').textContent = sc.teaser;
+
+      if (currentApp === 'duolingo') {
+        document.getElementById('notif-app-name').textContent = 'duolingo';
+      } else {
+        document.getElementById('notif-app-name').textContent = sc.appName;
+      }
+    }
+
+    function copyNotificationText() {
+      const line1 = document.getElementById('notif-line-1').textContent;
+      const line2 = document.getElementById('notif-line-2').textContent;
+      const cta = document.getElementById('notif-cta-action').textContent + ' ' + document.getElementById('notif-cta-sub').textContent;
+      const streak = document.getElementById('notif-days-row').textContent + ' ' + document.getElementById('notif-streak-badge').textContent;
+
+      const fullText = `🔔 ${currentApp.toUpperCase()} BİLDİRİMİ:\n\n${line1}\n${line2}\n\n👉 ${cta}\n🔥 ${streak}\n\nhttps://senceo-xi.vercel.app`;
+      navigator.clipboard.writeText(fullText).then(() => {
+        const lbl = document.getElementById('btn-copy-label');
+        lbl.textContent = '✓ Kopyalandı!';
+        setTimeout(() => lbl.textContent = 'Bildirim Metnini Kopyala', 2000);
+      });
+    }
+
+    function shareWhatsApp() {
+      const line1 = document.getElementById('notif-line-1').textContent;
+      const line2 = document.getElementById('notif-line-2').textContent;
+      const streak = document.getElementById('notif-streak-badge').textContent;
+      const text = encodeURIComponent(`🔥 SENCE O — ${line1}\n${line2}\n(${streak})\nSen beni ne kadar tanıyorsun? Hadi test et: https://senceo-xi.vercel.app`);
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    }
+
+    setAppView('senceo');
+    updateLiveCard();
+  </script>
+</body>
+</html>
