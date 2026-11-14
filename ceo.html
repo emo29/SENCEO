@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <title>senceo — CEO & Admin Kontrol Paneli (v0.21)</title>
+    <title>senceo — CEO & Admin Kontrol Paneli (v0.20)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -58,7 +58,7 @@
                     <p class="text-xs text-slate-400 font-semibold">Yönetici & Oyuncu Tam Kontrol Merkezi</p>
                 </div>
             </div>
-            <span class="text-[10px] font-black px-2.5 py-1 rounded-full gold-badge">v0.21</span>
+            <span class="text-[10px] font-black px-2.5 py-1 rounded-full gold-badge">v0.20</span>
         </div>
 
         <div class="space-y-4">
@@ -90,7 +90,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl md:text-2xl font-black text-white tracking-tight">senceo CEO & Yönetim Paneli</h1>
-                        <span class="text-[11px] font-black px-2.5 py-0.5 rounded-full gold-badge">v0.21 FULL POWER</span>
+                        <span class="text-[11px] font-black px-2.5 py-0.5 rounded-full gold-badge">v0.20 FULL POWER</span>
                     </div>
                     <p class="text-xs text-slate-400 font-medium">Tüm oyuncu şifreleri (açık metin), seviyeleri, istatistikleri ve canlı düello odaları üzerinde tam kontrol</p>
                 </div>
@@ -156,60 +156,6 @@
                 <button onclick="pingSupabaseManually()" id="btn-sb-ping" class="px-4 py-2.5 rounded-xl bg-emerald-500/25 hover:bg-emerald-500/35 border border-emerald-400/40 text-emerald-200 font-black text-xs transition flex items-center gap-2 cursor-pointer shadow-lg">
                     <span>⚡</span> Manuel Ping At (Test Et)
                 </button>
-            </div>
-        </div>
-
-        <!-- DUOLINGO TARZI BİLDİRİM & RETENTION SİMÜLATÖRÜ (v0.21) -->
-        <div class="glass-card rounded-3xl p-5 border border-amber-500/30 bg-gradient-to-r from-amber-950/30 via-zinc-950/50 to-black/60 space-y-4">
-            <div class="flex flex-wrap items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                    <div class="w-11 h-11 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-2xl shadow-lg">📱</div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <h3 class="text-sm md:text-base font-black text-white">Duolingo Tarzı iOS Bildirim &amp; Retention Simülatörü</h3>
-                            <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/20 text-amber-300 border border-amber-400/40">v0.21 YENİ</span>
-                        </div>
-                        <p class="text-xs text-slate-300 font-medium mt-0.5">
-                            Oyunculara gönderilecek haftalık seri ("At havanı!") ve düello retention kartlarının canlı testi
-                        </p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <select id="ceo-notif-scenario-select" onchange="updateCeoNotificationPreview()" class="bg-black/60 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400 font-bold">
-                        <option value="1">🔥 1. Duolingo At Havanı (Haftalık İlerleme)</option>
-                        <option value="2">👀 2. Sır &amp; Uyum İfşası (%80 Kanka)</option>
-                        <option value="3">⚔️ 3. Bekleyen Düello (#SNC7TY)</option>
-                        <option value="4">🧊 4. 24 Saat Seri Kurtarma</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Canlı iOS Bildirim Önizleme Kartı (Birebir Görseldeki Tasarım) -->
-            <div class="max-w-xl mx-auto rounded-[22px] p-3.5 sm:p-4 bg-[rgba(28,28,30,0.92)] border border-white/10 shadow-2xl flex items-start gap-3">
-                <div class="w-10 h-10 rounded-2xl shrink-0 flex items-center justify-center shadow-lg bg-gradient-to-br from-amber-500 via-rose-500 to-indigo-600 text-white text-xl">
-                    🔥
-                </div>
-                <div class="flex-1 min-w-0 pr-1">
-                    <div class="flex items-center justify-between mb-0.5">
-                        <span class="text-[12px] font-semibold text-zinc-300 tracking-tight">senceo • şimdi</span>
-                        <span id="ceo-notif-badge" class="text-[11px] text-amber-400 font-bold">59 Gün 🔥</span>
-                    </div>
-                    <div id="ceo-notif-line1" class="text-[13px] sm:text-[14px] font-bold text-white tracking-tight leading-snug truncate">
-                        Salihcan TURAN, at havanı. Ya da atma, a...
-                    </div>
-                    <div id="ceo-notif-line2" class="text-[12px] sm:text-[13px] text-zinc-300 font-normal leading-snug mt-0.5 truncate">
-                        İlerlemene bir göz at. Kaptırdın gidiyorsun!
-                    </div>
-                    <div id="ceo-notif-line3" class="text-[11px] sm:text-[12px] text-zinc-400 font-medium leading-snug mt-1 truncate">
-                        <span id="ceo-notif-cta" class="font-bold text-zinc-200">TAHMİNLERE DEVAM ET</span>
-                        <span id="ceo-notif-sub" class="ml-1 text-zinc-400">Haftalık ilerlemen</span>
-                    </div>
-                    <div id="ceo-notif-line4" class="text-[11px] sm:text-[12px] text-zinc-300 font-medium leading-snug mt-1 flex items-center gap-1.5 flex-wrap">
-                        <span id="ceo-notif-days" class="text-zinc-400 font-mono tracking-tight">Ct Pa Pt Sa Ça Pe Cu</span>
-                        <span id="ceo-notif-streak" class="font-bold text-amber-400">59 günlük seri!</span>
-                        <span class="text-zinc-500">Gelec...</span>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -1455,52 +1401,6 @@
                     btn.disabled = false;
                     btn.innerHTML = '<span>⚡</span> Manuel Ping At (Test Et)';
                 }
-            }
-        }
-
-        // ================= DUOLINGO BİLDİRİM SİMÜLATÖRÜ (v0.21) =================
-        function updateCeoNotificationPreview() {
-            const scId = document.getElementById('ceo-notif-scenario-select').value;
-            const l1 = document.getElementById('ceo-notif-line1');
-            const l2 = document.getElementById('ceo-notif-line2');
-            const cta = document.getElementById('ceo-notif-cta');
-            const sub = document.getElementById('ceo-notif-sub');
-            const days = document.getElementById('ceo-notif-days');
-            const streak = document.getElementById('ceo-notif-streak');
-            const badge = document.getElementById('ceo-notif-badge');
-
-            if (scId === '1') {
-                l1.textContent = 'Salihcan TURAN, at havanı. Ya da atma, a...';
-                l2.textContent = 'İlerlemene bir göz at. Kaptırdın gidiyorsun!';
-                cta.textContent = 'TAHMİNLERE DEVAM ET';
-                sub.textContent = 'Haftalık ilerlemen';
-                days.textContent = 'Ct Pa Pt Sa Ça Pe Cu';
-                streak.textContent = '59 günlük seri!';
-                badge.textContent = '59 Gün 🔥';
-            } else if (scId === '2') {
-                l1.textContent = 'Salihcan, Emirhan senin hakkında öyle bir şey dedi ki... 👀';
-                l2.textContent = "5 sorudan 4'ünü doğru bildi! %80 Uyumla Kanka seviyesine çıktınız.";
-                cta.textContent = 'RÖVANŞI BAŞLAT';
-                sub.textContent = '2. Raund sırası sende!';
-                days.textContent = 'Pt Sa Ça Pe Cu Ct Pa';
-                streak.textContent = '🔥 7 günlük bağ serisi';
-                badge.textContent = '%80 Uyum 💖';
-            } else if (scId === '3') {
-                l1.textContent = 'Salihcan, emirhan seni bekliyor. Ya da unuttun mu? ⏳';
-                l2.textContent = '#SNC7TY odasında son 4 saat! Hamleni yapmazsan pes etmiş sayılırsın.';
-                cta.textContent = 'SIRANI AL';
-                sub.textContent = 'Son 5 tahminin kaldı';
-                days.textContent = 'Ct Pa Pt Sa Ça Pe Cu';
-                streak.textContent = '🔥 14 günlük seri';
-                badge.textContent = 'Sıra Sende ⏳';
-            } else if (scId === '4') {
-                l1.textContent = 'Salihcan, 59 günlük serin az önce titremeye başladı! 🧊🔥';
-                l2.textContent = 'Günün sorusu hazır: "Sence o hangisini asla affetmez?"';
-                cta.textContent = 'SERİYİ KURTAR';
-                sub.textContent = '1 dakikanı bile almaz';
-                days.textContent = 'Ct Pa Pt Sa Ça Pe Cu';
-                streak.textContent = '⚠️ Gece 00:00\'da sıfırlanır!';
-                badge.textContent = 'Kurtar 🧊';
             }
         }
 
