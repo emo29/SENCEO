@@ -1,0 +1,85 @@
+{
+  "code": "SNC5X6",
+  "p1Id": "USR_27AGIJI",
+  "p1FriendCode": "SNC-8323",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "gameMode": "kristal",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "merve",
+  "p2": "",
+  "cat": "kristal",
+  "thm": "cosmic",
+  "qIds": [
+    91,
+    94,
+    115,
+    114,
+    95
+  ],
+  "usedQuestionIds": [
+    77,
+    103,
+    76,
+    99,
+    100,
+    59,
+    14,
+    40,
+    39,
+    6,
+    13,
+    15,
+    23,
+    75,
+    33,
+    91,
+    94,
+    115,
+    114,
+    95
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    3,
+    2,
+    1,
+    2,
+    2
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-11-22T17:14:38.755Z"
+}
