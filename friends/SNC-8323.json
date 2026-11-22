@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795367545183,
-  "latestRoomCode": "SNC5X6",
+  "latestRoomCode": "SNCJM6",
   "activeRooms": [
+    {
+      "code": "SNCJM6",
+      "p1": "ibo",
+      "p2": "",
+      "p1FriendCode": "SNC-8323",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "kristal",
+      "updatedAt": "2026-11-22T17:18:16.598Z"
+    },
     {
       "code": "SNC5X6",
       "p1": "merve",
@@ -82,7 +98,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-22T17:17:05.618Z",
+  "updatedAt": "2026-11-22T17:18:16.598Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "ibo",
   "deletedRoomCodes": []
