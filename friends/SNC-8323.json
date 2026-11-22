@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-8323",
-  "username": "merve",
+  "username": "ibo",
   "level": 1,
   "xp": 90,
   "gamesPlayed": 1,
@@ -14,26 +14,26 @@
   "activeRooms": [
     {
       "code": "SNCCQG",
-      "p1": "merve",
-      "p2": "ibo",
+      "p1": "ibo",
+      "p2": "merve",
       "p1FriendCode": "SNC-8323",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-8323",
       "roomType": "pass",
       "arenaFormat": "1v1",
       "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
-      "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "currentRound": 2,
+      "nextRoundStarterCode": "SNC-8323",
       "cat": "kanka",
-      "lastMatchPercentage": 30,
-      "updatedAt": "2026-11-22T16:52:06.793Z"
+      "lastMatchPercentage": 50,
+      "updatedAt": "2026-11-22T16:59:26.947Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-22T16:52:07.994Z",
+  "updatedAt": "2026-11-22T16:59:26.947Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "merve",
   "deletedRoomCodes": []
