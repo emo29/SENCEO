@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-22T17:12:25.934Z",
+  "updatedAt": "2026-11-22T17:17:06.351Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -168,7 +168,7 @@
     },
     {
       "friendCode": "SNC-8323",
-      "username": "merve_8323",
+      "username": "ibo",
       "email": "",
       "avatar": "😎",
       "level": 4,
@@ -178,8 +178,8 @@
       "provider": "Misafir",
       "isPermanentMember": false,
       "passwordProtected": false,
-      "lastXpActivityAt": 1795367545934,
-      "updatedAt": "2026-11-22T17:12:25.934Z"
+      "lastXpActivityAt": 1795367544936,
+      "updatedAt": "2026-11-22T17:17:06.350Z"
     },
     {
       "friendCode": "SNC-8812",
