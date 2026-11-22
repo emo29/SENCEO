@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795366768190,
-  "latestRoomCode": "SNCCQG",
+  "latestRoomCode": "SNCM8A",
   "activeRooms": [
+    {
+      "code": "SNCM8A",
+      "p1": "merve",
+      "p2": "",
+      "p1FriendCode": "SNC-8323",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "redflag",
+      "updatedAt": "2026-11-22T17:02:48.872Z"
+    },
     {
       "code": "SNCCQG",
       "p1": "ibo",
@@ -33,7 +49,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-22T17:01:28.419Z",
+  "updatedAt": "2026-11-22T17:02:48.872Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "merve",
   "deletedRoomCodes": []
