@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795367545183,
-  "latestRoomCode": "SNCH6X",
+  "latestRoomCode": "SNC5X6",
   "activeRooms": [
+    {
+      "code": "SNC5X6",
+      "p1": "merve",
+      "p2": "",
+      "p1FriendCode": "SNC-8323",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "kristal",
+      "updatedAt": "2026-11-22T17:14:39.617Z"
+    },
     {
       "code": "SNCH6X",
       "p1": "merve",
@@ -66,7 +82,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-22T17:12:25.183Z",
+  "updatedAt": "2026-11-22T17:14:39.617Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "merve",
   "deletedRoomCodes": []
