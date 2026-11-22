@@ -10,12 +10,31 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795365846338,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCCQG",
+  "activeRooms": [
+    {
+      "code": "SNCCQG",
+      "p1": "merve",
+      "p2": "ibo",
+      "p1FriendCode": "SNC-8323",
+      "p2FriendCode": "",
+      "roomType": "pass",
+      "arenaFormat": "1v1",
+      "status": "completed",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "kanka",
+      "lastMatchPercentage": 30,
+      "updatedAt": "2026-11-22T16:52:06.793Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-22T16:44:41.052Z",
+  "updatedAt": "2026-11-22T16:52:06.793Z",
   "isPasswordProtected": false,
-  "lastPropagatedName": "merve"
+  "lastPropagatedName": "merve",
+  "deletedRoomCodes": []
 }
