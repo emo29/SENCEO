@@ -3,24 +3,24 @@
   "p1Id": "USR_27AGIJI",
   "p1FriendCode": "SNC-8323",
   "p2Id": "",
-  "p2FriendCode": "",
-  "nextRoundStarterCode": "",
-  "nextRoundStarterName": "ibo",
+  "p2FriendCode": "SNC-8323",
+  "nextRoundStarterCode": "SNC-8323",
+  "nextRoundStarterName": "merve",
   "roomType": "pass",
   "gameMode": "pass",
   "arenaFormat": "1v1",
   "status": "completed",
-  "currentRound": 1,
-  "p1": "merve",
-  "p2": "ibo",
+  "currentRound": 2,
+  "p1": "ibo",
+  "p2": "merve",
   "cat": "kanka",
   "thm": "obsidian",
   "qIds": [
-    43,
-    44,
-    45,
-    60,
-    72
+    42,
+    64,
+    17,
+    41,
+    8
   ],
   "usedQuestionIds": [
     43,
@@ -32,15 +32,25 @@
     56,
     46,
     10,
-    47
+    47,
+    42,
+    64,
+    17,
+    41,
+    8,
+    16,
+    12,
+    68,
+    54,
+    74
   ],
   "customOptionsMap": {},
   "p1Answers": [
     0,
+    2,
     0,
     0,
-    0,
-    0
+    2
   ],
   "p1Comments": [
     {
@@ -52,7 +62,7 @@
       "text": ""
     },
     {
-      "emoji": "",
+      "emoji": "💀",
       "text": ""
     },
     {
@@ -66,22 +76,14 @@
   ],
   "p2Guesses": [
     0,
+    0,
     3,
     2,
-    1,
-    0
+    2
   ],
   "p2Comments": [
     {
-      "emoji": "😎",
-      "text": ""
-    },
-    {
-      "emoji": "💀",
-      "text": ""
-    },
-    {
-      "emoji": "😱",
+      "emoji": "",
       "text": ""
     },
     {
@@ -89,24 +91,32 @@
       "text": ""
     },
     {
-      "emoji": "😎",
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
       "text": ""
     }
   ],
   "p2Half2QIds": [
-    18,
-    56,
-    46,
-    10,
-    47
+    16,
+    12,
+    68,
+    54,
+    74
   ],
   "p2Half2CustomMap": {},
   "p2Half2Answers": [
-    3,
-    3,
+    1,
+    1,
     0,
     0,
-    3
+    2
   ],
   "p2Half2Comments": [
     {
@@ -131,11 +141,11 @@
     }
   ],
   "p1Half2Guesses": [
+    1,
     2,
     0,
-    0,
-    3,
-    0
+    1,
+    2
   ],
   "p1Half2Comments": [
     {
@@ -161,11 +171,11 @@
   ],
   "p2WatchingSlides": false,
   "p2WatchedSlides": false,
-  "lastMatchPercentage": 30,
-  "lastCorrectCount": 3,
+  "lastMatchPercentage": 50,
+  "lastCorrectCount": 5,
   "lastTotalQuestions": 10,
-  "completedAt": "2026-11-22T16:52:05.686Z",
-  "updatedAt": "2026-11-22T16:52:05.826Z",
+  "completedAt": "2026-11-22T16:59:25.896Z",
+  "updatedAt": "2026-11-22T16:59:26.048Z",
   "nextRoundSecondCode": "SNC-8323",
-  "nextRoundSecondName": "merve"
+  "nextRoundSecondName": "ibo"
 }
