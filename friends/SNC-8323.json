@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-8323",
-  "username": "ibo",
-  "level": 1,
-  "xp": 90,
-  "gamesPlayed": 1,
-  "questionsCorrect": 3,
+  "username": "merve",
+  "level": 3,
+  "xp": 240,
+  "gamesPlayed": 2,
+  "questionsCorrect": 8,
   "provider": "Misafir",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1795366327994,
+  "lastXpActivityAt": 1795366768190,
   "latestRoomCode": "SNCCQG",
   "activeRooms": [
     {
@@ -33,7 +33,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-22T16:59:26.947Z",
+  "updatedAt": "2026-11-22T16:59:28.190Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "merve",
   "deletedRoomCodes": []
