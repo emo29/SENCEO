@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-7663",
-  "username": "Misafir Oyuncu",
+  "username": "Bengi",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
@@ -15,6 +15,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-24T20:45:42.024Z",
-  "isPasswordProtected": false
+  "updatedAt": "2026-11-24T20:45:48.143Z",
+  "isPasswordProtected": false,
+  "lastPropagatedName": "Bengi"
 }
