@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-24T18:23:36.627Z",
+  "updatedAt": "2026-11-24T18:29:26.459Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -182,6 +182,21 @@
       "updatedAt": "2026-11-22T17:17:06.350Z"
     },
     {
+      "friendCode": "SNC-8771",
+      "username": "ibo",
+      "email": "",
+      "avatar": "😎",
+      "level": 4,
+      "xp": 360,
+      "gamesPlayed": 3,
+      "questionsCorrect": 12,
+      "provider": "Misafir",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1795544966459,
+      "updatedAt": "2026-11-24T18:29:26.459Z"
+    },
+    {
       "friendCode": "SNC-8812",
       "username": "Tolga",
       "avatar": "🎸",
@@ -195,21 +210,6 @@
       "isSampleShowcase": true,
       "lastXpActivityAt": 1792935729910,
       "updatedAt": "2026-10-25T13:42:09.9101086Z"
-    },
-    {
-      "friendCode": "SNC-8771",
-      "username": "ibo",
-      "email": "",
-      "avatar": "😎",
-      "level": 3,
-      "xp": 210,
-      "gamesPlayed": 2,
-      "questionsCorrect": 7,
-      "provider": "Misafir",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1795544616627,
-      "updatedAt": "2026-11-24T18:23:36.627Z"
     }
   ]
 }
