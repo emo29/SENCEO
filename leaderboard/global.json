@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-24T20:43:22.572Z",
+  "updatedAt": "2026-11-24T20:45:49.122Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -225,6 +225,21 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1795553002572,
       "updatedAt": "2026-11-24T20:43:22.572Z"
+    },
+    {
+      "friendCode": "SNC-7663",
+      "username": "Bengi",
+      "email": "",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "Misafir",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1795553149122,
+      "updatedAt": "2026-11-24T20:45:49.122Z"
     }
   ]
 }
