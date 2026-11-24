@@ -14,7 +14,7 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-7663"
   },
-  "status": "lobby_open",
+  "status": "live_in_progress",
   "currentRound": 1,
   "p1": "Bengi",
   "p2": "Oyuncu (SNC-5257)",
@@ -39,7 +39,107 @@
   ],
   "cat": "cift",
   "thm": "luminous",
-  "qIds": [],
+  "qIds": [
+    58,
+    2,
+    64,
+    48,
+    49
+  ],
   "createdAt": "2026-11-24T20:45:53.663Z",
-  "updatedAt": "2026-11-24T20:46:48.982Z"
+  "updatedAt": "2026-11-24T20:47:06.346Z",
+  "liveLeaderboard": null,
+  "p1Answers": [],
+  "p2Guesses": [],
+  "p1Comments": [],
+  "p2Comments": [],
+  "usedQuestionIds": [
+    58,
+    2,
+    64,
+    48,
+    49
+  ],
+  "liveMatchState": {
+    "qIds": [
+      58,
+      2,
+      64,
+      48,
+      49
+    ],
+    "qIndex": 0,
+    "currentQIndex": 0,
+    "turnStep": 1,
+    "stepProgressInTurn": 0,
+    "turnOrder": [
+      {
+        "code": "SNC-7663",
+        "name": "Bengi",
+        "team": "common"
+      },
+      {
+        "code": "SNC-5257",
+        "name": "Oyuncu (SNC-5257)",
+        "team": "common"
+      }
+    ],
+    "activeTurnOrderIdx": 0,
+    "activeAnswererCode": "SNC-7663",
+    "activeAnswererName": "Bengi",
+    "activeGuesserCode": "SNC-5257",
+    "activeGuesserName": "Oyuncu (SNC-5257)",
+    "subPhase": "answering",
+    "currentAnswer": null,
+    "currentAnswerComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "currentCustomOption": "",
+    "currentGuess": null,
+    "currentGuessComment": {
+      "emoji": "",
+      "text": ""
+    },
+    "guessesByPlayer": {},
+    "history": [],
+    "scores": {
+      "SNC-7663": {
+        "code": "SNC-7663",
+        "name": "Bengi",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-5257": {
+        "code": "SNC-5257",
+        "name": "Oyuncu (SNC-5257)",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "scoresByPlayer": {
+      "SNC-7663": {
+        "code": "SNC-7663",
+        "name": "Bengi",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      },
+      "SNC-5257": {
+        "code": "SNC-5257",
+        "name": "Oyuncu (SNC-5257)",
+        "team": "common",
+        "correct": 0,
+        "total": 0,
+        "points": 0
+      }
+    },
+    "phaseStartedAt": 1795553226346,
+    "updatedAt": 1795553226346
+  }
 }
