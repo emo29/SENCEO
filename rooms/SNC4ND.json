@@ -47,7 +47,7 @@
     4
   ],
   "createdAt": "2026-11-24T20:45:53.663Z",
-  "updatedAt": "2026-11-24T20:56:14.811Z",
+  "updatedAt": "2026-11-24T20:56:52.746Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -94,8 +94,8 @@
     "activeAnswererName": "Oyuncu (SNC-5257)",
     "activeGuesserCode": "SNC-7663",
     "activeGuesserName": "Bengi",
-    "subPhase": "answering",
-    "currentAnswer": null,
+    "subPhase": "guessing",
+    "currentAnswer": 0,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
@@ -281,8 +281,8 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1795553774811,
-    "updatedAt": 1795553774811
+    "phaseStartedAt": 1795553812746,
+    "updatedAt": 1795553812746
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
