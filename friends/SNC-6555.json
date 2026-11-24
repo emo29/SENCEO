@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-6555",
   "username": "Merve",
-  "level": 3,
-  "xp": 210,
-  "gamesPlayed": 1,
-  "questionsCorrect": 7,
+  "level": 4,
+  "xp": 330,
+  "gamesPlayed": 2,
+  "questionsCorrect": 11,
   "provider": "Misafir",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1795552625314,
+  "lastXpActivityAt": 1795553001695,
   "latestRoomCode": "SNCEQE",
   "activeRooms": [
     {
@@ -50,7 +50,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-24T20:43:20.259Z",
+  "updatedAt": "2026-11-24T20:43:21.695Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Merve",
   "deletedRoomCodes": []
