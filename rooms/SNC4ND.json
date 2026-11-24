@@ -47,7 +47,7 @@
     4
   ],
   "createdAt": "2026-11-24T20:45:53.663Z",
-  "updatedAt": "2026-11-24T20:52:39.758Z",
+  "updatedAt": "2026-11-24T20:53:00.864Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -94,19 +94,31 @@
     "activeAnswererName": "Oyuncu (SNC-5257)",
     "activeGuesserCode": "SNC-7663",
     "activeGuesserName": "Bengi",
-    "subPhase": "guessing",
+    "subPhase": "reveal",
     "currentAnswer": 2,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": null,
+    "currentGuess": 2,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {},
+    "guessesByPlayer": {
+      "SNC-7663": {
+        "code": "SNC-7663",
+        "name": "Bengi",
+        "guessIndex": 2,
+        "comment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": true,
+        "submittedAt": 1795553580864
+      }
+    },
     "history": [],
     "scores": {
       "SNC-5257": {
@@ -121,9 +133,9 @@
         "code": "SNC-7663",
         "name": "Bengi",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       }
     },
     "scoresByPlayer": {
@@ -139,13 +151,13 @@
         "code": "SNC-7663",
         "name": "Bengi",
         "team": "common",
-        "correct": 0,
-        "total": 0,
-        "points": 0
+        "correct": 1,
+        "total": 1,
+        "points": 100
       }
     },
-    "phaseStartedAt": 1795553559758,
-    "updatedAt": 1795553559758
+    "phaseStartedAt": 1795553580864,
+    "updatedAt": 1795553580864
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
