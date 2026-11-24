@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-24T18:09:34.386Z",
+  "updatedAt": "2026-11-24T18:14:18.126Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -201,15 +201,15 @@
       "username": "ibo",
       "email": "",
       "avatar": "😎",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
+      "level": 2,
+      "xp": 180,
+      "gamesPlayed": 1,
+      "questionsCorrect": 6,
       "provider": "Misafir",
       "isPermanentMember": false,
       "passwordProtected": false,
-      "lastXpActivityAt": 1795543708514,
-      "updatedAt": "2026-11-24T18:09:34.386Z"
+      "lastXpActivityAt": 1795544058126,
+      "updatedAt": "2026-11-24T18:14:18.126Z"
     }
   ]
 }
