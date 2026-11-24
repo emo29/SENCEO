@@ -10,8 +10,25 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795552625314,
-  "latestRoomCode": "SNCUW8",
+  "latestRoomCode": "SNCEQE",
   "activeRooms": [
+    {
+      "code": "SNCEQE",
+      "p1": "Merve",
+      "p2": "Bengi",
+      "p1FriendCode": "SNC-6555",
+      "p2FriendCode": "",
+      "roomType": "pass",
+      "arenaFormat": "1v1",
+      "status": "completed",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "kanka",
+      "lastMatchPercentage": 40,
+      "updatedAt": "2026-11-24T20:43:20.259Z"
+    },
     {
       "code": "SNCUW8",
       "p1": "Merve",
@@ -33,7 +50,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-24T20:37:31.406Z",
+  "updatedAt": "2026-11-24T20:43:20.259Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Merve",
   "deletedRoomCodes": []
