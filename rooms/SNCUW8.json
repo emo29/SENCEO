@@ -1,0 +1,201 @@
+{
+  "code": "SNCUW8",
+  "p1Id": "USR_4A8PZYB",
+  "p1FriendCode": "SNC-6555",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "nextRoundStarterCode": "",
+  "nextRoundStarterName": "Bengi",
+  "roomType": "pass",
+  "gameMode": "pass",
+  "arenaFormat": "1v1",
+  "status": "completed",
+  "currentRound": 1,
+  "p1": "Merve",
+  "p2": "Bengi",
+  "cat": "cift",
+  "thm": "luminous",
+  "qIds": [
+    45,
+    52,
+    43,
+    61,
+    55
+  ],
+  "usedQuestionIds": [
+    63,
+    67,
+    33,
+    23,
+    34,
+    57,
+    71,
+    14,
+    13,
+    59,
+    15,
+    75,
+    4,
+    38,
+    36,
+    35,
+    6,
+    39,
+    40,
+    37,
+    70,
+    32,
+    18,
+    28,
+    41,
+    54,
+    8,
+    51,
+    62,
+    27,
+    45,
+    52,
+    43,
+    61,
+    55,
+    24,
+    64,
+    26,
+    60,
+    3
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    1,
+    0,
+    1,
+    1
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [
+    0,
+    1,
+    0,
+    1,
+    1
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Half2QIds": [
+    24,
+    64,
+    26,
+    60,
+    3
+  ],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [
+    0,
+    0,
+    0,
+    1,
+    0
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p1Half2Guesses": [
+    1,
+    0,
+    0,
+    0,
+    3
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 70,
+  "lastCorrectCount": 7,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-11-24T20:37:02.668Z",
+  "updatedAt": "2026-11-24T20:37:03.013Z",
+  "nextRoundSecondCode": "SNC-6555",
+  "nextRoundSecondName": "Merve"
+}
