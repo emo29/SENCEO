@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-8771",
-  "username": "merve",
-  "level": 2,
-  "xp": 180,
-  "gamesPlayed": 1,
-  "questionsCorrect": 6,
+  "username": "ibo",
+  "level": 3,
+  "xp": 210,
+  "gamesPlayed": 2,
+  "questionsCorrect": 7,
   "provider": "Misafir",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1795544057106,
+  "lastXpActivityAt": 1795544615733,
   "latestRoomCode": "SNC8T9",
   "activeRooms": [
     {
@@ -33,7 +33,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-24T18:23:34.329Z",
+  "updatedAt": "2026-11-24T18:23:35.733Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "ibo",
   "deletedRoomCodes": []
