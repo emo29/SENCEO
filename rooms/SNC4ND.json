@@ -11,8 +11,8 @@
     "teamSubMode": "",
     "turnStep": 1,
     "timerSeconds": 0,
-    "starterMode": "random",
-    "selectedStarterCode": ""
+    "starterMode": "manual",
+    "selectedStarterCode": "SNC-7663"
   },
   "status": "lobby_open",
   "currentRound": 1,
@@ -41,5 +41,5 @@
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-11-24T20:45:53.663Z",
-  "updatedAt": "2026-11-24T20:46:15.212Z"
+  "updatedAt": "2026-11-24T20:46:48.982Z"
 }
