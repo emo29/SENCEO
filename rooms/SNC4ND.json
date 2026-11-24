@@ -1,0 +1,35 @@
+{
+  "code": "SNC4ND",
+  "p1Id": "USR_LQGWGRO",
+  "hostCode": "SNC-7663",
+  "p1FriendCode": "SNC-7663",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "liveSettings": {
+    "ffaSubMode": "ebe",
+    "teamSubMode": "",
+    "turnStep": 1,
+    "timerSeconds": 0,
+    "starterMode": "random",
+    "selectedStarterCode": ""
+  },
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "Bengi",
+  "p2": "",
+  "participants": [
+    {
+      "name": "Bengi",
+      "code": "SNC-7663",
+      "role": "host",
+      "team": "common",
+      "isHost": true
+    }
+  ],
+  "cat": "cift",
+  "thm": "luminous",
+  "qIds": [],
+  "createdAt": "2026-11-24T20:45:53.663Z",
+  "updatedAt": "2026-11-24T20:45:53.860Z"
+}
