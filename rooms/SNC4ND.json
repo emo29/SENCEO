@@ -3,7 +3,7 @@
   "p1Id": "USR_LQGWGRO",
   "hostCode": "SNC-7663",
   "p1FriendCode": "SNC-7663",
-  "p2FriendCode": "",
+  "p2FriendCode": "SNC-5257",
   "roomType": "live_arena",
   "arenaFormat": "1v1",
   "liveSettings": {
@@ -17,7 +17,7 @@
   "status": "lobby_open",
   "currentRound": 1,
   "p1": "Bengi",
-  "p2": "",
+  "p2": "Oyuncu (SNC-5257)",
   "participants": [
     {
       "name": "Bengi",
@@ -25,11 +25,21 @@
       "role": "host",
       "team": "common",
       "isHost": true
+    },
+    {
+      "name": "Oyuncu (SNC-5257)",
+      "code": "SNC-5257",
+      "role": "member",
+      "isHost": false,
+      "team": "common",
+      "score": 0,
+      "correct": 0,
+      "joinedAt": "2026-11-24T20:46:15.212Z"
     }
   ],
   "cat": "cift",
   "thm": "luminous",
   "qIds": [],
   "createdAt": "2026-11-24T20:45:53.663Z",
-  "updatedAt": "2026-11-24T20:45:53.860Z"
+  "updatedAt": "2026-11-24T20:46:15.212Z"
 }
