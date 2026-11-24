@@ -1,0 +1,35 @@
+{
+  "code": "SNCGVH",
+  "p1Id": "USR_F22PNCS",
+  "hostCode": "SNC-5257",
+  "p1FriendCode": "SNC-5257",
+  "p2FriendCode": "",
+  "roomType": "live_arena",
+  "arenaFormat": "1v1",
+  "liveSettings": {
+    "ffaSubMode": "ebe",
+    "teamSubMode": "",
+    "turnStep": 1,
+    "timerSeconds": 0,
+    "starterMode": "manual",
+    "selectedStarterCode": "SNC-7663"
+  },
+  "status": "lobby_open",
+  "currentRound": 1,
+  "p1": "Aliikoc",
+  "p2": "",
+  "participants": [
+    {
+      "name": "Aliikoc",
+      "code": "SNC-5257",
+      "role": "host",
+      "team": "common",
+      "isHost": true
+    }
+  ],
+  "cat": "ekstrem",
+  "thm": "luminous",
+  "qIds": [],
+  "createdAt": "2026-11-24T21:03:36.433Z",
+  "updatedAt": "2026-11-24T21:03:36.870Z"
+}
