@@ -10,12 +10,31 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795543722191,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNC8T9",
+  "activeRooms": [
+    {
+      "code": "SNC8T9",
+      "p1": "ibo",
+      "p2": "merve",
+      "p1FriendCode": "SNC-8771",
+      "p2FriendCode": "",
+      "roomType": "pass",
+      "arenaFormat": "1v1",
+      "status": "completed",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "cift",
+      "lastMatchPercentage": 60,
+      "updatedAt": "2026-11-24T18:14:15.566Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-24T18:09:33.409Z",
+  "updatedAt": "2026-11-24T18:14:15.566Z",
   "isPasswordProtected": false,
-  "lastPropagatedName": "ibo"
+  "lastPropagatedName": "ibo",
+  "deletedRoomCodes": []
 }
