@@ -47,7 +47,7 @@
     4
   ],
   "createdAt": "2026-11-24T20:45:53.663Z",
-  "updatedAt": "2026-11-24T20:54:51.000Z",
+  "updatedAt": "2026-11-24T20:55:07.272Z",
   "liveLeaderboard": null,
   "p1Answers": [],
   "p2Guesses": [],
@@ -73,8 +73,8 @@
       63,
       4
     ],
-    "qIndex": 2,
-    "currentQIndex": 2,
+    "qIndex": 3,
+    "currentQIndex": 3,
     "turnStep": 1,
     "stepProgressInTurn": 0,
     "turnOrder": [
@@ -89,36 +89,24 @@
         "team": "common"
       }
     ],
-    "activeTurnOrderIdx": 0,
-    "activeAnswererCode": "SNC-5257",
-    "activeAnswererName": "Oyuncu (SNC-5257)",
-    "activeGuesserCode": "SNC-7663",
-    "activeGuesserName": "Bengi",
-    "subPhase": "reveal",
-    "currentAnswer": 1,
+    "activeTurnOrderIdx": 1,
+    "activeAnswererCode": "SNC-7663",
+    "activeAnswererName": "Bengi",
+    "activeGuesserCode": "SNC-5257",
+    "activeGuesserName": "Oyuncu (SNC-5257)",
+    "subPhase": "answering",
+    "currentAnswer": null,
     "currentAnswerComment": {
       "emoji": "",
       "text": ""
     },
     "currentCustomOption": "",
-    "currentGuess": 0,
+    "currentGuess": null,
     "currentGuessComment": {
       "emoji": "",
       "text": ""
     },
-    "guessesByPlayer": {
-      "SNC-7663": {
-        "code": "SNC-7663",
-        "name": "Bengi",
-        "guessIndex": 0,
-        "comment": {
-          "emoji": "",
-          "text": ""
-        },
-        "isCorrect": false,
-        "submittedAt": 1795553691000
-      }
-    },
+    "guessesByPlayer": {},
     "history": [
       {
         "qIndex": 0,
@@ -187,6 +175,40 @@
             "submittedAt": 1795553646549
           }
         }
+      },
+      {
+        "qIndex": 2,
+        "qId": 35,
+        "answererCode": "SNC-5257",
+        "answererName": "Oyuncu (SNC-5257)",
+        "guesserCode": "SNC-7663",
+        "guesserName": "Bengi",
+        "answerIdx": 1,
+        "guessIdx": 0,
+        "answerIndex": 1,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-7663": {
+            "code": "SNC-7663",
+            "name": "Bengi",
+            "guessIndex": 0,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": false,
+            "submittedAt": 1795553691000
+          }
+        }
       }
     ],
     "scores": {
@@ -225,8 +247,8 @@
         "points": 100
       }
     },
-    "phaseStartedAt": 1795553691000,
-    "updatedAt": 1795553691000
+    "phaseStartedAt": 1795553707272,
+    "updatedAt": 1795553707272
   },
   "lastMatchPercentage": 40,
   "lastCorrectCount": 2,
