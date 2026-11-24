@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-24T18:29:26.459Z",
+  "updatedAt": "2026-11-24T20:29:22.722Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -210,6 +210,21 @@
       "isSampleShowcase": true,
       "lastXpActivityAt": 1792935729910,
       "updatedAt": "2026-10-25T13:42:09.9101086Z"
+    },
+    {
+      "friendCode": "SNC-6555",
+      "username": "Merve_6555",
+      "email": "",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "Misafir",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1795552162722,
+      "updatedAt": "2026-11-24T20:29:22.722Z"
     }
   ]
 }
