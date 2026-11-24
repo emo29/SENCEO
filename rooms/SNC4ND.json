@@ -25,16 +25,6 @@
       "role": "host",
       "team": "common",
       "isHost": true
-    },
-    {
-      "name": "Oyuncu (SNC-5257)",
-      "code": "SNC-5257",
-      "role": "member",
-      "isHost": false,
-      "team": "common",
-      "score": 0,
-      "correct": 0,
-      "joinedAt": "2026-11-24T20:46:15.212Z"
     }
   ],
   "cat": "cift",
@@ -47,7 +37,7 @@
     57
   ],
   "createdAt": "2026-11-24T20:45:53.663Z",
-  "updatedAt": "2026-11-24T21:02:27.623Z",
+  "updatedAt": "2026-11-24T21:03:41.190Z",
   "liveLeaderboard": [
     {
       "code": "SNC-7663",
