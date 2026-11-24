@@ -14,8 +14,8 @@
   "activeRooms": [
     {
       "code": "SNC8T9",
-      "p1": "merve",
-      "p2": "ibo",
+      "p1": "ibo",
+      "p2": "merve",
       "p1FriendCode": "SNC-8771",
       "p2FriendCode": "SNC-8771",
       "roomType": "pass",
@@ -23,17 +23,17 @@
       "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
-      "currentRound": 2,
+      "currentRound": 3,
       "nextRoundStarterCode": "SNC-8771",
       "cat": "cift",
-      "lastMatchPercentage": 10,
-      "updatedAt": "2026-11-24T18:23:34.329Z"
+      "lastMatchPercentage": 50,
+      "updatedAt": "2026-11-24T18:29:24.133Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-24T18:23:35.733Z",
+  "updatedAt": "2026-11-24T18:29:24.133Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "ibo",
   "deletedRoomCodes": []
