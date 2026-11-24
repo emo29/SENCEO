@@ -1,0 +1,171 @@
+{
+  "code": "SNC8T9",
+  "p1Id": "USR_8YOV244",
+  "p1FriendCode": "SNC-8771",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "nextRoundStarterCode": "",
+  "nextRoundStarterName": "merve",
+  "roomType": "pass",
+  "gameMode": "pass",
+  "arenaFormat": "1v1",
+  "status": "completed",
+  "currentRound": 1,
+  "p1": "ibo",
+  "p2": "merve",
+  "cat": "cift",
+  "thm": "obsidian",
+  "qIds": [
+    63,
+    67,
+    33,
+    23,
+    34
+  ],
+  "usedQuestionIds": [
+    63,
+    67,
+    33,
+    23,
+    34,
+    57,
+    71,
+    14,
+    13,
+    59
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    3,
+    1,
+    2,
+    0,
+    0
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Half2QIds": [
+    57,
+    71,
+    14,
+    13,
+    59
+  ],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [
+    0,
+    2,
+    2,
+    1,
+    1
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p1Half2Guesses": [
+    0,
+    0,
+    2,
+    1,
+    1
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 60,
+  "lastCorrectCount": 6,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-11-24T18:14:13.884Z",
+  "updatedAt": "2026-11-24T18:14:14.056Z",
+  "nextRoundSecondCode": "SNC-8771",
+  "nextRoundSecondName": "ibo"
+}
