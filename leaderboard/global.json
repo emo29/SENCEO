@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-24T20:45:57.490Z",
+  "updatedAt": "2026-11-24T21:03:01.641Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -240,6 +240,21 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1795553137219,
       "updatedAt": "2026-11-24T20:45:57.490Z"
+    },
+    {
+      "friendCode": "SNC-5257",
+      "username": "Aliikoc",
+      "email": "",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": true,
+      "passwordProtected": true,
+      "lastXpActivityAt": 1795554181641,
+      "updatedAt": "2026-11-24T21:03:01.641Z"
     }
   ]
 }
