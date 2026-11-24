@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-8771",
-  "username": "ibo",
+  "username": "merve",
   "level": 2,
   "xp": 180,
   "gamesPlayed": 1,
@@ -14,26 +14,26 @@
   "activeRooms": [
     {
       "code": "SNC8T9",
-      "p1": "ibo",
-      "p2": "merve",
+      "p1": "merve",
+      "p2": "ibo",
       "p1FriendCode": "SNC-8771",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-8771",
       "roomType": "pass",
       "arenaFormat": "1v1",
       "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
-      "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "currentRound": 2,
+      "nextRoundStarterCode": "SNC-8771",
       "cat": "cift",
-      "lastMatchPercentage": 60,
-      "updatedAt": "2026-11-24T18:14:15.566Z"
+      "lastMatchPercentage": 10,
+      "updatedAt": "2026-11-24T18:23:34.329Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-24T18:14:17.106Z",
+  "updatedAt": "2026-11-24T18:23:34.329Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "ibo",
   "deletedRoomCodes": []
