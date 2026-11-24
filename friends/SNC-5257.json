@@ -10,12 +10,30 @@
   "passwordProtected": true,
   "passwordHash": "MTgxMDI5",
   "lastXpActivityAt": 1795554180665,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCGVH",
+  "activeRooms": [
+    {
+      "code": "SNCGVH",
+      "p1": "Aliikoc",
+      "p2": "",
+      "p1FriendCode": "SNC-5257",
+      "p2FriendCode": "",
+      "roomType": "live_arena",
+      "arenaFormat": "1v1",
+      "status": "lobby_open",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "ekstrem",
+      "updatedAt": "2026-11-24T21:03:37.804Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-24T21:03:00.665Z",
+  "updatedAt": "2026-11-24T21:03:37.804Z",
   "isPasswordProtected": true,
-  "rawPassword": "181029"
+  "rawPassword": "181029",
+  "deletedRoomCodes": []
 }
