@@ -14,7 +14,7 @@
     "starterMode": "manual",
     "selectedStarterCode": "SNC-7663"
   },
-  "status": "live_in_progress",
+  "status": "completed",
   "currentRound": 2,
   "p1": "Bengi",
   "p2": "Oyuncu (SNC-5257)",
@@ -47,12 +47,83 @@
     4
   ],
   "createdAt": "2026-11-24T20:45:53.663Z",
-  "updatedAt": "2026-11-24T20:56:59.572Z",
-  "liveLeaderboard": null,
-  "p1Answers": [],
-  "p2Guesses": [],
-  "p1Comments": [],
-  "p2Comments": [],
+  "updatedAt": "2026-11-24T20:57:11.151Z",
+  "liveLeaderboard": [
+    {
+      "code": "SNC-7663",
+      "name": "Bengi",
+      "team": "common",
+      "correct": 1,
+      "total": 3,
+      "points": 100
+    },
+    {
+      "code": "SNC-5257",
+      "name": "Oyuncu (SNC-5257)",
+      "team": "common",
+      "correct": 0,
+      "total": 2,
+      "points": 0
+    }
+  ],
+  "p1Answers": [
+    2,
+    0,
+    1,
+    1,
+    0
+  ],
+  "p2Guesses": [
+    2,
+    1,
+    0,
+    0,
+    3
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
   "usedQuestionIds": [
     58,
     2,
@@ -94,7 +165,7 @@
     "activeAnswererName": "Oyuncu (SNC-5257)",
     "activeGuesserCode": "SNC-7663",
     "activeGuesserName": "Bengi",
-    "subPhase": "reveal",
+    "subPhase": "completed",
     "currentAnswer": 0,
     "currentAnswerComment": {
       "emoji": "",
@@ -255,6 +326,40 @@
             "submittedAt": 1795553766607
           }
         }
+      },
+      {
+        "qIndex": 4,
+        "qId": 4,
+        "answererCode": "SNC-5257",
+        "answererName": "Oyuncu (SNC-5257)",
+        "guesserCode": "SNC-7663",
+        "guesserName": "Bengi",
+        "answerIdx": 0,
+        "guessIdx": 3,
+        "answerIndex": 0,
+        "answerComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "guessComment": {
+          "emoji": "",
+          "text": ""
+        },
+        "isCorrect": false,
+        "customOption": "",
+        "guessesByPlayer": {
+          "SNC-7663": {
+            "code": "SNC-7663",
+            "name": "Bengi",
+            "guessIndex": 3,
+            "comment": {
+              "emoji": "",
+              "text": ""
+            },
+            "isCorrect": false,
+            "submittedAt": 1795553819572
+          }
+        }
       }
     ],
     "scores": {
@@ -294,9 +399,9 @@
       }
     },
     "phaseStartedAt": 1795553819572,
-    "updatedAt": 1795553819572
+    "updatedAt": 1795553831151
   },
-  "lastMatchPercentage": 40,
-  "lastCorrectCount": 2,
+  "lastMatchPercentage": 20,
+  "lastCorrectCount": 1,
   "lastTotalQuestions": 5
 }
