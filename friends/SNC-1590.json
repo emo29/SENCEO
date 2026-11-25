@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795639332255,
-  "latestRoomCode": "SNCGZX",
+  "latestRoomCode": "SNC5T4",
   "activeRooms": [
+    {
+      "code": "SNC5T4",
+      "p1": "Ayşe",
+      "p2": "Merve",
+      "p1FriendCode": "SNC-2913",
+      "p2FriendCode": "SNC-1590",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "kristal",
+      "updatedAt": "2026-11-25T21:09:25.202Z"
+    },
     {
       "code": "SNCGZX",
       "p1": "İrem",
@@ -116,7 +132,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T20:59:40.415Z",
+  "updatedAt": "2026-11-25T21:09:25.202Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Merve",
   "deletedRoomCodes": []
