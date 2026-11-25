@@ -1,6 +1,21 @@
 {
-  "updatedAt": "2026-11-25T20:32:27.281Z",
+  "updatedAt": "2026-11-25T20:42:13.093Z",
   "players": [
+    {
+      "friendCode": "SNC-1590",
+      "username": "İrem",
+      "email": "",
+      "avatar": "😎",
+      "level": 10,
+      "xp": 930,
+      "gamesPlayed": 6,
+      "questionsCorrect": 31,
+      "provider": "Misafir",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1795639333093,
+      "updatedAt": "2026-11-25T20:42:13.093Z"
+    },
     {
       "friendCode": "SNC-8801",
       "username": "Selin",
@@ -30,21 +45,6 @@
       "isSampleShowcase": true,
       "lastXpActivityAt": 1792935729906,
       "updatedAt": "2026-10-25T13:42:09.9064929Z"
-    },
-    {
-      "friendCode": "SNC-1590",
-      "username": "İrem",
-      "email": "",
-      "avatar": "😎",
-      "level": 9,
-      "xp": 810,
-      "gamesPlayed": 5,
-      "questionsCorrect": 27,
-      "provider": "Misafir",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1795638747281,
-      "updatedAt": "2026-11-25T20:32:27.281Z"
     },
     {
       "friendCode": "SNC-8802",
