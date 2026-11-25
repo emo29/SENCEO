@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-1590",
-  "username": "Nurşen",
-  "level": 9,
-  "xp": 810,
-  "gamesPlayed": 5,
-  "questionsCorrect": 27,
+  "username": "İrem",
+  "level": 10,
+  "xp": 930,
+  "gamesPlayed": 6,
+  "questionsCorrect": 31,
   "provider": "Misafir",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1795638746338,
+  "lastXpActivityAt": 1795639332255,
   "latestRoomCode": "SNC4DV",
   "activeRooms": [
     {
@@ -100,7 +100,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T20:42:11.213Z",
+  "updatedAt": "2026-11-25T20:42:12.255Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "İrem",
   "deletedRoomCodes": []
