@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-1590",
-  "username": "Merve",
+  "username": "İrem",
   "level": 10,
   "xp": 930,
   "gamesPlayed": 6,
@@ -10,7 +10,7 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795639332255,
-  "latestRoomCode": "SNC5T4",
+  "latestRoomCode": "SNCGZX",
   "activeRooms": [
     {
       "code": "SNC5T4",
@@ -31,18 +31,18 @@
     {
       "code": "SNCGZX",
       "p1": "İrem",
-      "p2": "",
+      "p2": "Nurşen",
       "p1FriendCode": "SNC-1590",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-8500",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "kristal",
-      "updatedAt": "2026-11-25T20:52:28.308Z"
+      "updatedAt": "2026-11-25T21:10:23.642Z"
     },
     {
       "code": "SNC4DV",
@@ -131,8 +131,20 @@
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-11-25T21:09:25.202Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNCGZX_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "Nurşen 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNCGZX)",
+      "fromCode": "SNC-8500",
+      "fromName": "Nurşen",
+      "roomCode": "SNCGZX",
+      "read": false,
+      "createdAt": "2026-11-25T21:10:23.642Z"
+    }
+  ],
+  "updatedAt": "2026-11-25T21:10:23.642Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Merve",
   "deletedRoomCodes": []
