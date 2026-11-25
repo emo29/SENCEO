@@ -1,0 +1,100 @@
+{
+  "code": "SNC5T4",
+  "p1Id": "USR_KD5UN57",
+  "p1FriendCode": "SNC-2913",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "roomType": "classic",
+  "gameMode": "kristal",
+  "arenaFormat": "1v1",
+  "status": "waiting_p2",
+  "currentRound": 1,
+  "whoseTurn": "p2",
+  "p1": "Ayşe",
+  "p2": "",
+  "cat": "kristal",
+  "thm": "luminous",
+  "qIds": [
+    119,
+    117,
+    94,
+    93,
+    118
+  ],
+  "usedQuestionIds": [
+    63,
+    67,
+    33,
+    23,
+    34,
+    57,
+    71,
+    14,
+    13,
+    59,
+    15,
+    75,
+    4,
+    38,
+    36,
+    35,
+    6,
+    39,
+    40,
+    37,
+    70,
+    32,
+    18,
+    28,
+    41,
+    54,
+    8,
+    51,
+    62,
+    27,
+    119,
+    117,
+    94,
+    93,
+    118
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    2,
+    3,
+    3,
+    1,
+    0
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [],
+  "p2Comments": [],
+  "p2Half2QIds": [],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [],
+  "p2Half2Comments": [],
+  "p1Half2Guesses": [],
+  "p1Half2Comments": [],
+  "updatedAt": "2026-11-25T21:05:36.444Z"
+}
