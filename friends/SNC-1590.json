@@ -10,12 +10,31 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795597674916,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCLVV",
+  "activeRooms": [
+    {
+      "code": "SNCLVV",
+      "p1": "Merve",
+      "p2": "Şebnem",
+      "p1FriendCode": "SNC-1590",
+      "p2FriendCode": "",
+      "roomType": "pass",
+      "arenaFormat": "1v1",
+      "status": "completed",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "cift",
+      "lastMatchPercentage": 50,
+      "updatedAt": "2026-11-25T09:13:05.580Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T09:08:09.250Z",
+  "updatedAt": "2026-11-25T09:13:05.580Z",
   "isPasswordProtected": false,
-  "lastPropagatedName": "Merve"
+  "lastPropagatedName": "Merve",
+  "deletedRoomCodes": []
 }
