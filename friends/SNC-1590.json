@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-1590",
   "username": "Merve",
-  "level": 10,
-  "xp": 930,
-  "gamesPlayed": 6,
-  "questionsCorrect": 31,
+  "level": 12,
+  "xp": 1140,
+  "gamesPlayed": 7,
+  "questionsCorrect": 38,
   "provider": "Misafir",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1795639332255,
+  "lastXpActivityAt": 1795641522239,
   "latestRoomCode": "SNCL7P",
   "activeRooms": [
     {
@@ -184,7 +184,7 @@
       "createdAt": "2026-11-25T21:10:23.642Z"
     }
   ],
-  "updatedAt": "2026-11-25T21:18:39.734Z",
+  "updatedAt": "2026-11-25T21:18:42.239Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Merve",
   "deletedRoomCodes": []
