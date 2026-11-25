@@ -2,14 +2,14 @@
   "friendCode": "SNC-8500",
   "username": "Nurşen",
   "level": 1,
-  "xp": 0,
+  "xp": 35,
   "gamesPlayed": 0,
   "questionsCorrect": 0,
   "provider": "guest",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1795640226805,
+  "lastXpActivityAt": 1795641244256,
   "latestRoomCode": "SNCGZX",
   "activeRooms": [
     {
@@ -32,7 +32,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T21:10:24.418Z",
+  "updatedAt": "2026-11-25T21:14:04.256Z",
   "lastPropagatedName": "Nurşen",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
