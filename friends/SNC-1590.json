@@ -10,7 +10,7 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795639332255,
-  "latestRoomCode": "SNCGZX",
+  "latestRoomCode": "SNC5T4",
   "activeRooms": [
     {
       "code": "SNC5T4",
@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-1590",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-1590",
       "cat": "kristal",
-      "updatedAt": "2026-11-25T21:09:25.202Z"
+      "lastMatchPercentage": 80,
+      "updatedAt": "2026-11-25T21:11:46.956Z"
     },
     {
       "code": "SNCGZX",
@@ -133,6 +134,17 @@
   "acceptedFriends": [],
   "notifications": [
     {
+      "id": "DONE_P2_SNC5T4_R1",
+      "type": "completed",
+      "title": "🏆 Ayşe Tahminlerini Tamamladı!",
+      "message": "#SNC5T4 düellosu bitti! Uyum skorunuz: %80",
+      "fromCode": "SNC-2913",
+      "fromName": "Ayşe",
+      "roomCode": "SNC5T4",
+      "read": false,
+      "createdAt": "2026-11-25T21:11:46.956Z"
+    },
+    {
       "id": "TURN_P1_SNCGZX_R1",
       "type": "turn",
       "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
@@ -144,7 +156,7 @@
       "createdAt": "2026-11-25T21:10:23.642Z"
     }
   ],
-  "updatedAt": "2026-11-25T21:10:23.642Z",
+  "updatedAt": "2026-11-25T21:11:46.956Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Merve",
   "deletedRoomCodes": []
