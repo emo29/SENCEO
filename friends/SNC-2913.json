@@ -20,13 +20,14 @@
       "p2FriendCode": "SNC-1590",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-1590",
       "cat": "kristal",
-      "updatedAt": "2026-11-25T21:09:24.232Z"
+      "lastMatchPercentage": 80,
+      "updatedAt": "2026-11-25T21:11:46.072Z"
     }
   ],
   "incomingRequests": [],
@@ -44,7 +45,7 @@
       "createdAt": "2026-11-25T21:09:24.232Z"
     }
   ],
-  "updatedAt": "2026-11-25T21:09:24.232Z",
+  "updatedAt": "2026-11-25T21:11:46.072Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Ayşe",
   "deletedRoomCodes": []
