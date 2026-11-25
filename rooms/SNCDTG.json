@@ -1,0 +1,211 @@
+{
+  "code": "SNCDTG",
+  "p1Id": "USR_T9ONNPW",
+  "p1FriendCode": "SNC-1590",
+  "p2Id": "",
+  "p2FriendCode": "",
+  "nextRoundStarterCode": "",
+  "nextRoundStarterName": "Yağmur",
+  "roomType": "pass",
+  "gameMode": "pass",
+  "arenaFormat": "1v1",
+  "status": "completed",
+  "currentRound": 1,
+  "p1": "Fatma",
+  "p2": "Yağmur",
+  "cat": "genel",
+  "thm": "luminous",
+  "qIds": [
+    31,
+    55,
+    7,
+    3,
+    66
+  ],
+  "usedQuestionIds": [
+    63,
+    67,
+    33,
+    23,
+    34,
+    57,
+    71,
+    14,
+    13,
+    59,
+    15,
+    75,
+    4,
+    38,
+    36,
+    35,
+    6,
+    39,
+    40,
+    37,
+    70,
+    32,
+    18,
+    28,
+    41,
+    54,
+    8,
+    51,
+    62,
+    27,
+    74,
+    19,
+    43,
+    30,
+    45,
+    42,
+    29,
+    56,
+    10,
+    48,
+    31,
+    55,
+    7,
+    3,
+    66,
+    1,
+    53,
+    25,
+    11,
+    58
+  ],
+  "customOptionsMap": {},
+  "p1Answers": [
+    0,
+    0,
+    0,
+    3,
+    2
+  ],
+  "p1Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Guesses": [
+    0,
+    0,
+    0,
+    3,
+    0
+  ],
+  "p2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2Half2QIds": [
+    1,
+    53,
+    25,
+    11,
+    58
+  ],
+  "p2Half2CustomMap": {},
+  "p2Half2Answers": [
+    2,
+    3,
+    2,
+    0,
+    0
+  ],
+  "p2Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p1Half2Guesses": [
+    2,
+    3,
+    0,
+    2,
+    0
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 70,
+  "lastCorrectCount": 7,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-11-25T09:19:08.428Z",
+  "updatedAt": "2026-11-25T09:19:08.607Z",
+  "nextRoundSecondCode": "SNC-1590",
+  "nextRoundSecondName": "Fatma"
+}
