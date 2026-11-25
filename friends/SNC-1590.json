@@ -10,8 +10,24 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795598350890,
-  "latestRoomCode": "SNCDTG",
+  "latestRoomCode": "SNCSGH",
   "activeRooms": [
+    {
+      "code": "SNCSGH",
+      "p1": "Fatma",
+      "p2": "",
+      "p1FriendCode": "SNC-1590",
+      "p2FriendCode": "",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "kristal",
+      "updatedAt": "2026-11-25T09:21:13.092Z"
+    },
     {
       "code": "SNCDTG",
       "p1": "Fatma",
@@ -50,7 +66,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T09:20:09.866Z",
+  "updatedAt": "2026-11-25T09:21:13.092Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Fatma",
   "deletedRoomCodes": []
