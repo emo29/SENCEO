@@ -4,12 +4,13 @@
   "p1FriendCode": "SNC-2913",
   "p2Id": "USR_T9ONNPW",
   "p2FriendCode": "SNC-1590",
+  "nextRoundStarterCode": "SNC-1590",
+  "nextRoundStarterName": "Merve",
   "roomType": "classic",
   "gameMode": "kristal",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "Ayşe",
   "p2": "Merve",
   "cat": "kristal",
@@ -159,7 +160,42 @@
       "text": ""
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-11-25T21:09:23.133Z"
+  "p1Half2Guesses": [
+    3,
+    3,
+    2,
+    0,
+    0
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 80,
+  "lastCorrectCount": 8,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-11-25T21:11:44.859Z",
+  "updatedAt": "2026-11-25T21:11:45.107Z",
+  "nextRoundSecondCode": "SNC-2913",
+  "nextRoundSecondName": "Ayşe"
 }
