@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-25T21:02:44.256Z",
+  "updatedAt": "2026-11-25T21:03:40.218Z",
   "players": [
     {
       "friendCode": "SNC-1590",
@@ -315,6 +315,21 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1795640564256,
       "updatedAt": "2026-11-25T21:02:44.256Z"
+    },
+    {
+      "friendCode": "SNC-2913",
+      "username": "Ayşe",
+      "email": "",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "Misafir",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1795640620218,
+      "updatedAt": "2026-11-25T21:03:40.218Z"
     }
   ]
 }
