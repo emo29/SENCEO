@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-2913",
-  "username": "Misafir Oyuncu",
+  "username": "Ayşe",
   "level": 1,
   "xp": 0,
   "gamesPlayed": 0,
@@ -15,6 +15,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T21:03:32.512Z",
-  "isPasswordProtected": false
+  "updatedAt": "2026-11-25T21:03:39.384Z",
+  "isPasswordProtected": false,
+  "lastPropagatedName": "Ayşe"
 }
