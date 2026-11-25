@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-25T09:14:28.285Z",
+  "updatedAt": "2026-11-25T09:19:11.772Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -197,6 +197,21 @@
       "updatedAt": "2026-11-24T18:29:26.459Z"
     },
     {
+      "friendCode": "SNC-1590",
+      "username": "Fatma",
+      "email": "",
+      "avatar": "😎",
+      "level": 4,
+      "xp": 360,
+      "gamesPlayed": 2,
+      "questionsCorrect": 12,
+      "provider": "Misafir",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1795598351772,
+      "updatedAt": "2026-11-25T09:19:11.772Z"
+    },
+    {
       "friendCode": "SNC-8812",
       "username": "Tolga",
       "avatar": "🎸",
@@ -225,21 +240,6 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1795553002572,
       "updatedAt": "2026-11-24T20:43:22.572Z"
-    },
-    {
-      "friendCode": "SNC-1590",
-      "username": "Fatma",
-      "email": "",
-      "avatar": "😎",
-      "level": 2,
-      "xp": 150,
-      "gamesPlayed": 1,
-      "questionsCorrect": 5,
-      "provider": "Misafir",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1795597986509,
-      "updatedAt": "2026-11-25T09:14:28.285Z"
     },
     {
       "friendCode": "SNC-7663",
