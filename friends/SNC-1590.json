@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-1590",
   "username": "Fatma",
-  "level": 2,
-  "xp": 150,
-  "gamesPlayed": 1,
-  "questionsCorrect": 5,
+  "level": 4,
+  "xp": 360,
+  "gamesPlayed": 2,
+  "questionsCorrect": 12,
   "provider": "Misafir",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1795597986835,
+  "lastXpActivityAt": 1795598350890,
   "latestRoomCode": "SNCDTG",
   "activeRooms": [
     {
@@ -50,7 +50,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T09:19:09.619Z",
+  "updatedAt": "2026-11-25T09:19:10.890Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Fatma",
   "deletedRoomCodes": []
