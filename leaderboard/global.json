@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-25T09:08:10.118Z",
+  "updatedAt": "2026-11-25T09:13:07.686Z",
   "players": [
     {
       "friendCode": "SNC-8801",
@@ -227,6 +227,21 @@
       "updatedAt": "2026-11-24T20:43:22.572Z"
     },
     {
+      "friendCode": "SNC-1590",
+      "username": "Merve_1590",
+      "email": "",
+      "avatar": "😎",
+      "level": 2,
+      "xp": 150,
+      "gamesPlayed": 1,
+      "questionsCorrect": 5,
+      "provider": "Misafir",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1795597987686,
+      "updatedAt": "2026-11-25T09:13:07.686Z"
+    },
+    {
       "friendCode": "SNC-7663",
       "username": "Bengi",
       "email": "",
@@ -255,21 +270,6 @@
       "passwordProtected": true,
       "lastXpActivityAt": 1795553174212,
       "updatedAt": "2026-11-24T21:03:39.321Z"
-    },
-    {
-      "friendCode": "SNC-1590",
-      "username": "Merve_1590",
-      "email": "",
-      "avatar": "😎",
-      "level": 1,
-      "xp": 0,
-      "gamesPlayed": 0,
-      "questionsCorrect": 0,
-      "provider": "Misafir",
-      "isPermanentMember": false,
-      "passwordProtected": false,
-      "lastXpActivityAt": 1795597666218,
-      "updatedAt": "2026-11-25T09:08:10.118Z"
     }
   ]
 }
