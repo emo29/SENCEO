@@ -1,6 +1,6 @@
 {
   "friendCode": "SNC-1590",
-  "username": "İrem",
+  "username": "Nurşen",
   "level": 9,
   "xp": 810,
   "gamesPlayed": 5,
@@ -14,20 +14,20 @@
   "activeRooms": [
     {
       "code": "SNC4DV",
-      "p1": "İrem",
-      "p2": "Nurşen",
+      "p1": "Nurşen",
+      "p2": "İrem",
       "p1FriendCode": "SNC-1590",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-1590",
       "roomType": "pass",
       "arenaFormat": "1v1",
       "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
-      "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "currentRound": 2,
+      "nextRoundStarterCode": "SNC-1590",
       "cat": "genel",
-      "lastMatchPercentage": 50,
-      "updatedAt": "2026-11-25T20:32:25.138Z"
+      "lastMatchPercentage": 40,
+      "updatedAt": "2026-11-25T20:42:11.213Z"
     },
     {
       "code": "SNCK27",
@@ -100,7 +100,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T20:32:26.338Z",
+  "updatedAt": "2026-11-25T20:42:11.213Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "İrem",
   "deletedRoomCodes": []
