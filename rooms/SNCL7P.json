@@ -4,12 +4,13 @@
   "p1FriendCode": "SNC-1590",
   "p2Id": "USR_TREUX5V",
   "p2FriendCode": "SNC-1021",
+  "nextRoundStarterCode": "SNC-1021",
+  "nextRoundStarterName": "Ayşe",
   "roomType": "classic",
   "gameMode": "blitz",
   "arenaFormat": "1v1",
-  "status": "waiting_p1_half2",
+  "status": "completed",
   "currentRound": 1,
-  "whoseTurn": "p1",
   "p1": "Merve",
   "p2": "Ayşe",
   "cat": "blitz",
@@ -159,7 +160,42 @@
       "text": ""
     }
   ],
-  "p1Half2Guesses": [],
-  "p1Half2Comments": [],
-  "updatedAt": "2026-11-25T21:17:22.795Z"
+  "p1Half2Guesses": [
+    0,
+    1,
+    0,
+    0,
+    1
+  ],
+  "p1Half2Comments": [
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    },
+    {
+      "emoji": "",
+      "text": ""
+    }
+  ],
+  "p2WatchingSlides": false,
+  "p2WatchedSlides": false,
+  "lastMatchPercentage": 70,
+  "lastCorrectCount": 7,
+  "lastTotalQuestions": 10,
+  "completedAt": "2026-11-25T21:18:38.344Z",
+  "updatedAt": "2026-11-25T21:18:38.620Z",
+  "nextRoundSecondCode": "SNC-1590",
+  "nextRoundSecondName": "Merve"
 }
