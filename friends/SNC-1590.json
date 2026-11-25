@@ -10,8 +10,25 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795597986835,
-  "latestRoomCode": "SNCLVV",
+  "latestRoomCode": "SNCDTG",
   "activeRooms": [
+    {
+      "code": "SNCDTG",
+      "p1": "Fatma",
+      "p2": "Yağmur",
+      "p1FriendCode": "SNC-1590",
+      "p2FriendCode": "",
+      "roomType": "pass",
+      "arenaFormat": "1v1",
+      "status": "completed",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "genel",
+      "lastMatchPercentage": 70,
+      "updatedAt": "2026-11-25T09:19:09.618Z"
+    },
     {
       "code": "SNCLVV",
       "p1": "Merve",
@@ -33,7 +50,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T09:14:27.424Z",
+  "updatedAt": "2026-11-25T09:19:09.619Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Fatma",
   "deletedRoomCodes": []
