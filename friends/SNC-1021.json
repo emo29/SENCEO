@@ -20,19 +20,32 @@
       "p2FriendCode": "SNC-1021",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p1_half2",
+      "status": "completed",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
-      "nextRoundStarterCode": "",
+      "nextRoundStarterCode": "SNC-1021",
       "cat": "blitz",
-      "updatedAt": "2026-11-25T21:17:24.636Z"
+      "lastMatchPercentage": 70,
+      "updatedAt": "2026-11-25T21:18:40.871Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-11-25T21:17:24.636Z",
+  "notifications": [
+    {
+      "id": "DONE_P2_SNCL7P_R1",
+      "type": "completed",
+      "title": "🏆 Merve Tahminlerini Tamamladı!",
+      "message": "#SNCL7P düellosu bitti! Uyum skorunuz: %70",
+      "fromCode": "SNC-1590",
+      "fromName": "Merve",
+      "roomCode": "SNCL7P",
+      "read": false,
+      "createdAt": "2026-11-25T21:18:40.871Z"
+    }
+  ],
+  "updatedAt": "2026-11-25T21:18:40.871Z",
   "lastPropagatedName": "Ayşe",
   "isPasswordProtected": false,
   "deletedRoomCodes": []
