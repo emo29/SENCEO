@@ -1,15 +1,15 @@
 {
   "friendCode": "SNC-2913",
   "username": "Ayşe",
-  "level": 1,
-  "xp": 0,
-  "gamesPlayed": 0,
-  "questionsCorrect": 0,
+  "level": 3,
+  "xp": 240,
+  "gamesPlayed": 1,
+  "questionsCorrect": 8,
   "provider": "Misafir",
   "isPermanentMember": false,
   "passwordProtected": false,
   "passwordHash": "",
-  "lastXpActivityAt": 1795640612512,
+  "lastXpActivityAt": 1795641108221,
   "latestRoomCode": "SNC5T4",
   "activeRooms": [
     {
@@ -45,7 +45,7 @@
       "createdAt": "2026-11-25T21:09:24.232Z"
     }
   ],
-  "updatedAt": "2026-11-25T21:11:46.072Z",
+  "updatedAt": "2026-11-25T21:11:48.221Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Ayşe",
   "deletedRoomCodes": []
