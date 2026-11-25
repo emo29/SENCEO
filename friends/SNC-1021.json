@@ -10,12 +10,30 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795641338704,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCL7P",
+  "activeRooms": [
+    {
+      "code": "SNCL7P",
+      "p1": "Merve",
+      "p2": "Ayşe",
+      "p1FriendCode": "SNC-1590",
+      "p2FriendCode": "SNC-1021",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "blitz",
+      "updatedAt": "2026-11-25T21:17:24.636Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T21:15:38.704Z",
+  "updatedAt": "2026-11-25T21:17:24.636Z",
   "lastPropagatedName": "Ayşe",
-  "isPasswordProtected": false
+  "isPasswordProtected": false,
+  "deletedRoomCodes": []
 }
