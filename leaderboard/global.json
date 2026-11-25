@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-25T20:51:03.628Z",
+  "updatedAt": "2026-11-25T20:57:07.747Z",
   "players": [
     {
       "friendCode": "SNC-1590",
@@ -285,6 +285,21 @@
       "passwordProtected": false,
       "lastXpActivityAt": 1795598583927,
       "updatedAt": "2026-11-25T09:23:03.928Z"
+    },
+    {
+      "friendCode": "SNC-8500",
+      "username": "Nurşen",
+      "email": "",
+      "avatar": "😎",
+      "level": 1,
+      "xp": 0,
+      "gamesPlayed": 0,
+      "questionsCorrect": 0,
+      "provider": "guest",
+      "isPermanentMember": false,
+      "passwordProtected": false,
+      "lastXpActivityAt": 1795640227746,
+      "updatedAt": "2026-11-25T20:57:07.747Z"
     }
   ]
 }
