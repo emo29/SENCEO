@@ -15,24 +15,36 @@
     {
       "code": "SNC5T4",
       "p1": "Ayşe",
-      "p2": "",
+      "p2": "Merve",
       "p1FriendCode": "SNC-2913",
-      "p2FriendCode": "",
+      "p2FriendCode": "SNC-1590",
       "roomType": "classic",
       "arenaFormat": "1v1",
-      "status": "waiting_p2",
+      "status": "waiting_p1_half2",
       "abandonedByCode": "",
       "abandonedByName": "",
       "currentRound": 1,
       "nextRoundStarterCode": "",
       "cat": "kristal",
-      "updatedAt": "2026-11-25T21:05:37.570Z"
+      "updatedAt": "2026-11-25T21:09:24.232Z"
     }
   ],
   "incomingRequests": [],
   "acceptedFriends": [],
-  "notifications": [],
-  "updatedAt": "2026-11-25T21:05:37.570Z",
+  "notifications": [
+    {
+      "id": "TURN_P1_SNC5T4_R1",
+      "type": "turn",
+      "title": "🔥 Sıra Sende! Karşı Saldırı Geldi",
+      "message": "Merve 5 sorunu tahmin etti ve sana 5 yeni soru gönderdi! (#SNC5T4)",
+      "fromCode": "SNC-1590",
+      "fromName": "Merve",
+      "roomCode": "SNC5T4",
+      "read": false,
+      "createdAt": "2026-11-25T21:09:24.232Z"
+    }
+  ],
+  "updatedAt": "2026-11-25T21:09:24.232Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Ayşe",
   "deletedRoomCodes": []
