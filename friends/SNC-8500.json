@@ -10,12 +10,30 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795640226805,
-  "latestRoomCode": "",
-  "activeRooms": [],
+  "latestRoomCode": "SNCGZX",
+  "activeRooms": [
+    {
+      "code": "SNCGZX",
+      "p1": "İrem",
+      "p2": "Nurşen",
+      "p1FriendCode": "SNC-1590",
+      "p2FriendCode": "SNC-8500",
+      "roomType": "classic",
+      "arenaFormat": "1v1",
+      "status": "waiting_p1_half2",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "kristal",
+      "updatedAt": "2026-11-25T21:10:24.418Z"
+    }
+  ],
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T20:57:06.805Z",
+  "updatedAt": "2026-11-25T21:10:24.418Z",
   "lastPropagatedName": "Nurşen",
-  "isPasswordProtected": false
+  "isPasswordProtected": false,
+  "deletedRoomCodes": []
 }
