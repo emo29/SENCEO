@@ -10,8 +10,25 @@
   "passwordProtected": false,
   "passwordHash": "",
   "lastXpActivityAt": 1795598350890,
-  "latestRoomCode": "SNCSGH",
+  "latestRoomCode": "SNCK27",
   "activeRooms": [
+    {
+      "code": "SNCK27",
+      "p1": "Merve",
+      "p2": "Nurşen",
+      "p1FriendCode": "SNC-1590",
+      "p2FriendCode": "",
+      "roomType": "pass",
+      "arenaFormat": "1v1",
+      "status": "completed",
+      "abandonedByCode": "",
+      "abandonedByName": "",
+      "currentRound": 1,
+      "nextRoundStarterCode": "",
+      "cat": "cift",
+      "lastMatchPercentage": 60,
+      "updatedAt": "2026-11-25T20:14:29.885Z"
+    },
     {
       "code": "SNCSGH",
       "p1": "Fatma",
@@ -66,7 +83,7 @@
   "incomingRequests": [],
   "acceptedFriends": [],
   "notifications": [],
-  "updatedAt": "2026-11-25T20:08:04.757Z",
+  "updatedAt": "2026-11-25T20:14:29.885Z",
   "isPasswordProtected": false,
   "lastPropagatedName": "Merve",
   "deletedRoomCodes": []
